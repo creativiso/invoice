@@ -3,27 +3,27 @@ import {
     Optional
   } from 'sequelize';
   
-  type UserAttributes = {
+  type RoleAttributes = {
     id: number;
     role: string;
     role_name: string;
   }
   
-  type UserCreationAttributes = Optional<UserAttributes, 'id'>;
+  type RoleCreationAttributes = Optional<RoleAttributes, 'id'>;
   
   module.exports = (sequelize, DataTypes) => {
-    class User extends Model<UserAttributes, UserCreationAttributes>{
+    class Role extends Model<RoleAttributes, RoleCreationAttributes>{
         declare id: number;
         declare role: string;
         declare role_name: string;
   
       static associate(models) {
-        User.belongsToMany(models.User, {
+        Role.belongsToMany(models.User, {
           through: 'UserRoles'
         });
       }
     }
-    User.init({
+    Role.init({
         id: {
             type: DataTypes.INTEGER(10),
             allowNull: false,
@@ -41,7 +41,7 @@ import {
         },
     {
       sequelize,
-      modelName: 'User',
+      modelName: 'Role',
     });
-    return User;
+    return Role;
   };
