@@ -6,5 +6,12 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  title = 'frontend';
+  title = 'Pages';
+  opened = this.isLargeScreen();
+  isLargeScreen():boolean{
+    if (window.screen.width >728) {
+      return true
+    }
+    return false
+  }
 }
