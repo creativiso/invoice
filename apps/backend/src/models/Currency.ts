@@ -1,35 +1,5 @@
-import {
-    Model,
-    Optional
-  } from 'sequelize';
-  
-  type CurrencyAttributes = {
-    id: number;
-    currency: string;
-    rate: number;
-    sign: string;
-    longsign: string;
-    subsign: string;
-    default_c: boolean;
-    updated: Date;
-    g: string;
-  }
-  
-  type CurrencyCreationAttributes = Optional<CurrencyAttributes, 'id'>;
-  
-  module.exports = (sequelize, DataTypes) => {
-    class Currency extends Model<CurrencyAttributes, CurrencyCreationAttributes>{
-        declare id: number;
-        declare currency: string;
-        declare rate: number;
-        declare sign: string;
-        declare longsign: string;
-        declare subsign: string;
-        declare default_c: boolean;
-        declare updated: Date;
-        declare g: string;
-    }
-    Currency.init({
+  const Currency = (sequelize, DataTypes) => {
+     sequelize.define('Currency', {
         id: {
             type: DataTypes.INTEGER(10),
             allowNull: false,
@@ -63,18 +33,13 @@ import {
         },
         updated: {
             type: DataTypes.TIME,
-            allowNull: false,
-            defaultValue: Date(),
-            onUpdate: Date()
+            allowNull: false
         },
         g: {
             type: DataTypes.CHAR(5),
             allowNull: false
         }
-    },
-    {
-      sequelize,
-      modelName: 'Currency',
     });
-    return Currency;
-  };
+  }
+
+  module.exports = Currency;

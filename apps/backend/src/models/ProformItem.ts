@@ -1,30 +1,5 @@
-import {
-    DECIMAL,
-    Model,
-    Optional
-  } from 'sequelize';
-  
-  type ProformItemAttributes = {
-    id: number;
-    proform: number;
-    name: string;
-    quantity: number;
-    measurement: string;
-    price: number;
-  }
-  
-  type ProformItemCreationAttributes = Optional<ProformItemAttributes, 'id'>;
-  
-  module.exports = (sequelize, DataTypes) => {
-    class ProformItem extends Model<ProformItemAttributes, ProformItemCreationAttributes>{
-        declare id: number;
-        declare proform: number;
-        declare name: string;
-        declare quantity: number;
-        declare measurement: string;
-        declare price: number;
-    }
-    ProformItem.init({
+ const ProformItem = (sequelize, DataTypes) => {
+        sequelize.define('ProformItem', {
         id: {
             type: DataTypes.INTEGER(10),
             primaryKey: true,
@@ -48,13 +23,11 @@ import {
             defaultValue: null
         },
         price: {
-            type: DECIMAL(13, 4),
+            type: DataTypes.DECIMAL(13, 4),
             allowNull: false
         }
-    },
-    {
-      sequelize,
-      modelName: 'ProformItem',
     });
     return ProformItem;
   };
+
+  module.exports = ProformItem;
