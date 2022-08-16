@@ -1,5 +1,29 @@
-const InvoiceItem = (sequelize, DataTypes) => {
-    sequelize.define('InvoiceItem', {
+import {
+    Model,
+    Optional
+  } from 'sequelize';
+  
+  type InvoiceItemAttributes = {
+    id: number;
+    invoice: number;
+    name: string;
+    quantity: number;
+    measurement: string;
+    price: number;
+  }
+  
+  type InvoiceItemCreationAttributes = Optional<InvoiceItemAttributes, 'id'>;
+  
+  export default (sequelize, DataTypes) => {
+    class InvoiceItem extends Model<InvoiceItemAttributes, InvoiceItemCreationAttributes>{
+        declare id: number;
+        declare invoice: number;
+        declare name: string;
+        declare quantity: number;
+        declare measurement: string;
+        declare price: number;
+    }
+    InvoiceItem.init({
         id: {
             type: DataTypes.INTEGER(10),
             primaryKey: true,
@@ -26,8 +50,12 @@ const InvoiceItem = (sequelize, DataTypes) => {
             type: DataTypes.DECIMAL(13, 4),
             allowNull: false
         }
+    },
+    {
+      sequelize,
+      modelName: 'InvoiceItem',
+      timestamps: false,
+      underscored: true
     });
     return InvoiceItem;
   };
-
-  module.exports = InvoiceItem;

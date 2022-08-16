@@ -1,5 +1,38 @@
-   export const ContractorInit = (sequelize, DataTypes) => {   
-        sequelize.define('Contractor', {
+import {
+    Model,
+    Optional
+  } from 'sequelize';
+  
+  type ContractorAttributes = {
+    id: number;
+    name: string;
+    city: string;
+    address: string;
+    eik: string;
+    dds: boolean;
+    ddsnumber: string;
+    mol: string;
+    person: boolean;
+    egn: string;
+  }
+  
+  type ContractorCreationAttributes = Optional<ContractorAttributes, 'id'>;
+  
+    const Contractor = (sequelize, DataTypes) => {  
+        class Contractor extends Model<ContractorAttributes, ContractorCreationAttributes>{
+            declare id: number;
+            declare name: string;
+            declare city: string;
+            declare address: string;
+            declare eik: string;
+            declare dds: boolean;
+            declare ddsnumber: string;
+            declare mol: string;
+            declare person: boolean;
+            declare egn: string;
+        }
+        
+        Contractor.init({
         id: {
             type: DataTypes.INTEGER(),
             allowNull: false,
@@ -42,8 +75,13 @@
             type: DataTypes.CHAR(12),
             defaultValue: null
         }
+    },
+    {
+      sequelize,
+      modelName: 'Contractor',
+      timestamps: false
     });
-    return ContractorInit
+    return Contractor;
   };
 
-  module.exports = ContractorInit;
+  export default Contractor;

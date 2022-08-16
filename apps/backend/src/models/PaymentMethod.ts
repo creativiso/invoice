@@ -1,5 +1,21 @@
-const PaymentMethod = (sequelize, DataTypes) => {
-  sequelize.define('PaymentMethod', {
+import {
+    Model,
+    Optional
+  } from 'sequelize';
+
+  type PaymentMethodAttributes = {
+    id: number;
+    name: string;
+  }
+
+  type PaymentMethodCreationAttributes = Optional<PaymentMethodAttributes, 'id'>;
+
+  export default (sequelize, DataTypes) => {
+    class PaymentMethod extends Model<PaymentMethodAttributes, PaymentMethodCreationAttributes>{
+        declare id: number;
+        declare name: string;
+    }
+    PaymentMethod.init({
         id: {
             type: DataTypes.INTEGER(10),
             primaryKey: true,
@@ -10,8 +26,12 @@ const PaymentMethod = (sequelize, DataTypes) => {
             type: DataTypes.STRING(255),
             allowNull: false
         }
+    },
+    {
+      sequelize,
+      modelName: 'PaymentMethod',
+      timestamps: false,
+      underscored: true
     });
     return PaymentMethod;
-  };
-
-  module.exports = PaymentMethod;
+  }; 

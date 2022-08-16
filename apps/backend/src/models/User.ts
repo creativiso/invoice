@@ -1,6 +1,45 @@
-const User = (sequelize, DataTypes) => {
+import {
+  Model,
+  Optional
+} from 'sequelize';
 
-  sequelize.define('User', {
+type UserAttributes = {
+  id: number;
+  username: string;
+  password: string;
+  realname: string;
+  date_created: Date;
+  email: string;
+  profile: number;
+  status: number;
+  last_login: Date;
+  creation_session: string;
+  sign_prefix: string
+}
+
+type UserCreationAttributes = Optional<UserAttributes, 'id'>;
+
+export default (sequelize, DataTypes) => {
+  class User extends Model<UserAttributes, UserCreationAttributes>{
+    declare id: number;
+    declare username: string;
+    declare password: string;
+    declare realname: string;
+    declare date_created: Date;
+    declare email: string;
+    declare profile: number;
+    declare status: number;
+    declare last_login: Date;
+    declare creation_session: string;
+    declare sign_prefix: string
+
+    static associate(models) {
+      User.belongsToMany(models.Role, {
+        through: 'UserRoles'
+      });
+    }
+  }
+  User.init({
     id: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -49,8 +88,10 @@ const User = (sequelize, DataTypes) => {
       type: DataTypes.CHAR(5),
       allowNull: false
     },
+  }, {
+    sequelize,
+    modelName: 'User',
+    timestamps: false
   });
   return User;
-};
-
-module.exports = User;
+}; 
