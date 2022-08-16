@@ -10,6 +10,7 @@ import * as ProformItem from './ProformItem';
 import * as Role from './Role';
 import * as User from './User';
 import * as UserRole from './UserRoles'
+
 dotenv.config();
 
 const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASS, {
@@ -27,6 +28,8 @@ const proformItem = ProformItem.default(sequelize, DataTypes);
 const role = Role.default(sequelize, DataTypes);
 const user = User.default(sequelize, DataTypes);
 const userRole = UserRole.default(sequelize, DataTypes);
+
+export const DbInit = () => {
 
 userRole.removeAttribute('id');
 
@@ -82,6 +85,8 @@ invoice.belongsTo(contractor, {
 });
 
 sequelize.sync( { force: true } );
+
+};
 
 export const models = {
     contractor,
