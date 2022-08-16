@@ -84,6 +84,20 @@ invoice.belongsTo(contractor, {
     foreignKey: 'contractor'
 });
 
+user.hasOne(invoice, {
+    foreignKey: 'author_user'
+});
+invoice.belongsTo(user, {
+    foreignKey: 'author_user'
+});
+
+user.hasOne(proform, {
+    foreignKey: 'author_user'
+});
+proform.belongsTo(user, {
+    foreignKey: 'author_user'
+});
+
 sequelize.sync( { force: true } );
 
 };
