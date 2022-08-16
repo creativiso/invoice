@@ -1,5 +1,7 @@
 
 import express from 'express';
+import { DbInit } from './models';
+import { models } from './models';
 
 const app = express();
 
@@ -12,4 +14,6 @@ const server = app.listen(port, () => {
   console.log(`Listening at http://localhost:${port}/api`);
 });
 server.on('error', console.error);
+
+DbInit();
 
