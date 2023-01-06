@@ -8,10 +8,13 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'Pages';
   opened = this.isLargeScreen();
-  isLargeScreen():boolean{
-    if (window.screen.width >728) {
-      return true
+  isLargeScreen(): boolean {
+    if (window.screen.width > 728) {
+      return true;
     }
-    return false
+    return false;
+  }
+  logout() {
+    //logout
   }
 }
