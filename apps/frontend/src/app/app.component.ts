@@ -12,7 +12,8 @@ import { map } from 'rxjs/operators';
 })
 export class AppComponent {
   title = 'frontend';
-  @ViewChild('drawer') drawer: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  @ViewChild('drawer') drawer:any;
  public selectedItem  = '';
   public isHandset$: Observable<boolean> = this.breakpointObserver
     .observe(['(max-width: 1024px)'])
@@ -27,13 +28,4 @@ closeSideNav() {
   }
 }
 }
-//export class AppComponent {
- 
-  //opened = true;
-  //isLargeScreen():boolean{
-  // if (window.screen.width >1024) {
-  //   return true
-  //  }
-  //  return false
- //}
-//}
+
