@@ -1,8 +1,9 @@
 <mat-sidenav-container>
     <mat-sidenav-content>
         <mat-toolbar>
-            <button (click)="opened=!opened" class="transparent-background"><mat-icon class="show-sm">menu</mat-icon><span class="toolbar-link">Pages</span></button>
-        
+            <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()"  class="transparent-background" *ngIf="isHandset$ | async">
+                <mat-icon aria-label="Side nav toggle icon" >menu</mat-icon>
+              </button>
             <span class="example-spacer"></span>
             <button mat-icon-button class="transparent-background">
             <mat-icon><span class="material-icons">
@@ -16,7 +17,8 @@
             </div>
         </main>
     </mat-sidenav-content>
-        <mat-sidenav [mode]="isLargeScreen() ? 'side' : 'over'" [(opened)]="opened">
+        <mat-sidenav #drawer fixedInViewport="true" [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+        [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="(isHandset$ | async) === false">
             <mat-list>
                 <mat-list-item>
                     <img src="https://creativiso.bg/img/logo-94955cf1a6.svg" alt="">
@@ -75,7 +77,7 @@
                     </mat-icon>
                     <a>Users</a>
                 </mat-list-item>
-                <mat-list-item (click)="opened=!opened" class="show-sm">
+                <mat-list-item (click)="drawer.toggle()" class="show-sm">
                     <mat-icon>
                         <span class="material-icons">close</span>
                     </mat-icon>

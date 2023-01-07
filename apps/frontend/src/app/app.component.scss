@@ -26,17 +26,6 @@ mat-list-item{
 a{
     cursor: pointer;
 }
-@media only screen and (max-width: 768px) {
-    mat-sidenav{
-        width: 100vw;
-    }
-    .show-sm{
-        display: initial;
-    }
-    .show-lg{
-        display: none;
-    }
-}
 
 mat-toolbar{
     background-color: #172647;
