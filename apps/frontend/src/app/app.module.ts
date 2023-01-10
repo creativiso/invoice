@@ -14,7 +14,51 @@ import { MatIconModule } from '@angular/material/icon';
   declarations: [AppComponent, NxWelcomeComponent, NavigationComponent],
   imports: [
     BrowserModule,
-    RouterModule.forRoot([], { initialNavigation: 'enabledBlocking' }),
+    RouterModule.forRoot(
+      [
+        {
+          path: 'invoices',
+          loadChildren: () =>
+            import('./modules/invoices/invoices.module').then(
+              (m) => m.InvoicesModule
+            ),
+        },
+        {
+          path: 'proformas',
+          loadChildren: () =>
+            import('./modules/proformas/proformas.module').then(
+              (m) => m.ProformasModule
+            ),
+        },
+        {
+          path: 'contractors',
+          loadChildren: () =>
+            import('./modules/contractors/contractors.module').then(
+              (m) => m.ContractorsModule
+            ),
+        },
+        {
+          path: 'settings',
+          loadChildren: () =>
+            import('./modules/settings/settings.module').then(
+              (m) => m.SettingsModule
+            ),
+        },
+        {
+          path: 'users',
+          loadChildren: () =>
+            import('./modules/users/users.module').then((m) => m.UsersModule),
+        },
+        {
+          path: 'profile',
+          loadChildren: () =>
+            import('./modules/profile/profile.module').then(
+              (m) => m.ProfileModule
+            ),
+        },
+      ],
+      { initialNavigation: 'enabledBlocking' }
+    ),
     BrowserAnimationsModule,
     MaterialModule,
     MatMenuModule,
