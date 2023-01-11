@@ -26,7 +26,11 @@ mat-list-item{
 a{
     cursor: pointer;
 }
-
+@media (min-width: 1024px) {
+    .hide-button {
+        display: none;
+    }
+}
 mat-toolbar{
     background-color: #172647;
 }

@@ -1,7 +1,7 @@
 <mat-sidenav-container>
     <mat-sidenav-content>
         <mat-toolbar>
-            <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()"  class="transparent-background" *ngIf="isHandset$ | async">
+            <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()"  class="transparent-background" *ngIf="isHandset">
                 <mat-icon aria-label="Side nav toggle icon" >menu</mat-icon>
               </button>
             <span class="example-spacer"></span>
@@ -17,8 +17,8 @@
             </div>
         </main>
     </mat-sidenav-content>
-        <mat-sidenav #drawer fixedInViewport="true" [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-        [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="(isHandset$ | async) === false">
+        <mat-sidenav #drawer fixedInViewport="true" [attr.role]="isHandset  ? 'dialog' : 'navigation'"
+        [mode]="isHandset ? 'over' : 'side'" [opened]="isHandset === false">
             <mat-list>
                 <mat-list-item>
                     <img src="https://creativiso.bg/img/logo-94955cf1a6.svg" alt="">
