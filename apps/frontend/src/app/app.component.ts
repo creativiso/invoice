@@ -1,8 +1,5 @@
-import { Component, ViewChild} from '@angular/core';
-import {
-  BreakpointObserver,
-  BreakpointState,
-} from '@angular/cdk/layout';
+import { Component, ViewChild } from '@angular/core';
+import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 
 @Component({
   selector: 'crtvs-root',
@@ -10,10 +7,10 @@ import {
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  public isHandset: boolean ; 
+  public isHandset: boolean;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   @ViewChild('drawer') drawer: any;
-  title = 'frontend';
+  title = 'Pages';
   constructor(private breakpointObserver: BreakpointObserver) {
     this.isHandset = true;
     this.breakpointObserver
@@ -30,5 +27,6 @@ export class AppComponent {
   public toggleNav() {
     this.isHandset = !this.isHandset;
   }
-  
+
+  public logout() {}
 }

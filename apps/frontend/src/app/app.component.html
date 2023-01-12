@@ -1,90 +1,97 @@
 <mat-sidenav-container>
-    <mat-sidenav-content>
-        <mat-toolbar>
+  <mat-sidenav-content>
+    <mat-toolbar>
             <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()"  class="transparent-background" *ngIf="isHandset">
                 <mat-icon aria-label="Side nav toggle icon" >menu</mat-icon>
               </button>
-            <span class="example-spacer"></span>
-            <button mat-icon-button class="transparent-background">
-            <mat-icon><span class="material-icons">
-                account_circle
-                </span></mat-icon>
-            </button>
-        </mat-toolbar>
-        <main>
-            <div class="main-content">
+
+      <span class="example-spacer"></span>
+      <button
+        mat-icon-button
+        class="transparent-background"
+        [matMenuTriggerFor]="menu"
+      >
+        <mat-icon
+          ><span class="material-icons"> account_circle </span></mat-icon
+        >
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item>
+          <mat-icon>account_circle</mat-icon>
+          <span>Profile</span>
+        </button>
+        <button mat-menu-item>
+          <mat-icon>exit_to_app</mat-icon>
+          <span (click)="logout()">Logout</span>
+        </button>
+      </mat-menu>
+    </mat-toolbar>
+    <main>
+      <div class="main-content">
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores placeat cupiditate excepturi esse veritatis. Eligendi consequuntur ex molestiae necessitatibus repudiandae vitae. Unde nobis consectetur reprehenderit delectus maiores nemo voluptatum quos?</p>
-            </div>
-        </main>
-    </mat-sidenav-content>
+      </div>
+    </main>
+  </mat-sidenav-content>
         <mat-sidenav #drawer fixedInViewport="true" [attr.role]="isHandset  ? 'dialog' : 'navigation'"
         [mode]="isHandset ? 'over' : 'side'" [opened]="isHandset === false">
-            <mat-list>
-                <mat-list-item>
-                    <img src="https://creativiso.bg/img/logo-94955cf1a6.svg" alt="">
-                </mat-list-item>
-                <mat-list-item>
-                    <mat-icon><span class="material-icons">
-                        web
-                        </span></mat-icon>
-                        <a>Pages</a>
-                </mat-list-item>
-                <mat-list-item>
-                    <mat-icon>
-                        <span class="material-icons">subject</span>
-                    </mat-icon>
-                    <a>Articles</a>
-                </mat-list-item>
-                <mat-list-item>
-                    <mat-icon>
-                        <span class="material-icons">subject</span>
-                    </mat-icon>
-                    <a>Article Categories</a>
-                </mat-list-item>
-                <mat-list-item>
-                    <mat-icon>
-                        <span class="material-icons">menu</span>
-                    </mat-icon>
-                    <a>Menus</a>
-                </mat-list-item>
-                <mat-list-item>
-                    <mat-icon>
-                        <span class="material-icons">sync</span>
-                    </mat-icon>
-                    <a>Cache Manager</a>
-                </mat-list-item>
-                <mat-list-item>
-                    <mat-icon>
-                        <span class="material-icons">text_format</span>
-                    </mat-icon>
-                    <a>Strings</a>
-                </mat-list-item>
-                <mat-list-item>
-                    <mat-icon>
-                        <span class="material-icons">cloud_upload</span>
-                    </mat-icon>
-                    <a>Files</a>
-                </mat-list-item>
-                <mat-list-item>
-                    <mat-icon>
-                        <span class="material-icons">person_outline</span>
-                    </mat-icon>
-                    <a>Export/Import</a>
-                </mat-list-item>
-                <mat-list-item>
-                    <mat-icon>
-                        <span class="material-icons">person_outline</span>
-                    </mat-icon>
-                    <a>Users</a>
-                </mat-list-item>
-                <mat-list-item (click)="drawer.toggle()" class="show-sm">
-                    <mat-icon>
-                        <span class="material-icons">close</span>
-                    </mat-icon>
-                    <a>Close</a>
-                </mat-list-item>
-                
-            </mat-list>
-        </mat-sidenav>
-    </mat-sidenav-container>
- <router-outlet></router-outlet>
+
+    <mat-list>
+      <mat-list-item>
+        <img src="https://creativiso.bg/img/logo-94955cf1a6.svg" alt="" />
+      </mat-list-item>
+      <mat-list-item>
+        <mat-icon><span class="material-icons"> web </span></mat-icon>
+        <a>Pages</a>
+      </mat-list-item>
+      <mat-list-item>
+        <mat-icon>
+          <span class="material-icons">subject</span>
+        </mat-icon>
+        <a>Articles</a>
+      </mat-list-item>
+      <mat-list-item>
+        <mat-icon>
+          <span class="material-icons">subject</span>
+        </mat-icon>
+        <a>Article Categories</a>
+      </mat-list-item>
+      <mat-list-item>
+        <mat-icon>
+          <span class="material-icons">menu</span>
+        </mat-icon>
+        <a>Menus</a>
+      </mat-list-item>
+      <mat-list-item>
+        <mat-icon>
+          <span class="material-icons">sync</span>
+        </mat-icon>
+        <a>Cache Manager</a>
+      </mat-list-item>
+      <mat-list-item>
+        <mat-icon>
+          <span class="material-icons">text_format</span>
+        </mat-icon>
+        <a>Strings</a>
+      </mat-list-item>
+      <mat-list-item>
+        <mat-icon>
+          <span class="material-icons">cloud_upload</span>
+        </mat-icon>
+        <a>Files</a>
+      </mat-list-item>
+      <mat-list-item>
+        <mat-icon>
+          <span class="material-icons">person_outline</span>
+        </mat-icon>
+        <a>Export/Import</a>
+      </mat-list-item>
+      <mat-list-item>
+        <mat-icon>
+          <span class="material-icons">person_outline</span>
+        </mat-icon>
+        <a>Users</a>
+      </mat-list-item>
+    </mat-list>
+  </mat-sidenav>
+</mat-sidenav-container>
+<router-outlet></router-outlet>
