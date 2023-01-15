@@ -1,8 +1,15 @@
 <mat-sidenav-container>
   <mat-sidenav-content>
     <mat-toolbar>
-      <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()"  class="transparent-background" *ngIf="isHandset">
-        <mat-icon aria-label="Side nav toggle icon" >menu</mat-icon>
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="drawer.toggle()"
+        class="transparent-background"
+        *ngIf="isHandset"
+      >
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
       <span class="example-spacer"></span>
       <button
@@ -11,13 +18,13 @@
         [matMenuTriggerFor]="menu"
       >
         <mat-icon
-        ><span class="material-icons"> account_circle </span></mat-icon
-                                                             >
+          ><span class="material-icons"> account_circle </span></mat-icon
+        >
       </button>
       <mat-menu #menu="matMenu">
         <button mat-menu-item>
           <mat-icon>account_circle</mat-icon>
-          <span>Profile</span>
+          <span routerLink="/profile">Profile</span>
         </button>
         <button mat-menu-item>
           <mat-icon>exit_to_app</mat-icon>
@@ -29,64 +36,52 @@
       <router-outlet></router-outlet>
     </main>
   </mat-sidenav-content>
-  <mat-sidenav #drawer fixedInViewport="true" [attr.role]="isHandset  ? 'dialog' : 'navigation'"
-    [mode]="isHandset ? 'over' : 'side'" [opened]="isHandset === false">
-
+  <mat-sidenav
+    #drawer
+    fixedInViewport="true"
+    [attr.role]="isHandset ? 'dialog' : 'navigation'"
+    [mode]="isHandset ? 'over' : 'side'"
+    [opened]="isHandset === false"
+  >
     <mat-list>
       <mat-list-item>
-        <img src="https://creativiso.bg/img/logo-94955cf1a6.svg" alt="" />
+        <a routerLink="/"
+          ><img src="https://creativiso.bg/img/logo-94955cf1a6.svg" alt=""
+        /></a>
       </mat-list-item>
       <mat-list-item>
-        <mat-icon><span class="material-icons"> web </span></mat-icon>
-        <a>Pages</a>
-      </mat-list-item>
-      <mat-list-item>
-        <mat-icon>
-          <span class="material-icons">subject</span>
-        </mat-icon>
-        <a>Articles</a>
+        <mat-icon><span class="material-icons"> wysiwyg </span></mat-icon>
+        <a routerLink="/invoices">Invoices</a>
       </mat-list-item>
       <mat-list-item>
         <mat-icon>
-          <span class="material-icons">subject</span>
+          <span class="material-icons">article</span>
         </mat-icon>
-        <a>Article Categories</a>
+        <a routerLink="/proformas">Proforms</a>
       </mat-list-item>
       <mat-list-item>
         <mat-icon>
-          <span class="material-icons">menu</span>
+          <span class="material-icons">handshake</span>
         </mat-icon>
-        <a>Menus</a>
+        <a routerLink="/contractors">Contractors</a>
       </mat-list-item>
       <mat-list-item>
         <mat-icon>
-          <span class="material-icons">sync</span>
+          <span class="material-icons">settings</span>
         </mat-icon>
-        <a>Cache Manager</a>
+        <a routerLink="/settings">Settings</a>
       </mat-list-item>
       <mat-list-item>
         <mat-icon>
-          <span class="material-icons">text_format</span>
+          <span class="material-icons">group</span>
         </mat-icon>
-        <a>Strings</a>
+        <a routerLink="/users">Users</a>
       </mat-list-item>
       <mat-list-item>
         <mat-icon>
-          <span class="material-icons">cloud_upload</span>
+          <span class="material-icons">person</span>
         </mat-icon>
-        <a>Files</a>
-      </mat-list-item>
-      <mat-list-item>
-        <mat-icon>
-          <span class="material-icons">person_outline</span>
-        </mat-icon>
-        <a>Export/Import</a>
-      </mat-list-item>
-      <mat-list-item>
-        <mat-icon>
-          <span class="material-icons">person_outline</span>
-        </mat-icon>
-        <a>Users</a>
+        <a routerLink="/profile">Profile</a>
       </mat-list-item>
     </mat-list>
   </mat-sidenav>
