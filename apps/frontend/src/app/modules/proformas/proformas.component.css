@@ -1,0 +1,46 @@
+form {
+  max-width: 90%;
+  margin: 0 auto;
+  padding: 10px;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+mat-form-field,
+input {
+  font-size: 12px;
+  padding: 5px;
+}
+
+button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+.container {
+  display: flex;
+  gap: 10px;
+  justify-content: stretch;
+}
+.col-1,
+.col-2 {
+  border: 1px solid #ccc;
+  padding: 11px;
+  border-radius: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  background-color: rgb(245, 243, 243);
+}
+mat-label {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: rgb(95, 95, 95);
+}

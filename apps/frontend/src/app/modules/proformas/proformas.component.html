@@ -1,1 +1,99 @@
-<p>proformas works!</p>
+<form [formGroup]="proformasForm">
+  <!--SUPPLIER INFO-->
+  <div class="container">
+    <div class="container-supplier">
+      <div class="col-1">
+        <mat-label>SUPPLIER</mat-label>
+        <mat-form-field>
+          <input
+            matInput
+            placeholder="Name of supplier"
+            formControlName="supplierName"
+          />
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="EIK" formControlName="supplierEik" />
+        </mat-form-field>
+
+        <mat-form-field>
+          <input
+            matInput
+            placeholder="VAT Number"
+            formControlName="supplierVatNumber"
+          />
+        </mat-form-field>
+        <mat-form-field>
+          <input
+            matInput
+            placeholder="Manager"
+            formControlName="supplierManager"
+          />
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="City" formControlName="supplierCity" />
+        </mat-form-field>
+        <mat-form-field>
+          <input
+            matInput
+            placeholder="Address"
+            formControlName="supplierAddress"
+          />
+        </mat-form-field>
+        <!--RECEIVER INFO-->
+      </div>
+    </div>
+    <div class="container-receiver">
+      <div class="col-2">
+        <mat-label>RECEIVER</mat-label>
+        <mat-form-field>
+          <input
+            matInput
+            placeholder="Name of receiver"
+            formControlName="receiverName"
+          />
+        </mat-form-field>
+        <mat-checkbox
+          [formControl]="individualPerson"
+          formControlName="individualPerson"
+        >
+          Individual Person
+        </mat-checkbox>
+        <mat-form-field>
+          <input matInput placeholder="EIK" formControlName="receiverEik" />
+        </mat-form-field>
+        <mat-form-field>
+          <input
+            matInput
+            placeholder="VAT Number"
+            formControlName="receiverVatNumber"
+          />
+        </mat-form-field>
+
+        <mat-form-field>
+          <input
+            matInput
+            placeholder="Manager"
+            formControlName="receiverManager"
+          />
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput placeholder="City" formControlName="receiverCity" />
+        </mat-form-field>
+        <mat-form-field>
+          <input
+            matInput
+            placeholder="Address"
+            formControlName="receiverAddress"
+          />
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <mat-form-field>
+    <input matInput [matDatepicker]="picker" [(ngModel)]="selectedDate" />
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+  <button mat-raised-button (click)="submit()">Submit</button>
+</form>
