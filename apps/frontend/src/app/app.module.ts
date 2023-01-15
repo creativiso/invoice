@@ -56,6 +56,7 @@ import { MatIconModule } from '@angular/material/icon';
               (m) => m.ProfileModule
             ),
         },
+      { path: 'dashboard', loadChildren: () => import('./modules/dashboard/dashboard.module').then(m => m.DashboardModule) },
       ],
       { initialNavigation: 'enabledBlocking' }
     ),
