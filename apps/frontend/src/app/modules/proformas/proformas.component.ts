@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 
 @Component({
@@ -9,7 +9,7 @@ import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 export class ProformasComponent {
   proformasForm: FormGroup;
   individualPerson = new FormControl(false);
-  selectedDate: Date;
+  //dateControl = new FormControl(new Date());
   constructor(private formBuilder: FormBuilder) {
     this.proformasForm = this.formBuilder.group({
       supplierName: [''],
@@ -25,7 +25,6 @@ export class ProformasComponent {
       receiverManager: [],
       receiverCity: [''],
       receiverAddress: [''],
-      selectedDate: Date,
     });
   }
 

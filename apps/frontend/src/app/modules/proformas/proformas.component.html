@@ -3,39 +3,39 @@
   <div class="container">
     <div class="container-supplier">
       <div class="col-1">
-        <mat-label>SUPPLIER</mat-label>
+        <mat-label>Доставчик</mat-label>
         <mat-form-field>
           <input
             matInput
-            placeholder="Name of supplier"
+            placeholder="Доставчик"
             formControlName="supplierName"
           />
         </mat-form-field>
         <mat-form-field>
-          <input matInput placeholder="EIK" formControlName="supplierEik" />
+          <input matInput placeholder="ЕИК" formControlName="supplierEik" />
         </mat-form-field>
 
         <mat-form-field>
           <input
             matInput
-            placeholder="VAT Number"
+            placeholder="ДДС номер"
             formControlName="supplierVatNumber"
           />
         </mat-form-field>
         <mat-form-field>
+          <input matInput placeholder="МОЛ" formControlName="supplierManager" />
+        </mat-form-field>
+        <mat-form-field>
           <input
             matInput
-            placeholder="Manager"
-            formControlName="supplierManager"
+            placeholder="Населено място"
+            formControlName="supplierCity"
           />
         </mat-form-field>
         <mat-form-field>
-          <input matInput placeholder="City" formControlName="supplierCity" />
-        </mat-form-field>
-        <mat-form-field>
           <input
             matInput
-            placeholder="Address"
+            placeholder="Адрес"
             formControlName="supplierAddress"
           />
         </mat-form-field>
@@ -44,11 +44,11 @@
     </div>
     <div class="container-receiver">
       <div class="col-2">
-        <mat-label>RECEIVER</mat-label>
+        <mat-label>Получател</mat-label>
         <mat-form-field>
           <input
             matInput
-            placeholder="Name of receiver"
+            placeholder="Получател"
             formControlName="receiverName"
           />
         </mat-form-field>
@@ -56,44 +56,36 @@
           [formControl]="individualPerson"
           formControlName="individualPerson"
         >
-          Individual Person
+          Физическо лице
         </mat-checkbox>
         <mat-form-field>
-          <input matInput placeholder="EIK" formControlName="receiverEik" />
+          <input matInput placeholder="ЕИК" formControlName="receiverEik" />
         </mat-form-field>
         <mat-form-field>
           <input
             matInput
-            placeholder="VAT Number"
+            placeholder="ДДС номер"
             formControlName="receiverVatNumber"
           />
         </mat-form-field>
 
         <mat-form-field>
-          <input
-            matInput
-            placeholder="Manager"
-            formControlName="receiverManager"
-          />
+          <input matInput placeholder="МОЛ" formControlName="receiverManager" />
         </mat-form-field>
 
         <mat-form-field>
-          <input matInput placeholder="City" formControlName="receiverCity" />
+          <input matInput placeholder="Град" formControlName="receiverCity" />
         </mat-form-field>
         <mat-form-field>
           <input
             matInput
-            placeholder="Address"
+            placeholder="Адрес"
             formControlName="receiverAddress"
           />
         </mat-form-field>
       </div>
     </div>
   </div>
-  <mat-form-field>
-    <input matInput [matDatepicker]="picker" [(ngModel)]="selectedDate" />
-    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-datepicker #picker></mat-datepicker>
-  </mat-form-field>
+
   <button mat-raised-button (click)="submit()">Submit</button>
 </form>
