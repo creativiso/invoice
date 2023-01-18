@@ -1,9 +1,9 @@
 <form [formGroup]="proformasForm">
   <!--SUPPLIER INFO-->
   <div class="container">
-    <div class="container-supplier">
+    <mat-card>
       <div class="col-1">
-        <mat-label>Доставчик</mat-label>
+        <mat-card-title>Доставчик</mat-card-title>
         <mat-form-field>
           <input
             matInput
@@ -41,10 +41,10 @@
         </mat-form-field>
         <!--RECEIVER INFO-->
       </div>
-    </div>
-    <div class="container-receiver">
+    </mat-card>
+    <mat-card>
       <div class="col-2">
-        <mat-label>Получател</mat-label>
+        <mat-card-title>Получател</mat-card-title>
         <mat-form-field>
           <input
             matInput
@@ -74,7 +74,11 @@
         </mat-form-field>
 
         <mat-form-field>
-          <input matInput placeholder="Град" formControlName="receiverCity" />
+          <input
+            matInput
+            placeholder="Населено място"
+            formControlName="receiverCity"
+          />
         </mat-form-field>
         <mat-form-field>
           <input
@@ -84,8 +88,137 @@
           />
         </mat-form-field>
       </div>
-    </div>
+    </mat-card>
   </div>
+  <mat-card class="containe">
+    <mat-form-field class="col-1 datepicker" appearance="fill">
+      <mat-label>Изберете дата</mat-label>
+      <input matInput [matDatepicker]="picker" />
+      <mat-hint>ММ/ДД/ГГГГ</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="picker">
+      </mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field class="col-2 currency" appearance="fill">
+      <mat-label>Изберете валута</mat-label>
+      <mat-select [(value)]="selected">
+        <mat-option value="euro">Евро</mat-option>
+        <mat-option value="dollar">Долар</mat-option>
+        <mat-option value="lev">Лев</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <!--<p>Вие избрахте: {{ selected }}</p> -->
+  </mat-card>
+  <mat-card class="grid-table">
+    <div class="div1">
+      <button class="iconBtn" mat-icon-button aria-label="addNewLineBtn">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+    <div class="div2">
+      <mat-form-field>
+        <input
+          matInput
+          placeholder="Наименование"
+          formControlName="nameField"
+        />
+      </mat-form-field>
+    </div>
+    <div class="div3">
+      <mat-form-field class="">
+        <input matInput placeholder="Количество" formControlName="quantity" />
+      </mat-form-field>
+    </div>
+    <div class="div4">
+      <mat-form-field appearance="fill">
+        <mat-label>Мярка</mat-label>
+        <mat-select [(value)]="selected">
+          <mat-option value="broi">брой</mat-option>
+          <mat-option value="box">кутия</mat-option>
+          <mat-option value="box">кашон</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="div5">
+      <mat-form-field>
+        <input
+          matInput
+          placeholder="Ед.цена без ДДС"
+          formControlName="priceWithoutVat"
+        />
+      </mat-form-field>
+    </div>
+    <div class="div6">Стойност:</div>
+    <div class="div7">0.00 лв</div>
+    <div class="div8">Данъчна основа:</div>
+    <div class="div9">0.00 лв</div>
+    <div class="div10">ДДС:</div>
+    <div class="div11">
+      <mat-form-field>
+        <input
+          matInput
+          placeholder="Напишете в %"
+          formControlName="vatPercent"
+        />
+      </mat-form-field>
+    </div>
+    <div class="div12">Начислен ДДС:</div>
+    <div class="div13">0.00 лв</div>
+    <div class="div14">Общо:</div>
+    <div class="div15">0.00лв</div>
 
-  <button mat-raised-button (click)="submit()">Submit</button>
+    <div class="div16">
+      <button class="iconAdd" mat-icon-button aria-label="addNewLineBtn">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+    <div class="div17">Добавяне на ред</div>
+    <div class="div18">
+      <mat-form-field>
+        <input
+          matInput
+          placeholder="Основание за начисление на ДДС"
+          formControlName="vatReason"
+        />
+      </mat-form-field>
+    </div>
+    <div class="div19">Начин на плащане:</div>
+    <div class="div20">
+      <mat-radio-group aria-label="Select an option">
+        <mat-radio-button class="radioBtn" value="1">В брой</mat-radio-button>
+        <mat-radio-button class="radioBtn" value="2"
+          >Наложен платеж</mat-radio-button
+        >
+        <mat-radio-button class="radioBtn" value="3">С карта</mat-radio-button>
+        <mat-radio-button class="radioBtn" value="4"
+          >Платежно нареждане</mat-radio-button
+        >
+        <mat-radio-button class="radioBtn" value="5"
+          >Чек / Ваучер</mat-radio-button
+        >
+        <mat-radio-button class="radioBtn" value="6"
+          >С насрещно прихващане
+        </mat-radio-button>
+        <mat-radio-button class="radioBtn" value="7"
+          >Други методи</mat-radio-button
+        >
+      </mat-radio-group>
+    </div>
+  </mat-card>
+  <mat-card>
+    <mat-card-title>Банкови детайли</mat-card-title>
+    <mat-form-field>
+      <input matInput placeholder="IBAN" formControlName="iban" />
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="BIC/SWIFT" formControlName="bicSwift" />
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Банка" formControlName="bankName" />
+    </mat-form-field>
+  </mat-card>
+  <button class="btn-submit" mat-raised-button (click)="submit()">
+    Изпрати
+  </button>
 </form>
