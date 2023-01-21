@@ -140,108 +140,124 @@
     </mat-form-field>
     <!--<p>Вие избрахте: {{ selected }}</p> -->
   </mat-card>
-
-  <table
-    formControlName="tableData"
-    mat-table
-    [dataSource]="dataSource"
-    class="mat-elevation-z8"
-  >
-    <!--- Note that these columns can be defined in any order.
+  <mat-card>
+    <table
+      formControlName="tableData"
+      mat-table
+      [dataSource]="dataSource"
+      class="mat-elevation-z8"
+    >
+      <!--- Note that these columns can be defined in any order.
           The actual rendered columns are set as a property on the row definition" -->
 
-    <!-- Position Column -->
-    <ng-container matColumnDef="position">
-      <th mat-header-cell *matHeaderCellDef>
-        <button (click)="addRow()" mat-icon-button aria-label="addBtn">
-          <mat-icon>add</mat-icon>
-        </button>
-      </th>
-      <td mat-cell *matCellDef="let element">
-        <button
-          (click)="deleteRow(element)"
-          mat-icon-button
-          aria-label="delete"
-        >
-          <mat-icon>delete</mat-icon>
-        </button>
-      </td>
-    </ng-container>
+      <!-- Position Column -->
+      <ng-container matColumnDef="position">
+        <th mat-header-cell *matHeaderCellDef>
+          <button (click)="addRow()" mat-icon-button aria-label="addBtn">
+            <mat-icon>add</mat-icon>
+          </button>
+        </th>
+        <td mat-cell *matCellDef="let element; let i = index">
+          <button
+            *ngIf="dataSource.data.length > 1"
+            (click)="deleteRow(element)"
+            mat-icon-button
+            aria-label="delete"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
 
-    <!-- Name Column -->
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef>Наименование</th>
-      <td mat-cell *matCellDef="let element">
-        <mat-form-field>
-          <input
-            [(ngModel)]="element.name"
-            type="text"
-            matInput
-            placeholder="Наименование"
-            formControlName="nameField"
-          />
-        </mat-form-field>
-      </td>
-    </ng-container>
-    <!-- Weight Column -->
-    <ng-container matColumnDef="qty">
-      <th mat-header-cell *matHeaderCellDef>Количество</th>
-      <td mat-cell *matCellDef="let element">
-        <mat-form-field class="">
-          <input
-            [(ngModel)]="element.qty"
-            type="text"
-            matInput
-            placeholder="Количество"
-            formControlName="quantity"
-          />
-        </mat-form-field>
-      </td>
-    </ng-container>
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Наименование</th>
+        <td mat-cell *matCellDef="let element">
+          <mat-form-field>
+            <input
+              [(ngModel)]="element.name"
+              type="text"
+              matInput
+              placeholder="Наименование"
+              formControlName="nameField"
+            />
+          </mat-form-field>
+        </td>
+      </ng-container>
+      <!-- Weight Column -->
+      <ng-container matColumnDef="qty">
+        <th mat-header-cell *matHeaderCellDef>Количество</th>
+        <td mat-cell *matCellDef="let element">
+          <mat-form-field class="">
+            <input
+              [(ngModel)]="element.qty"
+              type="text"
+              matInput
+              placeholder="Количество"
+              formControlName="quantity"
+            />
+          </mat-form-field>
+        </td>
+      </ng-container>
 
-    <!-- Symbol Column -->
-    <ng-container matColumnDef="measure">
-      <th mat-header-cell *matHeaderCellDef>Мярка</th>
-      <td mat-cell *matCellDef="let element">
-        <mat-form-field appearance="outline">
-          <mat-label>Мярка</mat-label>
-          <mat-select [(ngModel)]="element.measure" [(value)]="selected">
-            <mat-option value="broi">брой</mat-option>
-            <mat-option value="box">кутия</mat-option>
-            <mat-option value="box">кашон</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </td>
-    </ng-container>
-    <ng-container matColumnDef="unitPrice">
-      <th mat-header-cell *matHeaderCellDef>Ед.цена без ДДС</th>
-      <td mat-cell *matCellDef="let element">
-        <mat-form-field>
+      <!-- Measure Column -->
+      <ng-container matColumnDef="measure">
+        <th mat-header-cell *matHeaderCellDef>Мярка</th>
+        <td mat-cell *matCellDef="let element">
+          <mat-form-field appearance="outline">
+            <mat-label>Мярка</mat-label>
+            <mat-select [(ngModel)]="element.measure" [(value)]="selected">
+              <mat-option value="broi">брой</mat-option>
+              <mat-option value="box">кутия</mat-option>
+              <mat-option value="box">кашон</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="unitPrice">
+        <th mat-header-cell *matHeaderCellDef>Ед.цена без ДДС</th>
+        <td mat-cell *matCellDef="let element">
+          <mat-form-field>
+            <input
+              [(ngModel)]="element.unitPrice"
+              matInput
+              placeholder="Ед.цена без ДДС"
+              formControlName="priceWithoutVat"
+            />
+          </mat-form-field>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="amount">
+        <th mat-header-cell *matHeaderCellDef>Стойност</th>
+        <td mat-cell *matCellDef="let element">
           <input
-            [(ngModel)]="element.unitPrice"
+            [(ngModel)]="element.amount"
             matInput
-            placeholder="Ед.цена без ДДС"
-            formControlName="priceWithoutVat"
+            formControlName="amount"
+            placeholder="0.00 лв"
+            readonly
           />
-        </mat-form-field>
-      </td>
-    </ng-container>
-    <ng-container matColumnDef="amount">
-      <th mat-header-cell *matHeaderCellDef>Стойност</th>
-      <td mat-cell *matCellDef="let element">
-        <input
-          [(ngModel)]="element.amount"
-          matInput
-          formControlName="amount"
-          placeholder="0.00 лв"
-          readonly
-        />
-      </td>
-    </ng-container>
+        </td>
+      </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-  </table>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+    <div class="grid-container">
+      <mat-label class="grid1">Данъчна основа:</mat-label>
+      <mat-label class="grid2">0.00 лв</mat-label>
+      <mat-label class="grid3">ДДС:</mat-label>
+      <mat-label class="grid4">0.00 лв</mat-label>
+      <mat-label class="grid5">Начислен ДДС:</mat-label>
+      <mat-form-field class="grid6">
+        <mat-label>ДДС</mat-label>
+        <input matInput placeholder="" formControlName="vatPercent" />
+        <mat-icon matSuffix>percentage</mat-icon>
+      </mat-form-field>
+      <mat-label class="grid7">Общо:</mat-label>
+      <mat-label class="grid8">0.00 лв</mat-label>
+    </div>
+  </mat-card>
 
   <mat-card>
     <mat-card-title>Банкови детайли</mat-card-title>
