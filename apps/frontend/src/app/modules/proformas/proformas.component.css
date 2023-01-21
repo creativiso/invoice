@@ -24,7 +24,21 @@ button {
 button:hover {
   opacity: 0.8;
 }
-
+table {
+  width: 99% !important;
+  margin-left: 10px;
+  margin-top: 10px;
+}
+mat-icon {
+  color: rgb(48, 48, 48);
+}
+mat-card {
+  margin-top: 20px;
+  margin-left: 10px;
+}
+mat-label {
+  display: block;
+}
 .container {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -144,19 +158,9 @@ button:hover {
   margin: 10px !important;
 }
 
-mat-card {
-  margin-top: 10px;
-  margin-left: 10px;
-}
 .btn-submit {
   margin-top: 10px;
   margin-left: 10px;
-}
-
-table {
-  width: 99% !important;
-  margin-left: 10px;
-  margin-top: 10px;
 }
 
 .mat-column-name,
@@ -167,15 +171,8 @@ table {
   font-weight: bold;
   font-size: 14px;
 }
-
-mat-icon {
-  color: rgb(48, 48, 48);
-}
 .mat-elevation-z8 {
   box-shadow: none !important;
-}
-mat-label {
-  display: block;
 }
 .grid-container {
   display: grid;
@@ -218,6 +215,8 @@ mat-label {
 .grid7,
 .grid8 {
   justify-self: end;
+  color: rgb(48, 48, 48);
+  font-weight: 600;
 }
 .grid2,
 .grid4,
@@ -227,4 +226,16 @@ mat-label {
 }
 .grid6 {
   max-width: 30%;
+}
+.paying-layout {
+  display: grid;
+  grid-template-columns: 0.5fr 1fr;
+  grid-template-rows: 1fr;
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+  margin-top: 20px;
+}
+.wayof-paying {
+  justify-self: center;
+  align-self: center;
 }
