@@ -26,9 +26,17 @@ button:hover {
 }
 table {
   width: 99% !important;
-  margin-left: 10px;
   margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: -15px !important;
 }
+th {
+  padding-right: 10px !important;
+}
+tr td {
+  padding-right: 10px !important;
+}
+
 mat-icon {
   color: rgb(48, 48, 48);
 }
@@ -163,7 +171,7 @@ mat-label {
   margin-left: 10px;
 }
 
-.mat-column-name,
+.mat-column-nameField,
 .mat-column-qty,
 .mat-column-measure,
 .mat-column-unitPrice,
@@ -222,7 +230,7 @@ mat-label {
 .grid4,
 .grid6,
 .grid8 {
-  margin-right: 54px;
+  margin-right: 38px;
 }
 .grid6 {
   max-width: 30%;

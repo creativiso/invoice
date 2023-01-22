@@ -41,7 +41,8 @@ const ELEMENT_DATA: tableElement[] = [
 })
 export class ProformasComponent {
   proformasForm: FormGroup;
-  selected = '';
+  selectedMeasure = '';
+  selectedCurrency = '';
   dataSource = new MatTableDataSource<tableElement>(ELEMENT_DATA);
   tableData: FormArray;
 
@@ -72,12 +73,12 @@ export class ProformasComponent {
           amount: new FormControl('', Validators.required),
         }),
       ]),
-      vatPercent: new FormControl(''),
-      vatReason: new FormControl(''),
-      wayOfPaying: new FormControl(''),
-      iban: new FormControl(''),
-      bicSwift: new FormControl(''),
-      bankName: new FormControl(''),
+      vatPercent: new FormControl('', Validators.required),
+      vatReason: new FormControl('', Validators.required),
+      wayOfPaying: new FormControl('', Validators.required),
+      iban: new FormControl('', Validators.required),
+      bicSwift: new FormControl('', Validators.required),
+      bankName: new FormControl('', Validators.required),
     });
     this.tableData = this.proformasForm.get('tableData') as FormArray;
     this.addRow();
