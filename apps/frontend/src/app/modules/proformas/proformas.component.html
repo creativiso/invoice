@@ -1,4 +1,4 @@
-<form [formGroup]="proformasForm">
+<form [formGroup]="proformasForm" (ngSubmit)="onSubmit()">
   <!--SUPPLIER INFO-->
   <div class="container">
     <mat-card>
@@ -170,7 +170,7 @@
       </ng-container>
 
       <!-- Name Column -->
-      <ng-container matColumnDef="name">
+      <ng-container matColumnDef="nameField">
         <th mat-header-cell *matHeaderCellDef>Наименование</th>
         <td mat-cell *matCellDef="let element">
           <mat-form-field>
@@ -194,7 +194,7 @@
               type="text"
               matInput
               placeholder="Количество"
-              formControlName="quantity"
+              formControlName="qty"
             />
           </mat-form-field>
         </td>
@@ -257,7 +257,7 @@
       <mat-label class="grid7">Общо:</mat-label>
       <mat-label class="grid8">0.00 лв</mat-label>
     </div>
-    <div class="div18">
+    <div class="vatReason">
       <mat-form-field>
         <input
           matInput
@@ -269,7 +269,10 @@
     <div class="paying-layout">
       <div class="wayof-paying">Начин на плащане:</div>
       <div>
-        <mat-radio-group aria-label="Select an option">
+        <mat-radio-group
+          aria-label="Select an option"
+          formControlName="wayOfPaying"
+        >
           <mat-radio-button color="primary" class="radioBtn" value="1"
             >В брой</mat-radio-button
           >
@@ -313,7 +316,7 @@
     class="btn-submit"
     color="primary"
     mat-raised-button
-    (click)="submit()"
+    (click)="onSubmit()"
   >
     Изпрати
   </button>

@@ -8,7 +8,7 @@ import {
   FormArray,
 } from '@angular/forms';
 export interface tableElement {
-  name: string;
+  nameField: string;
   position: number;
   qty: number;
   measure: string;
@@ -19,7 +19,7 @@ export interface tableElement {
 const ELEMENT_DATA: tableElement[] = [
   {
     position: 1,
-    name: 'ggg',
+    nameField: '',
     qty: 1,
     measure: '',
     unitPrice: 0,
@@ -27,7 +27,7 @@ const ELEMENT_DATA: tableElement[] = [
   },
   {
     position: 1,
-    name: 'Hydrogen',
+    nameField: '',
     qty: 1.0079,
     measure: '',
     unitPrice: 0,
@@ -62,14 +62,29 @@ export class ProformasComponent {
       receiverAddress: new FormControl('', Validators.required),
       releasedAt: new FormControl(''), //datepicker
       currency: new FormControl(''),
-      tableData: this.formBuilder.array([]),
+      tableData: this.formBuilder.array([
+        this.formBuilder.group({
+          nameField: new FormControl('', Validators.required),
+          position: new FormControl('', Validators.required),
+          qty: new FormControl('', Validators.required),
+          measure: new FormControl('', Validators.required),
+          unitPrice: new FormControl('', Validators.required),
+          amount: new FormControl('', Validators.required),
+        }),
+      ]),
+      vatPercent: new FormControl(''),
+      vatReason: new FormControl(''),
+      wayOfPaying: new FormControl(''),
+      iban: new FormControl(''),
+      bicSwift: new FormControl(''),
+      bankName: new FormControl(''),
     });
     this.tableData = this.proformasForm.get('tableData') as FormArray;
     this.addRow();
   }
   displayedColumns: string[] = [
     'position',
-    'name',
+    'nameField',
     'qty',
     'measure',
     'unitPrice',
@@ -79,7 +94,7 @@ export class ProformasComponent {
   addRow() {
     const newRow: tableElement = {
       position: 0,
-      name: '',
+      nameField: '',
       qty: 0,
       measure: '',
       unitPrice: 0,
@@ -94,7 +109,8 @@ export class ProformasComponent {
     this.dataSource.data.splice(index, 1);
     this.dataSource._updateChangeSubscription();
   }
-  submit() {
-    console.log();
+  onSubmit() {
+    // TODO: Use EventEmitter with form value
+    console.warn(this.proformasForm.value);
   }
 }
