@@ -135,7 +135,7 @@ export interface IUser {
   sign_prefix: string
 }
 
-export interface IUserRole {
+export interface IUserRoles {
   id: number;
   user_id: number;
   role_id: number;

@@ -1,87 +1,38 @@
-import {
-    Model,
-    Optional
-  } from 'sequelize';
-  
-  type ContractorAttributes = {
+import { Table, Column, Model, ForeignKey} from 'sequelize-typescript';
+import { DataTypes} from 'sequelize';
+import { IContractor } from 'libs/typings'
+@Table({
+  timestamps: true,
+})
+export class Contractor extends Model<IContractor>{
+    @ForeignKey(() => Contractor)
+    @Column({ type: DataTypes.NUMBER })
     id: number;
-    name: string;
-    city: string;
-    address: string;
-    eik: string;
-    dds: boolean;
-    ddsnumber: string;
-    mol: string;
-    person: boolean;
-    egn: string;
-  }
-  
-  type ContractorCreationAttributes = Optional<ContractorAttributes, 'id'>;
-  
-    const Contractor = (sequelize, DataTypes) => {  
-        class Contractor extends Model<ContractorAttributes, ContractorCreationAttributes>{
-            declare id: number;
-            declare name: string;
-            declare city: string;
-            declare address: string;
-            declare eik: string;
-            declare dds: boolean;
-            declare ddsnumber: string;
-            declare mol: string;
-            declare person: boolean;
-            declare egn: string;
-        }
-        
-        Contractor.init({
-        id: {
-            type: DataTypes.INTEGER(),
-            allowNull: false,
-            autoIncrement: true,
-            primaryKey: true
-        },
-        name: {
-            type: DataTypes.STRING(255),
-            allowNull: false
-        },
-        city: {
-            type: DataTypes.STRING(255),
-            allowNull: false
-        },
-        address: {
-            type: DataTypes.STRING(255),
-            allowNull: false
-        },
-        eik: {
-            type: DataTypes.CHAR(12),
-            defaultValue: null
-        },
-        dds: {
-            type: DataTypes.BOOLEAN,
-            defaultValue: null
-        },
-        ddsnumber: {
-            type: DataTypes.STRING(255),
-            defaultValue: null
-        },
-        mol: {
-            type: DataTypes.STRING(255),
-            defaultValue: null
-        },
-        person: {
-            type: DataTypes.BOOLEAN,
-            defaultValue: 0
-        },
-        egn: {
-            type: DataTypes.CHAR(12),
-            defaultValue: null
-        }
-    },
-    {
-      sequelize,
-      modelName: 'Contractor',
-      timestamps: false
-    });
-    return Contractor;
-  };
 
-  export default Contractor;
+    @Column({ type: DataTypes.STRING })
+    name: string;
+
+    @Column({ type: DataTypes.STRING })
+    city: string;
+
+    @Column({ type: DataTypes.STRING })
+    address: string;
+
+    @Column({ type: DataTypes.STRING })
+    eik: string;
+
+    @Column({ type: DataTypes.BOOLEAN })
+    dds: boolean;
+
+    @Column({ type: DataTypes.STRING })
+    ddsnumber: string;
+
+    @Column({ type: DataTypes.STRING })
+    mol: string;
+
+    @Column({ type: DataTypes.BOOLEAN })
+    person: boolean;
+
+    @Column({ type: DataTypes.STRING })
+    egn: string;
+}

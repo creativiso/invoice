@@ -1,79 +1,35 @@
-import {
-    Model,
-    Optional
-  } from 'sequelize';
-
-  type CurrencyAttributes = {
+import { Table, Column, Model, ForeignKey} from 'sequelize-typescript';
+import { DataTypes} from 'sequelize';
+import { ICurrency } from 'libs/typings'
+@Table({
+  timestamps: true,
+})
+export class Currency extends Model<ICurrency>{
+    @ForeignKey(() => Currency)
+    @Column({ type: DataTypes.NUMBER })
     id: number;
-    currency: string;
+
+    @Column({ type: DataTypes.STRING })
+    name: string;
+
+    @Column({ type: DataTypes.NUMBER })
     rate: number;
+
+    @Column({ type: DataTypes.STRING })
     sign: string;
+
+    @Column({ type: DataTypes.STRING })
     longsign: string;
+
+    @Column({ type: DataTypes.STRING })
     subsign: string;
+
+    @Column({ type: DataTypes.BOOLEAN })
     default_c: boolean;
+
+    @Column({ type: DataTypes.DATE })
     updated: Date;
+
+    @Column({ type: DataTypes.STRING })
     g: string;
-  }
-
-  type CurrencyCreationAttributes = Optional<CurrencyAttributes, 'id'>;
-
-  export default (sequelize, DataTypes) => {
-    class Currency extends Model<CurrencyAttributes, CurrencyCreationAttributes>{
-        declare id: number;
-        declare currency: string;
-        declare rate: number;
-        declare sign: string;
-        declare longsign: string;
-        declare subsign: string;
-        declare default_c: boolean;
-        declare updated: Date;
-        declare g: string;
-    }
-    Currency.init({
-        id: {
-            type: DataTypes.INTEGER(10),
-            allowNull: false,
-            autoIncrement: true,
-            primaryKey: true
-        },
-        currency: {
-            type: DataTypes.CHAR(3),
-            allowNull: false
-        },
-        rate: {
-            type: DataTypes.DECIMAL(10, 7),
-            allowNull: false
-        },
-        sign: {
-            type: DataTypes.CHAR(5),
-            allowNull: false
-        },
-        longsign: {
-            type: DataTypes.STRING(255),
-            allowNull: false
-        },
-        subsign: {
-            type: DataTypes.CHAR(5),
-            allowNull: false
-        },
-        default_c: {
-            type: DataTypes.BOOLEAN,
-            allowNull: false,
-            defaultValue: 0
-        },
-        updated: {
-            type: DataTypes.TIME,
-            allowNull: false
-        },
-        g: {
-            type: DataTypes.CHAR(5),
-            allowNull: false
-        }
-    },
-    {
-      sequelize,
-      modelName: 'Currency',
-      timestamps: false
-    });
-    return Currency;
-  }; 
+}

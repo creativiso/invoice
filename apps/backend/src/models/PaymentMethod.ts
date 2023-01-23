@@ -1,37 +1,14 @@
-import {
-    Model,
-    Optional
-  } from 'sequelize';
-
-  type PaymentMethodAttributes = {
+import { Table, Column, Model, ForeignKey} from 'sequelize-typescript';
+import { DataTypes} from 'sequelize';
+import { IPaymentMethod } from 'libs/typings'
+@Table({
+  timestamps: true,
+})
+export class PaymentMethod extends Model<IPaymentMethod>{
+    @ForeignKey(() => PaymentMethod)
+    @Column({ type: DataTypes.NUMBER })
     id: number;
+
+    @Column({ type: DataTypes.STRING })
     name: string;
-  }
-
-  type PaymentMethodCreationAttributes = Optional<PaymentMethodAttributes, 'id'>;
-
-  export default (sequelize, DataTypes) => {
-    class PaymentMethod extends Model<PaymentMethodAttributes, PaymentMethodCreationAttributes>{
-        declare id: number;
-        declare name: string;
-    }
-    PaymentMethod.init({
-        id: {
-            type: DataTypes.INTEGER(10),
-            primaryKey: true,
-            allowNull: false,
-            autoIncrement: true
-        },
-        name: {
-            type: DataTypes.STRING(255),
-            allowNull: false
-        }
-    },
-    {
-      sequelize,
-      modelName: 'PaymentMethod',
-      timestamps: false,
-      underscored: true
-    });
-    return PaymentMethod;
-  }; 
+}
