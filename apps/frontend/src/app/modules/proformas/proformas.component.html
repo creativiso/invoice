@@ -141,7 +141,7 @@
     <!--<p>Вие избрахте: {{ selected }}</p> -->
   </mat-card>
   <mat-card>
-    <!--<div fxFlex="100%" fxLayout="column" fxLayout.xs="row"> -->
+    <!--<div fxFlex="100%" fxLayout="column" fxLayout.xs="row">  flex layout for the table-->
     <table
       formControlName="tableData"
       mat-table
@@ -185,7 +185,7 @@
           </mat-form-field>
         </td>
       </ng-container>
-      <!-- Weight Column -->
+      <!-- Quantity Column -->
       <ng-container matColumnDef="qty">
         <th mat-header-cell *matHeaderCellDef>Количество</th>
         <td mat-cell *matCellDef="let element">
@@ -210,8 +210,9 @@
             <mat-select
               formControlName="measure"
               [(ngModel)]="element.measure"
-              [(value)]="selectedMeasure"
+              [(value)]="element.measure + element.index"
             >
+              <!--unique identifier for measure-->
               <mat-option value="broi">брой</mat-option>
               <mat-option value="kutiq">кутия</mat-option>
               <mat-option value="kashon">кашон</mat-option>
@@ -219,6 +220,7 @@
           </mat-form-field>
         </td>
       </ng-container>
+      <!-- Unitprice Column -->
       <ng-container matColumnDef="unitPrice">
         <th mat-header-cell *matHeaderCellDef>Ед.цена без ДДС</th>
         <td mat-cell *matCellDef="let element">
@@ -232,6 +234,7 @@
           </mat-form-field>
         </td>
       </ng-container>
+      <!-- Amount Column -->
       <ng-container matColumnDef="amount">
         <th mat-header-cell *matHeaderCellDef>Стойност</th>
         <td mat-cell *matCellDef="let element">

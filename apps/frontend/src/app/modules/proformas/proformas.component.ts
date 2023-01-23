@@ -8,6 +8,7 @@ import {
   FormArray,
 } from '@angular/forms';
 export interface tableElement {
+  index: number;
   nameField: string;
   position: number;
   qty: number;
@@ -18,6 +19,7 @@ export interface tableElement {
 
 const ELEMENT_DATA: tableElement[] = [
   {
+    index: 0,
     position: 1,
     nameField: '',
     qty: 1,
@@ -26,6 +28,7 @@ const ELEMENT_DATA: tableElement[] = [
     amount: 0,
   },
   {
+    index: 1,
     position: 1,
     nameField: '',
     qty: 1.0079,
@@ -94,6 +97,7 @@ export class ProformasComponent {
 
   addRow() {
     const newRow: tableElement = {
+      index: this.dataSource.data.length,
       position: 0,
       nameField: '',
       qty: 0,
