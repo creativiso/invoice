@@ -24,4 +24,5 @@ export class InvoiceItems extends Model<IInvoiceItems>{
     @Column({ type: DataTypes.NUMBER })
     price: number;
     
+    
 }

@@ -7,7 +7,7 @@ import { IRole } from 'libs/typings'
 
 export class Role extends Model<IRole>{
   @ForeignKey(() => Role)
-  @Column({ type: DataTypes.INTEGER })
+  @Column({ type: DataTypes.NUMBER })
   id: number;
 
   @Column({ type: DataTypes.STRING })

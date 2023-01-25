@@ -1,13 +1,13 @@
 import { Table, Column, Model, ForeignKey} from 'sequelize-typescript';
 import { DataTypes} from 'sequelize';
-import {IUser} from 'libs/typings'
+import { IUser } from 'libs/typings'
 @Table({
   timestamps: true,
 })
 
 export class User extends Model<IUser>{
   @ForeignKey(() => User)
-  @Column({ type: DataTypes.INTEGER })
+  @Column({ type: DataTypes.NUMBER })
   id: number;
 
   @Column({ type: DataTypes.STRING })
