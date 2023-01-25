@@ -30,9 +30,7 @@ table {
   margin-bottom: 10px;
   margin-left: -15px !important;
 }
-th {
-  padding-right: 10px !important;
-}
+
 tr td {
   padding-right: 10px !important;
 }
@@ -184,11 +182,11 @@ mat-label {
 }
 .grid-container {
   display: grid;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: 2fr 0.1fr;
   grid-template-rows: repeat(4, 1fr);
-  grid-column-gap: 30px;
+  grid-column-gap: 0px;
   grid-row-gap: 0px;
-  margin-top: 10px;
+  margin-top: 20px;
 }
 .grid1 {
   grid-area: 1 / 1 / 2 / 2;
@@ -230,7 +228,7 @@ mat-label {
 .grid4,
 .grid6,
 .grid8 {
-  margin-right: 38px;
+  margin-right: 29px;
 }
 .grid6 {
   max-width: 30%;
@@ -243,12 +241,145 @@ mat-label {
   grid-row-gap: 0px;
   margin-top: 20px;
 }
-.wayof-paying {
-  justify-self: center;
-  align-self: center;
+
+$table-header: #fff;
+$table-header-border: #fff;
+$table-border: #ccc;
+
+div {
+  box-sizing: border-box;
 }
-@media only screen and (max-width: 600px) {
-  table {
-    width: 100% !important;
+.table-container {
+  display: block;
+  margin: 2em auto;
+}
+.flex-table {
+  display: flex;
+  flex-flow: row wrap;
+
+  &:first-of-type .flex-row {
+    font-weight: 600;
+    color: rgb(48, 48, 48);
   }
+}
+
+.flex-row {
+  width: calc(100% / 6);
+  text-align: center;
+  padding: 0.5em 0.5em;
+  border-bottom: solid 1px $table-border;
+  color: rgb(104, 102, 102);
+}
+
+.rowspan {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.column {
+  display: flex;
+  flex-flow: column wrap;
+  width: 95%;
+  padding: 0;
+  .flex-row {
+    display: flex;
+    flex-flow: row wrap;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    border-bottom: solid 1px $table-border;
+    color: #ccc;
+  }
+}
+
+.flex-cell {
+  width: calc(100% / 3); //1px = border right
+  text-align: center;
+  padding: 0.5em 0.5em;
+  //flex: 1 1 33.3%;
+  &:last-child {
+    border-right: 0px;
+  }
+}
+
+@media all and (max-width: 767px) {
+  .flex-row {
+    width: calc(100% / 3); //1px = border right
+
+    &.first {
+      width: 100%;
+    }
+  }
+
+  .column {
+    width: 100%;
+  }
+}
+
+@media all and (max-width: 430px) {
+  .flex-table {
+    .flex-row {
+      border-bottom: 0;
+    }
+    .flex-row:last-of-type {
+      border-bottom: solid 1px $table-border;
+    }
+  }
+
+  .header {
+    .flex-row {
+      border-bottom: solid 1px;
+    }
+  }
+
+  .flex-row {
+    width: 100%; //1px = border right
+
+    &.first {
+      width: 100%;
+      border-bottom: solid 1px $table-border;
+    }
+  }
+
+  .column {
+    width: 100%;
+    .flex-row {
+      border-bottom: solid 1px $table-border;
+    }
+  }
+
+  .flex-cell {
+    width: 100%; //1px = border right
+  }
+}
+.btn-submit {
+  background-color: #172647;
+  color: #f4f2f1;
+}
+.icon-add-btn {
+  color: rgb(48, 48, 48);
+  margin-top: -7px;
+}
+.basis {
+  flex-basis: 610px;
+}
+.flex-row.first {
+  width: 7%;
+}
+.amount,
+.vatPercent {
+  margin-top: 20px;
+  color: rgb(104, 102, 102);
+}
+.flex-row.nameField {
+  width: 25%;
+}
+.vatReason {
+  width: 52%;
+}
+.wayOfPaying {
+  margin-top: 25px;
+  width: 19%;
 }

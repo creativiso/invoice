@@ -40,7 +40,7 @@ const ELEMENT_DATA: tableElement[] = [
 @Component({
   selector: 'crtvs-proformas',
   templateUrl: './proformas.component.html',
-  styleUrls: ['./proformas.component.css'],
+  styleUrls: ['./proformas.component.scss'],
 })
 export class ProformasComponent {
   proformasForm: FormGroup;
