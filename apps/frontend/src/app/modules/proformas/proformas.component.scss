@@ -100,6 +100,7 @@ div {
   padding: 0.5em 0.5em;
   border-bottom: solid 1px $table-border;
   color: rgb(104, 102, 102);
+  height: 65px !important;
 }
 .column {
   display: flex;
@@ -130,6 +131,8 @@ div {
 }
 .table-container .right {
   text-align: right !important;
+  height: 65px !important;
+  padding-top: 25px;
 }
 .btn-submit {
   background-color: #172647;
@@ -143,6 +146,7 @@ div {
 .basis {
   width: 70%;
   text-align: start;
+  height: 90px !important;
 }
 .flex-row.first {
   width: 7%;
@@ -153,8 +157,8 @@ div {
 }
 .amount,
 .vatPercent {
-  margin-top: 20px;
   color: rgb(104, 102, 102);
+  padding-top: 25px;
 }
 .flex-row .nameFieldHeader {
   width: 30%;
@@ -184,6 +188,9 @@ div {
 
 /*---------------------------------------------------RESPONSIVE------------------------------------------------------*/
 @media all and (max-width: 767px) {
+  .basis {
+    height: 290px !important;
+  }
   .amountHeader,
   .nameFieldHeader,
   .qtyHeader,

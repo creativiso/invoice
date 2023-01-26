@@ -32,7 +32,7 @@ export class ProformasComponent {
       value: 0.0,
     },
   ];
-
+  totalAmount = 0;
   constructor(private formBuilder: FormBuilder) {
     this.proformasForm = new FormGroup({
       supplierName: new FormControl('', Validators.required),
