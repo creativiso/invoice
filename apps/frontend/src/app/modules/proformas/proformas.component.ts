@@ -5,7 +5,9 @@ import {
   FormControl,
   Validators,
 } from '@angular/forms';
-
+interface SelectedMeasure {
+  [id: number]: string;
+}
 @Component({
   selector: 'crtvs-proformas',
   templateUrl: './proformas.component.html',
@@ -13,7 +15,7 @@ import {
 })
 export class ProformasComponent {
   proformasForm: FormGroup;
-  selectedMeasure = '';
+  selectedMeasure: SelectedMeasure = {};
   selectedCurrency = '';
   tableData: {
     nameField: string;
@@ -66,6 +68,7 @@ export class ProformasComponent {
       value: 0.0,
     };
     this.tableData.push(newRow);
+    this.selectedMeasure[this.tableData.length - 1] = '';
   }
   deleteRow(index: number) {
     if (this.tableData.length > 1) {

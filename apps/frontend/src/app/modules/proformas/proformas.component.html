@@ -3,7 +3,9 @@
   <div class="container">
     <mat-card>
       <div class="col-1">
-        <mat-card-title>Доставчик</mat-card-title>
+        <mat-card-header>
+          <mat-card-title>Доставчик</mat-card-title>
+        </mat-card-header>
 
         <mat-form-field>
           <input
@@ -54,7 +56,9 @@
     </mat-card>
     <mat-card>
       <div class="col-2">
-        <mat-card-title>Получател</mat-card-title>
+        <mat-card-header>
+          <mat-card-title>Получател</mat-card-title>
+        </mat-card-header>
         <mat-form-field>
           <input
             matInput
@@ -153,11 +157,13 @@
             <mat-icon class="icon-add-btn">add</mat-icon>
           </button>
         </div>
-        <div class="flex-row nameField" role="columnheader">Наименование</div>
-        <div class="flex-row" role="columnheader">Количество</div>
-        <div class="flex-row" role="columnheader">Мярка</div>
-        <div class="flex-row" role="columnheader">Ед.цена без ДДС</div>
-        <div class="flex-row" role="columnheader">Стойност</div>
+        <div class="flex-row nameFieldHeader" role="columnheader">
+          Наименование
+        </div>
+        <div class="flex-row qtyHeader" role="columnheader">Количество</div>
+        <div class="flex-row measureHeader" role="columnheader">Мярка</div>
+        <div class="flex-row unitPriceHeader" role="columnheader">Ед.цена</div>
+        <div class="flex-row amountHeader" role="columnheader">Стойност</div>
       </div>
       <div
         class="flex-table row"
@@ -196,7 +202,10 @@
         <div class="flex-row" role="cell">
           <mat-form-field appearance="outline">
             <mat-label>Мярка</mat-label>
-            <mat-select [(value)]="selectedMeasure" formControlName="measure">
+            <mat-select
+              [(value)]="selectedMeasure[i]"
+              formControlName="measure"
+            >
               <mat-option value="broi">брой</mat-option>
               <mat-option value="box">кутия</mat-option>
               <mat-option value="box">кашон</mat-option>
@@ -215,20 +224,12 @@
         <div class="flex-row amount" role="cell">0.00</div>
       </div>
       <div class="flex-table row" role="rowgroup">
-        <div class="flex-row first" role="cell"></div>
-        <div class="flex-row nameField" role="cell"></div>
-        <div class="flex-row" role="cell"></div>
-        <div class="flex-row" role="cell"></div>
-        <div class="flex-row" role="cell">Данъчна основа:</div>
-        <div class="flex-row" role="cell">0.00</div>
+        <div class="flex-row right price" role="cell">Данъчна основа:</div>
+        <div class="flex-row right priceNum" role="cell">0.00</div>
       </div>
       <div class="flex-table row">
-        <div class="flex-row first" role="cell"></div>
-        <div class="flex-row nameField" role="cell"></div>
-        <div class="flex-row" role="cell"></div>
-        <div class="flex-row" role="cell"></div>
-        <div class="flex-row vatPercent" role="cell">Начислен ДДС:</div>
-        <div class="flex-row" role="cell">
+        <div class="flex-row vatPercent right" role="cell">Начислен ДДС:</div>
+        <div class="flex-row vat" role="cell">
           <mat-form-field>
             <input matInput placeholder="ДДС" formControlName="vatPercent" />
             <mat-icon matSuffix>percentage</mat-icon>
@@ -236,12 +237,8 @@
         </div>
       </div>
       <div class="flex-table row">
-        <div class="flex-row first" role="cell"></div>
-        <div class="flex-row nameField" role="cell"></div>
-        <div class="flex-row" role="cell"></div>
-        <div class="flex-row" role="cell"></div>
-        <div class="flex-row sum" role="cell">Общо:</div>
-        <div class="flex-row" role="cell">0.00</div>
+        <div class="flex-row sum right" role="cell">Общо:</div>
+        <div class="flex-row right priceNum" role="cell">0.00</div>
       </div>
       <div class="flex-table row">
         <div class="flex-row vatReason" role="cell">
@@ -253,14 +250,8 @@
             />
           </mat-form-field>
         </div>
-        <div class="flex-row first" role="cell"></div>
-        <div class="flex-row first" role="cell"></div>
-        <div class="flex-row" role="cell"></div>
-        <div class="flex-row" role="cell"></div>
       </div>
       <div class="flex-table row">
-        <div class="flex-row first" role="cell"></div>
-        <div class="flex-row first" role="cell"></div>
         <div class="flex-row wayOfPaying" role="cell">Начин на плащане:</div>
         <div class="flex-row basis" role="cell">
           <mat-radio-group
