@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   FormGroup,
   FormBuilder,
@@ -13,10 +13,14 @@ interface SelectedMeasure {
   templateUrl: './proformas.component.html',
   styleUrls: ['./proformas.component.scss'],
 })
-export class ProformasComponent {
+export class ProformasComponent implements OnInit {
   proformasForm: FormGroup;
   selectedMeasure: SelectedMeasure = {};
   selectedCurrency = '';
+  quantity = 0.0;
+  priceWithoutVat = 0.0;
+  vatPercent = 0;
+
   tableData: {
     nameField: string;
     quantity: number;
@@ -32,7 +36,7 @@ export class ProformasComponent {
       value: 0.0,
     },
   ];
-  totalAmount = 0;
+
   constructor(private formBuilder: FormBuilder) {
     this.proformasForm = new FormGroup({
       supplierName: new FormControl('', Validators.required),
@@ -49,7 +53,7 @@ export class ProformasComponent {
       receiverCity: new FormControl('', Validators.required),
       receiverAddress: new FormControl('', Validators.required),
       releasedAt: new FormControl('', Validators.required), //datepicker
-      currency: new FormControl('', Validators.required),
+      currency: new FormControl(''),
       nameField: new FormControl('', Validators.required),
       quantity: new FormControl('', Validators.required),
       measure: new FormControl(''),
@@ -58,6 +62,26 @@ export class ProformasComponent {
       vatReason: new FormControl(''),
       wayOfPaying: new FormControl('', Validators.required),
     });
+  }
+  ngOnInit() {
+    this.proformasForm.get('vatPercent')?.valueChanges.subscribe((value) => {
+      this.vatPercent = value;
+    });
+    this.proformasForm.get('quantity')?.valueChanges.subscribe((value) => {
+      this.quantity = value;
+    });
+    this.proformasForm
+      .get('priceWithoutVat')
+      ?.valueChanges.subscribe((value) => {
+        this.priceWithoutVat = value;
+      });
+  }
+  //geting the sum of quntity and unitPrice
+  get amount(): number {
+    return this.quantity * this.priceWithoutVat;
+  }
+  get totalAmount(): number {
+    return (this.amount * this.vatPercent) / 100 + this.amount;
   }
   addRow() {
     const newRow = {
