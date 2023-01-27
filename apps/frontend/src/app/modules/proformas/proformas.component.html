@@ -170,7 +170,7 @@
         role="rowgroup"
         *ngFor="let row of tableData; let i = index"
       >
-        <div class="flex-row first" role="cell">
+        <div class="flex-row first delete" role="cell">
           <button
             class="icon-delete-btn"
             mat-icon-button
@@ -181,7 +181,7 @@
             <mat-icon>delete</mat-icon>
           </button>
         </div>
-        <div class="flex-row nameField" role="cell">
+        <div class="flex-row nameField second" role="cell">
           <mat-form-field>
             <input
               matInput
@@ -190,16 +190,17 @@
             />
           </mat-form-field>
         </div>
-        <div class="flex-row" role="cell">
+        <div class="flex-row third" role="cell">
           <mat-form-field class="">
             <input
               matInput
               placeholder="Количество"
               formControlName="quantity"
+              [(ngModel)]="quantity"
             />
           </mat-form-field>
         </div>
-        <div class="flex-row" role="cell">
+        <div class="flex-row fourth" role="cell">
           <mat-form-field class="measure-select" appearance="outline">
             <mat-label>Мярка</mat-label>
             <mat-select
@@ -212,33 +213,39 @@
             </mat-select>
           </mat-form-field>
         </div>
-        <div class="flex-row" role="cell">
+        <div class="flex-row fifth" role="cell">
           <mat-form-field>
             <input
               matInput
               placeholder="Ед.цена без ДДС"
               formControlName="priceWithoutVat"
+              [(ngModel)]="priceWithoutVat"
             />
           </mat-form-field>
         </div>
-        <div class="flex-row amount" role="cell">0.00</div>
+        <div class="flex-row amount sixth" role="cell">{{ amount }} лв</div>
       </div>
       <div class="flex-table row" role="rowgroup">
         <div class="flex-row right price" role="cell">Данъчна основа:</div>
-        <div class="flex-row right priceNum" role="cell">0.00</div>
+        <div class="flex-row right priceNum" role="cell">{{ amount }} лв</div>
       </div>
       <div class="flex-table row">
         <div class="flex-row vatPercent right" role="cell">Начислен ДДС:</div>
         <div class="flex-row vat" role="cell">
           <mat-form-field>
-            <input matInput placeholder="ДДС" formControlName="vatPercent" />
+            <input
+              matInput
+              placeholder="ДДС"
+              formControlName="vatPercent"
+              [(ngModel)]="vatPercent"
+            />
             <mat-icon matSuffix>percentage</mat-icon>
           </mat-form-field>
         </div>
       </div>
       <div class="flex-table row">
         <div class="flex-row sum right" role="cell">Общо:</div>
-        <div class="flex-row right priceNum" role="cell">0.00</div>
+        <div class="flex-row right priceNum" role="cell">{{ totalAmount }}</div>
       </div>
       <div class="flex-table row">
         <div class="flex-row vatReason" role="cell">
@@ -251,38 +258,35 @@
           </mat-form-field>
         </div>
       </div>
-      <div class="flex-table row">
-        <div class="flex-row wayOfPaying" role="cell">Начин на плащане:</div>
-        <div class="flex-row basis" role="cell">
-          <mat-radio-group
-            aria-label="Select an option"
-            formControlName="wayOfPaying"
-          >
-            <mat-radio-button color="primary" class="radioBtn" value="1"
-              >В брой</mat-radio-button
-            >
-            <mat-radio-button color="primary" class="radioBtn" value="2"
-              >Наложен платеж</mat-radio-button
-            >
-            <mat-radio-button color="primary" class="radioBtn" value="3"
-              >С карта</mat-radio-button
-            >
-            <mat-radio-button color="primary" class="radioBtn" value="4"
-              >Платежно нареждане</mat-radio-button
-            >
-            <mat-radio-button color="primary" class="radioBtn" value="5"
-              >Чек / Ваучер</mat-radio-button
-            >
-            <mat-radio-button color="primary" class="radioBtn" value="6"
-              >С насрещно прихващане
-            </mat-radio-button>
-            <mat-radio-button color="primary" class="radioBtn" value="7"
-              >Други методи</mat-radio-button
-            >
-          </mat-radio-group>
-        </div>
-      </div>
     </div>
+    <mat-label class="title">Начин на плащане:</mat-label>
+    <mat-radio-group
+      aria-label="Select an option"
+      formControlName="wayOfPaying"
+      class="grid-layout"
+    >
+      <mat-radio-button color="primary" class="div1" value="1"
+        >В брой</mat-radio-button
+      >
+      <mat-radio-button color="primary" class="div2" value="2"
+        >Наложен платеж</mat-radio-button
+      >
+      <mat-radio-button color="primary" class="div3" value="3"
+        >С карта</mat-radio-button
+      >
+      <mat-radio-button color="primary" class="div4" value="4"
+        >Платежно нареждане</mat-radio-button
+      >
+      <mat-radio-button color="primary" class="div5" value="5"
+        >Чек / Ваучер</mat-radio-button
+      >
+      <mat-radio-button color="primary" class="div6" value="6"
+        >С насрещно прихващане
+      </mat-radio-button>
+      <mat-radio-button color="primary" class="div7" value="7"
+        >Други методи</mat-radio-button
+      >
+    </mat-radio-group>
   </mat-card>
 
   <!--<mat-card>
