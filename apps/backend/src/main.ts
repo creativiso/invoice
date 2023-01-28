@@ -1,7 +1,6 @@
 
 import express, { Router } from 'express';
-import { DbInit } from './models';
-import { models } from './models';
+import { DbInit } from '../../../libs/typings/src/index';
 
 const app = express();
 const apiRouter = Router();

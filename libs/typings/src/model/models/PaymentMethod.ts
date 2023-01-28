@@ -1,6 +1,6 @@
 import { Table, Column, Model, ForeignKey} from 'sequelize-typescript';
 import { DataTypes} from 'sequelize';
-import { IPaymentMethod } from 'libs/typings'
+import { IPaymentMethod } from '../index'
 @Table({
   timestamps: true,
 })

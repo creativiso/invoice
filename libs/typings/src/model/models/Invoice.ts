@@ -1,6 +1,6 @@
 import { Table, Column, Model, ForeignKey} from 'sequelize-typescript';
 import { DataTypes} from 'sequelize';
-import { IInvoice } from 'libs/typings'
+import { IInvoice } from '../index'
 @Table({
   timestamps: true,
 })

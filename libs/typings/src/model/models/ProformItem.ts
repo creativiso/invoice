@@ -1,6 +1,6 @@
 import { Table, Column, Model, ForeignKey} from 'sequelize-typescript';
 import { DataTypes} from 'sequelize';
-import { IProformItem } from 'libs/typings'
+import { IProformItem } from '../index'
 
 @Table({
     timestamps: true,

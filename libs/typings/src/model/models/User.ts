@@ -1,6 +1,6 @@
 import { Table, Column, Model, ForeignKey} from 'sequelize-typescript';
 import { DataTypes} from 'sequelize';
-import { IUser } from 'libs/typings'
+import { IUser } from '../index'
 @Table({
   timestamps: true,
 })

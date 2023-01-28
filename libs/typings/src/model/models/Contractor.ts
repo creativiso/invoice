@@ -1,6 +1,6 @@
 import { Table, Column, Model, ForeignKey} from 'sequelize-typescript';
 import { DataTypes} from 'sequelize';
-import { IContractor } from 'libs/typings'
+import { IContractor } from '../index'
 @Table({
   timestamps: true,
 })
