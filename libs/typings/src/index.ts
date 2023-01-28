@@ -68,7 +68,6 @@ export const DbInit = () => {
 
 
 sequelize.sync( { force: true } );
-
 };
 
 export const models = {
