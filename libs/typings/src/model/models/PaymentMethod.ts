@@ -11,4 +11,5 @@ export class PaymentMethod extends Model<IPaymentMethod>{
 
     @Column({ type: DataTypes.STRING })
     name: string;
+    
 }

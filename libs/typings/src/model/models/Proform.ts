@@ -92,5 +92,6 @@ export class Proform extends Model<IProform>{
 
     @Column({ type: DataTypes.STRING })
     author_sign: string;
+    
   }
 

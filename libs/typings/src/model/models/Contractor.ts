@@ -35,4 +35,5 @@ export class Contractor extends Model<IContractor>{
 
     @Column({ type: DataTypes.STRING })
     egn: string;
+    
 }

@@ -39,6 +39,7 @@ export class User extends Model<IUser>{
 
   @Column({ type: DataTypes.STRING })
   sign_prefix: string;
+  
 }
 
 

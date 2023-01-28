@@ -15,4 +15,5 @@ export class Role extends Model<IRole>{
 
   @Column({ type: DataTypes.STRING })
   role_name: string;
+  
 }

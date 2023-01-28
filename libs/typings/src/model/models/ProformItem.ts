@@ -25,4 +25,5 @@ import { IProformItem } from '../index'
 
     @Column({ type: DataTypes.NUMBER })
     price: number;
+    
   }

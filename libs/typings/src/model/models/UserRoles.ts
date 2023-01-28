@@ -15,4 +15,5 @@ export class UserRoles extends Model<IUserRoles>{
 
   @Column({ type: DataTypes.NUMBER })
   role_id: number;
+  
 }

@@ -32,4 +32,5 @@ export class Currency extends Model<ICurrency>{
 
     @Column({ type: DataTypes.STRING })
     g: string;
+    
 }

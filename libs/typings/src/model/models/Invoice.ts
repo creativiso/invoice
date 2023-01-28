@@ -113,4 +113,5 @@ export class Invoice extends Model<IInvoice>{
 
     @Column({ type: DataTypes.STRING })
     author_sign: string;
+    
 }
