@@ -17,6 +17,7 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, proces
     host: 'localhost',
     dialect: 'mysql'
 });
+
 const contractor = Contractor.sequelize;
 const currency = Currency.sequelize;
 const invoice = Invoice.sequelize;
@@ -32,53 +33,94 @@ export const DbInit = () => {
 
   class Contractor extends Model {};
   Contractor.init({
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    city: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    address: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    eik: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    dds: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+    },
+    ddsnumber: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    mol: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    person: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+    },
+    egn: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   }, { sequelize, modelName: 'contractor' });
 
   class Currency extends Model {};
   Currency.init({
   }, { sequelize, modelName: 'currency' });
 
-  class Invoice extends Model {};
-  Invoice.init({
-  }, { sequelize, modelName: 'invoice' });
+//   class Invoice extends Model {};
+//   Invoice.init({
+//   }, { sequelize, modelName: 'invoice' });
 
-  class InvoiceItems extends Model {};
-  InvoiceItems.init({
-  }, { sequelize, modelName: 'invoiceItems' });
+//   class InvoiceItems extends Model {};
+//   InvoiceItems.init({
+//   }, { sequelize, modelName: 'invoiceItems' });
 
-  class PaymentMethod extends Model {};
-  PaymentMethod.init({
-  }, { sequelize, modelName: 'paymentMethod' });
+//   class PaymentMethod extends Model {};
+//   PaymentMethod.init({
+//   }, { sequelize, modelName: 'paymentMethod' });
 
-  class Proform extends Model {};
-  Proform.init({
-  }, { sequelize, modelName: 'proform' });
+//   class Proform extends Model {};
+//   Proform.init({
+//   }, { sequelize, modelName: 'proform' });
 
-  class ProformItem extends Model {};
-  ProformItem.init({
-  }, { sequelize, modelName: 'proformItem' });
+//   class ProformItem extends Model {};
+//   ProformItem.init({
+//   }, { sequelize, modelName: 'proformItem' });
 
-  class User extends Model {};
-  User.init({
-  }, { sequelize, modelName: 'user' });
+//   class User extends Model {};
+//   User.init({
+//   }, { sequelize, modelName: 'user' });
 
-  class UserRole extends Model {};
-  UserRole.init({
-  }, { sequelize, modelName: 'userRole' });
+//   class UserRole extends Model {};
+//   UserRole.init({
+//   }, { sequelize, modelName: 'userRole' });
 
 
-sequelize.sync( { force: true } );
-};
+ sequelize.sync( { force: true } );
+ };
 
 export const models = {
     contractor,
-    currency,
-    invoice,
-    invoiceItem,
-    paymentMethod,
-    proform,
-    proformItem,
-    role,
-    user,
-    userRole
+    currency
+    // invoice,
+    // invoiceItem,
+    // paymentMethod,
+    // proform,
+    // proformItem,
+    // role,
+    // user,
+    // userRole
 };
