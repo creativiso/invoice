@@ -165,10 +165,12 @@
         <div class="flex-row unitPriceHeader" role="columnheader">Ед.цена</div>
         <div class="flex-row amountHeader" role="columnheader">Стойност</div>
       </div>
+      <!----------------GROUP TABLEDATA------------------->
       <div
         class="flex-table row"
         role="rowgroup"
         *ngFor="let row of tableData; let i = index"
+        formGroupName="tableInfo"
       >
         <div class="flex-row first delete" role="cell">
           <button
@@ -181,6 +183,7 @@
             <mat-icon>delete</mat-icon>
           </button>
         </div>
+
         <div class="flex-row nameField second" role="cell">
           <mat-form-field>
             <input
@@ -223,11 +226,16 @@
             />
           </mat-form-field>
         </div>
-        <div class="flex-row amount sixth" role="cell">{{ amount }} лв</div>
+        <div class="flex-row amount sixth" role="cell">
+          {{ priceWithoutVat * quantity }} лв
+        </div>
+        <!------------------------------------------------------------------->
       </div>
       <div class="flex-table row" role="rowgroup">
         <div class="flex-row right price" role="cell">Данъчна основа:</div>
-        <div class="flex-row right priceNum" role="cell">{{ amount }} лв</div>
+        <div class="flex-row right priceNum" role="cell">
+          {{ rowAmount }} лв
+        </div>
       </div>
       <div class="flex-table row">
         <div class="flex-row vatPercent right" role="cell">Начислен ДДС:</div>
@@ -245,7 +253,9 @@
       </div>
       <div class="flex-table row">
         <div class="flex-row sum right" role="cell">Общо:</div>
-        <div class="flex-row right priceNum" role="cell">{{ totalAmount }}</div>
+        <div class="flex-row right priceNum" role="cell">
+          {{ totalAmount }}
+        </div>
       </div>
       <div class="flex-table row">
         <div class="flex-row vatReason" role="cell">
