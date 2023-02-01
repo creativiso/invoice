@@ -2,13 +2,12 @@
 import express, { Router } from 'express';
 import { sequelize } from './app/model/index';
 
-const app = express();
-const apiRouter = Router();
-app.use('/api/v1', apiRouter);
-
 (async () => {
-const port = process.env.port || 3333;
-const server = app.listen(port, () => {
+  const app = express();
+  const apiRouter = Router();
+  app.use('/api/v1', apiRouter);
+  const port = process.env.port || 3333;
+  const server = app.listen(port, () => {
   console.log(`Listening at http://localhost:${port}/api`);
 });
 server.on('error', console.error);
