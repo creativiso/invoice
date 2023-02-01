@@ -73,24 +73,31 @@ export class ProformasComponent implements OnInit {
   }
 
   deleteRow(index: number) {
-    //
-  }
-  calculateRowAmount(): number {
-    {
-      //this.rowAmount = this.quantity * this.priceWithoutVat;
-      return this.rowAmount;
+    if (this.rowData.length > 1) {
+      (this.proformasForm.get('rowData') as FormArray).removeAt(index);
     }
   }
-  calculateTotalAmount(): number {
-    // this.formArray.controls.forEach((formGroup) => {
-    //const quantityControl = formGroup.get('quantity');
-    // const priceWithoutVatControl = formGroup.get('priceWithoutVat');
-    // this.rowAmount = quantityControl?.value * priceWithoutVatControl?.value;
-    // const vatPercent = formGroup.get('vatPercent');
-    //  this.totalAmount = (this.rowAmount * 20) / 100 + this.rowAmount; // instead of 20 use vatpercent
-    //});
-
-    return this.totalAmount;
+  calculateRowAmount(index: number): number {
+    const rowData = this.proformasForm.get('rowData') as FormArray;
+    const quantity = rowData.at(index).get('quantity').value;
+    const priceWithoutVat = rowData.at(index).get('priceWithoutVat').value;
+    return quantity * priceWithoutVat;
+  }
+  calculateTotalRowAmount(): number {
+    let total = 0;
+    const rowData = this.proformasForm.get('rowData') as FormArray;
+    for (let i = 0; i < rowData.length; i++) {
+      total += this.calculateRowAmount(i);
+    }
+    return total;
+  }
+  calculateTotalAmountWthVat(): number {
+    return (
+      (this.calculateTotalRowAmount() *
+        this.proformasForm.get('vatPercent').value) /
+        100 +
+      this.calculateTotalRowAmount()
+    );
   }
 
   onSubmit() {
