@@ -31,7 +31,7 @@
             matSuffix
             class="search-btn"
             mat-icon-button
-            color=""
+            matTooltip="добавяне на мол от базата данни"
             aria-label="search"
           >
             <mat-icon class="search-icon">person_add</mat-icon>
@@ -68,8 +68,8 @@
             matSuffix
             class="search-btn"
             mat-icon-button
-            color=""
-            aria-label="search"
+            matTooltip="търсене в базата от данни"
+            aria-label="търсене"
           >
             <mat-icon class="search-icon">search</mat-icon>
           </button>
@@ -86,8 +86,8 @@
             matSuffix
             class="search-btn"
             mat-icon-button
-            color=""
-            aria-label="search"
+            matTooltip="търсене в базата от данни"
+            aria-label="търсене"
           >
             <mat-icon class="search-icon">search</mat-icon>
           </button>
@@ -122,7 +122,7 @@
     </mat-card>
   </div>
   <mat-card class="container">
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline" class="datepicker">
       <input
         matInput
         formControlName="releasedAt"
@@ -151,7 +151,8 @@
           <button
             class="icon-add-btn"
             mat-icon-button
-            aria-label="addNewLineBtn"
+            matTooltip="добавяне на ред"
+            aria-label="добавяне на ред"
             (click)="addRow()"
           >
             <mat-icon class="icon-add-btn">add</mat-icon>
@@ -178,7 +179,8 @@
               <button
                 class="icon-delete-btn"
                 mat-icon-button
-                aria-label="addNewLineBtn"
+                matTooltip="изтриване на ред"
+                aria-label="изтриване на ред"
                 (click)="deleteRow(i)"
                 [disabled]="rowData.length === 1"
               >
@@ -191,6 +193,7 @@
                 <input
                   matInput
                   placeholder="Наименование"
+                  aria-label="Наименование"
                   formControlName="nameField"
                 />
               </mat-form-field>
@@ -200,6 +203,7 @@
                 <input
                   matInput
                   placeholder="Количество"
+                  aria-label="Количество"
                   formControlName="quantity"
                 />
               </mat-form-field>
@@ -207,10 +211,14 @@
             <div class="flex-row fourth" role="cell">
               <mat-form-field class="measure-select" appearance="outline">
                 <mat-label>Мярка</mat-label>
-                <mat-select>
-                  <mat-option value="broi">брой</mat-option>
-                  <mat-option value="box">кутия</mat-option>
-                  <mat-option value="box">кашон</mat-option>
+                <mat-select aria-label="Мярка">
+                  <mat-option aria-label="брой" value="broi">брой</mat-option>
+                  <mat-option aria-label="кутия" value="kutiq"
+                    >кутия</mat-option
+                  >
+                  <mat-option aria-label="кашон" value="kashon"
+                    >кашон</mat-option
+                  >
                 </mat-select>
               </mat-form-field>
             </div>
@@ -218,6 +226,7 @@
               <mat-form-field>
                 <input
                   matInput
+                  aria-label="Ед.цена"
                   placeholder="Ед.цена без ДДС"
                   formControlName="priceWithoutVat"
                 />
@@ -256,7 +265,7 @@
       <div class="flex-table row">
         <div class="flex-row sum right" role="cell">Общо:</div>
         <div class="flex-row right priceNum" role="cell">
-          {{ calculateTotalAmountWthVat() }}
+          {{ calculateTotalAmountWthVat() }} лв
         </div>
       </div>
       <div class="flex-table row">
@@ -275,6 +284,7 @@
     <mat-radio-group
       aria-label="Select an option"
       formControlName="wayOfPaying"
+      aria-label="Начин на плащане"
       class="grid-layout"
     >
       <mat-radio-button color="primary" class="div1" value="1"
@@ -300,7 +310,6 @@
       >
     </mat-radio-group>
   </mat-card>
-
   <!--<mat-card>
     <mat-card-title>Банкови детайли</mat-card-title>
     <mat-form-field>
@@ -314,7 +323,12 @@
       <input matInput placeholder="Банка" formControlName="bankName" />
     </mat-form-field>
   </mat-card> -->
-  <button class="btn-submit" mat-raised-button (click)="onSubmit()">
+  <button
+    class="btn-submit"
+    aria-label="изпрати формуляра"
+    mat-raised-button
+    (click)="onSubmit()"
+  >
     Изпрати
   </button>
 </form>
