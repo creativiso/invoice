@@ -1,6 +1,6 @@
 
 import express, { Router } from 'express';
-import { DbInit } from '../../../libs/typings/src/index';
+import { sequelize } from './app/model/index';
 
 const app = express();
 const apiRouter = Router();
@@ -11,6 +11,12 @@ const server = app.listen(port, () => {
   console.log(`Listening at http://localhost:${port}/api`);
 });
 server.on('error', console.error);
-
-DbInit();
+(async () => {
+  try {
+    await sequelize.sync();
+    console.log('Database has been initialized.');
+  } catch (error) {
+    console.error('Error initializing database: ', error);
+  }
+})();
 

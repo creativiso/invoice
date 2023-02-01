@@ -1,13 +1,13 @@
-import { Table, Column, Model, ForeignKey} from 'sequelize-typescript';
-import { DataTypes} from 'sequelize';
-import { IRole } from '../index'
+import { Table, Column, Model, ForeignKey } from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
+import { IRole } from 'libs/typings/src/model';
 @Table({
   timestamps: true,
 })
 
 export class Role extends Model<IRole>{
   @ForeignKey(() => Role)
-  @Column({ type: DataTypes.NUMBER })
+  @Column({ type: DataTypes.INTEGER, primaryKey: true })
   id: number;
 
   @Column({ type: DataTypes.STRING })

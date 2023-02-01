@@ -1,21 +1,21 @@
-import { Table, Column, Model, ForeignKey} from 'sequelize-typescript';
-import { DataTypes} from 'sequelize';
-import { IInvoice } from '../index'
+import { Table, Column, Model, ForeignKey } from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
+import { IInvoice } from 'libs/typings/src/model';
 @Table({
   timestamps: true,
 })
 export class Invoice extends Model<IInvoice>{
     @ForeignKey(() => Invoice)
-    @Column({ type: DataTypes.NUMBER })
+    @Column({ type: DataTypes.INTEGER, primaryKey: true })
     id: number;
 
-    @Column({ type: DataTypes.NUMBER })
+    @Column({ type: DataTypes.INTEGER  })
     prefix: number;
 
-    @Column({ type: DataTypes.NUMBER })
+    @Column({ type: DataTypes.INTEGER  })
     number: number;
 
-    @Column({ type: DataTypes.NUMBER })
+    @Column({ type: DataTypes.INTEGER  })
     contractor: number;
 
     @Column({ type: DataTypes.DATE})
@@ -27,22 +27,22 @@ export class Invoice extends Model<IInvoice>{
     @Column({ type: DataTypes.STRING })
     receiver: string;
 
-    @Column({ type: DataTypes.NUMBER })
+    @Column({ type: DataTypes.INTEGER  })
     bank_payment: number;
 
-    @Column({ type: DataTypes.NUMBER })
+    @Column({ type: DataTypes.INTEGER  })
     vat: number;
 
     @Column({ type: DataTypes.STRING })
     novatreason: string;
 
-    @Column({ type: DataTypes.NUMBER })
+    @Column({ type: DataTypes.INTEGER  })
     currency: number;
 
-    @Column({ type: DataTypes.NUMBER })
+    @Column({ type: DataTypes.INTEGER  })
     rate: number;
 
-    @Column({ type: DataTypes.NUMBER })
+    @Column({ type: DataTypes.INTEGER  })
     type: number;
 
     @Column({ type: DataTypes.STRING })
@@ -108,7 +108,7 @@ export class Invoice extends Model<IInvoice>{
     @Column({ type: DataTypes.STRING })
     author: string;
 
-    @Column({ type: DataTypes.NUMBER})
+    @Column({ type: DataTypes.INTEGER })
     author_user: number;
 
     @Column({ type: DataTypes.STRING })

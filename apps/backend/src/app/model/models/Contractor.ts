@@ -1,12 +1,14 @@
-import { Table, Column, Model, ForeignKey} from 'sequelize-typescript';
-import { DataTypes} from 'sequelize';
-import { IContractor } from '../index'
+import { Table, Column, Model, ForeignKey } from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
+import { IContractor } from 'libs/typings/src/model';
+
 @Table({
   timestamps: true,
 })
-export class Contractor extends Model<IContractor>{
+
+export class Contractor extends Model<IContractor >{
     @ForeignKey(() => Contractor)
-    @Column({ type: DataTypes.NUMBER })
+    @Column({ type: DataTypes.INTEGER, primaryKey: true  })
     id: number;
 
     @Column({ type: DataTypes.STRING })
@@ -35,5 +37,4 @@ export class Contractor extends Model<IContractor>{
 
     @Column({ type: DataTypes.STRING })
     egn: string;
-    
 }
