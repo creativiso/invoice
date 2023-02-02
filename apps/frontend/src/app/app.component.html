@@ -24,11 +24,11 @@
       <mat-menu #menu="matMenu">
         <button mat-menu-item>
           <mat-icon>account_circle</mat-icon>
-          <span routerLink="/profile">Profile</span>
+          <span routerLink="/profile">Профил</span>
         </button>
         <button mat-menu-item>
           <mat-icon>exit_to_app</mat-icon>
-          <span (click)="logout()">Logout</span>
+          <span (click)="logout()">Излез</span>
         </button>
       </mat-menu>
     </mat-toolbar>
@@ -50,38 +50,42 @@
         /></a>
       </mat-list-item>
       <mat-list-item>
+        <mat-icon><span class="material-icons"> dashboard </span></mat-icon>
+        <a routerLink="/">Табло за управление</a>
+      </mat-list-item>
+      <mat-list-item>
         <mat-icon><span class="material-icons"> wysiwyg </span></mat-icon>
-        <a routerLink="/invoices">Invoices</a>
+        <a routerLink="/invoices">Фактури</a>
       </mat-list-item>
       <mat-list-item>
         <mat-icon>
           <span class="material-icons">article</span>
         </mat-icon>
-        <a routerLink="/proformas">Proforms</a>
+        <a routerLink="/proformas">Проформа фактури</a>
       </mat-list-item>
       <mat-list-item>
         <mat-icon>
           <span class="material-icons">handshake</span>
         </mat-icon>
-        <a routerLink="/contractors">Contractors</a>
+        <a routerLink="/contractors">Контрагенти</a>
       </mat-list-item>
       <mat-list-item>
         <mat-icon>
           <span class="material-icons">settings</span>
         </mat-icon>
-        <a routerLink="/settings">Settings</a>
+        <a routerLink="/settings">Настройки</a>
       </mat-list-item>
       <mat-list-item>
         <mat-icon>
           <span class="material-icons">group</span>
         </mat-icon>
-        <a routerLink="/users">Users</a>
+        <a routerLink="/users">Потребители</a>
       </mat-list-item>
       <mat-list-item>
         <mat-icon>
           <span class="material-icons">person</span>
         </mat-icon>
-        <a routerLink="/profile">Profile</a>
+        <a routerLink="/profile">Профил</a>
       </mat-list-item>
     </mat-list>
   </mat-sidenav>
