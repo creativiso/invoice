@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { NxWelcomeComponent } from './nx-welcome.component';
 import { RouterModule } from '@angular/router';
@@ -56,7 +56,13 @@ import { MatIconModule } from '@angular/material/icon';
               (m) => m.ProfileModule
             ),
         },
-      { path: 'dashboard', loadChildren: () => import('./modules/dashboard/dashboard.module').then(m => m.DashboardModule) },
+        {
+          path: 'dashboard',
+          loadChildren: () =>
+            import('./modules/dashboard/dashboard.module').then(
+              (m) => m.DashboardModule
+            ),
+        },
       ],
       { initialNavigation: 'enabledBlocking' }
     ),
@@ -64,6 +70,7 @@ import { MatIconModule } from '@angular/material/icon';
     MaterialModule,
     MatMenuModule,
     MatIconModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

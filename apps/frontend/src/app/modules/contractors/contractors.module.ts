@@ -12,6 +12,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatNativeDateModule } from '@angular/material/core';
+import { HttpClientModule } from '@angular/common/http';
 const routes: Routes = [{ path: '', component: ContractorsComponent }];
 
 @NgModule({
@@ -29,6 +30,7 @@ const routes: Routes = [{ path: '', component: ContractorsComponent }];
     MatIconModule,
     MatCheckboxModule,
     MatNativeDateModule,
+    HttpClientModule,
   ],
 })
 export class ContractorsModule {}
