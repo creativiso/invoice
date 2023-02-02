@@ -28,5 +28,7 @@ export class AppComponent {
     this.isHandset = !this.isHandset;
   }
 
-  public logout() {}
+  public logout() {
+    //
+  }
 }
