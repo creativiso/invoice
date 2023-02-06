@@ -6,9 +6,8 @@ import { IPaymentMethod } from 'libs/typings/src/model';
 })
 export class PaymentMethod extends Model<IPaymentMethod>{
     @ForeignKey(() => PaymentMethod)
-    @Column({ type: DataTypes.INTEGER, primaryKey: true })
+    @Column({ type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true })
     id: number;
-
     @Column({ type: DataTypes.STRING })
     name: string;
     

@@ -8,7 +8,7 @@ import { IProformItem } from 'libs/typings/src/model';
   
   export class ProformItem extends Model<IProformItem>{
     @ForeignKey(() => ProformItem)
-    @Column({ type: DataTypes.INTEGER, primaryKey: true })
+    @Column({ type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true })
     id: number;
   
     @Column({ type: DataTypes.INTEGER  })

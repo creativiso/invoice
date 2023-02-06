@@ -6,7 +6,7 @@ import { IInvoiceItems } from 'libs/typings/src/model';
 })
 export class InvoiceItems extends Model<IInvoiceItems>{
     @ForeignKey(() => InvoiceItems)
-    @Column({ type: DataTypes.INTEGER, primaryKey: true })
+    @Column({ type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true })
     id: number;
 
     @Column({ type: DataTypes.INTEGER  })
