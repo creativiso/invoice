@@ -1,7 +1,7 @@
 import express from 'express';
 import { sequelize } from './app/model/index';
 import { Router } from 'express';
-import { contractorsRouter } from './contractorRoutes';
+import { contractorsRouter } from '../src/app/controllers/contractors.controller';
 export const apiRouter = Router();
 (async () => {
   try {
