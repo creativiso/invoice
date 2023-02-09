@@ -1,8 +1,8 @@
 import { Request, Response, Router } from 'express';
-import { User } from '../model';
 import { createUser,getUserById,getAllUsers,updateUser ,deleteUserById} from '../services/user.service';
 
 export const usersRouter = Router();
+
 // Create user
 usersRouter.post('/', async (req: Request, res: Response) => {
     try {
