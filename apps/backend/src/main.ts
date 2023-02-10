@@ -1,6 +1,6 @@
 import express, { Router } from 'express';
 import { sequelize } from './app/model/index';
-import { usersRouter } from './app/contollers/user.controller'
+import { usersRouter } from './app/controllers/user.controller'
 (async () => {
   try {
     await sequelize.sync();
