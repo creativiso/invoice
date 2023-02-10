@@ -62,6 +62,12 @@ mat-label {
   margin-bottom: 0px;
   padding-top: 30px !important;
 }
+.datepicker {
+  margin-left: -5px;
+}
+.currency {
+  margin-left: 5px;
+}
 .radioBtn {
   margin: 10px !important;
 }
@@ -169,12 +175,11 @@ div {
   width: 12%;
 }
 .amountHeader {
-  text-align: end !important;
+  text-align: start !important;
 }
 .amount,
 .vatPercent {
   color: rgb(104, 102, 102);
-  padding-top: 25px;
 }
 .flex-row .nameFieldHeader {
   width: 30%;
@@ -266,6 +271,12 @@ div {
 
 /*---------------------------------------------------RESPONSIVE------------------------------------------------------*/
 @media all and (max-width: 980px) {
+  .currency {
+    margin-left: 0px !important;
+  }
+  .datepicker {
+    margin-left: 0px !important;
+  }
   .basis {
     height: 100px !important;
   }
@@ -324,6 +335,12 @@ div {
 }
 
 @media all and (max-width: 530px) {
+  .currency {
+    margin-left: 0px !important;
+  }
+  .datepicker {
+    margin-left: 0px !important;
+  }
   .div1 {
     grid-area: 1 / 1 / 2 / 2;
   }
