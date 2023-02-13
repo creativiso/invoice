@@ -16,6 +16,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatTableModule } from '@angular/material/table';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { MatTooltipModule } from '@angular/material/tooltip';
+
 const routes: Routes = [{ path: '', component: ProformasComponent }];
 
 @NgModule({
@@ -36,6 +38,7 @@ const routes: Routes = [{ path: '', component: ProformasComponent }];
     MatCardModule,
     MatRadioModule,
     MatTableModule,
+    MatTooltipModule,
     FlexLayoutModule,
     RouterModule.forChild(routes),
   ],

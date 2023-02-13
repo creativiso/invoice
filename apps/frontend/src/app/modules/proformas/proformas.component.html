@@ -33,6 +33,7 @@
             mat-icon-button
             color=""
             aria-label="search"
+            matTooltip="Търсене от Базата"
           >
             <mat-icon class="search-icon">person_add</mat-icon>
           </button>
@@ -70,6 +71,7 @@
             mat-icon-button
             color=""
             aria-label="search"
+            matTooltip="Търсене от Базата"
           >
             <mat-icon class="search-icon">search</mat-icon>
           </button>
@@ -88,6 +90,7 @@
             mat-icon-button
             color=""
             aria-label="search"
+            matTooltip="Търсене от Базата"
           >
             <mat-icon class="search-icon">search</mat-icon>
           </button>
@@ -153,6 +156,7 @@
             mat-icon-button
             aria-label="addNewLineBtn"
             (click)="addRow()"
+            matTooltip="Добавяне на ред"
           >
             <mat-icon class="icon-add-btn">add</mat-icon>
           </button>
@@ -177,6 +181,7 @@
             aria-label="addNewLineBtn"
             (click)="deleteRow(i)"
             [disabled]="tableData.length === 1"
+            matTooltip="Изтриване на ред"
           >
             <mat-icon>delete</mat-icon>
           </button>
