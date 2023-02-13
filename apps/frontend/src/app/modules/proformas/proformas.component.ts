@@ -76,5 +76,33 @@ export class ProformasComponent implements OnInit {
         this.priceWithoutVat = value;
       });
   }
-  
+  //geting the sum of quntity and unitPrice
+  get amount(): number {
+    return this.quantity * this.priceWithoutVat;
+  }
+  get totalAmount(): number {
+    return (this.amount * this.vatPercent) / 100 + this.amount;
+  }
+  addRow() {
+    const newRow = {
+      nameField: '',
+      quantity: 0,
+      measure: '',
+      priceWithoutVat: 0.0,
+      value: 0.0,
+    };
+    this.tableData.push(newRow);
+    this.selectedMeasure[this.tableData.length - 1] = '';
+  }
+  deleteRow(index: number) {
+    if (this.tableData.length > 1) {
+      this.tableData.splice(index, 1);
+    } else {
+      // code to show an error message or alert
+      console.log('You should have at least one row');
+    }
+  }
+  onSubmit() {
+    //
+  }
 }
