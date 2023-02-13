@@ -7,7 +7,7 @@ import { IUser } from 'libs/typings/src/model';
 
 export class User extends Model<IUser>{
   @ForeignKey(() => User)
-  @Column({ type: DataTypes.INTEGER, primaryKey: true })
+  @Column({ type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true })
   id: number;
 
   @Column({ type: DataTypes.STRING })
