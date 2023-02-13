@@ -1,7 +1,9 @@
 import express from 'express';
 import { sequelize } from './app/model/index';
+import { usersRouter } from './app/controllers/user.controller'
 import { Router } from 'express';
 import { contractorsRouter } from '../src/app/controllers/contractor.controller';
+
 export const apiRouter = Router();
 (async () => {
   try {
@@ -11,9 +13,11 @@ export const apiRouter = Router();
     console.error('Error initializing database: ', error);
   }
   const app = express();
+  app.use(express.json());
+  const apiRouter = Router();
   app.use('/api/v1', apiRouter);
-  app.use('/api/v1/contractors', contractorsRouter);
-  //app.use(apiRouter,'/contractors', contractorsRouter);
+  apiRouter.use('/users', usersRouter);
+  apiRouter.use('/contractors', contractorsRouter);
   const port = process.env.port || 3333;
   const server = app.listen(port, () => {
     console.log(`Listening at http://localhost:${port}/api`);
