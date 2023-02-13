@@ -11,6 +11,7 @@ import { usersRouter } from './app/controllers/user.controller'
     console.error('Error initializing database: ', error);
   }
   const app = express();
+  app.use(express.json());
   const apiRouter = Router();
   app.use('/api/v1', apiRouter);
   apiRouter.use('/users', usersRouter);
