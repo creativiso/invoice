@@ -1,8 +1,10 @@
-
-import express, { Router } from 'express';
+import express from 'express';
 import { sequelize } from './app/model/index';
 import { usersRouter } from './app/controllers/user.controller'
+import { Router } from 'express';
+import { contractorsRouter } from '../src/app/controllers/contractor.controller';
 
+export const apiRouter = Router();
 (async () => {
   try {
     await sequelize.sync();
@@ -15,10 +17,10 @@ import { usersRouter } from './app/controllers/user.controller'
   const apiRouter = Router();
   app.use('/api/v1', apiRouter);
   apiRouter.use('/users', usersRouter);
+  apiRouter.use('/contractors', contractorsRouter);
   const port = process.env.port || 3333;
   const server = app.listen(port, () => {
-  console.log(`Listening at http://localhost:${port}/api`);
-});
-server.on('error', console.error);
+    console.log(`Listening at http://localhost:${port}/api`);
+  });
+  server.on('error', console.error);
 })();
-

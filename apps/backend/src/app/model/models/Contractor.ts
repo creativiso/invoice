@@ -8,7 +8,7 @@ import { IContractor } from 'libs/typings/src/model';
 
 export class Contractor extends Model<IContractor >{
     @ForeignKey(() => Contractor)
-    @Column({ type: DataTypes.INTEGER, primaryKey: true  })
+    @Column({ type: DataTypes.INTEGER, primaryKey: true , autoIncrement: true})
     id: number;
 
     @Column({ type: DataTypes.STRING })

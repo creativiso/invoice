@@ -6,7 +6,7 @@ import { ICurrency } from 'libs/typings/src/model';
 })
 export class Currency extends Model<ICurrency>{
     @ForeignKey(() => Currency)
-    @Column({ type: DataTypes.INTEGER, primaryKey: true})
+    @Column({ type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true })
     id: number;
 
     @Column({ type: DataTypes.STRING })

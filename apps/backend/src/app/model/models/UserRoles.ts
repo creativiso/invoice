@@ -7,7 +7,7 @@ import { IUserRoles } from 'libs/typings/src/model';
 
 export class UserRoles extends Model<IUserRoles>{
   @ForeignKey(() => UserRoles)
-  @Column({ type: DataTypes.INTEGER, primaryKey: true })
+  @Column({ type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true  })
   id: number;
 
   @Column({ type: DataTypes.INTEGER })
