@@ -6,7 +6,7 @@ import { IProform } from 'libs/typings/src/model';
 })
 export class Proform extends Model<IProform>{
     @ForeignKey(() => Proform)
-    @Column({ type: DataTypes.INTEGER, primaryKey: true })
+    @Column({ type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true })
     id: number;
 
     @Column({ type: DataTypes.INTEGER  })
