@@ -8,17 +8,17 @@ import {
 
 export const proformRouter = Router();
 
-// Create user
+// Create
 proformRouter.post('/', async (req: Request, res: Response) => {
   try {
     const newUser = await createProform(req.body);
     res.json(newUser);
   } catch (error) {
     console.error(error);
-    res.status(500).send('Error creating user');
+    res.status(500).send('Error creating proform');
   }
 });
-// Get all users
+// Get all
 proformRouter.get('/', async (req: Request, res: Response) => {
   try {
     const users = await getAllProforms();
@@ -29,7 +29,7 @@ proformRouter.get('/', async (req: Request, res: Response) => {
   }
 });
 
-// Get a single user by ID
+// Get a single by ID
 proformRouter.get('/:id', async (req: Request, res: Response) => {
   try {
     const user = await getProformById(req.params.id);
@@ -40,7 +40,7 @@ proformRouter.get('/:id', async (req: Request, res: Response) => {
   }
 });
 
-// Update a user by ID
+// Update  by ID
 proformRouter.put('/:id', async (req: Request, res: Response) => {
   try {
     const id = req.params.id;
