@@ -9,6 +9,8 @@ export interface IContractor {
   mol: string;
   person: boolean;
   egn: string;
+  createAt: Date;
+  updatedAt: Date;
 }
 export interface ICurrency {
   id: number;
@@ -20,6 +22,8 @@ export interface ICurrency {
   default_c: boolean;
   updated: Date;
   g: string;
+  createAt: Date;
+  updatedAt: Date;
 }
 export interface IInvoice {
   id: number;
@@ -58,6 +62,8 @@ export interface IInvoice {
   author: string;
   author_user: number;
   author_sign: string;
+  createAt: Date;
+  updatedAt: Date;
 }
 
 export interface IInvoiceItems {
@@ -67,11 +73,15 @@ export interface IInvoiceItems {
   quantity: number;
   measurement: string;
   price: number;
+  createAt: Date;
+  updatedAt: Date;
 }
 
 export interface IPaymentMethod {
   id: number;
   name: string;
+  createAt: Date;
+  updatedAt: Date;
 }
 
 export interface IProform {
@@ -104,6 +114,8 @@ export interface IProform {
   author: string;
   author_user: number;
   author_sign: string;
+  createAt: Date;
+  updatedAt: Date;
 }
 
 export interface IProformItem {
@@ -113,12 +125,16 @@ export interface IProformItem {
   quantity: number;
   measurement: string;
   price: number;
+  createAt: Date;
+  updatedAt: Date;
 }
 
 export interface IRole {
   id: number;
   role: string;
   role_name: string;
+  createAt: Date;
+  updatedAt: Date;
 }
 
 export interface IUser {
@@ -133,10 +149,14 @@ export interface IUser {
   last_login: Date;
   creation_session: string;
   sign_prefix: string
+  createAt: Date;
+  updatedAt: Date;
 }
 
 export interface IUserRoles {
   id: number;
   user_id: number;
   role_id: number;
+  createAt: Date;
+  updatedAt: Date;
 }
