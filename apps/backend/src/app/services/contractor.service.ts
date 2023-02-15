@@ -24,19 +24,6 @@ export class ContractorService {
     person: boolean,
     egn: string
   ) {
-    console.log(
-      Contractor.create({
-        name,
-        city,
-        address,
-        eik,
-        dds,
-        ddsnumber,
-        mol,
-        person,
-        egn,
-      })
-    );
     return Contractor.create({
       name,
       city,
