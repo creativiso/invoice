@@ -18,7 +18,7 @@ export const apiRouter = Router();
   const apiRouter = Router();
   app.use('/api/v1', apiRouter);
   apiRouter.use('/users', usersRouter);
-  apiRouter.use('/contractors', contractorsRouter);
+  app.use('/api/v1/contractors', contractorsRouter);
   apiRouter.use('/proforms', proformRouter);
   const port = process.env.port || 3333;
   const server = app.listen(port, () => {

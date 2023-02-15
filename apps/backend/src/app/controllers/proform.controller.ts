@@ -1,55 +1,154 @@
-import { Request, Response, Router } from 'express';
-import {
-  createProform,
-  getAllProforms,
-  getProformById,
-  updateProform,
-} from '../services/proform.service';
+import { Router } from 'express';
+import { ProformService } from '../services/proform.service';
 
-export const proformRouter = Router();
-
-// Create
-proformRouter.post('/', async (req: Request, res: Response) => {
+export const proformsRouter = Router();
+const proformService = new ProformService();
+//read all proforms
+proformsRouter.get('/', async (req, res) => {
+  const proforms = await proformService.getAllContractors();
+  res.json(proforms);
+});
+//read by id proforms
+proformsRouter.get('/:id', async (req, res) => {
   try {
-    const newUser = await createProform(req.body);
-    res.json(newUser);
+    const id = Number(req.params.id);
+    const proform = await proformService.getContractorById(id);
+    res.json(proform);
   } catch (error) {
-    console.error(error);
-    res.status(500).send('Error creating proform');
+    res.status(404).json({ error: 'Proforms not found' });
   }
 });
-// Get all
-proformRouter.get('/', async (req: Request, res: Response) => {
+//create Proform
+proformsRouter.post('/', async (req, res) => {
+  const {
+    contractor,
+    issue_date,
+    bank_payment,
+    vat,
+    novatreason,
+    currency,
+    rate,
+    c_name,
+    c_city,
+    c_address,
+    c_eik,
+    c_ddsnumber,
+    c_mol,
+    c_person,
+    c_egn,
+    p_name,
+    p_city,
+    p_address,
+    p_eik,
+    p_ddsnumber,
+    p_mol,
+    p_bank,
+    p_iban,
+    p_bic,
+    p_zdds,
+    author,
+    author_user,
+    author_sign,
+  } = req.body;
+  const proform = await proformService.createProform(
+    contractor,
+    issue_date,
+    bank_payment,
+    vat,
+    novatreason,
+    currency,
+    rate,
+    c_name,
+    c_city,
+    c_address,
+    c_eik,
+    c_ddsnumber,
+    c_mol,
+    c_person,
+    c_egn,
+    p_name,
+    p_city,
+    p_address,
+    p_eik,
+    p_ddsnumber,
+    p_mol,
+    p_bank,
+    p_iban,
+    p_bic,
+    p_zdds,
+    author,
+    author_user,
+    author_sign
+  );
+  res.json(proform);
+});
+//update Proform
+proformsRouter.put('/:id', async (req, res) => {
   try {
-    const users = await getAllProforms();
-    res.json(users);
+    const id = Number(req.params.id);
+    const {
+      contractor,
+      issue_date,
+      bank_payment,
+      vat,
+      novatreason,
+      currency,
+      rate,
+      c_name,
+      c_city,
+      c_address,
+      c_eik,
+      c_ddsnumber,
+      c_mol,
+      c_person,
+      c_egn,
+      p_name,
+      p_city,
+      p_address,
+      p_eik,
+      p_ddsnumber,
+      p_mol,
+      p_bank,
+      p_iban,
+      p_bic,
+      p_zdds,
+      author,
+      author_user,
+      author_sign,
+    } = req.body;
+    const proform = await proformService.updateProform(
+      id,
+      contractor,
+      issue_date,
+      bank_payment,
+      vat,
+      novatreason,
+      currency,
+      rate,
+      c_name,
+      c_city,
+      c_address,
+      c_eik,
+      c_ddsnumber,
+      c_mol,
+      c_person,
+      c_egn,
+      p_name,
+      p_city,
+      p_address,
+      p_eik,
+      p_ddsnumber,
+      p_mol,
+      p_bank,
+      p_iban,
+      p_bic,
+      p_zdds,
+      author,
+      author_user,
+      author_sign
+    );
+    res.json(proform);
   } catch (error) {
-    console.error(error);
-    res.status(500).send('Error getting proforms');
+    res.status(404).json({ error: 'Proform not found' });
   }
 });
-
-// Get a single by ID
-proformRouter.get('/:id', async (req: Request, res: Response) => {
-  try {
-    const user = await getProformById(req.params.id);
-    res.json(user);
-  } catch (error) {
-    console.error(error);
-    res.status(500).send(error.message);
-  }
-});
-
-// Update  by ID
-proformRouter.put('/:id', async (req: Request, res: Response) => {
-  try {
-    const id = req.params.id;
-    const updatedUser = await updateProform(id, req.body);
-    res.json(updatedUser);
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Error updating proform');
-  }
-});
-
-export default proformRouter;
