@@ -103,6 +103,46 @@ export class ProformasComponent implements OnInit {
     }
   }
   onSubmit() {
-    //
+    // Get the form data from the proformasForm FormGroup
+    const formData = this.proformasForm.value;
+
+    // Map the tableData array to adjust the measure and calculate the value for each item
+    const tableData = this.tableData.map((data) => ({
+      ...data,
+      // measure: this.selectedMeasure[data.measure],
+      value: data.quantity * data.priceWithoutVat,
+    }));
+
+    // Reduce the tableData array to get the total amount for all items
+    const totalAmount = tableData.reduce((acc, curr) => acc + curr.value, 0);
+
+    // Create the proforma object by combining the form data and table data
+    const proforma = {
+      supplier: {
+        name: formData.supplierName,
+        eik: formData.supplierEik,
+        vatNumber: formData.supplierVatNumber,
+        manager: formData.supplierManager,
+        city: formData.supplierCity,
+        address: formData.supplierAddress,
+      },
+      receiver: {
+        name: formData.receiverName,
+        eik: formData.receiverEik,
+        vatNumber: formData.receiverVatNumber,
+        manager: formData.receiverManager,
+        city: formData.receiverCity,
+        address: formData.receiverAddress,
+      },
+      releasedAt: formData.releasedAt,
+      currency: formData.currency,
+      items: tableData,
+      totalAmount: totalAmount,
+      vatReason: formData.vatReason,
+      wayOfPaying: formData.wayOfPaying,
+    };
+
+    // Log the proforma object to the console for debugging purposes
+    console.log(proforma);
   }
 }
