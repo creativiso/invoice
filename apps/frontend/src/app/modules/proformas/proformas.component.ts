@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import {
   FormGroup,
   FormBuilder,
@@ -37,7 +38,7 @@ export class ProformasComponent implements OnInit {
     },
   ];
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private http: HttpClient) {
     this.proformasForm = new FormGroup({
       supplierName: new FormControl('', Validators.required),
       supplierEik: new FormControl('', Validators.required),
@@ -102,47 +103,19 @@ export class ProformasComponent implements OnInit {
       console.log('You should have at least one row');
     }
   }
+
   onSubmit() {
-    // Get the form data from the proformasForm FormGroup
-    const formData = this.proformasForm.value;
-
-    // Map the tableData array to adjust the measure and calculate the value for each item
-    const tableData = this.tableData.map((data) => ({
-      ...data,
-      // measure: this.selectedMeasure[data.measure],
-      value: data.quantity * data.priceWithoutVat,
-    }));
-
-    // Reduce the tableData array to get the total amount for all items
-    const totalAmount = tableData.reduce((acc, curr) => acc + curr.value, 0);
-
-    // Create the proforma object by combining the form data and table data
-    const proforma = {
-      supplier: {
-        name: formData.supplierName,
-        eik: formData.supplierEik,
-        vatNumber: formData.supplierVatNumber,
-        manager: formData.supplierManager,
-        city: formData.supplierCity,
-        address: formData.supplierAddress,
+    const data = this.proformasForm.value;
+    this.http.post('http://localhost:3333/api/v1/proforms', data).subscribe({
+      next: (response) => {
+        console.log(response); // handle successful response
       },
-      receiver: {
-        name: formData.receiverName,
-        eik: formData.receiverEik,
-        vatNumber: formData.receiverVatNumber,
-        manager: formData.receiverManager,
-        city: formData.receiverCity,
-        address: formData.receiverAddress,
+      error: (error) => {
+        console.log(error); // handle error response
       },
-      releasedAt: formData.releasedAt,
-      currency: formData.currency,
-      items: tableData,
-      totalAmount: totalAmount,
-      vatReason: formData.vatReason,
-      wayOfPaying: formData.wayOfPaying,
-    };
-
-    // Log the proforma object to the console for debugging purposes
-    console.log(proforma);
+      complete: () => {
+        console.log('Request completed');
+      },
+    });
   }
 }
