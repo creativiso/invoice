@@ -105,17 +105,70 @@ export class ProformasComponent implements OnInit {
   }
 
   onSubmit() {
-    const data = this.proformasForm.value;
-    this.http.post('http://localhost:3333/api/v1/proforms', data).subscribe({
-      next: (response) => {
-        console.log(response); // handle successful response
-      },
-      error: (error) => {
-        console.log(error); // handle error response
-      },
-      complete: () => {
-        console.log('Request completed');
-      },
-    });
+    const formData = this.proformasForm.value;
+    const dataProform = {
+      contractor: 1, // <--------------------------
+      issue_date: '2023-02-16T00:00:00.000Z', // <--------------------------
+      bank_payment: 12345, // <--------------------------
+      vat: formData.vatPercent,
+      novatreason: formData.vatReason,
+      currency: formData.currency,
+      rate: 1.5, // <--------------------------
+      c_name: formData.supplierName,
+      c_city: formData.supplierCity,
+      c_address: formData.supplierAddress,
+      c_eik: formData.supplierEik,
+      c_ddsnumber: formData.supplierVatNumber,
+      c_mol: formData.supplierManager,
+      c_person: 'Some person', // formData.individualPerson имаме такова поле за получател а не за доставчик
+      c_egn: '123456', // нямаме такова поле
+      p_name: formData.receiverName,
+      p_city: formData.receiverCity,
+      p_address: formData.receiverAddress,
+      p_eik: formData.receiverEik,
+      p_ddsnumber: formData.receiverVatNumber,
+      p_mol: formData.receiverManager,
+      p_bank: 'Some bank',
+      p_iban: 'Some iban',
+      p_bic: 'Some bic',
+      p_zdds: true, // това поле също липсва
+      author: 'Some author', // липсва
+      author_user: 1, //липсва
+      author_sign: 'Some sign', //липсва
+    };
+
+    this.http
+      .post('http://localhost:3333/api/v1/proforms', dataProform)
+      .subscribe({
+        next: (response) => {
+          console.log(response); // handle successful response
+        },
+        error: (error) => {
+          console.log(error); // handle error response
+        },
+        complete: () => {
+          console.log('Request completed');
+        },
+      });
+    // const dataProformItems = {
+    //   proform: 1, //
+    //   name: formData.nameField,
+    //   quantity: formData.quantity,
+    //   measurement: formData.measure,
+    //   price: formData.unitPrice,
+    // };
+    // this.http
+    //   .post('http://localhost:3333/api/v1/proformitems', dataProformItems)
+    //   .subscribe({
+    //     next: (response) => {
+    //       console.log(response); // handle successful response
+    //     },
+    //     error: (error) => {
+    //       console.log(error); // handle error response
+    //     },
+    //     complete: () => {
+    //       console.log('Request completed');
+    //     },
+    //   });
   }
 }
