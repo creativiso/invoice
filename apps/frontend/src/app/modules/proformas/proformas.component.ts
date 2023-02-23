@@ -49,6 +49,7 @@ export class ProformasComponent implements OnInit {
       receiverName: new FormControl('', Validators.required),
       individualPerson: new FormControl(false),
       receiverEik: new FormControl('', Validators.required),
+      receiverEgn: new FormControl('', Validators.required),
       receiverVatNumber: new FormControl(''),
       receiverManager: new FormControl('', Validators.required),
       receiverCity: new FormControl('', Validators.required),
@@ -65,6 +66,27 @@ export class ProformasComponent implements OnInit {
     });
   }
   ngOnInit() {
+    //Get the form fields
+    const receiverEikField = document.getElementById('receiverEik');
+    const receiverVatNumberField = document.getElementById('receiverVatNumber');
+    const receiverEgnField = document.getElementById('receiverEgn');
+
+    // Subscribe to changes in the individualPerson form control value
+    this.proformasForm
+      .get('individualPerson')
+      ?.valueChanges.subscribe((value: boolean) => {
+        if (value) {
+          // Hide the receiverEik and receiverVatNumber form fields
+          receiverEikField?.classList.add('hidden');
+          receiverVatNumberField?.classList.add('hidden');
+          receiverEgnField?.classList.remove('hidden');
+        } else {
+          // Show the receiverEik and receiverVatNumber form fields
+          receiverEikField?.classList.remove('hidden');
+          receiverVatNumberField?.classList.remove('hidden');
+          receiverEgnField?.classList.add('hidden');
+        }
+      });
     this.proformasForm.get('vatPercent')?.valueChanges.subscribe((value) => {
       this.vatPercent = value;
     });
@@ -107,34 +129,34 @@ export class ProformasComponent implements OnInit {
   onSubmit() {
     const formData = this.proformasForm.value;
     const dataProform = {
-      contractor: 1, // <--------------------------
-      issue_date: '2023-02-16T00:00:00.000Z', // <--------------------------
-      bank_payment: 12345, // <--------------------------
+      contractor: 1,
+      issue_date: formData.releasedAt,
+      bank_payment: 12345, // payment method??
       vat: formData.vatPercent,
       novatreason: formData.vatReason,
-      currency: formData.currency,
-      rate: 1.5, // <--------------------------
-      c_name: formData.supplierName,
-      c_city: formData.supplierCity,
-      c_address: formData.supplierAddress,
-      c_eik: formData.supplierEik,
-      c_ddsnumber: formData.supplierVatNumber,
-      c_mol: formData.supplierManager,
-      c_person: 'Some person', // formData.individualPerson имаме такова поле за получател а не за доставчик
-      c_egn: '123456', // нямаме такова поле
-      p_name: formData.receiverName,
-      p_city: formData.receiverCity,
-      p_address: formData.receiverAddress,
-      p_eik: formData.receiverEik,
-      p_ddsnumber: formData.receiverVatNumber,
-      p_mol: formData.receiverManager,
+      currency: 1,
+      rate: 1.5,
+      c_name: formData.receiverName,
+      c_city: formData.receiverCity,
+      c_address: formData.receiverAddress,
+      c_eik: formData.receiverEik,
+      c_ddsnumber: formData.receiverVatNumber,
+      c_mol: formData.receiverManager,
+      c_person: formData.individualPerson, // boolean?
+      c_egn: formData.receiverEgn,
+      p_name: formData.supplierName,
+      p_city: formData.supplierCity,
+      p_address: formData.supplierAddress,
+      p_eik: formData.supplierEik,
+      p_ddsnumber: formData.supplierVatNumber,
+      p_mol: formData.supplierManager,
       p_bank: 'Some bank',
       p_iban: 'Some iban',
       p_bic: 'Some bic',
-      p_zdds: true, // това поле също липсва
-      author: 'Some author', // липсва
-      author_user: 1, //липсва
-      author_sign: 'Some sign', //липсва
+      p_zdds: true,
+      author: 'Some author',
+      author_user: 1,
+      author_sign: 'Some sign',
     };
 
     this.http
@@ -150,6 +172,8 @@ export class ProformasComponent implements OnInit {
           console.log('Request completed');
         },
       });
+    console.log(formData.releasedAt);
+    console.log(formData.currency);
     // const dataProformItems = {
     //   proform: 1, //
     //   name: formData.nameField,
