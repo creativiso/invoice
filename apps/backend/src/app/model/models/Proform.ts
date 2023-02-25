@@ -49,7 +49,7 @@ export class Proform extends Model<IProform> {
   c_mol: string;
 
   @Column({ type: DataTypes.STRING })
-  c_person: string; // boolean??
+  c_person: boolean;
 
   @Column({ type: DataTypes.STRING })
   c_egn: string;

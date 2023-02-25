@@ -157,11 +157,9 @@
       <mat-label>Изберете валута</mat-label>
       <mat-select [(value)]="selectedCurrency" formControlName="currency">
         <mat-option value="1">Евро</mat-option>
-        <mat-option value="2">Долар</mat-option>
-        <mat-option value="3">Лев</mat-option>
+        <mat-option value="2">Лев</mat-option>
       </mat-select>
     </mat-form-field>
-    <!--<p>Вие избрахте: {{ selected }}</p> -->
   </mat-card>
   <mat-card>
     <div class="table-container" role="table" aria-label="tableData">
@@ -244,11 +242,25 @@
             />
           </mat-form-field>
         </div>
-        <div class="flex-row amount sixth" role="cell">{{ amount }} лв</div>
+        <div class="flex-row amount sixth" role="cell">
+          <ng-container *ngIf="selectedCurrency === '1'">
+            {{ amount }} €
+          </ng-container>
+          <ng-container *ngIf="selectedCurrency !== '1'">
+            {{ amount }} лв
+          </ng-container>
+        </div>
       </div>
       <div class="flex-table row" role="rowgroup">
         <div class="flex-row right price" role="cell">Данъчна основа:</div>
-        <div class="flex-row right priceNum" role="cell">{{ amount }} лв</div>
+        <div class="flex-row right priceNum" role="cell">
+          <ng-container *ngIf="selectedCurrency === '1'">
+            {{ amount }} €
+          </ng-container>
+          <ng-container *ngIf="selectedCurrency !== '1'">
+            {{ amount }} лв
+          </ng-container>
+        </div>
       </div>
       <div class="flex-table row">
         <div class="flex-row vatPercent right" role="cell">Начислен ДДС:</div>
@@ -267,7 +279,12 @@
       <div class="flex-table row">
         <div class="flex-row sum right" role="cell">Общо:</div>
         <div class="flex-row right priceNum" role="cell">
-          {{ totalAmount }} лв
+          <ng-container *ngIf="selectedCurrency === '1'">
+            {{ totalAmount }} €
+          </ng-container>
+          <ng-container *ngIf="selectedCurrency !== '1'">
+            {{ totalAmount }} лв
+          </ng-container>
         </div>
       </div>
       <div class="flex-table row">
