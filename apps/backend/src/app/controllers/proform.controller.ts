@@ -76,7 +76,7 @@ proformsRouter.post('/add', async (req, res) => {
 proformsRouter.post('/:id/items', async (req, res) => {
   try {
     const proformItem = await proformService.createProformItems(
-      Number(req.params.id),
+      req.body.proform,
       req.body.name,
       req.body.quantity,
       req.body.measurement,
@@ -84,7 +84,9 @@ proformsRouter.post('/:id/items', async (req, res) => {
     );
     res.json(proformItem);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res
+      .status(400)
+      .json({ error: error.message + 'Canot create proformitems' });
   }
 });
 
@@ -159,13 +161,13 @@ proformsRouter.put('/:id', async (req, res) => {
   }
 });
 //update proform items
-proformsRouter.put('/:proformId/items/:itemId', async (req, res) => {
+proformsRouter.put('/:proform/items/:id', async (req, res) => {
   try {
-    const { proformId, itemId } = req.params;
+    const { proform, id } = req.params;
     const { name, quantity, measurement, price } = req.body;
     const updatedItem = await proformService.updateProformItems(
-      Number(itemId),
-      Number(proformId),
+      Number(id),
+      Number(proform),
       name,
       quantity,
       measurement,
