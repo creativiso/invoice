@@ -68,7 +68,7 @@ proformsRouter.post('/add', async (req, res) => {
     );
     res.json(proform);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(400).json({ error: error.message + 'Canot create proform' });
   }
 });
 

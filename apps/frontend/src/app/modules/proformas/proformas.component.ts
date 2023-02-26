@@ -32,8 +32,8 @@ export class ProformasComponent implements OnInit {
       supplierAddress: ['', Validators.required],
       receiverName: ['', Validators.required],
       individualPerson: [false],
-      receiverEgn: ['', Validators.required],
-      receiverEik: ['', Validators.required],
+      receiverEgn: [''],
+      receiverEik: [''],
       receiverVatNumber: [''],
       receiverManager: ['', Validators.required],
       receiverCity: ['', Validators.required],
@@ -165,29 +165,33 @@ export class ProformasComponent implements OnInit {
         },
       });
 
-    const dataProformItems = {
-      proform: 1, // link to proform id
-      name: formData.nameField,
-      quantity: formData.quantity,
-      measurement: formData.measure,
-      price: formData.priceWithoutVat,
-    };
+    const rows = formData.rowData;
 
-    this.http
-      .post(
-        'http://localhost:3333/api/v1/proformitems//:id/items',
-        dataProformItems
-      )
-      .subscribe({
-        next: (response) => {
-          console.log(response); // handle successful response
-        },
-        error: (error) => {
-          console.log(error); // handle error response
-        },
-        complete: () => {
-          console.log('Request completed');
-        },
-      });
+    for (let i = 0; i < rows.length; i++) {
+      const dataProformItems = {
+        proform: 1, // link to proform id
+        name: rows[i].nameField,
+        quantity: rows[i].quantity,
+        measurement: rows[i].measure,
+        price: rows[i].priceWithoutVat,
+      };
+
+      this.http
+        .post(
+          'http://localhost:3333/api/v1/proformitems//:id/items',
+          dataProformItems
+        )
+        .subscribe({
+          next: (response) => {
+            console.log(response); // handle successful response
+          },
+          error: (error) => {
+            console.log(error); // handle error response
+          },
+          complete: () => {
+            console.log('Request completed');
+          },
+        });
+    }
   }
 }
