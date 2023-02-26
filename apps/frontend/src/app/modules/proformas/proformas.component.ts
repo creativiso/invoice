@@ -161,7 +161,7 @@ export class ProformasComponent implements OnInit {
     };
 
     this.http
-      .post('http://localhost:3333/api/v1/proforms', dataProform)
+      .post('http://localhost:3333/api/v1/proforms/add', dataProform)
       .subscribe({
         next: (response) => {
           console.log(response); // handle successful response
@@ -175,11 +175,11 @@ export class ProformasComponent implements OnInit {
       });
 
     const dataProformItems = {
-      proform: 1, //
-      name: 'string',
-      quantity: 6,
-      measurement: 'string',
-      price: 6,
+      proform: 1, // link to proform id
+      name: formData.nameField,
+      quantity: formData.quantity,
+      measurement: formData.measure,
+      price: formData.priceWithoutVat,
     };
     console.log(
       formData.nameField,
@@ -188,7 +188,10 @@ export class ProformasComponent implements OnInit {
       formData.priceWithoutVat
     );
     this.http
-      .post('http://localhost:3333/api/v1/proformitems', dataProformItems)
+      .post(
+        'http://localhost:3333/api/v1/proformitems//:id/items',
+        dataProformItems
+      )
       .subscribe({
         next: (response) => {
           console.log(response); // handle successful response
