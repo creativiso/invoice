@@ -1,15 +1,9 @@
-import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-
-import {
-  FormGroup,
-  FormBuilder,
-  FormControl,
-  Validators,
-} from '@angular/forms';
-interface SelectedMeasure {
-  [id: number]: string;
-}
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
+// interface SelectedMeasure {
+//   [id: number]: string;
+// }
 @Component({
   selector: 'crtvs-proformas',
   templateUrl: './proformas.component.html',
@@ -17,67 +11,51 @@ interface SelectedMeasure {
 })
 export class ProformasComponent implements OnInit {
   proformasForm: FormGroup;
-  selectedMeasure: SelectedMeasure = {};
+  // rowDataArray: FormArray;
   selectedCurrency = '';
-  quantity = 0.0;
-  priceWithoutVat = 0.0;
+  rowAmount = 0;
+  totalAmount = 0;
+  quantity = 0;
+  priceWithoutVat = 0;
   vatPercent = 0;
-
-  tableData: {
-    nameField: string;
-    quantity: number;
-    measure: string;
-    priceWithoutVat: number;
-    value: number;
-  }[] = [
-    {
-      nameField: '',
-      quantity: 0,
-      measure: '',
-      priceWithoutVat: 0.0,
-      value: 0.0,
-    },
-  ];
-
+  //rowData = FormArray;
+  get rowData() {
+    return this.proformasForm.get('rowData') as FormArray;
+  }
   constructor(private formBuilder: FormBuilder, private http: HttpClient) {
-    this.proformasForm = new FormGroup({
-      supplierName: new FormControl('', Validators.required),
-      supplierEik: new FormControl('', Validators.required),
-      supplierVatNumber: new FormControl(''),
-      supplierManager: new FormControl('', Validators.required),
-      supplierCity: new FormControl('', Validators.required),
-      supplierAddress: new FormControl('', Validators.required),
-      receiverName: new FormControl('', Validators.required),
-      individualPerson: new FormControl(false),
-      receiverEik: new FormControl('', Validators.required),
-      receiverEgn: new FormControl('', Validators.required),
-      receiverVatNumber: new FormControl(''),
-      receiverManager: new FormControl('', Validators.required),
-      receiverCity: new FormControl('', Validators.required),
-      receiverAddress: new FormControl('', Validators.required),
-      releasedAt: new FormControl('', Validators.required), //datepicker
-      currency: new FormControl(''),
-      nameField: new FormControl('', Validators.required),
-      quantity: new FormControl('', Validators.required),
-      measure: new FormControl(''),
-      priceWithoutVat: new FormControl('', Validators.required),
-      vatPercent: new FormControl('', Validators.required),
-      vatReason: new FormControl(''),
-      wayOfPaying: new FormControl('', Validators.required),
+    this.proformasForm = this.formBuilder.group({
+      supplierName: ['', Validators.required],
+      supplierEik: ['', Validators.required],
+      supplierVatNumber: [''],
+      supplierManager: ['', Validators.required],
+      supplierCity: ['', Validators.required],
+      supplierAddress: ['', Validators.required],
+      receiverName: ['', Validators.required],
+      individualPerson: [false],
+      receiverEgn: ['', Validators.required],
+      receiverEik: ['', Validators.required],
+      receiverVatNumber: [''],
+      receiverManager: ['', Validators.required],
+      receiverCity: ['', Validators.required],
+      receiverAddress: ['', Validators.required],
+      releasedAt: ['', Validators.required],
+      currency: ['', Validators.required],
+      rowData: this.formBuilder.array([
+        this.formBuilder.group({
+          nameField: ['', Validators.required],
+          quantity: ['', Validators.required],
+          priceWithoutVat: ['', Validators.required],
+          measure: [''],
+          amount: [''],
+        }),
+      ]),
+      vatPercent: ['', Validators.required],
+      wayOfPaying: ['', Validators.required],
+      vatReason: [''],
     });
   }
+
   ngOnInit() {
-    this.proformasForm.get('vatPercent')?.valueChanges.subscribe((value) => {
-      this.vatPercent = value;
-    });
-    this.proformasForm.get('quantity')?.valueChanges.subscribe((value) => {
-      this.quantity = value;
-    });
-    this.proformasForm
-      .get('priceWithoutVat')
-      ?.valueChanges.subscribe((value) => {
-        this.priceWithoutVat = value;
-      });
     //Get the form fields
     const receiverEikField = document.getElementById('receiverEik');
     const receiverVatNumberField = document.getElementById('receiverVatNumber');
@@ -100,31 +78,44 @@ export class ProformasComponent implements OnInit {
         }
       });
   }
-  //geting the sum of quntity and unitPrice
-  get amount(): number {
-    return this.quantity * this.priceWithoutVat;
-  }
-  get totalAmount(): number {
-    return (this.amount * this.vatPercent) / 100 + this.amount;
-  }
   addRow() {
-    const newRow = {
-      nameField: '',
-      quantity: 0,
-      measure: '',
-      priceWithoutVat: 0.0,
-      value: 0.0,
-    };
-    this.tableData.push(newRow);
-    this.selectedMeasure[this.tableData.length - 1] = '';
+    const rowData = this.proformasForm.get('rowData') as FormArray;
+    const row = this.formBuilder.group({
+      nameField: ['', Validators.required],
+      quantity: ['', Validators.required],
+      measure: ['', Validators.required],
+      priceWithoutVat: ['', Validators.required],
+      amount: [''],
+    });
+    rowData.push(row);
   }
+
   deleteRow(index: number) {
-    if (this.tableData.length > 1) {
-      this.tableData.splice(index, 1);
-    } else {
-      // code to show an error message or alert
-      console.log('You should have at least one row');
+    if (this.rowData.length > 1) {
+      (this.proformasForm.get('rowData') as FormArray).removeAt(index);
     }
+  }
+  calculateRowAmount(index: number): number {
+    const rowData = this.proformasForm.get('rowData') as FormArray;
+    const quantity = rowData.at(index).get('quantity')?.value;
+    const priceWithoutVat = rowData.at(index).get('priceWithoutVat')?.value;
+    return quantity * priceWithoutVat;
+  }
+  calculateTotalRowAmount(): number {
+    let total = 0;
+    const rowData = this.proformasForm.get('rowData') as FormArray;
+    for (let i = 0; i < rowData.length; i++) {
+      total += this.calculateRowAmount(i);
+    }
+    return total;
+  }
+  calculateTotalAmountWthVat(): number {
+    return (
+      (this.calculateTotalRowAmount() *
+        this.proformasForm.get('vatPercent')?.value) /
+        100 +
+      this.calculateTotalRowAmount()
+    );
   }
 
   onSubmit() {

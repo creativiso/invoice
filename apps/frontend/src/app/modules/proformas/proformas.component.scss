@@ -1,6 +1,3 @@
-/*
-color for icons: rgb(39, 38, 38)*/
-
 form {
   max-width: 90%;
   margin: 0 auto;
@@ -42,14 +39,14 @@ mat-card {
   margin-top: 20px;
   margin-left: 10px;
 }
-.hidden {
-  display: none !important;
-}
 .mat-card-header-text {
   margin: 0px !important;
 }
 mat-label {
   display: block;
+}
+.hidden {
+  display: none !important;
 }
 .container {
   display: grid;
@@ -199,7 +196,6 @@ div {
 .amount {
   text-align: end;
   width: 26.3%;
-  padding-top: 25px;
 }
 .vatPercent,
 .price,
