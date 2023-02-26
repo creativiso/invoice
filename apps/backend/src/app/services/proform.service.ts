@@ -1,12 +1,12 @@
 import { Proform } from '../model/models/Proform';
-
+import { ProformItem } from '../model/models/ProformItem';
 export class ProformService {
-  async getAllContractors() {
-    return Proform.findAll();
+  async getAllProforms() {
+    return Proform.findAll({});
   }
 
-  async getContractorById(id: number) {
-    const proform = await Proform.findByPk(id);
+  async getProformById(id: number) {
+    const proform = await Proform.findByPk(id, {});
     if (!proform) {
       throw new Error('Proform not found');
     }
@@ -140,5 +140,50 @@ export class ProformService {
       author_user,
       author_sign,
     });
+  }
+  async getAllProformItems() {
+    return ProformItem.findAll({});
+  }
+  async getProformItemsById(proformId: number): Promise<ProformItem[]> {
+    const items = await ProformItem.findAll({ where: { proform: proformId } });
+    return items;
+  }
+  async createProformItems(
+    proform: number,
+    name: string,
+    quantity: number,
+    measurement: string,
+    price: number
+  ) {
+    return ProformItem.create({
+      proform,
+      name,
+      quantity,
+      measurement,
+      price,
+    });
+  }
+  async updateProformItems(
+    id: number,
+    proform: number,
+    name: string,
+    quantity: number,
+    measurement: string,
+    price: number
+  ) {
+    const proformItems = await ProformItem.findByPk(id);
+    if (!proformItems) {
+      throw new Error('Proform not found');
+    }
+    await ProformItem.update(
+      {
+        proform,
+        name,
+        quantity,
+        measurement,
+        price,
+      },
+      { where: { id } }
+    );
   }
 }

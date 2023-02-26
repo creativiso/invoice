@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+
 import {
   FormGroup,
   FormBuilder,
@@ -172,27 +173,32 @@ export class ProformasComponent implements OnInit {
           console.log('Request completed');
         },
       });
-    console.log(formData.releasedAt);
-    console.log(formData.currency);
-    // const dataProformItems = {
-    //   proform: 1, //
-    //   name: formData.nameField,
-    //   quantity: formData.quantity,
-    //   measurement: formData.measure,
-    //   price: formData.unitPrice,
-    // };
-    // this.http
-    //   .post('http://localhost:3333/api/v1/proformitems', dataProformItems)
-    //   .subscribe({
-    //     next: (response) => {
-    //       console.log(response); // handle successful response
-    //     },
-    //     error: (error) => {
-    //       console.log(error); // handle error response
-    //     },
-    //     complete: () => {
-    //       console.log('Request completed');
-    //     },
-    //   });
+
+    const dataProformItems = {
+      proform: 1, //
+      name: 'string',
+      quantity: 6,
+      measurement: 'string',
+      price: 6,
+    };
+    console.log(
+      formData.nameField,
+      formData.quantity,
+      formData.measure,
+      formData.priceWithoutVat
+    );
+    this.http
+      .post('http://localhost:3333/api/v1/proformitems', dataProformItems)
+      .subscribe({
+        next: (response) => {
+          console.log(response); // handle successful response
+        },
+        error: (error) => {
+          console.log(error); // handle error response
+        },
+        complete: () => {
+          console.log('Request completed');
+        },
+      });
   }
 }
