@@ -67,6 +67,17 @@ export class ProformasComponent implements OnInit {
     });
   }
   ngOnInit() {
+    this.proformasForm.get('vatPercent')?.valueChanges.subscribe((value) => {
+      this.vatPercent = value;
+    });
+    this.proformasForm.get('quantity')?.valueChanges.subscribe((value) => {
+      this.quantity = value;
+    });
+    this.proformasForm
+      .get('priceWithoutVat')
+      ?.valueChanges.subscribe((value) => {
+        this.priceWithoutVat = value;
+      });
     //Get the form fields
     const receiverEikField = document.getElementById('receiverEik');
     const receiverVatNumberField = document.getElementById('receiverVatNumber');
@@ -87,17 +98,6 @@ export class ProformasComponent implements OnInit {
           receiverVatNumberField?.classList.remove('hidden');
           receiverEgnField?.classList.add('hidden');
         }
-      });
-    this.proformasForm.get('vatPercent')?.valueChanges.subscribe((value) => {
-      this.vatPercent = value;
-    });
-    this.proformasForm.get('quantity')?.valueChanges.subscribe((value) => {
-      this.quantity = value;
-    });
-    this.proformasForm
-      .get('priceWithoutVat')
-      ?.valueChanges.subscribe((value) => {
-        this.priceWithoutVat = value;
       });
   }
   //geting the sum of quntity and unitPrice
@@ -181,12 +181,7 @@ export class ProformasComponent implements OnInit {
       measurement: formData.measure,
       price: formData.priceWithoutVat,
     };
-    console.log(
-      formData.nameField,
-      formData.quantity,
-      formData.measure,
-      formData.priceWithoutVat
-    );
+
     this.http
       .post(
         'http://localhost:3333/api/v1/proformitems//:id/items',

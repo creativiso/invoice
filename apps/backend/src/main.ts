@@ -24,7 +24,7 @@ export const apiRouter = Router();
   const apiRouter = Router();
   app.use('/api/v1', apiRouter);
   apiRouter.use('/users', usersRouter);
-  app.use('/api/v1/contractors', contractorsRouter);
+  apiRouter.use('/contractors', contractorsRouter);
   apiRouter.use('/proforms', proformsRouter);
   apiRouter.use('/proformitems', proformsRouter);
   const port = process.env.port || 3333;
