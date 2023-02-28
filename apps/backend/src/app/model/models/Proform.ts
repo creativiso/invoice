@@ -24,11 +24,11 @@ export class Proform extends Model<IProform>{
     @Column({ type: DataTypes.STRING })
     novatreason: string;
   
-    @Column({ type: DataTypes.INTEGER  })
-    currency: number;
-
-    @Column({ type: DataTypes.INTEGER  })
-    rate: number;
+    @Column({ type: DataTypes.JSON })
+    currency:{ 
+      exchangeRate: number;
+      currencyCode: string;
+    };
 
     @Column({ type: DataTypes.STRING })
     c_name: string;
@@ -48,8 +48,8 @@ export class Proform extends Model<IProform>{
     @Column({ type: DataTypes.STRING })
     c_mol: string;
 
-    @Column({ type: DataTypes.STRING })
-    c_person: string;
+    @Column({ type: DataTypes.BOOLEAN })
+    c_person: boolean;
 
     @Column({ type: DataTypes.STRING })
     c_egn: string;
@@ -94,4 +94,3 @@ export class Proform extends Model<IProform>{
     author_sign: string;
     
   }
-

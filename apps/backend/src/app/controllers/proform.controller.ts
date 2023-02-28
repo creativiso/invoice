@@ -27,7 +27,6 @@ proformsRouter.post('/', async (req, res) => {
     vat,
     novatreason,
     currency,
-    rate,
     c_name,
     c_city,
     c_address,
@@ -57,7 +56,6 @@ proformsRouter.post('/', async (req, res) => {
     vat,
     novatreason,
     currency,
-    rate,
     c_name,
     c_city,
     c_address,
@@ -78,7 +76,7 @@ proformsRouter.post('/', async (req, res) => {
     p_zdds,
     author,
     author_user,
-    author_sign
+    author_sign,
   );
   res.json(proform);
 });
@@ -93,7 +91,6 @@ proformsRouter.put('/:id', async (req, res) => {
       vat,
       novatreason,
       currency,
-      rate,
       c_name,
       c_city,
       c_address,
@@ -124,7 +121,6 @@ proformsRouter.put('/:id', async (req, res) => {
       vat,
       novatreason,
       currency,
-      rate,
       c_name,
       c_city,
       c_address,
