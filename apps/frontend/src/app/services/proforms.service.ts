@@ -1,32 +1,86 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Proform } from '../../../../backend/src/app/model/models/Proform';
 import { Observable } from 'rxjs';
+import { Proform } from '../../../../backend/src/app/model/models/Proform';
+import { ProformItem } from '../../../../backend/src/app/model/models/ProformItem';
+
+interface ProformRequest {
+  contractor: number;
+  issue_date: Date;
+  bank_payment: number;
+  vat: number;
+  novatreason: string;
+  currency: number;
+  rate: number;
+  c_name: string;
+  c_city: string;
+  c_address: string;
+  c_eik: string;
+  c_ddsnumber: string;
+  c_mol: string;
+  c_person: boolean;
+  c_egn: string;
+  p_name: string;
+  p_city: string;
+  p_address: string;
+  p_eik: string;
+  p_ddsnumber: string;
+  p_mol: string;
+  p_bank: string;
+  p_iban: string;
+  p_bic: string;
+  p_zdds: boolean;
+  author: string;
+  author_user: number;
+  author_sign: string;
+}
+
+interface ProformItemRequest {
+  proform: number;
+  name: string;
+  quantity: number;
+  measurement: string;
+  price: number;
+}
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProformService {
-  private baseUrl = 'http://localhost:3333/api/v1/proforms';
-
   constructor(private http: HttpClient) {}
 
-  getAllProforms(): Observable<any> {
-    return this.http.get(`${this.baseUrl}`);
+  createProform(dataProform: ProformRequest): Observable<Proform> {
+    return this.http.post<Proform>(
+      'http://localhost:3333/api/v1/proforms/add',
+      dataProform
+    );
   }
 
-  getProformById(id: number): Observable<any> {
-    return this.http.get(`${this.baseUrl}/${id}`);
+  createProformItem(
+    dataProformItems: ProformItemRequest
+  ): Observable<ProformItem> {
+    return this.http.post<ProformItem>(
+      `http://localhost:3333/api/v1/proformitems/:${dataProformItems}/items`,
+      dataProformItems
+    );
   }
-
-  createProform(proform: any): Observable<any> {
-    return this.http.post(`${this.baseUrl}`, proform);
+  getProform(proformId: number): Observable<Proform> {
+    return this.http.get<Proform>(
+      `http://localhost:3333/api/v1/proforms/${proformId}`
+    );
   }
-
-  updateProform(id: number, proform: any): Observable<any> {
-    return this.http.put(`${this.baseUrl}/${id}`, proform);
+  getProformItem(itemId: number): Observable<ProformItem> {
+    return this.http.get<ProformItem>(
+      `http://localhost:3333/api/v1/proformitems/${itemId}`
+    );
   }
-  //   createProform(proform: Proform): Observable<Proform> {
-  //     return this.http.post<Proform>(this.baseUrl, proform);
-  //   }
+  updateProformItem(
+    itemId: number,
+    dataProformItem: ProformItemRequest
+  ): Observable<ProformItem> {
+    return this.http.put<ProformItem>(
+      `http://localhost:3333/api/v1/proformitems/${itemId}`,
+      dataProformItem
+    );
+  }
 }

@@ -161,7 +161,7 @@ export class ProformasComponent implements OnInit {
           console.log(error); // handle error response
         },
         complete: () => {
-          console.log('Request completed');
+          console.log('Request completed for proforms ');
         },
       });
 
@@ -189,7 +189,7 @@ export class ProformasComponent implements OnInit {
             console.log(error); // handle error response
           },
           complete: () => {
-            console.log('Request completed');
+            console.log('Request completed for proforitems');
           },
         });
     }

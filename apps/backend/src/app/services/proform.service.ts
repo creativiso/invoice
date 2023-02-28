@@ -43,6 +43,7 @@ export class ProformService {
     author_user: number,
     author_sign: string
   ) {
+    console.log('Creating proform in database...');
     return Proform.create({
       contractor,
       issue_date,

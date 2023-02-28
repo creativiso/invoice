@@ -21,7 +21,7 @@ export const apiRouter = Router();
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
     next();
   });
-  const apiRouter = Router();
+  //const apiRouter = Router();
   app.use('/api/v1', apiRouter);
   apiRouter.use('/users', usersRouter);
   apiRouter.use('/contractors', contractorsRouter);
