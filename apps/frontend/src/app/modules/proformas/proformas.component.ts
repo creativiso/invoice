@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
+import { ProformsService } from '../../services/proforms.service';
 // interface SelectedMeasure {
 //   [id: number]: string;
 // }
@@ -22,7 +23,11 @@ export class ProformasComponent implements OnInit {
   get rowData() {
     return this.proformasForm.get('rowData') as FormArray;
   }
-  constructor(private formBuilder: FormBuilder, private http: HttpClient) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private http: HttpClient,
+    private proformsService: ProformsService
+  ) {
     this.proformasForm = this.formBuilder.group({
       supplierName: ['', Validators.required],
       supplierEik: ['', Validators.required],
@@ -151,47 +156,39 @@ export class ProformasComponent implements OnInit {
       author_sign: 'Some sign',
     };
 
-    this.http
-      .post('http://localhost:3333/api/v1/proforms/add', dataProform)
-      .subscribe({
-        next: (response) => {
-          console.log(response); // handle successful response
-        },
-        error: (error) => {
-          console.log(error); // handle error response
-        },
-        complete: () => {
-          console.log('Request completed for proforms ');
-        },
-      });
+    this.proformsService.createProform(dataProform).subscribe({
+      next: (proform) => {
+        console.log(proform); // handle successful response
+        const rows = formData.rowData;
 
-    const rows = formData.rowData;
+        for (let i = 0; i < rows.length; i++) {
+          const dataProformItems = {
+            proform: proform.id, // set the proform field to the id of the new proform
+            name: rows[i].nameField,
+            quantity: rows[i].quantity,
+            measurement: rows[i].measure,
+            price: rows[i].priceWithoutVat,
+          };
 
-    for (let i = 0; i < rows.length; i++) {
-      const dataProformItems = {
-        proform: 1, // link to proform id
-        name: rows[i].nameField,
-        quantity: rows[i].quantity,
-        measurement: rows[i].measure,
-        price: rows[i].priceWithoutVat,
-      };
-
-      this.http
-        .post(
-          'http://localhost:3333/api/v1/proformitems//:id/items',
-          dataProformItems
-        )
-        .subscribe({
-          next: (response) => {
-            console.log(response); // handle successful response
-          },
-          error: (error) => {
-            console.log(error); // handle error response
-          },
-          complete: () => {
-            console.log('Request completed for proforitems');
-          },
-        });
-    }
+          this.proformsService.createProformItem(dataProformItems).subscribe({
+            next: (response) => {
+              console.log(response); // handle successful response
+            },
+            error: (error) => {
+              console.log(error); // handle error response
+            },
+            complete: () => {
+              console.log('Request completed for proforitems');
+            },
+          });
+        }
+      },
+      error: (error) => {
+        console.log(error); // handle error response
+      },
+      complete: () => {
+        console.log('Request completed for proforms ');
+      },
+    });
   }
 }

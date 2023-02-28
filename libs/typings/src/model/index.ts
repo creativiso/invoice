@@ -85,7 +85,7 @@ export interface IPaymentMethod {
 }
 
 export interface IProform {
-  id: number;
+  id?: number;
   contractor: number;
   issue_date: Date;
   bank_payment: number;
@@ -114,19 +114,19 @@ export interface IProform {
   author: string;
   author_user: number;
   author_sign: string;
-  createAt: Date;
-  updatedAt: Date;
+  createAt?: Date;
+  updatedAt?: Date;
 }
 
 export interface IProformItem {
-  id: number;
-  proform: number;
+  id?: number;
+  proform?: number;
   name: string;
   quantity: number;
   measurement: string;
   price: number;
-  createAt: Date;
-  updatedAt: Date;
+  createAt?: Date;
+  updatedAt?: Date;
 }
 
 export interface IRole {
@@ -148,7 +148,7 @@ export interface IUser {
   status: number;
   last_login: Date;
   creation_session: string;
-  sign_prefix: string
+  sign_prefix: string;
   createAt: Date;
   updatedAt: Date;
 }
