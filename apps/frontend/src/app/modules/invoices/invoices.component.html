@@ -84,11 +84,27 @@
         <mat-checkbox color="primary" formControlName="individualPerson">
           Физическо лице
         </mat-checkbox>
-        <mat-form-field>
+        <mat-form-field id="receiverEik">
           <input
             matInput
             placeholder="ЕИК"
             formControlName="receiverEik"
+          /><button
+            matSuffix
+            class="search-btn"
+            mat-icon-button
+            color=""
+            aria-label="search"
+            matTooltip="Търсене от Базата"
+          >
+            <mat-icon class="search-icon">search</mat-icon>
+          </button>
+        </mat-form-field>
+        <mat-form-field id="receiverEgn" class="hidden">
+          <input
+            matInput
+            placeholder="ЕГН"
+            formControlName="receiverEgn"
           /><button
             matSuffix
             class="search-btn"
@@ -107,7 +123,7 @@
             formControlName="receiverVatNumber"
           />
         </mat-form-field>
-
+        
         <mat-form-field>
           <input matInput placeholder="МОЛ" formControlName="receiverManager" />
         </mat-form-field>
@@ -180,7 +196,6 @@
       <mat-label>Изберете валута</mat-label>
       <mat-select [(value)]="selectedCurrency" formControlName="currency">
         <mat-option value="euro">Евро</mat-option>
-        <mat-option value="dollar">Долар</mat-option>
         <mat-option value="lev">Лев</mat-option>
       </mat-select>
     </mat-form-field>
@@ -193,7 +208,8 @@
           <button
             class="icon-add-btn"
             mat-icon-button
-            aria-label="addNewLineBtn"
+            matTooltip="добавяне на ред"
+            aria-label="добавяне на ред"
             (click)="addRow()"
             matTooltip="Добавяне на ред"
           >
@@ -208,88 +224,113 @@
         <div class="flex-row unitPriceHeader" role="columnheader">Ед.цена</div>
         <div class="flex-row amountHeader" role="columnheader">Стойност</div>
       </div>
-      <div
-        class="flex-table row"
-        role="rowgroup"
-        *ngFor="let row of tableData; let i = index"
-      >
-        <div class="flex-row first delete" role="cell">
-          <button
-            class="icon-delete-btn"
-            mat-icon-button
-            aria-label="addNewLineBtn"
-            (click)="deleteRow(i)"
-            [disabled]="tableData.length === 1"
-            matTooltip="Изтриване на ред"
-          >
-            <mat-icon>delete</mat-icon>
-          </button>
-        </div>
-        <div class="flex-row nameField second" role="cell">
-          <mat-form-field>
-            <input
-              matInput
-              placeholder="Наименование"
-              formControlName="nameField"
-            />
-          </mat-form-field>
-        </div>
-        <div class="flex-row third" role="cell">
-          <mat-form-field class="">
-            <input
-              matInput
-              placeholder="Количество"
-              formControlName="quantity"
-              [(ngModel)]="quantity"
-            />
-          </mat-form-field>
-        </div>
-        <div class="flex-row fourth" role="cell">
-          <mat-form-field class="measure-select" appearance="outline">
-            <mat-label>Мярка</mat-label>
-            <mat-select
-              [(value)]="selectedMeasure[i]"
-              formControlName="measure"
+      <ng-container *ngFor="let row of rowData.controls; let i = index";let i="index">
+      <div class="flex-table row" role="rowgroup" formArrayName="rowData">
+        <ng-container [formGroupName]="i">
+          <div class="flex-row first delete" role="cell">
+            <button
+              class="icon-delete-btn"
+              mat-icon-button
+              matTooltip="изтриване на ред"
+              aria-label="изтриване на ред"
+              (click)="deleteRow(i)"
+              [disabled]="rowData.length === 1"
             >
-              <mat-option value="broi">брой</mat-option>
-              <mat-option value="box">кутия</mat-option>
-              <mat-option value="box">кашон</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-        <div class="flex-row fifth" role="cell">
-          <mat-form-field>
-            <input
-              matInput
-              placeholder="Ед.цена без ДДС"
-              formControlName="priceWithoutVat"
-              [(ngModel)]="priceWithoutVat"
-            />
-          </mat-form-field>
-        </div>
-        <div class="flex-row amount sixth" role="cell">{{ amount }} лв</div>
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+
+          <div class="flex-row nameField second" role="cell">
+            <mat-form-field>
+              <input
+                matInput
+                placeholder="Наименование"
+                aria-label="Наименование"
+                formControlName="nameField"
+              />
+            </mat-form-field>
+          </div>
+          <div class="flex-row third" role="cell">
+            <mat-form-field class="">
+              <input
+                matInput
+                placeholder="Количество"
+                aria-label="Количество"
+                formControlName="quantity"
+              />
+            </mat-form-field>
+          </div>
+          <div class="flex-row fourth" role="cell">
+            <mat-form-field class="measure-select" appearance="outline">
+              <mat-label>Мярка</mat-label>
+              <mat-select aria-label="Мярка">
+                <mat-option aria-label="брой" value="broi">брой</mat-option>
+                <mat-option aria-label="кутия" value="kutiq"
+                  >кутия</mat-option
+                >
+                <mat-option aria-label="кашон" value="kashon"
+                  >кашон</mat-option
+                >
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="flex-row fifth" role="cell">
+            <mat-form-field>
+              <input
+                matInput
+                aria-label="Ед.цена"
+                placeholder="Ед.цена без ДДС"
+                formControlName="priceWithoutVat"
+              />
+            </mat-form-field>
+          </div>
+          <div class="flex-row amount sixth" role="cell">
+            <mat-form-field>
+              <input
+                matInput
+                [formControlName]="'amount'"
+                [value]="calculateRowAmount(i)"
+                readonly
+              />
+              <!--[matSuffix]="selectedCurrency === '1' ? '€' : 'лв'" WE SHOUD UPGRADE TO MATERIAL 2.0 to wokrs-->
+            </mat-form-field>
+          </div>
+
+          <!------------------------------------------------------------------->
+          </ng-container>
+        </div> 
+      </ng-container>
       </div>
       <div class="flex-table row" role="rowgroup">
         <div class="flex-row right price" role="cell">Данъчна основа:</div>
-        <div class="flex-row right priceNum" role="cell">{{ amount }} лв</div>
+        <div class="flex-row right priceNum" role="cell">
+          <ng-container *ngIf="selectedCurrency === '1'">
+            {{ calculateTotalRowAmount() }} €
+          </ng-container>
+          <ng-container *ngIf="selectedCurrency !== '1'">
+            {{ calculateTotalRowAmount() }} лв
+          </ng-container>
+        </div>
       </div>
       <div class="flex-table row">
         <div class="flex-row vatPercent right" role="cell">Начислен ДДС:</div>
         <div class="flex-row vat" role="cell">
           <mat-form-field>
-            <input
-              matInput
-              placeholder="ДДС"
-              formControlName="vatPercent"
-              [(ngModel)]="vatPercent"
-            />
+            <input matInput placeholder="ДДС" formControlName="vatPercent" />
             <mat-icon matSuffix>percentage</mat-icon>
           </mat-form-field>
         </div>
       </div>
       <div class="flex-table row">
         <div class="flex-row sum right" role="cell">Общо:</div>
-        <div class="flex-row right priceNum" role="cell">{{ totalAmount }}</div>
+        <div class="flex-row right priceNum" role="cell">
+          <ng-container *ngIf="selectedCurrency === '1'">
+            {{ calculateTotalAmountWthVat() }} €
+          </ng-container>
+          <ng-container *ngIf="selectedCurrency !== '1'">
+            {{ calculateTotalAmountWthVat() }} лв
+          </ng-container>
+        </div>
       </div>
       <div class="flex-table row">
         <div class="flex-row vatReason" role="cell">
@@ -302,11 +343,11 @@
           </mat-form-field>
         </div>
       </div>
-    </div>
     <mat-label class="title">Начин на плащане:</mat-label>
     <mat-radio-group
       aria-label="Select an option"
       formControlName="wayOfPaying"
+      aria-label="Начин на плащане"
       class="grid-layout"
     >
       <mat-radio-button color="primary" class="div1" value="1"
@@ -346,7 +387,6 @@
       <input matInput placeholder="Банка" formControlName="bankName" />
     </mat-form-field>
   </mat-card> -->
-  <button class="btn-submit" mat-raised-button (click)="onSubmit()">
-    Изпрати
+  <button class="btn-submit" aria-label="изпрати формуляра" mat-raised-button>
   </button>
 </form>

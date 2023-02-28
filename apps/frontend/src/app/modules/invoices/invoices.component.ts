@@ -1,10 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  FormGroup,
-  FormBuilder,
-  FormControl,
-  Validators,
-} from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 
 interface SelectedMeasure {
   [id: number]: string;
@@ -16,100 +11,159 @@ interface SelectedMeasure {
 })
 export class InvoicesComponent implements OnInit {
   invoicesForm: FormGroup;
-  selectedMeasure: SelectedMeasure = {};
   selectedCurrency = '';
-  quantity = 0.0;
-  priceWithoutVat = 0.0;
+  rowAmount = 0;
+  totalAmount = 0;
+  quantity = 0;
+  priceWithoutVat = 0;
   vatPercent = 0;
 
-  tableData: {
-    nameField: string;
-    quantity: number;
-    measure: string;
-    priceWithoutVat: number;
-    value: number;
-  }[] = [
-    {
-      nameField: '',
-      quantity: 0,
-      measure: '',
-      priceWithoutVat: 0.0,
-      value: 0.0,
-    },
-  ];
-
+  get rowData() {
+    return this.invoicesForm.get('rowData') as FormArray;
+  }
   constructor(private formBuilder: FormBuilder) {
-    this.invoicesForm = new FormGroup({
-      supplierName: new FormControl('', Validators.required),
-      supplierEik: new FormControl('', Validators.required),
-      supplierVatNumber: new FormControl(''),
-      supplierManager: new FormControl('', Validators.required),
-      supplierCity: new FormControl('', Validators.required),
-      supplierAddress: new FormControl('', Validators.required),
-      receiverName: new FormControl('', Validators.required),
-      individualPerson: new FormControl(false),
-      receiverEik: new FormControl('', Validators.required),
-      receiverVatNumber: new FormControl(''),
-      receiverManager: new FormControl('', Validators.required),
-      receiverCity: new FormControl('', Validators.required),
-      receiverAddress: new FormControl('', Validators.required),
-      typeOfInvoice: new FormControl('', Validators.required),
-      issuedAt: new FormControl('', Validators.required), //datepicker
-      eventAt: new FormControl('', Validators.required), //datepicker
-      currency: new FormControl(''),
-      nameField: new FormControl('', Validators.required),
-      quantity: new FormControl('', Validators.required),
-      measure: new FormControl(''),
-      priceWithoutVat: new FormControl('', Validators.required),
-      vatPercent: new FormControl('', Validators.required),
-      vatReason: new FormControl(''),
-      wayOfPaying: new FormControl('', Validators.required),
-    })
+    this.invoicesForm = this.formBuilder.group({
+      supplierName: ['', Validators.required],
+      supplierEik: ['', Validators.required],
+      supplierVatNumber: [''],
+      supplierManager: ['', Validators.required],
+      supplierCity: ['', Validators.required],
+      supplierAddress: ['', Validators.required],
+      receiverName: ['', Validators.required],
+      individualPerson: [false],
+      receiverEgn: [''],
+      receiverEik: [''],
+      receiverVatNumber: [''],
+      receiverManager: ['', Validators.required],
+      receiverCity: ['', Validators.required],
+      receiverAddress: ['', Validators.required],
+      typeOfInvoice: ['', Validators.required],
+      issuedAt: ['', Validators.required],
+      eventAt: ['', Validators.required],
+      currency: ['', Validators.required],
+      rowData: this.formBuilder.array([
+        this.formBuilder.group({
+          nameField: ['', Validators.required],
+          quantity: ['', Validators.required],
+          priceWithoutVat: ['', Validators.required],
+          measure: [''],
+          amount: [''],
+        }),
+      ]),
+      vatPercent: ['', Validators.required],
+      wayOfPaying: ['', Validators.required],
+      vatReason: [''],
+ 
+    });
    }
    
 
   ngOnInit(){
-    this.invoicesForm.get('vatPercent')?.valueChanges.subscribe((value) => {
-      this.vatPercent = value;
-    });
-    this.invoicesForm.get('quantity')?.valueChanges.subscribe((value) => {
-      this.quantity = value;
-    });
+ 
+    const receiverEikField = document.getElementById('receiverEik');
+    const receiverVatNumberField = document.getElementById('receiverVatNumber');
+    const receiverEgnField = document.getElementById('receiverEgn');
+
     this.invoicesForm
-      .get('priceWithoutVat')
-      ?.valueChanges.subscribe((value) => {
-        this.priceWithoutVat = value;
+      .get('individualPerson')
+      ?.valueChanges.subscribe((value: boolean) => {
+        if (value) {
+          // Hide the receiverEik and receiverVatNumber form fields
+          receiverEikField?.classList.add('hidden');
+          receiverVatNumberField?.classList.add('hidden');
+          receiverEgnField?.classList.remove('hidden');
+        } else {
+          // Show the receiverEik and receiverVatNumber form fields
+          receiverEikField?.classList.remove('hidden');
+          receiverVatNumberField?.classList.remove('hidden');
+          receiverEgnField?.classList.add('hidden');
+        }
       });
   }
   //geting the sum of quntity and unitPrice
-  get amount(): number {
-    return this.quantity * this.priceWithoutVat;
-  }
-  get totalAmount(): number {
-    return (this.amount * this.vatPercent) / 100 + this.amount;
-  }
   addRow() {
-    const newRow = {
-      nameField: '',
-      quantity: 0,
-      measure: '',
-      priceWithoutVat: 0.0,
-      value: 0.0,
-    };
-    this.tableData.push(newRow);
-    this.selectedMeasure[this.tableData.length - 1] = '';
+    const rowData = this.invoicesForm.get('rowData') as FormArray;
+    const row = this.formBuilder.group({
+      nameField: ['', Validators.required],
+      quantity: ['', Validators.required],
+      measure: ['', Validators.required],
+      priceWithoutVat: ['', Validators.required],
+      amount: [''],
+    });
+    rowData.push(row);
   }
 
   deleteRow(index: number) {
-    if (this.tableData.length > 1) {
-      this.tableData.splice(index, 1);
-    } else {
-      // code to show an error message or alert
-      console.log('You should have at least one row');
+    if (this.rowData.length > 1) {
+      (this.invoicesForm.get('rowData') as FormArray).removeAt(index);
     }
   }
+    calculateRowAmount(index: number): number {
+      const rowData = this.invoicesForm.get('rowData') as FormArray;
+      const quantity = rowData.at(index).get('quantity')?.value;
+      const priceWithoutVat = rowData.at(index).get('priceWithoutVat')?.value;
+      return quantity * priceWithoutVat;
+    }
+    calculateTotalRowAmount(): number {
+      let total = 0;
+      const rowData = this.invoicesForm.get('rowData') as FormArray;
+      for (let i = 0; i < rowData.length; i++) {
+        total += this.calculateRowAmount(i);
+      }
+      return total;
+    }
+    calculateTotalAmountWthVat(): number {
+      return (
+        (this.calculateTotalRowAmount() *
+          this.invoicesForm.get('vatPercent')?.value) /
+          100 +
+        this.calculateTotalRowAmount()
+      );
+    }
 
   onSubmit() {
-    //
+  //   const formData = this.invoicesForm.value;
+  //   const dataProform = {
+  //     contractor: 1,
+  //     issue_date: formData.releasedAt,
+  //     bank_payment: 12345, // payment method??
+  //     vat: formData.vatPercent,
+  //     novatreason: formData.vatReason,
+  //     currency: 1,
+  //     rate: 1.5,
+  //     c_name: formData.receiverName,
+  //     c_city: formData.receiverCity,
+  //     c_address: formData.receiverAddress,
+  //     c_eik: formData.receiverEik,
+  //     c_ddsnumber: formData.receiverVatNumber,
+  //     c_mol: formData.receiverManager,
+  //     c_person: formData.individualPerson, // boolean?
+  //     c_egn: formData.receiverEgn,
+  //     p_name: formData.supplierName,
+  //     p_city: formData.supplierCity,
+  //     p_address: formData.supplierAddress,
+  //     p_eik: formData.supplierEik,
+  //     p_ddsnumber: formData.supplierVatNumber,
+  //     p_mol: formData.supplierManager,
+  //     p_bank: 'Some bank',
+  //     p_iban: 'Some iban',
+  //     p_bic: 'Some bic',
+  //     p_zdds: true,
+  //     author: 'Some author',
+  //     author_user: 1,
+  //     author_sign: 'Some sign',
+  //   };
+
+  //   const rows = formData.rowData;
+
+  //   for (let i = 0; i < rows.length; i++) {
+  //     const dataProformItems = {
+  //       proform: 1, // link to proform id
+  //       name: rows[i].nameField,
+  //       quantity: rows[i].quantity,
+  //       measurement: rows[i].measure,
+  //       price: rows[i].priceWithoutVat,
+  //     };
+  //   }
   }
 }
