@@ -23,7 +23,7 @@ proformsRouter.post('/', async (req, res) => {
   const {
     contractor,
     issue_date,
-    bank_payment,
+    payment_method,
     vat,
     novatreason,
     currency,
@@ -52,7 +52,7 @@ proformsRouter.post('/', async (req, res) => {
   const proform = await proformService.createProform(
     contractor,
     issue_date,
-    bank_payment,
+    payment_method,
     vat,
     novatreason,
     currency,
@@ -87,7 +87,7 @@ proformsRouter.put('/:id', async (req, res) => {
     const {
       contractor,
       issue_date,
-      bank_payment,
+      payment_method,
       vat,
       novatreason,
       currency,
@@ -117,7 +117,7 @@ proformsRouter.put('/:id', async (req, res) => {
       id,
       contractor,
       issue_date,
-      bank_payment,
+      payment_method,
       vat,
       novatreason,
       currency,

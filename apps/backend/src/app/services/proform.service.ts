@@ -16,7 +16,7 @@ export class ProformService {
   async createProform(
     contractor: number,
     issue_date: Date,
-    bank_payment: number,
+    payment_method: number,
     vat: number,
     novatreason: string,
     currency:{ 
@@ -48,7 +48,7 @@ export class ProformService {
     return Proform.create({
       contractor,
       issue_date,
-      bank_payment,
+      payment_method,
       vat,
       novatreason,
       currency,
@@ -80,7 +80,7 @@ export class ProformService {
     id: number,
     contractor: number,
     issue_date: Date,
-    bank_payment: number,
+    payment_method: number,
     vat: number,
     novatreason: string,
     currency:{ 
@@ -116,7 +116,7 @@ export class ProformService {
     await proform.update({
       contractor,
       issue_date,
-      bank_payment,
+      payment_method,
       vat,
       novatreason,
       currency,
