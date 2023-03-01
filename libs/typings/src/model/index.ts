@@ -99,7 +99,7 @@ export interface IProform {
   c_eik: string;
   c_ddsnumber: string;
   c_mol: string;
-  c_person: string;
+  c_person: boolean;
   c_egn: string;
   p_name: string;
   p_city: string;
