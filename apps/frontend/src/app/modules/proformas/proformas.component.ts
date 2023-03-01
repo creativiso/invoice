@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { ProformsService } from '../../services/proforms.service';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import {
   IProform,
@@ -27,7 +28,11 @@ export class ProformasComponent implements OnInit {
   get rowData() {
     return this.proformasForm.get('rowData') as FormArray;
   }
-  constructor(private formBuilder: FormBuilder, private http: HttpClient) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private http: HttpClient,
+    private proformService: ProformsService
+  ) {
     this.proformasForm = this.formBuilder.group({
       supplierName: ['', Validators.required],
       supplierEik: ['', Validators.required],
@@ -50,7 +55,7 @@ export class ProformasComponent implements OnInit {
           nameField: ['', Validators.required],
           quantity: ['', Validators.required],
           priceWithoutVat: ['', Validators.required],
-          measure: [''],
+          measure: ['', Validators.required],
           amount: [''],
         }),
       ]),
@@ -159,7 +164,6 @@ export class ProformasComponent implements OnInit {
     const rows = formData.rowData;
     for (let i = 0; i < rows.length; i++) {
       const dataProformItems: IProformItem = {
-        //proform: 1, // set the proform field to the id of the new proform
         name: rows[i].nameField,
         quantity: rows[i].quantity,
         measurement: rows[i].measure,
@@ -168,8 +172,8 @@ export class ProformasComponent implements OnInit {
       dataProform.items.push(dataProformItems); // add the new item to the items array
     }
 
-    this.http
-      .post('http://localhost:3333/api/v1/proforms/add', dataProform)
+    this.proformService
+      .createProform(dataProform, dataProform.items)
       .subscribe({
         next: (response) => {
           console.log('HTTP request successful:', response);

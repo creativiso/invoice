@@ -10,9 +10,9 @@ export class ProformService {
       const proform = await Proform.create(proformData, { transaction });
       const proformItems = items.map((item) => ({
         ...item,
-        proform: proform.id,
+        proform: proform.id, //additional proform
       }));
-      await ProformItem.bulkCreate(proformItems, { transaction });
+      await ProformItem.bulkCreate(proformItems, { transaction }); //creates multiple ProformItem records
       await transaction.commit();
       result = {
         success: true,
