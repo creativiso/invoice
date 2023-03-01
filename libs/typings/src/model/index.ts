@@ -116,6 +116,7 @@ export interface IProform {
   author_sign: string;
   createAt?: Date;
   updatedAt?: Date;
+  items: IProformItem[];
 }
 
 export interface IProformItem {

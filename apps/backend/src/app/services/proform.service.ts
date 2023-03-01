@@ -10,14 +10,14 @@ export class ProformService {
       const proform = await Proform.create(proformData, { transaction });
       const proformItems = items.map((item) => ({
         ...item,
-        proformId: proform.id,
+        proform: proform.id,
       }));
       await ProformItem.bulkCreate(proformItems, { transaction });
       await transaction.commit();
       result = {
         success: true,
         message: 'Proform and ProformItems created successfully',
-        proformId: proform.id,
+        proform: proform.id,
       };
     } catch (error) {
       await transaction.rollback();

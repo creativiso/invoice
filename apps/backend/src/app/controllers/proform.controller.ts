@@ -28,7 +28,6 @@ proformsRouter.get('/:id', async (req, res) => {
   }
 });
 
-// create proform
 proformsRouter.post('/add', async (req, res) => {
   try {
     const proform: IProform = {
@@ -60,9 +59,12 @@ proformsRouter.post('/add', async (req, res) => {
       author: req.body.author,
       author_user: req.body.author_user,
       author_sign: req.body.author_sign,
+      items: req.body.items, // add items property here
     };
-    const items: IProformItem[] = req.body.items;
-    const result = await proformService.createProformWithItems(proform, items);
+    const result = await proformService.createProformWithItems(
+      proform,
+      req.body.items
+    );
     res.json(result);
   } catch (error) {
     res.status(400).json({ error: error.message + ' Cannot create proform' });
