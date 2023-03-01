@@ -68,19 +68,16 @@ export class InvoicesComponent implements OnInit {
       .get('individualPerson')
       ?.valueChanges.subscribe((value: boolean) => {
         if (value) {
-          // Hide the receiverEik and receiverVatNumber form fields
           receiverEikField?.classList.add('hidden');
           receiverVatNumberField?.classList.add('hidden');
           receiverEgnField?.classList.remove('hidden');
         } else {
-          // Show the receiverEik and receiverVatNumber form fields
           receiverEikField?.classList.remove('hidden');
           receiverVatNumberField?.classList.remove('hidden');
           receiverEgnField?.classList.add('hidden');
         }
       });
   }
-  //geting the sum of quntity and unitPrice
   addRow() {
     const rowData = this.invoicesForm.get('rowData') as FormArray;
     const row = this.formBuilder.group({
@@ -122,48 +119,6 @@ export class InvoicesComponent implements OnInit {
     }
 
   onSubmit() {
-  //   const formData = this.invoicesForm.value;
-  //   const dataProform = {
-  //     contractor: 1,
-  //     issue_date: formData.releasedAt,
-  //     bank_payment: 12345, // payment method??
-  //     vat: formData.vatPercent,
-  //     novatreason: formData.vatReason,
-  //     currency: 1,
-  //     rate: 1.5,
-  //     c_name: formData.receiverName,
-  //     c_city: formData.receiverCity,
-  //     c_address: formData.receiverAddress,
-  //     c_eik: formData.receiverEik,
-  //     c_ddsnumber: formData.receiverVatNumber,
-  //     c_mol: formData.receiverManager,
-  //     c_person: formData.individualPerson, // boolean?
-  //     c_egn: formData.receiverEgn,
-  //     p_name: formData.supplierName,
-  //     p_city: formData.supplierCity,
-  //     p_address: formData.supplierAddress,
-  //     p_eik: formData.supplierEik,
-  //     p_ddsnumber: formData.supplierVatNumber,
-  //     p_mol: formData.supplierManager,
-  //     p_bank: 'Some bank',
-  //     p_iban: 'Some iban',
-  //     p_bic: 'Some bic',
-  //     p_zdds: true,
-  //     author: 'Some author',
-  //     author_user: 1,
-  //     author_sign: 'Some sign',
-  //   };
-
-  //   const rows = formData.rowData;
-
-  //   for (let i = 0; i < rows.length; i++) {
-  //     const dataProformItems = {
-  //       proform: 1, // link to proform id
-  //       name: rows[i].nameField,
-  //       quantity: rows[i].quantity,
-  //       measurement: rows[i].measure,
-  //       price: rows[i].priceWithoutVat,
-  //     };
-  //   }
+    //
   }
 }

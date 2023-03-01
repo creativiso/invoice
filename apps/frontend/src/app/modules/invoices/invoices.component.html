@@ -1,5 +1,4 @@
 <form [formGroup]="invoicesForm" (ngSubmit)="onSubmit()">
-  <!--SUPPLIER INFO-->
   <mat-card>
     <mat-card-title>Префикс / от кочан:</mat-card-title>
     <mat-label class="title">00 - 00000000000000</mat-label>
@@ -57,7 +56,6 @@
             formControlName="supplierAddress"
           />
         </mat-form-field>
-        <!--RECEIVER INFO-->
       </div>
     </mat-card>
     <mat-card>
@@ -199,7 +197,6 @@
         <mat-option value="lev">Лев</mat-option>
       </mat-select>
     </mat-form-field>
-    <!--<p>Вие избрахте: {{ selected }}</p> -->
   </mat-card>
   <mat-card>
     <div class="table-container" role="table" aria-label="tableData">
@@ -292,11 +289,8 @@
                 [value]="calculateRowAmount(i)"
                 readonly
               />
-              <!--[matSuffix]="selectedCurrency === '1' ? '€' : 'лв'" WE SHOUD UPGRADE TO MATERIAL 2.0 to wokrs-->
             </mat-form-field>
           </div>
-
-          <!------------------------------------------------------------------->
           </ng-container>
         </div> 
       </ng-container>
@@ -373,20 +367,6 @@
       >
     </mat-radio-group>
   </mat-card>
-
-  <!--<mat-card>
-    <mat-card-title>Банкови детайли</mat-card-title>
-    <mat-form-field>
-      <input matInput placeholder="IBAN" formControlName="iban" />
-    </mat-form-field>
-    <mat-form-field>
-      <input matInput placeholder="BIC/SWIFT" formControlName="bicSwift" />
-    </mat-form-field>
-
-    <mat-form-field>
-      <input matInput placeholder="Банка" formControlName="bankName" />
-    </mat-form-field>
-  </mat-card> -->
   <button class="btn-submit" aria-label="изпрати формуляра" mat-raised-button>
   </button>
 </form>

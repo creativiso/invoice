@@ -117,10 +117,9 @@ form {
     }
   }
   .flex-cell {
-    width: calc(100% / 3); //1px = border right
+    width: calc(100% / 3); 
     text-align: center;
     padding: 0.5em 0.5em;
-    //flex: 1 1 33.3%;
     &:last-child {
       border-right: 0px;
     }
@@ -267,8 +266,6 @@ form {
     padding: 0.9em 0 0.8em 0 !important;
     margin-top: -4px;
   }
-  
-  /*---------------------------------------------------RESPONSIVE------------------------------------------------------*/
   @media all and (max-width: 980px) {
   .flex-row.second,
   .nameFieldHeader {
@@ -328,7 +325,7 @@ form {
       border-bottom: 0px solid;
     }
     .flex-row {
-      width: calc(100% / 2.7); //1px = border right
+      width: calc(100% / 2.7); 
       border-bottom: 2px solid rgb(48, 48, 48);
   
       &.first {
@@ -397,7 +394,7 @@ form {
     }
   
     .flex-row {
-      width: 100%; //1px = border right
+      width: 100%; 
   
       &.first {
         width: 100%;
@@ -413,7 +410,7 @@ form {
     }
   
     .flex-cell {
-      width: 100%; //1px = border right
+      width: 100%;
     }
   }
   @media (max-width: 600px) {
