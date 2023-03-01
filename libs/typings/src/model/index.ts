@@ -88,18 +88,20 @@ export interface IProform {
   id: number;
   contractor: number;
   issue_date: Date;
-  bank_payment: number;
+  payment_method: number;
   vat: number;
   novatreason: string;
-  currency: number;
-  rate: number;
+  currency:{ 
+    exchangeRate: number;
+    currencyCode: string;
+  };
   c_name: string;
   c_city: string;
   c_address: string;
   c_eik: string;
   c_ddsnumber: string;
   c_mol: string;
-  c_person: string;
+  c_person: boolean;
   c_egn: string;
   p_name: string;
   p_city: string;
