@@ -1,4 +1,4 @@
-form {
+orm {
   max-width: 90%;
   margin: 0 auto;
   padding: 10px;
@@ -17,7 +17,9 @@ button {
   border: none;
   cursor: pointer;
 }
-
+.hidden {
+  display: none !important;
+}
 button:hover {
   opacity: 0.8;
 }
@@ -37,23 +39,18 @@ mat-icon {
 }
 mat-card {
   margin-top: 20px;
-  margin-left: 10px;
 }
 .mat-card-header-text {
   margin: 0px !important;
 }
-mat-label {
-  display: block;
-}
-.hidden {
-  display: none !important;
-}
+
 .container {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr;
   gap: 0px 1px;
   grid-template-areas: '. .';
+  column-gap: 10px;
 }
 
 .col-1,
@@ -61,12 +58,6 @@ mat-label {
   margin-top: 10px;
   margin-bottom: 0px;
   padding-top: 30px !important;
-}
-.datepicker {
-  margin-left: -4px !important;
-}
-.currency {
-  margin-left: 4px;
 }
 .radioBtn {
   margin: 10px !important;
@@ -125,10 +116,9 @@ div {
   }
 }
 .flex-cell {
-  width: calc(100% / 3); //1px = border right
+  width: calc(100% / 3);
   text-align: center;
   padding: 0.5em 0.5em;
-  //flex: 1 1 33.3%;
   &:last-child {
     border-right: 0px;
   }
@@ -240,8 +230,8 @@ div {
   grid-column-gap: 0px;
   grid-row-gap: 10px;
   margin-left: 10px;
+  column-gap: 30px;
 }
-
 .div1 {
   grid-area: 1 / 1 / 2 / 2;
 }
@@ -263,13 +253,17 @@ div {
 .div7 {
   grid-area: 2 / 3 / 3 / 4;
 }
+.grid-layout-top {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-column: span 2;
+  margin-bottom: 20px;
+}
 
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
   padding: 0.9em 0 0.8em 0 !important;
   margin-top: -4px;
 }
-
-/*---------------------------------------------------RESPONSIVE------------------------------------------------------*/
 @media all and (max-width: 980px) {
   .flex-row.second,
   .nameFieldHeader {
@@ -329,7 +323,7 @@ div {
     border-bottom: 0px solid;
   }
   .flex-row {
-    width: calc(100% / 2.7); //1px = border right
+    width: calc(100% / 2.7);
     border-bottom: 2px solid rgb(48, 48, 48);
 
     &.first {
@@ -398,7 +392,7 @@ div {
   }
 
   .flex-row {
-    width: 100%; //1px = border right
+    width: 100%;
 
     &.first {
       width: 100%;
@@ -414,7 +408,7 @@ div {
   }
 
   .flex-cell {
-    width: 100%; //1px = border right
+    width: 100%;
   }
 }
 @media (max-width: 600px) {
@@ -423,5 +417,10 @@ div {
     grid-template-areas:
       'col-1'
       'col-2';
+  }
+  .grid-layout-top {
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    grid-column: span 1;
   }
 }
