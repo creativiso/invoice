@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
-import { ProformsService } from '../../services/proforms.service';
+
 // interface SelectedMeasure {
 //   [id: number]: string;
 // }
@@ -23,11 +23,7 @@ export class ProformasComponent implements OnInit {
   get rowData() {
     return this.proformasForm.get('rowData') as FormArray;
   }
-  constructor(
-    private formBuilder: FormBuilder,
-    private http: HttpClient,
-    private proformsService: ProformsService
-  ) {
+  constructor(private formBuilder: FormBuilder, private http: HttpClient) {
     this.proformasForm = this.formBuilder.group({
       supplierName: ['', Validators.required],
       supplierEik: ['', Validators.required],
@@ -124,71 +120,69 @@ export class ProformasComponent implements OnInit {
   }
 
   onSubmit() {
-    const formData = this.proformasForm.value;
-    const dataProform = {
-      contractor: 1,
-      issue_date: formData.releasedAt,
-      bank_payment: 12345, // payment method??
-      vat: formData.vatPercent,
-      novatreason: formData.vatReason,
-      currency: 1,
-      rate: 1.5,
-      c_name: formData.receiverName,
-      c_city: formData.receiverCity,
-      c_address: formData.receiverAddress,
-      c_eik: formData.receiverEik,
-      c_ddsnumber: formData.receiverVatNumber,
-      c_mol: formData.receiverManager,
-      c_person: formData.individualPerson, // boolean?
-      c_egn: formData.receiverEgn,
-      p_name: formData.supplierName,
-      p_city: formData.supplierCity,
-      p_address: formData.supplierAddress,
-      p_eik: formData.supplierEik,
-      p_ddsnumber: formData.supplierVatNumber,
-      p_mol: formData.supplierManager,
-      p_bank: 'Some bank',
-      p_iban: 'Some iban',
-      p_bic: 'Some bic',
-      p_zdds: true,
-      author: 'Some author',
-      author_user: 1,
-      author_sign: 'Some sign',
-    };
-
-    this.proformsService.createProform(dataProform).subscribe({
-      next: (proform) => {
-        console.log(proform); // handle successful response
-        const rows = formData.rowData;
-
-        for (let i = 0; i < rows.length; i++) {
-          const dataProformItems = {
-            proform: proform.id, // set the proform field to the id of the new proform
-            name: rows[i].nameField,
-            quantity: rows[i].quantity,
-            measurement: rows[i].measure,
-            price: rows[i].priceWithoutVat,
-          };
-
-          this.proformsService.createProformItem(dataProformItems).subscribe({
-            next: (response) => {
-              console.log(response); // handle successful response
-            },
-            error: (error) => {
-              console.log(error); // handle error response
-            },
-            complete: () => {
-              console.log('Request completed for proforitems');
-            },
-          });
-        }
-      },
-      error: (error) => {
-        console.log(error); // handle error response
-      },
-      complete: () => {
-        console.log('Request completed for proforms ');
-      },
-    });
+    //   const formData = this.proformasForm.value;
+    //   const dataProform = {
+    //     contractor: 1,
+    //     issue_date: formData.releasedAt,
+    //     bank_payment: 12345, // payment method??
+    //     vat: formData.vatPercent,
+    //     novatreason: formData.vatReason,
+    //     currency: 1,
+    //     rate: 1.5,
+    //     c_name: formData.receiverName,
+    //     c_city: formData.receiverCity,
+    //     c_address: formData.receiverAddress,
+    //     c_eik: formData.receiverEik,
+    //     c_ddsnumber: formData.receiverVatNumber,
+    //     c_mol: formData.receiverManager,
+    //     c_person: formData.individualPerson, // boolean?
+    //     c_egn: formData.receiverEgn,
+    //     p_name: formData.supplierName,
+    //     p_city: formData.supplierCity,
+    //     p_address: formData.supplierAddress,
+    //     p_eik: formData.supplierEik,
+    //     p_ddsnumber: formData.supplierVatNumber,
+    //     p_mol: formData.supplierManager,
+    //     p_bank: 'Some bank',
+    //     p_iban: 'Some iban',
+    //     p_bic: 'Some bic',
+    //     p_zdds: true,
+    //     author: 'Some author',
+    //     author_user: 1,
+    //     author_sign: 'Some sign',
+    //   };
+    //   this.proformsService.createProform(dataProform).subscribe({
+    //     next: (proform) => {
+    //       console.log(proform); // handle successful response
+    //       const rows = formData.rowData;
+    //       for (let i = 0; i < rows.length; i++) {
+    //         const dataProformItems = {
+    //           proform: proform.id, // set the proform field to the id of the new proform
+    //           name: rows[i].nameField,
+    //           quantity: rows[i].quantity,
+    //           measurement: rows[i].measure,
+    //           price: rows[i].priceWithoutVat,
+    //         };
+    //         this.proformsService.createProformItem(dataProformItems).subscribe({
+    //           next: (response) => {
+    //             console.log(response); // handle successful response
+    //           },
+    //           error: (error) => {
+    //             console.log(error); // handle error response
+    //           },
+    //           complete: () => {
+    //             console.log('Request completed for proforitems');
+    //           },
+    //         });
+    //       }
+    //     },
+    //     error: (error) => {
+    //       console.log(error); // handle error response
+    //     },
+    //     complete: () => {
+    //       console.log('Request completed for proforms ');
+    //     },
+    //   });
+    // }
   }
 }

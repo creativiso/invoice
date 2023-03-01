@@ -17,6 +17,7 @@ export class ProformService {
       result = {
         success: true,
         message: 'Proform and ProformItems created successfully',
+        proformId: proform.id,
       };
     } catch (error) {
       await transaction.rollback();
