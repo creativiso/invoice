@@ -2,6 +2,7 @@ import { IProform, IProformItem } from 'libs/typings/src/model';
 import { sequelize } from '../model';
 import { Proform } from '../model/models/Proform';
 import { ProformItem } from '../model/models/ProformItem';
+
 export class ProformService {
   async createProformWithItems(proformData: IProform, items: IProformItem[]) {
     let result;
@@ -77,20 +78,26 @@ export class ProformService {
 
   async getProformsAndItems(): Promise<Proform[]> {
     return Proform.findAll({
-      include: {
-        model: ProformItem,
-        as: 'items',
-      },
+      include: [
+        {
+          model: ProformItem,
+          as: 'items',
+          association: Proform.associations.items,
+        },
+      ],
     });
   }
 
   async getProformAndItemsById(id: number): Promise<Proform | null> {
     return Proform.findOne({
       where: { id },
-      include: {
-        model: ProformItem,
-        as: 'items',
-      },
+      include: [
+        {
+          model: ProformItem,
+          as: 'items',
+          association: Proform.associations.items,
+        },
+      ],
     });
   }
 }

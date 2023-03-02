@@ -1,15 +1,22 @@
-import { Table, Column, Model, ForeignKey } from 'sequelize-typescript';
+import {
+  Table,
+  Column,
+  Model,
+  ForeignKey,
+  BelongsTo,
+} from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 import { IProformItem } from 'libs/typings/src/model';
+import { Proform } from './Proform';
 
 @Table({
   timestamps: true,
 })
 export class ProformItem extends Model<IProformItem> {
-  @ForeignKey(() => ProformItem)
-  @Column({ type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true })
-  id: number;
+  @BelongsTo(() => Proform)
+  proformItem: Proform;
 
+  @ForeignKey(() => Proform)
   @Column({ type: DataTypes.INTEGER })
   proform: number;
 

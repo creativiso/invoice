@@ -1,6 +1,14 @@
-import { Table, Column, Model, ForeignKey } from 'sequelize-typescript';
+import {
+  Table,
+  Column,
+  Model,
+  ForeignKey,
+  HasMany,
+} from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 import { IProform } from 'libs/typings/src/model';
+import { ProformItem } from './ProformItem';
+
 @Table({
   timestamps: true,
 })
@@ -95,4 +103,6 @@ export class Proform extends Model<IProform> {
 
   @Column({ type: DataTypes.STRING })
   author_sign: string;
+  @HasMany(() => ProformItem)
+  items: ProformItem[];
 }
