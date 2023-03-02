@@ -16,7 +16,7 @@ export class Proform extends Model<IProform> {
   issue_date: Date;
 
   @Column({ type: DataTypes.INTEGER })
-  bank_payment: number;
+  payment_method: number;
 
   @Column({ type: DataTypes.INTEGER })
   vat: number;
@@ -49,7 +49,7 @@ export class Proform extends Model<IProform> {
   c_mol: string;
 
   @Column({ type: DataTypes.STRING })
-  c_person: string;
+  c_person: boolean;
 
   @Column({ type: DataTypes.STRING })
   c_egn: string;
