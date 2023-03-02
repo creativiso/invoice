@@ -7,12 +7,18 @@ export class ProformService {
     let result;
     const transaction = await sequelize.transaction();
     try {
-      const proform = await Proform.create(proformData, { transaction });
+      const proform = await Proform.create(
+        {
+          ...proformData,
+          currency: JSON.stringify(proformData.currency),
+        },
+        { transaction }
+      );
       const proformItems = items.map((item) => ({
         ...item,
-        proform: proform.id, //additional proform
+        proform: proform.id,
       }));
-      await ProformItem.bulkCreate(proformItems, { transaction }); //creates multiple ProformItem records
+      await ProformItem.bulkCreate(proformItems, { transaction });
       await transaction.commit();
       result = {
         success: true,

@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ProformsService } from '../../services/proforms.service';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
@@ -30,7 +29,6 @@ export class ProformasComponent implements OnInit {
   }
   constructor(
     private formBuilder: FormBuilder,
-    private http: HttpClient,
     private proformService: ProformsService
   ) {
     this.proformasForm = this.formBuilder.group({
@@ -136,7 +134,7 @@ export class ProformasComponent implements OnInit {
       bank_payment: 12345, // payment method??
       vat: formData.vatPercent,
       novatreason: formData.vatReason,
-      currency: 1,
+      currency: formData.currency,
       rate: 1.5,
       c_name: formData.receiverName,
       c_city: formData.receiverCity,
