@@ -60,7 +60,7 @@ export class ProformasComponent implements OnInit {
       receiverCity: ['', Validators.required],
       receiverAddress: ['', Validators.required],
       releasedAt: ['', Validators.required],
-      currency: [this.currencies[1], Validators.required],
+      currency: [this.selectedCurrency, Validators.required],
       rowData: this.formBuilder.array([
         this.formBuilder.group({
           nameField: ['', Validators.required],
@@ -145,7 +145,7 @@ export class ProformasComponent implements OnInit {
     const dataProform: IProform = {
       contractor: 1,
       issue_date: formData.releasedAt,
-      bank_payment: 12345, // payment method??
+      payment_method: 12345, // payment method??
       vat: formData.vatPercent,
       novatreason: formData.vatReason,
       currency: formData.currency,

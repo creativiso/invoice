@@ -33,7 +33,7 @@ proformsRouter.post('/add', async (req, res) => {
     const proform: IProform = {
       contractor: req.body.contractor,
       issue_date: req.body.issue_date,
-      bank_payment: req.body.bank_payment,
+      payment_method: req.body.bank_payment,
       vat: req.body.vat,
       novatreason: req.body.novatreason,
       currency: req.body.currency,

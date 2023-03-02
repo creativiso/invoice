@@ -17,8 +17,10 @@ export class Proform extends Model<IProform> {
 
   @Column({ type: DataTypes.INTEGER })
   payment_method: number;
+
   @Column({ type: DataTypes.INTEGER })
   vat: number;
+
   @Column({ type: DataTypes.STRING })
   novatreason: string;
 

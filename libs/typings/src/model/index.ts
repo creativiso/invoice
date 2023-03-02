@@ -88,7 +88,7 @@ export interface IProform {
   id?: number;
   contractor: number;
   issue_date: Date;
-  bank_payment: number;
+  payment_method: number;
   vat: number;
   novatreason: string;
   currency: {
