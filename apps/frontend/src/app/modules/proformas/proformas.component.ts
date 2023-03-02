@@ -17,7 +17,7 @@ import {
 export class ProformasComponent implements OnInit {
   proformasForm: FormGroup;
   // rowDataArray: FormArray;
-  selectedCurrency = '';
+  // selectedCurrency = '';
   rowAmount = 0;
   totalAmount = 0;
   quantity = 0;
@@ -27,6 +27,19 @@ export class ProformasComponent implements OnInit {
   get rowData() {
     return this.proformasForm.get('rowData') as FormArray;
   }
+  public currencies = [
+    { exchangeRate: 1.95, currencyCode: 'Евро' },
+    { exchangeRate: 1, currencyCode: 'Лев' },
+  ];
+  currencyFormatters = {
+    Евро: new Intl.NumberFormat('bg-BG', {
+      style: 'currency',
+      currency: 'EUR',
+    }),
+    Лев: new Intl.NumberFormat('bg-BG', { style: 'currency', currency: 'BGN' }),
+  };
+
+  selectedCurrency = this.currencies[0];
   constructor(
     private formBuilder: FormBuilder,
     private proformService: ProformsService
@@ -47,7 +60,7 @@ export class ProformasComponent implements OnInit {
       receiverCity: ['', Validators.required],
       receiverAddress: ['', Validators.required],
       releasedAt: ['', Validators.required],
-      currency: ['', Validators.required],
+      currency: [this.currencies[1], Validators.required],
       rowData: this.formBuilder.array([
         this.formBuilder.group({
           nameField: ['', Validators.required],
@@ -128,6 +141,7 @@ export class ProformasComponent implements OnInit {
 
   onSubmit() {
     const formData = this.proformasForm.value;
+    console.log(formData.currency);
     const dataProform: IProform = {
       contractor: 1,
       issue_date: formData.releasedAt,

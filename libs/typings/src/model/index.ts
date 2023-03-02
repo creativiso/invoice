@@ -91,7 +91,10 @@ export interface IProform {
   bank_payment: number;
   vat: number;
   novatreason: string;
-  currency: number | string;
+  currency: {
+    exchangeRate: number;
+    currencyCode: string;
+  };
   rate: number;
   c_name: string;
   c_city: string;

@@ -10,7 +10,6 @@ export class ProformService {
       const proform = await Proform.create(
         {
           ...proformData,
-          currency: JSON.stringify(proformData.currency),
         },
         { transaction }
       );
