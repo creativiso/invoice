@@ -28,15 +28,15 @@ export class ProformasComponent implements OnInit {
     return this.proformasForm.get('rowData') as FormArray;
   }
   public currencies = [
-    { exchangeRate: 1.95, currencyCode: 'Евро' },
     { exchangeRate: 1, currencyCode: 'Лев' },
+    { exchangeRate: 1.95, currencyCode: 'Евро' },
   ];
   currencyFormatters = {
+    Лев: new Intl.NumberFormat('bg-BG', { style: 'currency', currency: 'BGN' }),
     Евро: new Intl.NumberFormat('bg-BG', {
       style: 'currency',
       currency: 'EUR',
     }),
-    Лев: new Intl.NumberFormat('bg-BG', { style: 'currency', currency: 'BGN' }),
   };
 
   selectedCurrency = this.currencies[0];
@@ -141,11 +141,11 @@ export class ProformasComponent implements OnInit {
 
   onSubmit() {
     const formData = this.proformasForm.value;
-    console.log(formData.currency);
+    console.log(formData.wayOfPaying);
     const dataProform: IProform = {
       contractor: 1,
       issue_date: formData.releasedAt,
-      payment_method: 12345,
+      payment_method: formData.wayOfPaying, //null
       vat: formData.vatPercent,
       novatreason: formData.vatReason,
       currency: formData.currency,
@@ -189,6 +189,7 @@ export class ProformasComponent implements OnInit {
       .subscribe({
         next: (response) => {
           console.log('HTTP request successful:', response);
+          location.reload();
         },
         error: (error) => {
           console.error('Error occurred:', error);
