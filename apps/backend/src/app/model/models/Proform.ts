@@ -16,7 +16,7 @@ export class Proform extends Model<IProform> {
   issue_date: Date;
 
   @Column({ type: DataTypes.INTEGER })
-  payment_method: number;
+  bank_payment: number;
 
   @Column({ type: DataTypes.INTEGER })
   vat: number;
@@ -24,14 +24,8 @@ export class Proform extends Model<IProform> {
   @Column({ type: DataTypes.STRING })
   novatreason: string;
 
-  @Column({ type: DataTypes.JSON })
-  currency: {
-    exchangeRate: number;
-    currencyCode: string;
-  };
-
-  // @Column({ type: DataTypes.INTEGER })
-  // currency: number;
+  @Column({ type: DataTypes.INTEGER })
+  currency: number;
 
   @Column({ type: DataTypes.INTEGER })
   rate: number;
@@ -55,7 +49,7 @@ export class Proform extends Model<IProform> {
   c_mol: string;
 
   @Column({ type: DataTypes.STRING })
-  c_person: boolean;
+  c_person: string;
 
   @Column({ type: DataTypes.STRING })
   c_egn: string;
