@@ -24,8 +24,11 @@ export class Proform extends Model<IProform> {
   @Column({ type: DataTypes.STRING })
   novatreason: string;
 
-  @Column({ type: DataTypes.INTEGER })
-  currency: number;
+  @Column({ type: DataTypes.JSON })
+  currency: {
+    exchangeRate: number;
+    currencyCode: string;
+  };
 
   @Column({ type: DataTypes.INTEGER })
   rate: number;

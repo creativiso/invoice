@@ -6,9 +6,6 @@ import {
   IProformItem,
 } from '../../../../../../libs/typings/src/model/index';
 
-// interface SelectedMeasure {
-//   [id: number]: string;
-// }
 @Component({
   selector: 'crtvs-proformas',
   templateUrl: './proformas.component.html',
@@ -16,8 +13,6 @@ import {
 })
 export class ProformasComponent implements OnInit {
   proformasForm: FormGroup;
-  // rowDataArray: FormArray;
-  // selectedCurrency = '';
   rowAmount = 0;
   totalAmount = 0;
   quantity = 0;
@@ -141,6 +136,7 @@ export class ProformasComponent implements OnInit {
 
   onSubmit() {
     const formData = this.proformasForm.value;
+    console.log(formData.currency);
     console.log(formData.wayOfPaying);
     const dataProform: IProform = {
       contractor: 1,
@@ -189,7 +185,7 @@ export class ProformasComponent implements OnInit {
       .subscribe({
         next: (response) => {
           console.log('HTTP request successful:', response);
-          location.reload();
+          //location.reload();
         },
         error: (error) => {
           console.error('Error occurred:', error);
