@@ -56,7 +56,18 @@ import { MatIconModule } from '@angular/material/icon';
               (m) => m.ProfileModule
             ),
         },
-      { path: 'dashboard', loadChildren: () => import('./modules/dashboard/dashboard.module').then(m => m.DashboardModule) },
+        {
+          path: 'login',
+          loadChildren: () =>
+            import('./modules/login/login.module').then((m) => m.LoginModule),
+        },
+        {
+          path: 'dashboard',
+          loadChildren: () =>
+            import('./modules/dashboard/dashboard.module').then(
+              (m) => m.DashboardModule
+            ),
+        },
       ],
       { initialNavigation: 'enabledBlocking' }
     ),
