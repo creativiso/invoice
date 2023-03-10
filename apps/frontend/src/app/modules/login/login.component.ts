@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { SidebarService } from '../../services/sidebar.service';
 
 @Component({
   selector: 'crtvs-login',
@@ -7,7 +8,7 @@ import { Component } from '@angular/core';
 })
 export class LoginComponent {
   hide = true;
-  constructor() {
-    ///
+  constructor(private sidebarService: SidebarService) {
+    this.sidebarService.isVisible = false;
   }
 }

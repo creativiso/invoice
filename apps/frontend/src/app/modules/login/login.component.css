@@ -2,3 +2,25 @@ input.example-right-align::-webkit-outer-spin-button,
 input.example-right-align::-webkit-inner-spin-button {
   display: none;
 }
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+  height: 50vh;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+mat-form-field {
+  width: 100%;
+}
+.btn-submit {
+  background-color: #172647;
+  color: #f4f2f1;
+  cursor: pointer;
+}
