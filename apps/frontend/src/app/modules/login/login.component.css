@@ -21,5 +21,10 @@ mat-form-field {
   justify-content: center;
 }
 .logo {
-  padding-bottom: 20px;
+  filter: brightness(0%) invert(100%);
+}
+.header {
+  background-color: #172647;
+  padding: 10px;
+  margin-bottom: 20px;
 }
