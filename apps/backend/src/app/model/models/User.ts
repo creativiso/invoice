@@ -4,8 +4,7 @@ import { IUser } from 'libs/typings/src/model';
 @Table({
   timestamps: true,
 })
-
-export class User extends Model<IUser>{
+export class User extends Model<IUser> {
   @ForeignKey(() => User)
   @Column({ type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true })
   id: number;
@@ -39,7 +38,4 @@ export class User extends Model<IUser>{
 
   @Column({ type: DataTypes.STRING })
   sign_prefix: string;
-  
 }
-
-

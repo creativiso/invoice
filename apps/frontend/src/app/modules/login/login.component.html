@@ -1,4 +1,4 @@
-<form>
+<form [formGroup]="loginForm" (ngSubmit)="submit()">
   <mat-card>
     <div class="header">
       <img
@@ -8,15 +8,22 @@
         class="logo"
       />
     </div>
+    <mat-card-header>
+      <mat-card-title> Вход</mat-card-title>
+    </mat-card-header>
 
     <div class="login-container">
       <mat-form-field>
-        <mat-label>Потребител</mat-label>
-        <input matInput />
+        <mat-label>Имейл</mat-label>
+        <input matInput type="email" formControlName="email" />
       </mat-form-field>
       <mat-form-field>
         <mat-label>Парола</mat-label>
-        <input matInput [type]="hide ? 'password' : 'text'" />
+        <input
+          matInput
+          formControlName="password"
+          [type]="hide ? 'password' : 'text'"
+        />
         <button
           mat-icon-button
           matSuffix
@@ -27,7 +34,9 @@
           <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
         </button>
       </mat-form-field>
-      <button class="btn-submit" mat-raised-button>Изпрати</button>
+      <button class="btn-submit" type="submit" mat-raised-button>
+        Изпрати
+      </button>
     </div>
   </mat-card>
 </form>
