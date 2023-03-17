@@ -21,9 +21,9 @@ settingsRouter.post('/', async (req, res) => {
 });
 
 // update a setting by id
-settingsRouter.put('/:id', async (req, res) => {
+settingsRouter.put('/', async (req, res) => {
   try {
-    const id = Number(req.params.id);
+    const id = 1; // set id to 1
     const updatedSetting = await settingsService.updateSetting(id, req.body);
     if (!updatedSetting) {
       res.status(404).json({ error: 'Setting not found' });
