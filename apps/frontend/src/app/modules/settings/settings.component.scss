@@ -2,8 +2,8 @@ form {
     max-width: 90%;
     margin: 0 auto;
   }
-.btn-submit {
-    color: #172647;
+mat-icon {
+  color: rgb(48, 48, 48);
 }
 mat-form-field {
     width: 100%;
@@ -30,7 +30,6 @@ mat-icon {
 .range
 {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(3, 1fr);
 }
 .flex-content
@@ -42,6 +41,23 @@ mat-icon {
 .flex-item{ 
     flex-grow:1;
 }
+.btn-submit {
+  background-color: #172647;
+  color: #f4f2f1;
+}
+button {
+  border: none;
+  cursor: pointer;
+  display: block;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+.btn-submit {
+  margin-top: 10px;
+  margin-left: 10px;
+}
 @media (max-width: 600px) {
     .container {
       grid-template-columns: 1fr;
@@ -49,17 +65,4 @@ mat-icon {
         'col-1'
         'col-2';
     }
-  }
-button {
-    border: none;
-    cursor: pointer;
-    display: block;
-  }
-  
-button:hover {
-    opacity: 0.8;
-  }
-.btn-submit {
-    margin-top: 10px;
-    margin-left: 10px;
   }

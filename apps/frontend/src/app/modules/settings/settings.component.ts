@@ -1,48 +1,57 @@
 import { Component, OnInit } from '@angular/core';
 import { MatChipInputEvent } from '@angular/material/chips';
-import { COMMA,ENTER } from '@angular/cdk/keycodes';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import {
   FormGroup,
   FormBuilder,
   FormControl,
+  FormArray,
   Validators,
 } from '@angular/forms';
+
 
 @Component({
   selector: 'crtvs-settings',
   templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.scss']
+  styleUrls: ['./settings.component.scss'],
 })
 export class SettingsComponent implements OnInit {
   settingsForm: FormGroup;
-  constructor(private formBuilder: FormBuilder) {
-    this.settingsForm = new FormGroup({
-      supplierName: new FormControl('', Validators.required),
+  tagsCtrl = new FormControl();
+  tags: string[] = [];
+  separatorKeysCodes: number[] = [ENTER, COMMA];
+  addOnBlur = true;
+  
+  constructor(private fb: FormBuilder) {
+    this.settingsForm = this.fb.group({
+      supplierName: [''],
+      supplierVatNumber: [''],
+      supplierCity: [''],
+      supplierAddress: [''],
+      iban: [''],
+      bicSwift: [''],
+      bank: [''],
+      dds: [''],
+      paymentMethod: [''],
+      individualPerson: [''],
+      quantityNumber: [''],
+      singlePriceNumber: [''],
+      totalPriceNumber: [''],
+      supplierEik: [''],
+      supplierManager: [''],
+      tags: this.fb.array([]),
     });
   }
 
-  tags = ['Tag 1', 'Tag 2', 'Tag 3'];
-  selectable = true;
-  removable = true;
-  addOnBlur = true;
-  separatorKeysCodes: number[] = [ENTER, COMMA];
-  tagControl = new FormControl();
-
-  addTag(event: MatChipInputEvent): void {
-    const input = event.input;
-    const value = event.value;
-
-    if ((value || '').trim()) {
-      this.tags.push(value.trim());
+ addTag(event: MatChipInputEvent): void {
+    const value = (event.value || '').trim();
+    if (value && !this.tags.includes(value)) {
+      this.tags.push(value);
+      this.tagsCtrl.setValue('');
+      const tagsFormArray = this.settingsForm.get('tags') as FormArray;
+      tagsFormArray.push(this.fb.control(value));
     }
-
-    if (input) {
-      input.value = '';
-    }
-
-    this.tagControl.setValue(null);
   }
-
   removeTag(tag: string): void {
     const index = this.tags.indexOf(tag);
 
@@ -52,9 +61,9 @@ export class SettingsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    //
   }
-  onSubmit() {
-    //
+
+  onSubmit(){
+    console.log(this.tags);
   }
 }
