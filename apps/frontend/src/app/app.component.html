@@ -16,7 +16,6 @@
         mat-icon-button
         class="transparent-background"
         [matMenuTriggerFor]="menu"
-        *ngIf="sidebarService.isVisible"
       >
         <mat-icon
           ><span class="material-icons"> account_circle </span></mat-icon
@@ -43,7 +42,6 @@
     [attr.role]="isHandset ? 'dialog' : 'navigation'"
     [mode]="isHandset ? 'over' : 'side'"
     [opened]="isHandset === false"
-    *ngIf="sidebarService.isVisible"
   >
     <mat-list>
       <mat-list-item>

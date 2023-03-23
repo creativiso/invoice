@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { SidebarService } from '../../services/sidebar.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -11,12 +10,7 @@ export class LoginComponent implements OnInit {
   hide = true;
   loginForm!: FormGroup;
   isSubmitted = false;
-  constructor(
-    private sidebarService: SidebarService,
-    private formbuilder: FormBuilder
-  ) {
-    this.sidebarService.isVisible = false;
-  }
+  constructor(private formbuilder: FormBuilder) {}
   ngOnInit(): void {
     this.loginForm = this.formbuilder.group({
       email: ['', [Validators.email, Validators.required]],

@@ -1,6 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
-import { SidebarService } from './services/sidebar.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -16,7 +15,7 @@ export class AppComponent {
   title = 'Pages';
   constructor(
     private breakpointObserver: BreakpointObserver,
-    public sidebarService: SidebarService,
+
     private router: Router
   ) {
     this.isHandset = true;
