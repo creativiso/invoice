@@ -1,6 +1,7 @@
 import { Table, Column, Model, ForeignKey } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 import { IUser } from 'libs/typings/src/model';
+import bcrypt from 'bcrypt';
 @Table({
   timestamps: true,
 })
@@ -38,4 +39,8 @@ export class User extends Model<IUser> {
 
   @Column({ type: DataTypes.STRING })
   sign_prefix: string;
+
+  async comparePassword(candidatePassword: string): Promise<boolean> {
+    return await bcrypt.compare(candidatePassword, this.password);
+  }
 }

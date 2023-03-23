@@ -1,5 +1,5 @@
 import { User } from '../model';
-
+import jwt from 'jsonwebtoken';
 // Create user
 export async function createUser(userData) {
   try {
@@ -68,3 +68,29 @@ export async function deleteUserById(id, res) {
     res.status(500).send(error);
   }
 }
+// Login user
+export async function login(username: string, password: string) {
+  try {
+    const user = await User.findOne({ where: { username } });
+    if (!user) {
+      throw new Error('Invalid credentials');
+    }
+    const isPasswordValid = await user.comparePassword(password);
+    if (!isPasswordValid) {
+      throw new Error('Invalid credentials');
+    }
+    // If credentials are valid, return the user object
+    return user;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Error logging in user');
+  }
+}
+function generateToken(user) {
+  const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
+    expiresIn: '1d',
+  });
+  return token;
+}
+
+export default generateToken;

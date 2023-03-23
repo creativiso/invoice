@@ -63,7 +63,7 @@ usersRouter.delete('/:id', async (req: Request, res: Response) => {
   await deleteUserById(id, res);
 });
 //-----------------------------------login-------------------------------------------
-
+// Login user
 usersRouter.post('/login', async (req: Request, res: Response) => {
   const { username, password } = req.body;
 
