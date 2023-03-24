@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'crtvs-login',
@@ -7,27 +9,35 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
-  hide = true;
   loginForm!: FormGroup;
-  isSubmitted = false;
-  constructor(private formbuilder: FormBuilder) {}
-  ngOnInit(): void {
-    this.loginForm = this.formbuilder.group({
-      email: ['', [Validators.email, Validators.required]],
+  hide = true;
+  errorMessage!: string;
+
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+  ) {}
+
+  ngOnInit() {
+    this.loginForm = this.fb.group({
+      username: ['', Validators.required],
       password: ['', Validators.required],
     });
   }
-  get fc() {
-    return this.loginForm.controls;
-  }
+
   submit() {
-    this.isSubmitted = true;
-    if (this.loginForm.invalid) {
-      return;
-    } else {
-      alert(
-        `Email ${this.fc['email'].value}, password ${this.fc['password'].value}`
-      );
-    }
+    const username = this.loginForm.value.username;
+    const password = this.loginForm.value.password;
+    this.authService.login(username, password).subscribe(
+      () => {
+        // If authentication is successful, navigate to the main page
+        this.router.navigate(['/']);
+      },
+      (error) => {
+        // If authentication fails, display an error message
+        this.errorMessage = error;
+      }
+    );
   }
 }
