@@ -3,7 +3,7 @@ import { sequelize } from './app/model/index';
 import { usersRouter } from './app/controllers/user.controller';
 import { Router } from 'express';
 import { contractorsRouter } from '../src/app/controllers/contractor.controller';
-import { proformsRouter } from './app/controllers/proform.controller';
+//import { proformsRouter } from './app/controllers/proform.controller';
 import { settingsRouter } from './app/controllers/settings.controller';
 
 export const apiRouter = Router();
@@ -20,7 +20,7 @@ export const apiRouter = Router();
   app.use('/api/v1', apiRouter);
   apiRouter.use('/users', usersRouter);
   app.use('/api/v1/contractors', contractorsRouter);
-  apiRouter.use('/proforms', proformsRouter);
+  //apiRouter.use('/proforms', proformsRouter);
   apiRouter.use('/settings', settingsRouter);
   const port = process.env.port || 3333;
   const server = app.listen(port, () => {
