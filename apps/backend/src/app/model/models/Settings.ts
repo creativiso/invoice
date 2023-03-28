@@ -55,7 +55,9 @@ export class Settings extends Model<ISettings> {
   
     @Column({ type: DataTypes.STRING })
     supplierManager: string;
-
-    @Column({ type: DataTypes.STRING})
-    tags: string;
+    
+    @Column({
+      type: DataTypes.JSON
+    })
+    tags: string[];
   }

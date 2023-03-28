@@ -179,7 +179,7 @@ export interface ISettings {
   totalPriceNumber: number;
   supplierEik: string;
   supplierManager: string;
-  tags: string;
+  tags: string[];
   createAt: Date;
   updatedAt: Date;
 }
