@@ -4,9 +4,9 @@ import { SettingsService } from '../services/settings.service';
 export const settingsRouter = Router();
 const settingsService = new SettingsService();
 
-// read all settings
+// read settings
 settingsRouter.get('/', async (req, res) => {
-  const settings = await settingsService.getAllSettings();
+  const settings = await settingsService.getSettings();
   res.json(settings);
 });
 

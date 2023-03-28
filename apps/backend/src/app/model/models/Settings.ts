@@ -1,7 +1,6 @@
 import { Table, Column, Model, ForeignKey } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
-import { ISettings } from 'libs/typings/src/model';
-import { type } from 'os';
+import { ISettings } from '../../../../../../libs/typings/src/index'
 
 @Table({
   timestamps: true,

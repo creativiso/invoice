@@ -2,8 +2,9 @@ import { Settings } from '../model/models/Settings';
 
 export class SettingsService {
   // get all settings
-  async getAllSettings(): Promise<Settings[]> {
-    return Settings.findAll();
+  async getSettings() {
+    const id =1;
+    return await Settings.findByPk(id);
   }
   // create a new setting
   async createSetting(data: Settings): Promise<Settings> {
