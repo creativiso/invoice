@@ -3,7 +3,7 @@ import { sequelize } from './app/model/index';
 import { usersRouter } from './app/controllers/user.controller';
 import { Router } from 'express';
 import { contractorsRouter } from '../src/app/controllers/contractor.controller';
-//import { proformsRouter } from './app/controllers/proform.controller';
+import { proformsRouter } from './app/controllers/proform.controller';
 import { settingsRouter } from './app/controllers/settings.controller';
 
 export const apiRouter = Router();
