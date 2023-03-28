@@ -61,7 +61,6 @@ import { AuthService } from './services/auth.service';
           path: 'login',
           loadChildren: () =>
             import('./modules/login/login.module').then((m) => m.LoginModule),
-          data: { layout: 'empty' },
         },
         {
           path: 'dashboard',
@@ -70,7 +69,6 @@ import { AuthService } from './services/auth.service';
               (m) => m.DashboardModule
             ),
           canActivate: [AuthGuard],
-          data: { layout: 'default' },
         },
       ],
       { initialNavigation: 'enabledBlocking' }
