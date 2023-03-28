@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
     const password = this.loginForm.value.password;
     this.authService.login(username, password).subscribe(
       () => {
-        // If authentication is successful, navigate to the main page
+        //If authentication is successful, navigate to the main page
         this.router.navigate(['/']);
       },
       (error) => {

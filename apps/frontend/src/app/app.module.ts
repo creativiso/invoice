@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { NxWelcomeComponent } from './nx-welcome.component';
 import { RouterModule } from '@angular/router';
@@ -9,7 +9,8 @@ import { MaterialModule } from './material/material.module';
 import { NavigationComponent } from './navigation/navigation.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
-
+import { AuthGuard } from './auth/auth.guard';
+import { AuthService } from './services/auth.service';
 @NgModule({
   declarations: [AppComponent, NxWelcomeComponent, NavigationComponent],
   imports: [
@@ -60,6 +61,7 @@ import { MatIconModule } from '@angular/material/icon';
           path: 'login',
           loadChildren: () =>
             import('./modules/login/login.module').then((m) => m.LoginModule),
+          data: { layout: 'empty' },
         },
         {
           path: 'dashboard',
@@ -67,6 +69,8 @@ import { MatIconModule } from '@angular/material/icon';
             import('./modules/dashboard/dashboard.module').then(
               (m) => m.DashboardModule
             ),
+          canActivate: [AuthGuard],
+          data: { layout: 'default' },
         },
       ],
       { initialNavigation: 'enabledBlocking' }
@@ -75,8 +79,9 @@ import { MatIconModule } from '@angular/material/icon';
     MaterialModule,
     MatMenuModule,
     MatIconModule,
+    HttpClientModule,
   ],
-  providers: [],
+  providers: [AuthService, AuthGuard],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

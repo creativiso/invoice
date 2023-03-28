@@ -40,7 +40,9 @@ export class AppComponent {
   }
 
   public logout() {
+    console.log('before');
     this.authService.logout();
+    console.log('after');
     this.router.navigate(['/login']);
   }
 }

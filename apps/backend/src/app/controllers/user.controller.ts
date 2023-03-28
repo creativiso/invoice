@@ -1,6 +1,4 @@
 import { Request, Response, Router } from 'express';
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
 
 import {
   createUser,
@@ -8,7 +6,6 @@ import {
   getAllUsers,
   updateUser,
   deleteUserById,
-  getUserByUsername,
 } from '../services/user.service';
 
 export const usersRouter = Router();
@@ -61,32 +58,6 @@ usersRouter.put('/:id', async (req: Request, res: Response) => {
 usersRouter.delete('/:id', async (req: Request, res: Response) => {
   const id = req.params.id;
   await deleteUserById(id, res);
-});
-//-----------------------------------login-------------------------------------------
-// Login user
-usersRouter.post('/login', async (req: Request, res: Response) => {
-  const { username, password } = req.body;
-
-  try {
-    // Find user by username
-    const user = await getUserByUsername(username);
-    if (!user) {
-      return res.status(401).send('Invalid username or password');
-    }
-
-    // Compare passwords
-    const passwordsMatch = await bcrypt.compare(password, user.password);
-    if (!passwordsMatch) {
-      return res.status(401).send('Invalid username or password');
-    }
-
-    // Generate JWT token and send it back to client
-    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET);
-    res.json({ token });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Error logging in');
-  }
 });
 
 export default usersRouter;

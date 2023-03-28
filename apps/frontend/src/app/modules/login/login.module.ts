@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
+import { HttpClientModule } from '@angular/common/http';
 
 const routes: Routes = [{ path: '', component: LoginComponent }];
 
@@ -22,6 +23,7 @@ const routes: Routes = [{ path: '', component: LoginComponent }];
     MatButtonModule,
     MatIconModule,
     MatCardModule,
+    HttpClientModule,
     RouterModule.forChild(routes),
   ],
 })

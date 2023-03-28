@@ -7,7 +7,7 @@
         mat-icon-button
         (click)="drawer.toggle()"
         class="transparent-background"
-        *ngIf="isHandset && isLoggedIn"
+        *ngIf="isHandset"
       >
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
@@ -16,8 +16,8 @@
         mat-icon-button
         class="transparent-background"
         [matMenuTriggerFor]="menu"
+        *ngIf="isLoggedIn"
       >
-        <!--*ngIf="isLoggedIn" -->
         <mat-icon
           ><span class="material-icons"> account_circle </span></mat-icon
         >
@@ -43,6 +43,7 @@
     [attr.role]="isHandset ? 'dialog' : 'navigation'"
     [mode]="isHandset ? 'over' : 'side'"
     [opened]="isHandset === false"
+    *ngIf="isLoggedIn"
   >
     <mat-list>
       <mat-list-item>
