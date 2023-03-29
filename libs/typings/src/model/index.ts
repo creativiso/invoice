@@ -162,3 +162,24 @@ export interface IUserRoles {
   createAt: Date;
   updatedAt: Date;
 }
+
+export interface ISettings {
+  supplierName: string;
+  supplierVatNumber: string;
+  supplierCity: string;
+  supplierAddress: string;
+  iban: string;
+  bicSwift: string;
+  bank: string;
+  dds: boolean;
+  paymentMethod: string;
+  individualPerson: boolean;
+  quantityNumber: number;
+  singlePriceNumber: number;
+  totalPriceNumber: number;
+  supplierEik: string;
+  supplierManager: string;
+  units: string[];
+  createAt: Date;
+  updatedAt: Date;
+}
