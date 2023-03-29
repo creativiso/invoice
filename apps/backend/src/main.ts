@@ -4,6 +4,7 @@ import { usersRouter } from './app/controllers/user.controller';
 import { Router } from 'express';
 import { contractorsRouter } from '../src/app/controllers/contractor.controller';
 import { proformsRouter } from './app/controllers/proform.controller';
+import { settingsRouter } from './app/controllers/settings.controller';
 
 export const apiRouter = Router();
 (async () => {
@@ -20,6 +21,7 @@ export const apiRouter = Router();
   apiRouter.use('/users', usersRouter);
   app.use('/api/v1/contractors', contractorsRouter);
   apiRouter.use('/proforms', proformsRouter);
+  apiRouter.use('/settings', settingsRouter);
   const port = process.env.port || 3333;
   const server = app.listen(port, () => {
     console.log(`Listening at http://localhost:${port}/api`);
