@@ -17,8 +17,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatChipsModule } from '@angular/material/chips';
-
-
+import { MatCommonModule } from '@angular/material/core';
 
 const routes: Routes = [{ path: '', component: SettingsComponent }];
 
@@ -42,6 +41,7 @@ const routes: Routes = [{ path: '', component: SettingsComponent }];
     MatTableModule,
     MatTooltipModule,
     MatChipsModule,
+    MatCommonModule,
     RouterModule.forChild(routes),
   ],
 })

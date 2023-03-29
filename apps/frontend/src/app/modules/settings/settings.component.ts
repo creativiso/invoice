@@ -10,6 +10,10 @@ import {
 } from '@angular/forms';
 
 
+export interface Tags {
+  value: string;
+}
+
 @Component({
   selector: 'crtvs-settings',
   templateUrl: './settings.component.html',
@@ -18,52 +22,70 @@ import {
 export class SettingsComponent implements OnInit {
   settingsForm: FormGroup;
   tagsCtrl = new FormControl();
-  tags: string[] = [];
+  tags: Tags[] = [];
   separatorKeysCodes: number[] = [ENTER, COMMA];
   addOnBlur = true;
-  
+
+  visible = true;
+  selectable = true;
+  removable = true;
+
   constructor(private fb: FormBuilder) {
-    this.settingsForm = this.fb.group({
-      supplierName: [''],
-      supplierVatNumber: [''],
-      supplierCity: [''],
-      supplierAddress: [''],
-      iban: [''],
-      bicSwift: [''],
-      bank: [''],
-      dds: [''],
-      paymentMethod: [''],
-      individualPerson: [''],
-      quantityNumber: [''],
-      singlePriceNumber: [''],
-      totalPriceNumber: [''],
-      supplierEik: [''],
-      supplierManager: [''],
-      tags: this.fb.array([]),
+    this.settingsForm = new FormGroup({
+      supplierName: new FormControl(''),
+      supplierVatNumber: new FormControl(''),
+      supplierCity: new FormControl(''),
+      supplierAddress: new FormControl(''),
+      iban: new FormControl(''),
+      bicSwift: new FormControl(''),
+      bank: new FormControl(''),
+      dds: new FormControl(''),
+      paymentMethod: new FormControl(''),
+      individualPerson: new FormControl(''),
+      quantityNumber: new FormControl(''),
+      singlePriceNumber: new FormControl(''),
+      totalPriceNumber: new FormControl(''),
+      supplierEik: new FormControl(''),
+      supplierManager: new FormControl(''),
+      units: this.fb.array([]),
     });
   }
 
- addTag(event: MatChipInputEvent): void {
-    const value = (event.value || '').trim();
-    if (value && !this.tags.includes(value)) {
-      this.tags.push(value);
-      this.tagsCtrl.setValue('');
-      const tagsFormArray = this.settingsForm.get('tags') as FormArray;
-      tagsFormArray.push(this.fb.control(value));
+
+  add(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
+
+    // Add our fruit
+    if ((value || '').trim()) {
+      this.tags.push({value: value.trim()});  
+      const requirements = this.settingsForm.get('units') as FormArray;
+      requirements.push(this.fb.control(value.trim()));
+    }
+
+    // Reset the input value
+    if (input) {
+      input.value = '';
     }
   }
-  removeTag(tag: string): void {
-    const index = this.tags.indexOf(tag);
 
+  remove(tag: Tags): void {
+    const index = this.tags.indexOf(tag);
+    const units = this.settingsForm.get('units') as FormArray;
     if (index >= 0) {
       this.tags.splice(index, 1);
+      units.removeAt(index);
     }
+    
+    
   }
 
-  ngOnInit(): void {
+  ngOnInit(): void { 
   }
 
-  onSubmit(){
-    console.log(this.tags);
+  onSubmit() {
+    console.log(this.settingsForm.value);
   }
 }
+  
+ 
