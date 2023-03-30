@@ -12,7 +12,7 @@ export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   hide = true;
   errorMessage!: string;
-
+  submitted = false;
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
@@ -27,17 +27,19 @@ export class LoginComponent implements OnInit {
   }
 
   submit() {
+    this.submitted = true;
     const username = this.loginForm.value.username;
     const password = this.loginForm.value.password;
-    this.authService.login(username, password).subscribe(
-      () => {
-        //If authentication is successful, navigate to the main page
+    this.authService.login(username, password).subscribe({
+      next: () => {
+        // If authentication is successful, navigate to the main page
         this.router.navigate(['/']);
       },
-      (error) => {
-        // If authentication fails, display an error message
-        this.errorMessage = error;
-      }
-    );
+      error: (err) => {
+        console.error(err); // add a console.log statement here to check if it is being executed
+        // Set the error message to display on the login page
+        this.errorMessage = 'Username or password is not valid';
+      },
+    });
   }
 }

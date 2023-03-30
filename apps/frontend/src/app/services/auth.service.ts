@@ -8,7 +8,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class AuthService {
   private apiUrl = 'http://localhost:3333/api/v1/login';
-  private loggedIn = new BehaviorSubject<boolean>(false);
+  private loggedIn = new BehaviorSubject<boolean>(false); //track user status
 
   constructor(private http: HttpClient) {
     this.checkToken();
@@ -28,7 +28,14 @@ export class AuthService {
             this.loggedIn.next(true);
           }
         }),
-        map((_) => true),
+        map((response) => {
+          const token = response.token;
+          if (token) {
+            return true;
+          } else {
+            return false;
+          }
+        }),
         catchError((error) => {
           console.error(error);
           return of(false);
