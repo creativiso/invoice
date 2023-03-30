@@ -10,12 +10,13 @@ import { ProformItem } from './models/ProformItem';
 import { Role } from './models/Role';
 import { User } from './models/User';
 import { UserRoles } from './models/UserRoles';
+import { Settings } from './models/Settings';
 
 console.log(path.resolve(path.join('apps','backend','src','app','model','models')))
 export const sequelize = new Sequelize(env.DB_DATABASE, env.DB_USERNAME, env.DB_PASSWORD, {
   host: env.DB_HOST,
   dialect: 'mariadb',
-  models: [Contractor,Currency,Invoice,PaymentMethod,Proform,ProformItem,Role,User,UserRoles],
+  models: [Contractor,Currency,Invoice,PaymentMethod,Proform,ProformItem,Role,User,UserRoles,Settings],
 });
 
 export * from './models/Contractor';
