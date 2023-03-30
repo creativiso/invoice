@@ -30,16 +30,12 @@ export class LoginComponent implements OnInit {
     this.submitted = true;
     const username = this.loginForm.value.username;
     const password = this.loginForm.value.password;
-    this.authService.login(username, password).subscribe({
-      next: () => {
-        // If authentication is successful, navigate to the main page
+    this.authService.login(username, password).subscribe((res) => {
+      if (res) {
         this.router.navigate(['/']);
-      },
-      error: (err) => {
-        console.error(err); // add a console.log statement here to check if it is being executed
-        // Set the error message to display on the login page
+      } else {
         this.errorMessage = 'Username or password is not valid';
-      },
+      }
     });
   }
 }

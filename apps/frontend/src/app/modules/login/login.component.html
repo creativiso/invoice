@@ -34,7 +34,9 @@
           <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
         </button>
       </mat-form-field>
-      <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+      <p *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
+      </p>
       <button class="btn-submit" type="submit" mat-raised-button>
         Изпрати
       </button>

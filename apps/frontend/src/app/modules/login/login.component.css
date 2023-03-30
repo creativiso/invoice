@@ -9,6 +9,8 @@ form {
   align-items: center;
   justify-content: center;
   padding-top: 50px;
+  max-width: 400px;
+  margin: auto;
 }
 mat-form-field {
   width: 100%;
@@ -28,4 +30,8 @@ mat-form-field {
   padding: 10px;
   margin-bottom: 15px;
   border-radius: 5px;
+}
+.error-message {
+  color: red;
+  font-weight: 700;
 }
