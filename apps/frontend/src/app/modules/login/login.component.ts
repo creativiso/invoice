@@ -35,6 +35,7 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['/']);
       } else {
         this.errorMessage = 'Username or password is not valid';
+        console.log('ggg');
       }
     });
   }
