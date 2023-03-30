@@ -40,7 +40,7 @@ export class AppComponent {
   }
 
   public logout() {
-    localStorage.removeItem('token'); // remove the token from local storage
+    this.authService.logout();
     this.router.navigate(['/login']);
   }
 }
