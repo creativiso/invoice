@@ -1,26 +1,27 @@
 // import { Injectable } from '@angular/core';
 // import {
+//   HttpInterceptor,
 //   HttpRequest,
 //   HttpHandler,
 //   HttpEvent,
-//   HttpInterceptor,
 // } from '@angular/common/http';
 // import { Observable } from 'rxjs';
 // import { AuthService } from '../services/auth.service';
 
 // @Injectable()
 // export class AuthInterceptor implements HttpInterceptor {
-//   constructor(private authService: authService) {}
+//   constructor(private authService: AuthService) {}
 
 //   intercept(
-//     request: HttpRequest<unknown>,
+//     request: HttpRequest<any>,
 //     next: HttpHandler
-//   ): Observable<HttpEvent<unknown>> {
-//     const user = this.authService.currentUser;
-//     if (user.token) {
+//   ): Observable<HttpEvent<any>> {
+//     // Add authorization header with JWT token if available
+//     const token = this.authService.getToken();
+//     if (token) {
 //       request = request.clone({
 //         setHeaders: {
-//           access_token: user.token,
+//           Authorization: `Bearer ${token}`,
 //         },
 //       });
 //     }

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { NxWelcomeComponent } from './nx-welcome.component';
 import { RouterModule } from '@angular/router';
@@ -11,6 +11,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { AuthGuard } from './auth/auth.guard';
 import { AuthService } from './services/auth.service';
+//import { AuthInterceptor } from './auth/auth.interceptor';
+import { NotLoggedInGuard } from './auth/notLoggedIn.guard';
 @NgModule({
   declarations: [AppComponent, NxWelcomeComponent, NavigationComponent],
   imports: [
@@ -23,6 +25,7 @@ import { AuthService } from './services/auth.service';
             import('./modules/invoices/invoices.module').then(
               (m) => m.InvoicesModule
             ),
+          canActivate: [AuthGuard],
         },
         {
           path: 'proformas',
@@ -30,6 +33,7 @@ import { AuthService } from './services/auth.service';
             import('./modules/proformas/proformas.module').then(
               (m) => m.ProformasModule
             ),
+          canActivate: [AuthGuard],
         },
         {
           path: 'contractors',
@@ -37,6 +41,7 @@ import { AuthService } from './services/auth.service';
             import('./modules/contractors/contractors.module').then(
               (m) => m.ContractorsModule
             ),
+          canActivate: [AuthGuard],
         },
         {
           path: 'settings',
@@ -44,11 +49,13 @@ import { AuthService } from './services/auth.service';
             import('./modules/settings/settings.module').then(
               (m) => m.SettingsModule
             ),
+          canActivate: [AuthGuard],
         },
         {
           path: 'users',
           loadChildren: () =>
             import('./modules/users/users.module').then((m) => m.UsersModule),
+          canActivate: [AuthGuard],
         },
         {
           path: 'profile',
@@ -56,11 +63,13 @@ import { AuthService } from './services/auth.service';
             import('./modules/profile/profile.module').then(
               (m) => m.ProfileModule
             ),
+          canActivate: [AuthGuard],
         },
         {
           path: 'login',
           loadChildren: () =>
             import('./modules/login/login.module').then((m) => m.LoginModule),
+          canActivate: [NotLoggedInGuard],
         },
         {
           path: 'dashboard',
@@ -79,7 +88,12 @@ import { AuthService } from './services/auth.service';
     MatIconModule,
     HttpClientModule,
   ],
-  providers: [AuthService, AuthGuard],
+  providers: [
+    AuthService,
+    AuthGuard,
+    NotLoggedInGuard,
+    //{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }, // add your interceptor to the providers array
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

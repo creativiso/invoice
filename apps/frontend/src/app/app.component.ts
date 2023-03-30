@@ -9,7 +9,7 @@ import { AuthService } from './services/auth.service';
 })
 export class AppComponent {
   public isHandset: boolean;
-  public isLoggedIn!: boolean;
+  public isLoggedIn = false; // Initialize isLoggedIn property
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   @ViewChild('drawer') drawer: any;
