@@ -15,6 +15,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatTableModule } from '@angular/material/table';
+
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 const routes: Routes = [{ path: '', component: ProformasComponent }];
@@ -38,6 +39,7 @@ const routes: Routes = [{ path: '', component: ProformasComponent }];
     MatRadioModule,
     MatTableModule,
     MatTooltipModule,
+
     RouterModule.forChild(routes),
   ],
 })

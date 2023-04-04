@@ -1,11 +1,18 @@
-import { Table, Column, Model, ForeignKey } from 'sequelize-typescript';
+import {
+  Table,
+  Column,
+  Model,
+  BeforeCreate,
+  ForeignKey,
+} from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 import { IUser } from 'libs/typings/src/model';
+import bcrypt from 'bcrypt';
+
 @Table({
   timestamps: true,
 })
-
-export class User extends Model<IUser>{
+export class User extends Model<IUser> {
   @ForeignKey(() => User)
   @Column({ type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true })
   id: number;
@@ -39,7 +46,23 @@ export class User extends Model<IUser>{
 
   @Column({ type: DataTypes.STRING })
   sign_prefix: string;
-  
+
+  // Before creating a new user, hash the password
+  @BeforeCreate
+  static async hashPassword(user: User) {
+    const salt = await bcrypt.genSalt();
+    user.password = await bcrypt.hash(user.password, salt);
+  }
+
+  static async comparePassword(
+    username: string,
+    candidatePassword: string
+  ): Promise<User | null> {
+    const user = await User.findOne({ where: { username } });
+    if (!user) {
+      return null;
+    }
+    const isMatch = await bcrypt.compare(candidatePassword, user.password);
+    return isMatch ? user : null;
+  }
 }
-
-
