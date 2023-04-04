@@ -88,12 +88,7 @@ import { NotLoggedInGuard } from './auth/notLoggedIn.guard';
     MatIconModule,
     HttpClientModule,
   ],
-  providers: [
-    AuthService,
-    AuthGuard,
-    NotLoggedInGuard,
-    //{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }, // add your interceptor to the providers array
-  ],
+  providers: [AuthService, AuthGuard, NotLoggedInGuard],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
