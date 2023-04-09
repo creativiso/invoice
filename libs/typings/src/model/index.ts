@@ -85,13 +85,16 @@ export interface IPaymentMethod {
 }
 
 export interface IProform {
-  id: number;
+  id?: number;
   contractor: number;
   issue_date: Date;
-  bank_payment: number;
+  payment_method: number;
   vat: number;
   novatreason: string;
-  currency: number;
+  currency: {
+    exchangeRate: number;
+    currencyCode: string;
+  };
   rate: number;
   c_name: string;
   c_city: string;
@@ -99,7 +102,7 @@ export interface IProform {
   c_eik: string;
   c_ddsnumber: string;
   c_mol: string;
-  c_person: string;
+  c_person: boolean;
   c_egn: string;
   p_name: string;
   p_city: string;
@@ -114,19 +117,20 @@ export interface IProform {
   author: string;
   author_user: number;
   author_sign: string;
-  createAt: Date;
-  updatedAt: Date;
+  createAt?: Date;
+  updatedAt?: Date;
+  items: IProformItem[];
 }
 
 export interface IProformItem {
-  id: number;
-  proform: number;
+  id?: number;
+  proform?: number;
   name: string;
   quantity: number;
   measurement: string;
   price: number;
-  createAt: Date;
-  updatedAt: Date;
+  createAt?: Date;
+  updatedAt?: Date;
 }
 
 export interface IRole {
@@ -148,7 +152,7 @@ export interface IUser {
   status: number;
   last_login: Date;
   creation_session: string;
-  sign_prefix: string
+  sign_prefix: string;
   createAt: Date;
   updatedAt: Date;
 }
@@ -157,6 +161,27 @@ export interface IUserRoles {
   id: number;
   user_id: number;
   role_id: number;
+  createAt: Date;
+  updatedAt: Date;
+}
+
+export interface ISettings {
+  supplierName: string;
+  supplierVatNumber: string;
+  supplierCity: string;
+  supplierAddress: string;
+  iban: string;
+  bicSwift: string;
+  bank: string;
+  dds: boolean;
+  paymentMethod: string;
+  individualPerson: boolean;
+  quantityNumber: number;
+  singlePriceNumber: number;
+  totalPriceNumber: number;
+  supplierEik: string;
+  supplierManager: string;
+  units: string[];
   createAt: Date;
   updatedAt: Date;
 }

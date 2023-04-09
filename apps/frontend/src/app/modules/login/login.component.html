@@ -1,0 +1,46 @@
+<form [formGroup]="loginForm" (ngSubmit)="submit()">
+  <mat-card>
+    <div class="header">
+      <img
+        _ngcontent-ony-c98=""
+        src="https://creativiso.bg/img/logo-94955cf1a6.svg"
+        alt=""
+        class="logo"
+      />
+    </div>
+    <mat-card-header>
+      <mat-card-title> Вход</mat-card-title>
+    </mat-card-header>
+
+    <div class="login-container">
+      <mat-form-field>
+        <mat-label>Име</mat-label>
+        <input matInput formControlName="username" />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Парола</mat-label>
+        <input
+          matInput
+          formControlName="password"
+          [type]="hide ? 'password' : 'text'"
+        />
+        <button
+          mat-icon-button
+          matSuffix
+          (click)="hide = !hide"
+          [attr.aria-label]="'Hide password'"
+          [attr.aria-pressed]="hide"
+        >
+          <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+        </button>
+      </mat-form-field>
+      <p *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
+      </p>
+
+      <button class="btn-submit" type="submit" mat-raised-button>
+        Изпрати
+      </button>
+    </div>
+  </mat-card>
+</form>

@@ -16,6 +16,7 @@
         mat-icon-button
         class="transparent-background"
         [matMenuTriggerFor]="menu"
+        *ngIf="isLoggedIn"
       >
         <mat-icon
           ><span class="material-icons"> account_circle </span></mat-icon
@@ -42,6 +43,7 @@
     [attr.role]="isHandset ? 'dialog' : 'navigation'"
     [mode]="isHandset ? 'over' : 'side'"
     [opened]="isHandset === false"
+    *ngIf="isLoggedIn"
   >
     <mat-list>
       <mat-list-item>
@@ -49,6 +51,7 @@
           ><img src="https://creativiso.bg/img/logo-94955cf1a6.svg" alt=""
         /></a>
       </mat-list-item>
+
       <mat-list-item>
         <mat-icon><span class="material-icons"> dashboard </span></mat-icon>
         <a routerLink="/">Табло за управление</a>
