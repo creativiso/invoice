@@ -7,7 +7,7 @@ import { ISettings } from '../../../../../../libs/typings/src/index'
 })
 export class Settings extends Model<ISettings> {
 
-    @Column({ type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true })
+    @Column({ type: DataTypes.INTEGER, primaryKey: true})
     id: number;
 
     @Column({ type: DataTypes.STRING })

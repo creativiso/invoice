@@ -19,4 +19,15 @@ export class SettingsService {
     }
     return setting.update(data);
   }
+
+  // delete a setting by id
+async deleteSetting(id: number): Promise<boolean> {
+  const setting = await Settings.findByPk(id);
+  if (!setting) {
+    return false;
+  }
+  await setting.destroy();
+  return true;
+}
+
 }

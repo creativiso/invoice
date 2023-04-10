@@ -6,9 +6,11 @@ import {
   FormBuilder,
   FormControl,
   FormArray,
-  Validators,
 } from '@angular/forms';
-
+import { SettingService } from '../../services/settings.service';
+import {
+  ISettings
+} from '../../../../../../libs/typings/src/model/index';
 
 export interface Tags {
   value: string;
@@ -30,7 +32,7 @@ export class SettingsComponent implements OnInit {
   selectable = true;
   removable = true;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private settingsService: SettingService) {
     this.settingsForm = new FormGroup({
       supplierName: new FormControl(''),
       supplierVatNumber: new FormControl(''),
@@ -55,8 +57,7 @@ export class SettingsComponent implements OnInit {
   add(event: MatChipInputEvent): void {
     const input = event.input;
     const value = event.value;
-
-    // Add our fruit
+    // Add our tags
     if ((value || '').trim()) {
       this.tags.push({value: value.trim()});  
       const requirements = this.settingsForm.get('units') as FormArray;
@@ -80,11 +81,64 @@ export class SettingsComponent implements OnInit {
     
   }
 
-  ngOnInit(): void { 
+  ngOnInit(): void {
+    this.settingsService.getOrCreateSetting().subscribe(settings => {
+      // Patch form controls with received data
+      this.settingsForm.patchValue(settings);
+    });
+  
+    this.settingsService.getUnits().subscribe(units => {
+      // Map units to the tags format
+      const tags = units.map(unit => ({ value: unit }));
+      
+      // Merge existing tags with the new tags
+      this.tags = [...this.tags, ...tags];
+  
+      // Add new form controls for the tags
+      const requirements = this.settingsForm.get('units') as FormArray;
+      tags.forEach(tag => requirements.push(this.fb.control(tag.value)));
+    });
   }
 
   onSubmit() {
-    console.log(this.settingsForm.value);
+    const formData = this.settingsForm.value;
+    const dataSettings: ISettings = {
+      supplierName: formData.supplierName,
+      supplierVatNumber: formData.supplierVatNumber,
+      supplierCity: formData.supplierCity,
+      supplierAddress: formData.supplierAddress,
+      iban: formData.iban,
+      bicSwift: formData.bicSwift,
+      bank: formData.bank,
+      dds: formData.dds,
+      paymentMethod: formData.paymentMethod,
+      individualPerson: formData.individualPerson,
+      quantityNumber: formData.quantityNumber,
+      singlePriceNumber: formData.singlePriceNumber,
+      totalPriceNumber: formData.totalPriceNumber,
+      supplierEik: formData.supplierEik,
+      supplierManager: formData.supplierManager,
+      units: formData.units,
+    };
+  console.log(dataSettings);
+  // this.settingsService.putSetting(dataSettings);
+    this.settingsService.putSetting(dataSettings).subscribe({
+      next: (response) => {
+        console.log('HTTP request successful:', response);
+        const successMessage = 'Settings updated successfully.';
+        // Displaying success message to user
+        alert(successMessage);
+      },
+      error: (error) => {
+        console.error('Error occurred:', error);
+        const errorMessage = 'Settings update failed. Please try again.';
+        // Displaying error message to user
+        alert(errorMessage);
+      },
+      complete: () => {
+        console.log('HTTP request complete');
+      },
+    });
   }
 }
   
