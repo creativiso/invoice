@@ -57,14 +57,12 @@ export class SettingsComponent implements OnInit {
   add(event: MatChipInputEvent): void {
     const input = event.input;
     const value = event.value;
-    // Add our tags
     if ((value || '').trim()) {
       this.tags.push({value: value.trim()});  
       const requirements = this.settingsForm.get('units') as FormArray;
       requirements.push(this.fb.control(value.trim()));
     }
 
-    // Reset the input value
     if (input) {
       input.value = '';
     }
@@ -82,19 +80,29 @@ export class SettingsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.settingsService.getOrCreateSetting().subscribe(settings => {
-      // Patch form controls with received data
-      this.settingsForm.patchValue(settings);
+    this.settingsService.getSettings().subscribe(settings => {
+      this.settingsForm.setValue({
+        supplierName: settings.supplierName,
+        supplierVatNumber: settings.supplierVatNumber,
+        supplierCity:  settings.supplierCity,
+        supplierAddress: settings.supplierAddress,
+        iban: settings.iban,
+        bicSwift: settings.bicSwift,
+        bank: settings.bank,
+        dds: settings.dds,
+        paymentMethod: settings.paymentMethod,
+        individualPerson: settings.individualPerson,
+        quantityNumber: settings.quantityNumber,
+        singlePriceNumber: settings.singlePriceNumber,
+        totalPriceNumber: settings.totalPriceNumber,
+        supplierEik: settings.supplierEik,
+        supplierManager: settings.supplierManager,
+        units: [],
+      });
     });
-  
     this.settingsService.getUnits().subscribe(units => {
-      // Map units to the tags format
       const tags = units.map(unit => ({ value: unit }));
-      
-      // Merge existing tags with the new tags
       this.tags = [...this.tags, ...tags];
-  
-      // Add new form controls for the tags
       const requirements = this.settingsForm.get('units') as FormArray;
       tags.forEach(tag => requirements.push(this.fb.control(tag.value)));
     });
@@ -121,18 +129,15 @@ export class SettingsComponent implements OnInit {
       units: formData.units,
     };
   console.log(dataSettings);
-  // this.settingsService.putSetting(dataSettings);
     this.settingsService.putSetting(dataSettings).subscribe({
       next: (response) => {
         console.log('HTTP request successful:', response);
         const successMessage = 'Settings updated successfully.';
-        // Displaying success message to user
         alert(successMessage);
       },
       error: (error) => {
         console.error('Error occurred:', error);
         const errorMessage = 'Settings update failed. Please try again.';
-        // Displaying error message to user
         alert(errorMessage);
       },
       complete: () => {

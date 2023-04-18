@@ -3,13 +3,6 @@ import { SettingsService } from '../services/settings.service';
 
 export const settingsRouter = Router();
 const settingsService = new SettingsService();
-
-// read settings
-// settingsRouter.get('/', async (req, res) => {
-//   const settings = await settingsService.getSettings();
-//   res.json(settings);
-// });
-
 settingsRouter.get('/', async (req, res) => {
   try {
     const settings = await settingsService.getSettings();
@@ -24,7 +17,6 @@ settingsRouter.get('/', async (req, res) => {
   }
 });
 
-// create a new setting
 settingsRouter.post('/', async (req, res) => {
   try {
     const newSetting = await settingsService.createSetting(req.body);
@@ -34,10 +26,9 @@ settingsRouter.post('/', async (req, res) => {
   }
 });
 
-// update a setting by id
 settingsRouter.put('/', async (req, res) => {
   try {
-    const id = 1; // set id to 1
+    const id = 1;
     const updatedSetting = await settingsService.updateSetting(id, req.body);
     if (!updatedSetting) {
       res.status(404).json({ error: 'Setting not found' });
@@ -50,10 +41,9 @@ settingsRouter.put('/', async (req, res) => {
 });
 
 
-// Delete 
 settingsRouter.delete('/', async (req, res) => {
   try {
-    const id = 1; // set id to 1
+    const id = 1;
     const deletedSetting = await settingsService.deleteSetting(id);
     if (!deletedSetting) {
       res.status(404).json({ error: 'Setting not found' });
@@ -64,3 +54,24 @@ settingsRouter.delete('/', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
+// createDefaultSetting(): Observable<ISettings> {
+  //   const defaultSetting = {
+  //     id: 1,
+  //     supplierName: '',
+  //     supplierVatNumber: '',
+  //     supplierCity: '',
+  //     supplierAddress: '',
+  //     iban: '',
+  //     bicSwift: '',
+  //     bank: '',
+  //     dds: 20,
+  //     paymentMethod: '',
+  //     individualPerson: false,
+  //     quantityNumber: 2,
+  //     singlePriceNumber: 2,
+  //     totalPriceNumber: 2,
+  //     supplierEik: '',
+  //     supplierManager: '',
+  //     units: []
+  //   };
