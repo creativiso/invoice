@@ -166,6 +166,7 @@ export interface IUserRoles {
 }
 
 export interface ISettings {
+  id: number;
   supplierName: string;
   supplierVatNumber: string;
   supplierCity: string;
@@ -173,7 +174,7 @@ export interface ISettings {
   iban: string;
   bicSwift: string;
   bank: string;
-  dds: boolean;
+  dds: number;
   paymentMethod: string;
   individualPerson: boolean;
   quantityNumber: number;

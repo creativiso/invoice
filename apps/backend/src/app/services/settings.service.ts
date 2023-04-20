@@ -8,6 +8,7 @@ export class SettingsService {
     if(!setting)
     {
       const defaultSettings: ISettings = {
+        id: 1 ,
         supplierName: '',
         supplierVatNumber: '',
         supplierCity: '',
@@ -15,7 +16,7 @@ export class SettingsService {
         iban: '',
         bicSwift: '',
         bank: '',
-        dds: false,
+        dds: 20,
         paymentMethod: '',
         individualPerson: false,
         quantityNumber: 2,
@@ -25,8 +26,6 @@ export class SettingsService {
         supplierManager: '',
         units: []
       };
-  
-      // create the new settings object in the database
       const newSettings = await Settings.create(defaultSettings);
   
       return newSettings;

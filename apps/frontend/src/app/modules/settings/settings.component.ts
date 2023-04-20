@@ -111,6 +111,7 @@ export class SettingsComponent implements OnInit {
   onSubmit() {
     const formData = this.settingsForm.value;
     const dataSettings: ISettings = {
+      id:1,
       supplierName: formData.supplierName,
       supplierVatNumber: formData.supplierVatNumber,
       supplierCity: formData.supplierCity,
