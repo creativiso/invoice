@@ -31,6 +31,7 @@ export class SettingsService {
   
       return newSettings;
     }
+    return setting;
   }
 
   async createSetting(data: Settings): Promise<Settings> {
