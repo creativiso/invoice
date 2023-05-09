@@ -6,6 +6,7 @@ import {
   HasMany,
 } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { IProform } from 'libs/typings/src/model';
 import { ProformItem } from './ProformItem';
 

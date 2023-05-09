@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { IContractor } from '../../../../../libs/typings/src/index';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -18,8 +19,8 @@ export class ContractorsService {
     return this.http.put(`${this.apiUrl}/${contractorId}`, contractorData);
   }
 
-  getAllContractors() {
-    return this.http.get(`${this.apiUrl}/`);
+  getAllContractors(): Observable<IContractor[]> {
+    return this.http.get<IContractor[]>(`${this.apiUrl}/`);
   }
 
   getContractorById(contractorId: number) {

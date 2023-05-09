@@ -1,33 +1,63 @@
-<table mat-table class="mat-elevation-z8">
-  <!--- Note that these columns can be defined in any order.
-          The actual rendered columns are set as a property on the row definition" -->
-
+<h2>Контрагенти</h2>
+<button
+  class="btn-add"
+  aria-label="добавяне на нов контрагент"
+  matTooltip="добавяне на нов контрагент"
+  mat-raised-button
+>
+  <mat-icon>add</mat-icon>
+  Добавяне
+</button>
+<table mat-table [dataSource]="contractors" class="mat-elevation-z8">
+  <h2>Contractors</h2>
   <!-- Name Column -->
   <ng-container matColumnDef="name">
     <th mat-header-cell *matHeaderCellDef>Име</th>
-    <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+    <td mat-cell *matCellDef="let contractor">{{ contractor.name }}</td>
   </ng-container>
 
+  <!-- City Column -->
   <ng-container matColumnDef="city">
     <th mat-header-cell *matHeaderCellDef>Град</th>
-    <td mat-cell *matCellDef="let element">{{ element.city }}</td>
+    <td mat-cell *matCellDef="let contractor">{{ contractor.city }}</td>
   </ng-container>
 
+  <!-- MOL Column -->
   <ng-container matColumnDef="mol">
     <th mat-header-cell *matHeaderCellDef>МОЛ</th>
-    <td mat-cell *matCellDef="let element">{{ element.mol }}</td>
+    <td mat-cell *matCellDef="let contractor">{{ contractor.mol }}</td>
   </ng-container>
 
+  <!-- EGN Column -->
   <ng-container matColumnDef="egn">
     <th mat-header-cell *matHeaderCellDef>ЕГН</th>
-    <td mat-cell *matCellDef="let element">{{ element.egn }}</td>
+    <td mat-cell *matCellDef="let contractor">{{ contractor.egn }}</td>
   </ng-container>
 
+  <!-- Tools Column -->
   <ng-container matColumnDef="tools">
     <th mat-header-cell *matHeaderCellDef>Инструменти</th>
-    <td mat-cell *matCellDef="let element">{{ element.tools }}</td>
+    <td mat-cell *matCellDef="let contractor">
+      <button
+        class="icon-delete-btn"
+        mat-icon-button
+        matTooltip="редактиране на ред"
+        aria-label="редактиране на ред"
+      >
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button
+        class="icon-delete-btn"
+        mat-icon-button
+        matTooltip="изтриване на ред"
+        aria-label="изтриване на ред"
+      >
+        <mat-icon>delete</mat-icon>
+      </button>
+    </td>
   </ng-container>
 
+  <!-- Table rows -->
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  <tr mat-row *matRowDef="let contractor; columns: displayedColumns"></tr>
 </table>
