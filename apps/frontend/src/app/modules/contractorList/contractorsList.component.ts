@@ -24,4 +24,19 @@ export class ContractorListComponent implements OnInit {
       }
     );
   }
+  deleteContractor(contractor: IContractor) {
+    this.contractorsService.deleteContractor(contractor.id).subscribe(
+      () => {
+        // Remove the deleted contractor from the array
+        const index = this.contractors.indexOf(contractor);
+        if (index !== -1) {
+          this.contractors.splice(index, 1);
+          location.reload();
+        }
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  }
 }

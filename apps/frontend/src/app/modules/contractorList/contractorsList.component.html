@@ -1,13 +1,13 @@
 <h2>Контрагенти</h2>
 <button
   class="btn-add"
-  aria-label="добавяне на нов контрагент"
-  matTooltip="добавяне на нов контрагент"
   mat-raised-button
+  matTooltip="добавяне на контрагент"
+  aria-label="добавяне на контрагент"
 >
-  <mat-icon>add</mat-icon>
-  Добавяне
+  <a routerLink="/contractors">Добавяне</a>
 </button>
+
 <table mat-table [dataSource]="contractors" class="mat-elevation-z8">
   <h2>Contractors</h2>
   <!-- Name Column -->
@@ -48,6 +48,7 @@
       </button>
       <button
         class="icon-delete-btn"
+        (click)="deleteContractor(contractor)"
         mat-icon-button
         matTooltip="изтриване на ред"
         aria-label="изтриване на ред"

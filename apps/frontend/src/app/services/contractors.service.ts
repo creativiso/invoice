@@ -26,4 +26,7 @@ export class ContractorsService {
   getContractorById(contractorId: number) {
     return this.http.get(`${this.apiUrl}/${contractorId}`);
   }
+  deleteContractor(contractorId: number) {
+    return this.http.delete(`${this.apiUrl}/${contractorId}`);
+  }
 }

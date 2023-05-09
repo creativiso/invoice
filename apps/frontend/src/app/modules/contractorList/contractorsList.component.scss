@@ -3,7 +3,12 @@ table {
 }
 .btn-add {
   background-color: #172647;
-  color: #f4f2f1;
+
   float: right;
   margin-bottom: 10px;
+}
+.btn-add a {
+  color: #f4f2f1;
+  text-decoration: none;
+  cursor: pointer;
 }
