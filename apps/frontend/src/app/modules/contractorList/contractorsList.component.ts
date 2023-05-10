@@ -31,25 +31,25 @@ export class ContractorListComponent implements OnInit {
     });
   }
 
-  deleteContractor(contractor: IContractor) {
-    this.contractorsService.deleteContractor(contractor.id).subscribe({
-      next: () => {
-        // Remove the deleted contractor from the array
-        const index = this.contractors.indexOf(contractor);
-        if (index !== -1) {
-          this.contractors.splice(index, 1);
-        }
-      },
-      error: (error) => {
-        console.error(error);
-      },
-      complete: () => {
-        console.log('Delete contractor completed.');
-        alert('Delete contractor completed.');
-        location.reload();
-      },
-    });
-  }
+  // deleteContractor(contractor: IContractor) {
+  //   this.contractorsService.deleteContractor(contractor.id).subscribe({
+  //     next: () => {
+  //       // Remove the deleted contractor from the array
+  //       const index = this.contractors.indexOf(contractor);
+  //       if (index !== -1) {
+  //         this.contractors.splice(index, 1);
+  //       }
+  //     },
+  //     error: (error) => {
+  //       console.error(error);
+  //     },
+  //     complete: () => {
+  //       console.log('Delete contractor completed.');
+  //       alert('Delete contractor completed.');
+  //       location.reload();
+  //     },
+  //   });
+  // }
   editContractor(contractor: IContractor) {
     this.router.navigate(['/contractors', contractor.id, 'edit'], {
       state: { data: contractor },
