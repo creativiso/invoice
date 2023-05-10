@@ -52,6 +52,14 @@ import { NotLoggedInGuard } from './auth/notLoggedIn.guard';
           canActivate: [AuthGuard],
         },
         {
+          path: 'contractors/:id',
+          loadChildren: () =>
+            import('./modules/contractors/contractors.module').then(
+              (m) => m.ContractorsModule
+            ),
+          canActivate: [AuthGuard],
+        },
+        {
           path: 'settings',
           loadChildren: () =>
             import('./modules/settings/settings.module').then(

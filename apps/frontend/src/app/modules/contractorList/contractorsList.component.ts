@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ContractorsService } from 'src/app/services/contractors.service';
 import { IContractor } from '../../../../../../libs/typings/src';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'crtvs-contractors-list',
@@ -12,21 +13,27 @@ export class ContractorListComponent implements OnInit {
 
   contractors: IContractor[] = [];
 
-  constructor(private contractorsService: ContractorsService) {}
+  constructor(
+    private route: ActivatedRoute,
+    private contractorsService: ContractorsService
+  ) {}
   ngOnInit(): void {
-    this.contractorsService.getAllContractors().subscribe(
-      (data: IContractor[]) => {
+    this.contractorsService.getAllContractors().subscribe({
+      next: (data: IContractor[]) => {
         this.contractors = data;
       },
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (error: any) => {
+      error: (error) => {
         console.error(error);
-      }
-    );
+      },
+      complete: () => {
+        console.log('Get all contractors completed.');
+      },
+    });
   }
+
   deleteContractor(contractor: IContractor) {
-    this.contractorsService.deleteContractor(contractor.id).subscribe(
-      () => {
+    this.contractorsService.deleteContractor(contractor.id).subscribe({
+      next: () => {
         // Remove the deleted contractor from the array
         const index = this.contractors.indexOf(contractor);
         if (index !== -1) {
@@ -34,9 +41,12 @@ export class ContractorListComponent implements OnInit {
           location.reload();
         }
       },
-      (error) => {
+      error: (error) => {
         console.error(error);
-      }
-    );
+      },
+      complete: () => {
+        console.log('Delete contractor completed.');
+      },
+    });
   }
 }

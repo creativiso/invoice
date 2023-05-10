@@ -23,14 +23,14 @@ export class ContractorsComponent implements OnInit {
     const contractorEgnField = document.getElementById('contractorEgn');
 
     this.contractorsForm = this.fb.group({
-      contractorName: ['', Validators.required],
+      name: ['', Validators.required],
       isPerson: [false],
-      contractorEik: [''],
-      contractorEgn: [''],
-      contractorVatNumber: [''],
-      contractorMol: ['', Validators.required],
-      contractorCity: ['', Validators.required],
-      contractorAddress: ['', Validators.required],
+      eik: [''],
+      egn: [''],
+      vatNumber: [''],
+      mol: ['', Validators.required],
+      city: ['', Validators.required],
+      address: ['', Validators.required],
     });
 
     // Subscribe to changes in the isPerson form control value
@@ -52,15 +52,17 @@ export class ContractorsComponent implements OnInit {
   }
   onSubmit() {
     const contractorData = this.contractorsForm.value;
-    this.contractorsService.createContractor(contractorData).subscribe(
-      (res) => {
-        console.log('Contractor created successfully.');
-        // Reset the form
-        //this.contractorsForm.reset();
+    console.log('Form data:', contractorData); // log the form data
+
+    this.contractorsService.createContractor(contractorData).subscribe({
+      next: (res) => {
+        console.log('Contractor created successfully.', res);
+        alert('Contractor is created Successfully');
+        location.reload();
       },
-      (error) => {
+      error: (error) => {
         console.error('Error creating contractor:', error);
-      }
-    );
+      },
+    });
   }
 }

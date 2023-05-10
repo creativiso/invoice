@@ -7,7 +7,7 @@
       <div class="input-field">
         <mat-form-field appearance="outline" [ngStyle]="{ width: '50%' }">
           <mat-label>Име</mat-label>
-          <input matInput formControlName="contractorName" />
+          <input matInput formControlName="name" />
 
           <mat-hint>Задължително *</mat-hint>
         </mat-form-field>
@@ -23,38 +23,38 @@
       <div class="input-field" id="contractorEik">
         <mat-form-field appearance="outline" [ngStyle]="{ width: '50%' }">
           <mat-label>ЕИК</mat-label>
-          <input matInput formControlName="contractorEik" />
+          <input matInput formControlName="eik" />
         </mat-form-field>
       </div>
       <div class="input-field hidden" id="contractorEgn">
         <mat-form-field appearance="outline" [ngStyle]="{ width: '50%' }">
           <mat-label>ЕГН</mat-label>
-          <input matInput formControlName="contractorEgn" />
+          <input matInput formControlName="egn" />
         </mat-form-field>
       </div>
 
       <div class="input-field" id="contractorVatNumber">
         <mat-form-field appearance="outline" [ngStyle]="{ width: '50%' }">
           <mat-label>ДДС Номер</mat-label>
-          <input matInput formControlName="contractorVatNumber" />
+          <input matInput formControlName="vatNumber" />
         </mat-form-field>
       </div>
       <div class="input-field">
         <mat-form-field appearance="outline" [ngStyle]="{ width: '50%' }">
           <mat-label>МОЛ</mat-label>
-          <input matInput formControlName="contractorMol" />
+          <input matInput formControlName="mol" />
         </mat-form-field>
       </div>
       <div class="input-field">
         <mat-form-field appearance="outline" [ngStyle]="{ width: '50%' }">
           <mat-label>Населено място</mat-label>
-          <input matInput formControlName="contractorCity" />
+          <input matInput formControlName="city" />
         </mat-form-field>
       </div>
       <div class="input-field">
         <mat-form-field appearance="outline" [ngStyle]="{ width: '50%' }">
           <mat-label>Адрес</mat-label>
-          <input matInput formControlName="contractorAddress" />
+          <input matInput formControlName="address" />
         </mat-form-field>
       </div>
     </mat-card-content>
