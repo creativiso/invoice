@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ContractorsService } from 'src/app/services/contractors.service';
 import { IContractor } from '../../../../../../libs/typings/src';
-import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'crtvs-contractors-list',
@@ -14,7 +14,7 @@ export class ContractorListComponent implements OnInit {
   contractors: IContractor[] = [];
 
   constructor(
-    private route: ActivatedRoute,
+    private router: Router,
     private contractorsService: ContractorsService
   ) {}
   ngOnInit(): void {
@@ -38,7 +38,6 @@ export class ContractorListComponent implements OnInit {
         const index = this.contractors.indexOf(contractor);
         if (index !== -1) {
           this.contractors.splice(index, 1);
-          location.reload();
         }
       },
       error: (error) => {
@@ -46,7 +45,14 @@ export class ContractorListComponent implements OnInit {
       },
       complete: () => {
         console.log('Delete contractor completed.');
+        alert('Delete contractor completed.');
+        location.reload();
       },
+    });
+  }
+  editContractor(contractor: IContractor) {
+    this.router.navigate(['/contractors', contractor.id, 'edit'], {
+      state: { data: contractor },
     });
   }
 }

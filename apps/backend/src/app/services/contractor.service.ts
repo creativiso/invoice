@@ -1,3 +1,4 @@
+import { IContractor } from 'libs/typings/src/model';
 import { Contractor } from '../model/models/Contractor';
 
 export class ContractorService {
@@ -37,33 +38,12 @@ export class ContractorService {
     });
   }
 
-  async updateContractor(
-    id: number,
-    name: string,
-    city: string,
-    address: string,
-    eik: string,
-    dds: boolean,
-    ddsnumber: string,
-    mol: string,
-    person: boolean,
-    egn: string
-  ) {
-    const contractor = await Contractor.findByPk(id);
-    if (!contractor) {
+  async updateContractor(contractor: IContractor) {
+    const existingContractor = await Contractor.findByPk(contractor.id);
+    if (!existingContractor) {
       throw new Error('Contractor not found');
     }
-    await contractor.update({
-      name,
-      city,
-      address,
-      eik,
-      dds,
-      ddsnumber,
-      mol,
-      person,
-      egn,
-    });
+    await existingContractor.update(contractor);
   }
   async deleteContractor(id: number) {
     const contractor = await Contractor.findByPk(id);

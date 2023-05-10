@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ContractorsService } from 'src/app/services/contractors.service';
+import { IContractor } from '../../../../../../libs/typings/src/model';
 
 @Component({
   selector: 'crtvs-contractors',
@@ -8,20 +10,17 @@ import { ContractorsService } from 'src/app/services/contractors.service';
   styleUrls: ['./contractors.component.css'],
 })
 export class ContractorsComponent implements OnInit {
+  contractor!: IContractor;
   contractorsForm!: FormGroup;
   constructor(
     private fb: FormBuilder,
-    private contractorsService: ContractorsService
+    private contractorsService: ContractorsService,
+    private route: ActivatedRoute,
+    private router: Router
   ) {
     //
   }
   ngOnInit() {
-    const contractorEikField = document.getElementById('contractorEik');
-    const contractorVatNumberField = document.getElementById(
-      'contractorVatNumber'
-    );
-    const contractorEgnField = document.getElementById('contractorEgn');
-
     this.contractorsForm = this.fb.group({
       name: ['', Validators.required],
       isPerson: [false],
@@ -32,6 +31,11 @@ export class ContractorsComponent implements OnInit {
       city: ['', Validators.required],
       address: ['', Validators.required],
     });
+    const contractorEikField = document.getElementById('contractorEik');
+    const contractorVatNumberField = document.getElementById(
+      'contractorVatNumber'
+    );
+    const contractorEgnField = document.getElementById('contractorEgn');
 
     // Subscribe to changes in the isPerson form control value
     this.contractorsForm
@@ -49,20 +53,58 @@ export class ContractorsComponent implements OnInit {
           contractorEgnField?.classList.add('hidden');
         }
       });
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+    this.contractorsService.getContractorById(id).subscribe({
+      next: (data: IContractor) => {
+        this.contractor = data;
+        this.contractorsForm.patchValue({
+          name: this.contractor.name,
+          isPerson: this.contractor.person,
+          egn: this.contractor.egn,
+          mol: this.contractor.mol,
+          city: this.contractor.city,
+          address: this.contractor.address,
+          vatNumber: this.contractor.ddsnumber,
+        });
+      },
+      error: (error) => {
+        console.error(error);
+      },
+      complete: () => {
+        console.log('Get contractor by id completed.');
+      },
+    });
   }
   onSubmit() {
     const contractorData = this.contractorsForm.value;
     console.log('Form data:', contractorData); // log the form data
 
-    this.contractorsService.createContractor(contractorData).subscribe({
-      next: (res) => {
-        console.log('Contractor created successfully.', res);
-        alert('Contractor is created Successfully');
-        location.reload();
-      },
-      error: (error) => {
-        console.error('Error creating contractor:', error);
-      },
-    });
+    if (this.contractor) {
+      // Update existing contractor
+      this.contractorsService
+        .updateContractor(this.contractor.id, contractorData)
+        .subscribe({
+          next: (res) => {
+            console.log('Contractor updated successfully.', res);
+            alert('Contractor is updated Successfully');
+            this.router.navigate(['/contractorsList']);
+          },
+          error: (error) => {
+            console.error('Error updating contractor:', error);
+          },
+        });
+    } else {
+      // Create new contractor
+      this.contractorsService.createContractor(contractorData).subscribe({
+        next: (res) => {
+          console.log('Contractor created successfully.', res);
+          alert('Contractor is created Successfully');
+          this.router.navigate(['/contractorsList']);
+        },
+        error: (error) => {
+          console.error('Error creating contractor:', error);
+        },
+      });
+    }
   }
 }
