@@ -1,56 +1,64 @@
-<h1>Контрагенти</h1>
-<button
-  class="btn-add"
-  mat-raised-button
-  matTooltip="добавяне на контрагент"
-  aria-label="добавяне на контрагент"
->
-  <a routerLink="/contractors">Добавяне</a>
-</button>
+<div class="mat-elevation-z8">
+  <h1>Контрагенти</h1>
+  <button
+    class="btn-add"
+    mat-raised-button
+    matTooltip="добавяне на контрагент"
+    aria-label="добавяне на контрагент"
+  >
+    <a routerLink="/contractors">Добавяне</a>
+  </button>
 
-<table mat-table [dataSource]="contractors" class="mat-elevation-z8">
-  <h2>Contractors</h2>
-  <!-- Name Column -->
-  <ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef>Име</th>
-    <td mat-cell *matCellDef="let contractor">{{ contractor.name }}</td>
-  </ng-container>
+  <table mat-table [dataSource]="dataSource" class="">
+    <h2>Контрагенти</h2>
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Име</th>
+      <td mat-cell *matCellDef="let contractor">{{ contractor.name }}</td>
+    </ng-container>
 
-  <!-- City Column -->
-  <ng-container matColumnDef="city">
-    <th mat-header-cell *matHeaderCellDef>Град</th>
-    <td mat-cell *matCellDef="let contractor">{{ contractor.city }}</td>
-  </ng-container>
+    <!-- City Column -->
+    <ng-container matColumnDef="city">
+      <th mat-header-cell *matHeaderCellDef>Град</th>
+      <td mat-cell *matCellDef="let contractor">{{ contractor.city }}</td>
+    </ng-container>
 
-  <!-- MOL Column -->
-  <ng-container matColumnDef="mol">
-    <th mat-header-cell *matHeaderCellDef>МОЛ</th>
-    <td mat-cell *matCellDef="let contractor">{{ contractor.mol }}</td>
-  </ng-container>
+    <!-- MOL Column -->
+    <ng-container matColumnDef="mol">
+      <th mat-header-cell *matHeaderCellDef>МОЛ</th>
+      <td mat-cell *matCellDef="let contractor">{{ contractor.mol }}</td>
+    </ng-container>
 
-  <!-- EGN Column -->
-  <ng-container matColumnDef="egn">
-    <th mat-header-cell *matHeaderCellDef>ЕГН</th>
-    <td mat-cell *matCellDef="let contractor">{{ contractor.egn }}</td>
-  </ng-container>
+    <!-- EGN Column -->
+    <ng-container matColumnDef="egn">
+      <th mat-header-cell *matHeaderCellDef>ЕГН</th>
+      <td mat-cell *matCellDef="let contractor">{{ contractor.egn }}</td>
+    </ng-container>
 
-  <!-- Tools Column -->
-  <ng-container matColumnDef="tools">
-    <th mat-header-cell *matHeaderCellDef>Инструменти</th>
-    <td mat-cell *matCellDef="let contractor">
-      <button
-        class="icon-edit-btn"
-        mat-icon-button
-        (click)="editContractor(contractor)"
-        matTooltip="редактиране на ред"
-        aria-label="редактиране на ред"
-      >
-        <mat-icon>edit</mat-icon>
-      </button>
-    </td>
-  </ng-container>
+    <!-- Tools Column -->
+    <ng-container matColumnDef="tools">
+      <th mat-header-cell *matHeaderCellDef>Инструменти</th>
+      <td mat-cell *matCellDef="let contractor">
+        <button
+          class="icon-edit-btn"
+          mat-icon-button
+          (click)="editContractor(contractor)"
+          matTooltip="редактиране на ред"
+          aria-label="редактиране на ред"
+        >
+          <mat-icon>edit</mat-icon>
+        </button>
+      </td>
+    </ng-container>
 
-  <!-- Table rows -->
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let contractor; columns: displayedColumns"></tr>
-</table>
+    <!-- Table rows -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let contractor; columns: displayedColumns"></tr>
+  </table>
+  <mat-paginator
+    [length]="contractors.length"
+    [pageSize]="5"
+    [pageSizeOptions]="[5, 10, 25, 100]"
+    showFirstLastButtons
+  ></mat-paginator>
+</div>
