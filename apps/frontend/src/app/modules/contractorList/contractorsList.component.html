@@ -31,8 +31,10 @@
 
     <!-- EGN Column -->
     <ng-container matColumnDef="egn">
-      <th mat-header-cell *matHeaderCellDef>ЕГН</th>
-      <td mat-cell *matCellDef="let contractor">{{ contractor.egn }}</td>
+      <th mat-header-cell *matHeaderCellDef>ЕИК/ЕГН</th>
+      <td mat-cell *matCellDef="let contractor">
+        {{ contractor.egn ? contractor.egn : contractor.eik }}
+      </td>
     </ng-container>
 
     <!-- Tools Column -->

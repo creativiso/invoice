@@ -24,12 +24,24 @@ export class ContractorsComponent implements OnInit {
     this.contractorsForm = this.fb.group({
       name: ['', Validators.required],
       isPerson: [false],
-      eik: [''],
+      eik: ['', Validators.required],
       egn: [''],
       vatNumber: [''],
       mol: ['', Validators.required],
       city: ['', Validators.required],
       address: ['', Validators.required],
+    });
+    this.contractorsForm.get('isPerson')?.valueChanges.subscribe((isPerson) => {
+      const eikControl = this.contractorsForm.get('eik');
+      const egnControl = this.contractorsForm.get('egn');
+
+      if (isPerson === true) {
+        eikControl?.clearValidators();
+        egnControl?.setValidators([Validators.required]);
+      }
+
+      eikControl?.updateValueAndValidity();
+      egnControl?.updateValueAndValidity();
     });
     const contractorEikField = document.getElementById('contractorEik');
     const contractorVatNumberField = document.getElementById(
@@ -76,35 +88,40 @@ export class ContractorsComponent implements OnInit {
     });
   }
   onSubmit() {
-    const contractorData = this.contractorsForm.value;
-    console.log('Form data:', contractorData); // log the form data
+    if (this.contractorsForm.valid) {
+      const contractorData = this.contractorsForm.value;
+      console.log('Form data:', contractorData); // log the form data
 
-    if (this.contractor) {
-      // Update existing contractor
-      this.contractorsService
-        .updateContractor(this.contractor.id, contractorData)
-        .subscribe({
+      if (this.contractor) {
+        // Update existing contractor
+        this.contractorsService
+          .updateContractor(this.contractor.id, contractorData)
+          .subscribe({
+            next: (res) => {
+              console.log('Contractor updated successfully.', res);
+              alert('Contractor is updated Successfully');
+              this.router.navigate(['/contractorsList']);
+            },
+            error: (error) => {
+              console.error('Error updating contractor:', error);
+            },
+          });
+      } else {
+        // Create new contractor
+        this.contractorsService.createContractor(contractorData).subscribe({
           next: (res) => {
-            console.log('Contractor updated successfully.', res);
-            alert('Contractor is updated Successfully');
+            console.log('Contractor created successfully.', res);
+            alert('Contractor is created Successfully');
             this.router.navigate(['/contractorsList']);
           },
           error: (error) => {
-            console.error('Error updating contractor:', error);
+            console.error('Error creating contractor:', error);
           },
         });
-    } else {
-      // Create new contractor
-      this.contractorsService.createContractor(contractorData).subscribe({
-        next: (res) => {
-          console.log('Contractor created successfully.', res);
-          alert('Contractor is created Successfully');
-          this.router.navigate(['/contractorsList']);
-        },
-        error: (error) => {
-          console.error('Error creating contractor:', error);
-        },
-      });
+      }
     }
+  }
+  isFormInvalid() {
+    return !this.contractorsForm.valid;
   }
 }

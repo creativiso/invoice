@@ -59,7 +59,12 @@
       </div>
     </mat-card-content>
     <mat-card-actions>
-      <button type="submit" mat-raised-button class="btn-submit">
+      <button
+        [disabled]="isFormInvalid()"
+        type="submit"
+        mat-raised-button
+        class="btn-submit"
+      >
         <a>Изпрати</a>
       </button>
     </mat-card-actions>
