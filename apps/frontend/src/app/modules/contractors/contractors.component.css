@@ -9,3 +9,6 @@
 .hidden {
   display: none !important;
 }
+.error {
+  color: rgb(230, 69, 69);
+}

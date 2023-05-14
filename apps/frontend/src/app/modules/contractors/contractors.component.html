@@ -11,6 +11,12 @@
 
           <mat-hint>Задължително *</mat-hint>
         </mat-form-field>
+        <div
+          class="error"
+          *ngIf="contractorsForm.get('name')?.errors?.['minlength']"
+        >
+          Името трябва да е поне 2 знака!
+        </div>
       </div>
       <div class="input-field">
         <mat-checkbox
@@ -25,12 +31,24 @@
           <mat-label>ЕИК</mat-label>
           <input matInput formControlName="eik" />
         </mat-form-field>
+        <div
+          class="error"
+          *ngIf="contractorsForm.get('eik')?.errors?.['invalidEik']"
+        >
+          Невалиден ЕИК номер.Трябва да се състои от 9 или 13 числа.
+        </div>
       </div>
       <div class="input-field hidden" id="contractorEgn">
         <mat-form-field appearance="outline" [ngStyle]="{ width: '50%' }">
           <mat-label>ЕГН</mat-label>
           <input matInput formControlName="egn" />
         </mat-form-field>
+        <div *ngIf="contractorsForm.get('egn')?.errors?.['invalidEgnLength']">
+          Невалидно ЕГН. Трябва да се състои от 10 знака!
+        </div>
+        <div *ngIf="contractorsForm.get('egn')?.errors?.['invalidEgnChecksum']">
+          Невалидно ЕГН!
+        </div>
       </div>
 
       <div class="input-field" id="contractorVatNumber">

@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ContractorsService } from 'src/app/services/contractors.service';
 import { IContractor } from '../../../../../../libs/typings/src/model';
+import { eikValidator } from '../../validators/eik.validator';
+import { egnValidator } from '../../validators/egn.validator';
 
 @Component({
   selector: 'crtvs-contractors',
@@ -22,9 +24,9 @@ export class ContractorsComponent implements OnInit {
   }
   ngOnInit() {
     this.contractorsForm = this.fb.group({
-      name: ['', Validators.required],
+      name: ['', [Validators.required, Validators.minLength(2)]],
       isPerson: [false],
-      eik: ['', Validators.required],
+      eik: ['', [Validators.required, eikValidator()]],
       egn: [''],
       vatNumber: [''],
       mol: ['', Validators.required],
@@ -37,7 +39,7 @@ export class ContractorsComponent implements OnInit {
 
       if (isPerson === true) {
         eikControl?.clearValidators();
-        egnControl?.setValidators([Validators.required]);
+        egnControl?.setValidators([Validators.required, egnValidator()]);
       }
 
       eikControl?.updateValueAndValidity();
