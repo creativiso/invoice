@@ -5,6 +5,8 @@ import { ContractorsService } from 'src/app/services/contractors.service';
 import { IContractor } from '../../../../../../libs/typings/src/model';
 import { eikValidator } from '../../validators/eik.validator';
 import { egnValidator } from '../../validators/egn.validator';
+import { vatValidator } from '../../validators/vatNumber.validator';
+import { validateVerticalPosition } from '@angular/cdk/overlay';
 
 @Component({
   selector: 'crtvs-contractors',
@@ -28,10 +30,27 @@ export class ContractorsComponent implements OnInit {
       isPerson: [false],
       eik: ['', [Validators.required, eikValidator()]],
       egn: [''],
-      vatNumber: [''],
-      mol: ['', Validators.required],
-      city: ['', Validators.required],
-      address: ['', Validators.required],
+      vatNumber: ['', vatValidator()],
+      mol: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(2),
+          Validators.maxLength(40),
+          Validators.pattern(
+            '^([A-ZА-Я][a-zа-я]*([-\\s][A-ZА-Я][a-zа-я]*)*)?$'
+          ),
+        ],
+      ],
+      city: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.pattern('^[A-ZА-Я][a-zа-я]*([-\\s][A-ZА-Я][a-zа-я]*)*$'),
+        ],
+      ],
+      address: ['', [Validators.required, Validators.minLength(5)]],
     });
     this.contractorsForm.get('isPerson')?.valueChanges.subscribe((isPerson) => {
       const eikControl = this.contractorsForm.get('eik');

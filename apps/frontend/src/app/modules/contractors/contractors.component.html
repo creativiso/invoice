@@ -56,24 +56,74 @@
           <mat-label>ДДС Номер</mat-label>
           <input matInput formControlName="vatNumber" />
         </mat-form-field>
+        <div
+          class="error"
+          *ngIf="contractorsForm.get('vatNumber')?.errors?.['invalidVatNumber']"
+        >
+          Невалиден ДДС номер. Трябва да бъде във формат BGXXXXXXXXX !
+        </div>
+        <div
+          *ngIf="contractorsForm.get('vatNumber')?.errors?.['invalidVatNumberPrefix']"
+        >
+          VAT number must start with 'BG' if the EIK and VAT number are the
+          same.
+        </div>
       </div>
       <div class="input-field">
         <mat-form-field appearance="outline" [ngStyle]="{ width: '50%' }">
           <mat-label>МОЛ</mat-label>
           <input matInput formControlName="mol" />
         </mat-form-field>
+
+        <div
+          class="error"
+          *ngIf="contractorsForm.get('mol')?.hasError('pattern')"
+        >
+          МОЛ трябва да съдържа име и фамилия! Пъравата буква от името и
+          фамилията трябва да бъдат с главна буква!
+        </div>
+        <div
+          class="error"
+          *ngIf="contractorsForm.get('mol')?.hasError('minlength')"
+        >
+          МОЛ трябва да съдържа поне 2 букви!
+        </div>
+        <div
+          class="error"
+          *ngIf="contractorsForm.get('mol')?.hasError('maxlength')"
+        >
+          МОЛ трябва да съдържа максимум 40 букви!
+        </div>
       </div>
       <div class="input-field">
         <mat-form-field appearance="outline" [ngStyle]="{ width: '50%' }">
           <mat-label>Населено място</mat-label>
           <input matInput formControlName="city" />
         </mat-form-field>
+        <div
+          class="error"
+          *ngIf="contractorsForm.get('city')?.hasError('minlength')"
+        >
+          Населено място трябва да съдържа минимум 3 букви!
+        </div>
+        <div
+          class="error"
+          *ngIf="contractorsForm.get('city')?.hasError('pattern')"
+        >
+          Населено място трябва да започва с главна буква!
+        </div>
       </div>
       <div class="input-field">
         <mat-form-field appearance="outline" [ngStyle]="{ width: '50%' }">
           <mat-label>Адрес</mat-label>
           <input matInput formControlName="address" />
         </mat-form-field>
+        <div
+          class="error"
+          *ngIf="contractorsForm.get('address')?.hasError('minlength')"
+        >
+          Адреса трябва има поне 5 символа!
+        </div>
       </div>
     </mat-card-content>
     <mat-card-actions>
