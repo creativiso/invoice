@@ -28,9 +28,9 @@ export class ContractorsComponent implements OnInit {
     this.contractorsForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(2)]],
       isPerson: [false],
-      eik: ['', [Validators.required, eikValidator()]],
+      eik: ['', [Validators.required]],
       egn: [''],
-      vatNumber: ['', vatValidator()],
+      vatNumber: [''],
       mol: [
         '',
         [

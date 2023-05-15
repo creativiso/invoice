@@ -43,10 +43,16 @@
           <mat-label>ЕГН</mat-label>
           <input matInput formControlName="egn" />
         </mat-form-field>
-        <div *ngIf="contractorsForm.get('egn')?.errors?.['invalidEgnLength']">
+        <div
+          class="error"
+          *ngIf="contractorsForm.get('egn')?.errors?.['invalidEgnLength']"
+        >
           Невалидно ЕГН. Трябва да се състои от 10 знака!
         </div>
-        <div *ngIf="contractorsForm.get('egn')?.errors?.['invalidEgnChecksum']">
+        <div
+          class="error"
+          *ngIf="contractorsForm.get('egn')?.errors?.['invalidEgnChecksum']"
+        >
           Невалидно ЕГН!
         </div>
       </div>
