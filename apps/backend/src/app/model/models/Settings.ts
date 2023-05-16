@@ -7,7 +7,7 @@ import { ISettings } from '../../../../../../libs/typings/src/index'
 })
 export class Settings extends Model<ISettings> {
 
-    @Column({ type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true })
+    @Column({ type: DataTypes.INTEGER, primaryKey: true})
     id: number;
 
     @Column({ type: DataTypes.STRING })
@@ -31,8 +31,8 @@ export class Settings extends Model<ISettings> {
     @Column({ type: DataTypes.STRING })
     bank: string;
   
-    @Column({ type: DataTypes.BOOLEAN })
-    dds: boolean;
+    @Column({ type: DataTypes.INTEGER})
+    dds: number;
   
     @Column({ type: DataTypes.STRING })
     paymentMethod: string;
