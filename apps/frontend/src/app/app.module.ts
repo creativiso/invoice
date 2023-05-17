@@ -28,10 +28,10 @@ import { NotLoggedInGuard } from './auth/notLoggedIn.guard';
           canActivate: [AuthGuard],
         },
         {
-          path: 'proformsList',
+          path: 'invoicesList',
           loadChildren: () =>
-            import('./modules/proformsList/proformsList.module').then(
-              (m) => m.ProformsListModule
+            import('./modules/invoicesList/invoicesList.module').then(
+              (m) => m.InvoicesListModule
             ),
           canActivate: [AuthGuard],
         },

@@ -1,7 +1,7 @@
+import { InvoicesListComponent } from './invoicesList.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
-import { ProformsListComponent } from './proformsList.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -15,10 +15,10 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-const routes: Routes = [{ path: '', component: ProformsListComponent }];
+const routes: Routes = [{ path: '', component: InvoicesListComponent }];
 
 @NgModule({
-  declarations: [ProformsListComponent],
+  declarations: [InvoicesListComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
@@ -36,4 +36,4 @@ const routes: Routes = [{ path: '', component: ProformsListComponent }];
     MatTooltipModule,
   ],
 })
-export class ProformsListModule {}
+export class InvoicesListModule {}
