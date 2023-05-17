@@ -28,6 +28,14 @@ import { NotLoggedInGuard } from './auth/notLoggedIn.guard';
           canActivate: [AuthGuard],
         },
         {
+          path: 'proformsList',
+          loadChildren: () =>
+            import('./modules/proformsList/proformsList.module').then(
+              (m) => m.ProformsListModule
+            ),
+          canActivate: [AuthGuard],
+        },
+        {
           path: 'proformas',
           loadChildren: () =>
             import('./modules/proformas/proformas.module').then(

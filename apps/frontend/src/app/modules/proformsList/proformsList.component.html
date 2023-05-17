@@ -1,0 +1,58 @@
+<h1>Проформи</h1>
+<button
+  class="btn-add mat-raised-button matTooltip"
+  aria-label="добавяне на контрагент"
+  mat-raised-button
+>
+  <a routerLink="/contractors">
+    <mat-icon class="add-icon">add</mat-icon>
+    <span class="add-text">Добавяне</span>
+  </a>
+</button>
+
+<table mat-table [dataSource]="proforms" class="mat-elevation-z8">
+  <h2>Contractors</h2>
+  <!-- Name Column -->
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef>Име</th>
+    <td mat-cell *matCellDef="let contractor">{{ contractor.name }}</td>
+  </ng-container>
+
+  <!-- City Column -->
+  <ng-container matColumnDef="city">
+    <th mat-header-cell *matHeaderCellDef>Град</th>
+    <td mat-cell *matCellDef="let contractor">{{ contractor.city }}</td>
+  </ng-container>
+
+  <!-- MOL Column -->
+  <ng-container matColumnDef="mol">
+    <th mat-header-cell *matHeaderCellDef>МОЛ</th>
+    <td mat-cell *matCellDef="let contractor">{{ contractor.mol }}</td>
+  </ng-container>
+
+  <!-- EGN Column -->
+  <ng-container matColumnDef="egn">
+    <th mat-header-cell *matHeaderCellDef>ЕГН</th>
+    <td mat-cell *matCellDef="let contractor">{{ contractor.egn }}</td>
+  </ng-container>
+
+  <!-- Tools Column -->
+  <ng-container matColumnDef="tools">
+    <th mat-header-cell *matHeaderCellDef>Инструменти</th>
+    <td mat-cell *matCellDef="let contractor">
+      <button
+        class="icon-edit-btn"
+        mat-icon-button
+        (click)="editContractor(contractor)"
+        matTooltip="редактиране на ред"
+        aria-label="редактиране на ред"
+      >
+        <mat-icon>edit</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <!-- Table rows -->
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let contractor; columns: displayedColumns"></tr>
+</table>
