@@ -1,17 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
+import { InvoiceService } from '../../services/invoices.service';
+import { IInvoice, IInvoiceItems } from 'libs/typings/src';
 
-interface SelectedMeasure {
-  [id: number]: string;
-}
 @Component({
   selector: 'crtvs-invoices',
   templateUrl: './invoices.component.html',
-  styleUrls: ['./invoices.component.scss']
+  styleUrls: ['./invoices.component.scss'],
 })
 export class InvoicesComponent implements OnInit {
   invoicesForm: FormGroup;
-  selectedCurrency = '';
   rowAmount = 0;
   totalAmount = 0;
   quantity = 0;
@@ -21,7 +19,23 @@ export class InvoicesComponent implements OnInit {
   get rowData() {
     return this.invoicesForm.get('rowData') as FormArray;
   }
-  constructor(private formBuilder: FormBuilder) {
+  public currencies = [
+    { exchangeRate: 1, currencyCode: 'Лев' },
+    { exchangeRate: 1.95, currencyCode: 'Евро' },
+  ];
+  currencyFormatters = {
+    Лев: new Intl.NumberFormat('bg-BG', { style: 'currency', currency: 'BGN' }),
+    Евро: new Intl.NumberFormat('bg-BG', {
+      style: 'currency',
+      currency: 'EUR',
+    }),
+  };
+
+  selectedCurrency = this.currencies[0];
+  constructor(
+    private formBuilder: FormBuilder,
+    private invoiceService: InvoiceService
+  ) {
     this.invoicesForm = this.formBuilder.group({
       supplierName: ['', Validators.required],
       supplierEik: ['', Validators.required],
@@ -53,13 +67,10 @@ export class InvoicesComponent implements OnInit {
       vatPercent: ['', Validators.required],
       wayOfPaying: ['', Validators.required],
       vatReason: [''],
- 
     });
-   }
-   
+  }
 
-  ngOnInit(){
- 
+  ngOnInit() {
     const receiverEikField = document.getElementById('receiverEik');
     const receiverVatNumberField = document.getElementById('receiverVatNumber');
     const receiverEgnField = document.getElementById('receiverEgn');
@@ -95,30 +106,100 @@ export class InvoicesComponent implements OnInit {
       (this.invoicesForm.get('rowData') as FormArray).removeAt(index);
     }
   }
-    calculateRowAmount(index: number): number {
-      const rowData = this.invoicesForm.get('rowData') as FormArray;
-      const quantity = rowData.at(index).get('quantity')?.value;
-      const priceWithoutVat = rowData.at(index).get('priceWithoutVat')?.value;
-      return quantity * priceWithoutVat;
+  calculateRowAmount(index: number): number {
+    const rowData = this.invoicesForm.get('rowData') as FormArray;
+    const quantity = rowData.at(index).get('quantity')?.value;
+    const priceWithoutVat = rowData.at(index).get('priceWithoutVat')?.value;
+    return quantity * priceWithoutVat;
+  }
+  calculateTotalRowAmount(): number {
+    let total = 0;
+    const rowData = this.invoicesForm.get('rowData') as FormArray;
+    for (let i = 0; i < rowData.length; i++) {
+      total += this.calculateRowAmount(i);
     }
-    calculateTotalRowAmount(): number {
-      let total = 0;
-      const rowData = this.invoicesForm.get('rowData') as FormArray;
-      for (let i = 0; i < rowData.length; i++) {
-        total += this.calculateRowAmount(i);
-      }
-      return total;
-    }
-    calculateTotalAmountWthVat(): number {
-      return (
-        (this.calculateTotalRowAmount() *
-          this.invoicesForm.get('vatPercent')?.value) /
-          100 +
-        this.calculateTotalRowAmount()
-      );
-    }
+    return total;
+  }
+  calculateTotalAmountWthVat(): number {
+    return (
+      (this.calculateTotalRowAmount() *
+        this.invoicesForm.get('vatPercent')?.value) /
+        100 +
+      this.calculateTotalRowAmount()
+    );
+  }
 
   onSubmit() {
-    //
+    const formData = this.invoicesForm.value;
+    console.log(formData.currency);
+    console.log(formData.wayOfPaying);
+    const dataInvoice: IInvoice = {
+      prefix: 1,
+      number: 1,
+      contractor: 1,
+      issue_date: formData.releasedAt,
+      event_date: formData.eventAt,
+      receiver: 'String',
+      bank_payment: 2,
+      vat: formData.vatPercent,
+      novatreason: formData.vatReason,
+      currency: formData.currency,
+      rate: 1.5,
+      type: 1,
+      related_invoice: 'fff',
+      related_date: new Date('2023-05-17'),
+      c_name: formData.receiverName,
+      c_city: formData.receiverCity,
+      c_address: formData.receiverAddress,
+      c_eik: formData.receiverEik,
+      c_ddsnumber: formData.receiverVatNumber,
+      c_mol: formData.receiverManager,
+      c_person: formData.individualPerson, // boolean?
+      c_egn: formData.receiverEgn,
+      p_name: formData.supplierName,
+      p_city: formData.supplierCity,
+      p_address: formData.supplierAddress,
+      p_eik: formData.supplierEik,
+      p_ddsnumber: formData.supplierVatNumber,
+      p_mol: formData.supplierManager,
+      p_bank: 'Some bank',
+      p_iban: 'Some iban',
+      p_bic: 'Some bic',
+      p_zdds: true,
+      author: 'Some author',
+      author_user: 1,
+      author_sign: 'Some sign',
+      items: [],
+    };
+    const rows = formData.rowData;
+    for (let i = 0; i < rows.length; i++) {
+      const dataInvoicesItems: IInvoiceItems = {
+        name: rows[i].nameField,
+        quantity: rows[i].quantity,
+        measurement: rows[i].measure,
+        price: rows[i].priceWithoutVat,
+      };
+      dataInvoice.items.push(dataInvoicesItems); // add the new item to the items array
+    }
+
+    this.invoiceService
+      .createInvoice(dataInvoice, dataInvoice.items)
+      .subscribe({
+        next: (response) => {
+          console.log('HTTP request successful:', response);
+          const successMessage = 'Invoice created successfully.';
+          // Displaying success message to user
+          alert(successMessage);
+        },
+        error: (error) => {
+          console.error('Error occurred:', error);
+          const errorMessage = 'Invoices creation failed. Please try again.';
+          // Displaying error message to user
+          alert(errorMessage);
+        },
+        complete: () => {
+          console.log('HTTP request complete');
+        },
+      });
   }
 }

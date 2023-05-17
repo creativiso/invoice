@@ -16,7 +16,7 @@ export class InvoicesService {
         ...item,
         invoice: invoice.id,
       }));
-      await invoiceItems.bulkCreate(invoiceItems, { transaction });
+      await InvoiceItems.bulkCreate(invoiceItems, { transaction });
       await transaction.commit();
       result = {
         success: true,

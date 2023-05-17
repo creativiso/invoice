@@ -7,7 +7,7 @@ import {
 } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 import { IInvoice, IInvoiceItems } from 'libs/typings/src/model';
-import { InvoiceItems } from './InvoiceItem';
+import { InvoiceItems } from './InvoiceItems';
 @Table({
   timestamps: true,
 })

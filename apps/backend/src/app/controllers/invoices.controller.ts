@@ -1,43 +1,50 @@
 import { Router } from 'express';
-import { ProformService } from '../services/proform.service';
-import { IProform, IProformItem } from 'libs/typings/src/model';
+import { InvoicesService } from '../services/invoices.service';
+import { IInvoice, IInvoiceItems } from 'libs/typings/src';
 
-export const proformsRouter = Router();
-const proformService = new ProformService();
+export const invoicesRouter = Router();
+const invoicesService = new InvoicesService();
 
-//read all proforms
-proformsRouter.get('/', async (req, res) => {
+//read all invoices
+invoicesRouter.get('/', async (req, res) => {
   try {
-    const proforms = await proformService.getProformsAndItems();
-    res.json(proforms);
+    const invoices = await invoicesService.getInvoicesAndItems();
+    res.json(invoices);
   } catch (error) {
     console.error(error);
-    res.status(500).send('Error fetching proforms');
+    res.status(500).send('Error fetching invoices');
   }
 });
 
 //read by id proforms and proformitems
-proformsRouter.get('/:id', async (req, res) => {
+invoicesRouter.get('/:id', async (req, res) => {
   try {
     const id = Number(req.params.id);
 
-    const proformAndItems = await proformService.getProformAndItemsById(id);
-    res.json({ proformAndItems });
+    const invoiceAndItems = await invoicesService.getInvoicesAndItemsById(id);
+    res.json({ invoiceAndItems });
   } catch (error) {
-    res.status(404).json({ error: 'Proform not found' });
+    res.status(404).json({ error: 'Invoice not found' });
   }
 });
 
-proformsRouter.post('/add', async (req, res) => {
+invoicesRouter.post('/add', async (req, res) => {
   try {
-    const proform: IProform = {
+    const invoice: IInvoice = {
+      prefix: req.body.prefix,
+      number: req.body.number,
       contractor: req.body.contractor,
       issue_date: req.body.issue_date,
-      payment_method: req.body.payment_method,
+      event_date: req.body.event_date,
+      receiver: req.body.receiver,
+      bank_payment: req.body.bank_payment,
       vat: req.body.vat,
       novatreason: req.body.novatreason,
       currency: req.body.currency,
       rate: req.body.rate,
+      type: req.body.type,
+      related_date: req.body.related_date,
+      related_invoice: req.body.related_invoice,
       c_name: req.body.c_name,
       c_city: req.body.c_city,
       c_address: req.body.c_address,
@@ -61,28 +68,28 @@ proformsRouter.post('/add', async (req, res) => {
       author_sign: req.body.author_sign,
       items: req.body.items, // add items property here
     };
-    const result = await proformService.createProformWithItems(
-      proform,
+    const result = await invoicesService.createInvoiceWithItems(
+      invoice,
       req.body.items
     );
     res.json(result);
   } catch (error) {
-    res.status(400).json({ error: error.message + ' Cannot create proform' });
+    res.status(400).json({ error: error.message + ' Cannot create invoice' });
   }
 });
 
-proformsRouter.put('/:proform/items/:id', async (req, res) => {
+invoicesRouter.put('/:invoice/items/:id', async (req, res) => {
   try {
-    const { proform, id } = req.params;
-    const updatedItem = await proformService.updateProformWithItems(
-      Number(proform),
+    const { invoice, id } = req.params;
+    const updatedItem = await invoicesService.updateInvoiceWithItems(
+      Number(invoice),
       Number(id),
-      req.body as IProform,
-      req.body as IProformItem
+      req.body as IInvoice,
+      req.body as IInvoiceItems
     );
     res.json(updatedItem);
   } catch (error) {
     console.error(error);
-    res.status(500).send('Error updating proform item');
+    res.status(500).send('Error updating invoices item');
   }
 });
