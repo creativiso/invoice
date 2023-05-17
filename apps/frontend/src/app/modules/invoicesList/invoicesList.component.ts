@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { IInvoice } from '../../../../../../libs/typings/src';
 import { Router } from '@angular/router';
+import { InvoiceService } from '../../services/invoices.service';
 
 @Component({
   selector: 'crtvs-invoices-list',
@@ -8,20 +9,19 @@ import { Router } from '@angular/router';
   styleUrls: ['./invoicesList.component.scss'],
 })
 export class InvoicesListComponent implements OnInit {
-  displayedColumns: string[] = ['name', 'city', 'egn', 'mol', 'tools'];
+  displayedColumns: string[] = ['id', 'name', 'date', 'amount', 'tools'];
 
   invoices: IInvoice[] = [];
 
   constructor(
-    private router: Router
-  ) // private invoicesService: InvoicesService
-  {}
+    private router: Router,
+    private invoicesService: InvoiceService
+  ) {}
   ngOnInit(): void {
-    this.invoicesService.getAllProforms().subscribe({
+    this.invoicesService.getAllInvoices().subscribe({
       // eslint-disable-next-line @typescript-eslint/ban-types
       next: (data: Object) => {
-        // Change the parameter type to Object
-        this.invoices = data as IInvoice[]; // Typecast the data to IProform[]
+        this.invoices = data as IInvoice[];
       },
       error: (error) => {
         console.error(error);
@@ -32,9 +32,9 @@ export class InvoicesListComponent implements OnInit {
     });
   }
 
-  editContractor(contractor: IInvoice) {
-    this.router.navigate(['/invoices', contractor.id, 'edit'], {
-      state: { data: contractor },
-    });
-  }
+  // editInvoices(invoices: IInvoice) {
+  //   this.router.navigate(['/invoices', invoices.id, 'edit'], {
+  //     state: { data: invoices },
+  //   });
+  // }
 }

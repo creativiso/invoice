@@ -1,48 +1,46 @@
-<h1>Проформи</h1>
+<h1>Фактури</h1>
 <button
   class="btn-add mat-raised-button matTooltip"
   aria-label="добавяне на контрагент"
   mat-raised-button
 >
-  <a routerLink="/contractors">
+  <a routerLink="/invoices">
     <span class="add-text">Добавяне</span>
   </a>
 </button>
 
-<table mat-table [dataSource]="proforms" class="mat-elevation-z8">
-  <h2>Contractors</h2>
+<table mat-table [dataSource]="invoices" class="mat-elevation-z8">
   <!-- Name Column -->
-  <ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef>Име</th>
-    <td mat-cell *matCellDef="let contractor">{{ contractor.name }}</td>
+  <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef>ID</th>
+    <td mat-cell *matCellDef="let invoice">{{ invoice.id }}</td>
   </ng-container>
 
   <!-- City Column -->
-  <ng-container matColumnDef="city">
-    <th mat-header-cell *matHeaderCellDef>Град</th>
-    <td mat-cell *matCellDef="let contractor">{{ contractor.city }}</td>
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef>Фирма</th>
+    <td mat-cell *matCellDef="let invoice">{{ invoice.name }}</td>
   </ng-container>
 
   <!-- MOL Column -->
-  <ng-container matColumnDef="mol">
-    <th mat-header-cell *matHeaderCellDef>МОЛ</th>
-    <td mat-cell *matCellDef="let contractor">{{ contractor.mol }}</td>
+  <ng-container matColumnDef="date">
+    <th mat-header-cell *matHeaderCellDef>Дата</th>
+    <td mat-cell *matCellDef="let invoice">{{ invoice.date }}</td>
   </ng-container>
 
   <!-- EGN Column -->
-  <ng-container matColumnDef="egn">
+  <ng-container matColumnDef="amount">
     <th mat-header-cell *matHeaderCellDef>ЕГН</th>
-    <td mat-cell *matCellDef="let contractor">{{ contractor.egn }}</td>
+    <td mat-cell *matCellDef="let invoice">{{ invoice.amount }}</td>
   </ng-container>
 
   <!-- Tools Column -->
   <ng-container matColumnDef="tools">
     <th mat-header-cell *matHeaderCellDef>Инструменти</th>
-    <td mat-cell *matCellDef="let contractor">
+    <td mat-cell *matCellDef="let invoice">
       <button
         class="icon-edit-btn"
         mat-icon-button
-        (click)="editContractor(contractor)"
         matTooltip="редактиране на ред"
         aria-label="редактиране на ред"
       >
