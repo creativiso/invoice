@@ -26,7 +26,7 @@ export interface ICurrency {
   updatedAt: Date;
 }
 export interface IInvoice {
-  id: number;
+  id?: number;
   prefix: number;
   number: number;
   contractor: number;
@@ -36,7 +36,10 @@ export interface IInvoice {
   bank_payment: number;
   vat: number;
   novatreason: string;
-  currency: number;
+  currency: {
+    exchangeRate: number;
+    currencyCode: string;
+  };
   rate: number;
   type: number;
   related_invoice: string;
@@ -62,19 +65,20 @@ export interface IInvoice {
   author: string;
   author_user: number;
   author_sign: string;
-  createAt: Date;
-  updatedAt: Date;
+  createAt?: Date;
+  updatedAt?: Date;
+  items: IInvoiceItems[];
 }
 
 export interface IInvoiceItems {
-  id: number;
-  invoice: number;
+  id?: number;
+  invoice?: number;
   name: string;
   quantity: number;
   measurement: string;
   price: number;
-  createAt: Date;
-  updatedAt: Date;
+  createAt?: Date;
+  updatedAt?: Date;
 }
 
 export interface IPaymentMethod {
