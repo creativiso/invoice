@@ -14,6 +14,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 const routes: Routes = [{ path: '', component: InvoicesListComponent }];
 
@@ -34,6 +35,7 @@ const routes: Routes = [{ path: '', component: InvoicesListComponent }];
     MatNativeDateModule,
     MatTableModule,
     MatTooltipModule,
+    MatPaginatorModule,
   ],
 })
 export class InvoicesListModule {}
