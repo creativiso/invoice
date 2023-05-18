@@ -28,6 +28,14 @@ import { NotLoggedInGuard } from './auth/notLoggedIn.guard';
           canActivate: [AuthGuard],
         },
         {
+          path: 'invoices/:id/edit',
+          loadChildren: () =>
+            import('./modules/invoices/invoices.module').then(
+              (m) => m.InvoicesModule
+            ),
+          canActivate: [AuthGuard],
+        },
+        {
           path: 'invoicesList',
           loadChildren: () =>
             import('./modules/invoicesList/invoicesList.module').then(
