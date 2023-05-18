@@ -300,10 +300,10 @@
     <div class="flex-table row" role="rowgroup">
       <div class="flex-row right price" role="cell">Данъчна основа:</div>
       <div class="flex-row right priceNum" role="cell">
-        <ng-container *ngIf="selectedCurrency.currencyCode === 'Евро'">
+        <ng-container *ngIf="selectedCurrency.currencyCode === '€'">
           {{ calculateTotalRowAmount() | number: '1.2-2' }} €
         </ng-container>
-        <ng-container *ngIf="selectedCurrency.currencyCode === 'Лев'">
+        <ng-container *ngIf="selectedCurrency.currencyCode === 'лв'">
           {{ calculateTotalRowAmount() | number: '1.2-2' }} лв
         </ng-container>
       </div>
@@ -320,10 +320,10 @@
     <div class="flex-table row">
       <div class="flex-row sum right" role="cell">Общо:</div>
       <div class="flex-row right priceNum" role="cell">
-        <ng-container *ngIf="selectedCurrency.currencyCode === 'Евро'">
+        <ng-container *ngIf="selectedCurrency.currencyCode === '€'">
           {{ calculateTotalAmountWthVat() | number: '1.2-2' }} €
         </ng-container>
-        <ng-container *ngIf="selectedCurrency.currencyCode === 'Лев'">
+        <ng-container *ngIf="selectedCurrency.currencyCode === 'лв'">
           {{ calculateTotalAmountWthVat() | number: '1.2-2' }} лв
         </ng-container>
       </div>

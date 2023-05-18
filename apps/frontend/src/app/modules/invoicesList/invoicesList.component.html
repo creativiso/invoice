@@ -1,15 +1,15 @@
-<h1>Фактури</h1>
-<button
-  class="btn-add mat-raised-button matTooltip"
-  aria-label="добавяне на контрагент"
-  mat-raised-button
->
-  <a routerLink="/invoices">
-    <span class="add-text">Добавяне</span>
-  </a>
-</button>
-
 <div class="mat-elevation-z8">
+  <h1>Фактури</h1>
+  <button
+    class="btn-add mat-raised-button matTooltip"
+    aria-label="добавяне на контрагент"
+    mat-raised-button
+  >
+    <a routerLink="/invoices">
+      <span class="add-text">Добавяне</span>
+    </a>
+  </button>
+
   <table mat-table [dataSource]="dataSource" class="">
     <!-- Name Column -->
     <ng-container matColumnDef="id">

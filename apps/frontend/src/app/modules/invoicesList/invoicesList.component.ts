@@ -35,11 +35,11 @@ export class InvoicesListComponent implements OnInit {
     });
   }
 
-  // editInvoices(invoices: IInvoice) {
-  //   this.router.navigate(['/invoices', invoices.id, 'edit'], {
-  //     state: { data: invoices },
-  //   });
-  // }
+  editInvoices(invoices: IInvoice) {
+    this.router.navigate(['/invoices', invoices.id, 'edit'], {
+      state: { data: invoices },
+    });
+  }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
