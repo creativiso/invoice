@@ -54,7 +54,7 @@ export class InvoicesComponent implements OnInit {
       typeOfInvoice: ['', Validators.required],
       issuedAt: ['', Validators.required],
       eventAt: ['', Validators.required],
-      currency: ['', Validators.required],
+      currency: [this.selectedCurrency, Validators.required],
       rowData: this.formBuilder.array([
         this.formBuilder.group({
           nameField: ['', Validators.required],
@@ -134,27 +134,27 @@ export class InvoicesComponent implements OnInit {
     console.log(formData.currency);
     console.log(formData.wayOfPaying);
     const dataInvoice: IInvoice = {
-      prefix: 1,
-      number: 1,
-      contractor: 1,
-      issue_date: formData.releasedAt,
+      prefix: 1, //-----------------???
+      number: 1, //-----------------???
+      contractor: 1, //----------------------????
+      issue_date: formData.issuedAt,
       event_date: formData.eventAt,
-      receiver: 'String',
-      bank_payment: 2,
+      receiver: formData.receiverName,
+      bank_payment: 2, //--------------???
       vat: formData.vatPercent,
       novatreason: formData.vatReason,
       currency: formData.currency,
       rate: 1.5,
-      type: 1,
-      related_invoice: 'fff',
-      related_date: new Date('2023-05-17'),
+      type: formData.typeOfInvoice,
+      related_invoice: 'fff', //-------------??????
+      related_date: new Date('2023-05-17'), //--------??
       c_name: formData.receiverName,
       c_city: formData.receiverCity,
       c_address: formData.receiverAddress,
       c_eik: formData.receiverEik,
       c_ddsnumber: formData.receiverVatNumber,
       c_mol: formData.receiverManager,
-      c_person: formData.individualPerson, // boolean?
+      c_person: formData.individualPerson,
       c_egn: formData.receiverEgn,
       p_name: formData.supplierName,
       p_city: formData.supplierCity,
