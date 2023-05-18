@@ -40,4 +40,8 @@ export class InvoicesListComponent implements OnInit {
   //     state: { data: invoices },
   //   });
   // }
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+  }
 }

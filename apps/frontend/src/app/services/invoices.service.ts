@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { IInvoice, IInvoiceItems } from '../../../../../libs/typings/src/index';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -36,11 +37,11 @@ export class InvoiceService {
     };
     return this.http.put(`${this.apiUrl}/${invoicesId}`, data);
   }
-  getAllInvoices() {
-    return this.http.get(`${this.apiUrl}/`);
+  getAllInvoices(): Observable<IInvoice[]> {
+    return this.http.get<IInvoice[]>(`${this.apiUrl}/`);
   }
 
-  getInvoiceById(invoiceId: number) {
-    return this.http.get(`${this.apiUrl}/${invoiceId}`);
+  getInvoiceById(invoiceId: number): Observable<IInvoice> {
+    return this.http.get<IInvoice>(`${this.apiUrl}/${invoiceId}`);
   }
 }
