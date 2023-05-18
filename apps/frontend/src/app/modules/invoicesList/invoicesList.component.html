@@ -19,19 +19,23 @@
   <!-- City Column -->
   <ng-container matColumnDef="name">
     <th mat-header-cell *matHeaderCellDef>Фирма</th>
-    <td mat-cell *matCellDef="let invoice">{{ invoice.name }}</td>
+    <td mat-cell *matCellDef="let invoice">{{ invoice.receiver }}</td>
   </ng-container>
 
   <!-- MOL Column -->
   <ng-container matColumnDef="date">
     <th mat-header-cell *matHeaderCellDef>Дата</th>
-    <td mat-cell *matCellDef="let invoice">{{ invoice.date }}</td>
+    <td mat-cell *matCellDef="let invoice">{{ invoice.issue_date }}</td>
   </ng-container>
 
   <!-- EGN Column -->
   <ng-container matColumnDef="amount">
-    <th mat-header-cell *matHeaderCellDef>ЕГН</th>
-    <td mat-cell *matCellDef="let invoice">{{ invoice.amount }}</td>
+    <th mat-header-cell *matHeaderCellDef>Стойност</th>
+    <td mat-cell *matCellDef="let invoice">
+      <div *ngFor="let item of invoice.items">
+        {{ item.price }} {{ invoice.currency.currencyCode }}
+      </div>
+    </td>
   </ng-container>
 
   <!-- Tools Column -->

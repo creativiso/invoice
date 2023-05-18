@@ -20,8 +20,8 @@ export class InvoicesComponent implements OnInit {
     return this.invoicesForm.get('rowData') as FormArray;
   }
   public currencies = [
-    { exchangeRate: 1, currencyCode: 'Лев' },
-    { exchangeRate: 1.95, currencyCode: 'Евро' },
+    { exchangeRate: 1, currencyCode: 'лв' },
+    { exchangeRate: 1.95, currencyCode: '€' },
   ];
   currencyFormatters = {
     Лев: new Intl.NumberFormat('bg-BG', { style: 'currency', currency: 'BGN' }),
