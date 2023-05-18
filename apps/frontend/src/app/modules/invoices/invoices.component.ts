@@ -131,8 +131,6 @@ export class InvoicesComponent implements OnInit {
 
   onSubmit() {
     const formData = this.invoicesForm.value;
-    console.log(formData.currency);
-    console.log(formData.wayOfPaying);
     const dataInvoice: IInvoice = {
       prefix: 1, //-----------------???
       number: 1, //-----------------???

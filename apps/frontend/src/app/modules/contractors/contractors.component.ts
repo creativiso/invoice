@@ -1,15 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'crtvs-contractors',
   templateUrl: './contractors.component.html',
-  styleUrls: ['./contractors.component.css']
+  styleUrls: ['./contractors.component.css'],
 })
-export class ContractorsComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit(): void {
+export class ContractorsComponent {
+  constructor() {
+    //
   }
-
 }
