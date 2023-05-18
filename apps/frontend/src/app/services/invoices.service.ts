@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { IInvoice, IInvoiceItems } from '../../../../../libs/typings/src/index';
-import { Observable } from 'rxjs';
+import { Observable, catchError, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -42,6 +42,12 @@ export class InvoiceService {
   }
 
   getInvoiceById(invoiceId: number): Observable<IInvoice> {
-    return this.http.get<IInvoice>(`${this.apiUrl}/${invoiceId}`);
+    return this.http.get<IInvoice>(`${this.apiUrl}/${invoiceId}`).pipe(
+      catchError((error: any) => {
+        console.error('Error occurred while fetching invoice:', error);
+        // Handle the error if necessary
+        return throwError(error);
+      })
+    );
   }
 }

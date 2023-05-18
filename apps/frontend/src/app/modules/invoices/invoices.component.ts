@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { InvoiceService } from '../../services/invoices.service';
 import { IInvoice, IInvoiceItems } from 'libs/typings/src';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'crtvs-invoices',
@@ -34,7 +35,8 @@ export class InvoicesComponent implements OnInit {
   selectedCurrency = this.currencies[0];
   constructor(
     private formBuilder: FormBuilder,
-    private invoiceService: InvoiceService
+    private invoiceService: InvoiceService,
+    private route: ActivatedRoute
   ) {
     this.invoicesForm = this.formBuilder.group({
       supplierName: ['', Validators.required],
@@ -71,6 +73,20 @@ export class InvoicesComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.route.params.subscribe((params) => {
+      const invoiceId = +params['id']; // Assuming the parameter name is 'id'
+
+      this.invoiceService.getInvoiceById(invoiceId).subscribe(
+        (invoice) => {
+          // Populate the form with the retrieved invoice data
+          this.populateFormWithData(invoice);
+        },
+        (error) => {
+          console.error('Error occurred while fetching invoice:', error);
+          // Handle the error if necessary
+        }
+      );
+    });
     const receiverEikField = document.getElementById('receiverEik');
     const receiverVatNumberField = document.getElementById('receiverVatNumber');
     const receiverEgnField = document.getElementById('receiverEgn');
@@ -88,6 +104,47 @@ export class InvoicesComponent implements OnInit {
           receiverEgnField?.classList.add('hidden');
         }
       });
+  }
+  populateFormWithData(invoice: IInvoice) {
+    this.invoicesForm.patchValue({
+      supplierName: invoice.p_name,
+      supplierEik: invoice.p_eik,
+      supplierVatNumber: invoice.p_ddsnumber,
+      supplierManager: invoice.p_mol,
+      supplierCity: invoice.p_city,
+      supplierAddress: invoice.p_address,
+      receiverName: invoice.c_name,
+      individualPerson: invoice.c_person,
+      receiverEgn: invoice.c_egn,
+      receiverEik: invoice.c_eik,
+      receiverVatNumber: invoice.c_ddsnumber,
+      receiverManager: invoice.c_mol,
+      receiverCity: invoice.c_city,
+      receiverAddress: invoice.c_address,
+      typeOfInvoice: invoice.type,
+      issuedAt: invoice.issue_date,
+      eventAt: invoice.event_date,
+      currency: this.selectedCurrency,
+      vatPercent: invoice.vat,
+      wayOfPaying: '',
+      vatReason: invoice.novatreason,
+    });
+
+    // Populate rows data
+    for (const item of invoice.items) {
+      this.addRowWithData(item);
+    }
+  }
+  addRowWithData(item: IInvoiceItems) {
+    const rowData = this.invoicesForm.get('rowData') as FormArray;
+    const row = this.formBuilder.group({
+      nameField: [item.name, Validators.required],
+      quantity: [item.quantity, Validators.required],
+      measure: [item.measurement, Validators.required],
+      priceWithoutVat: [item.price, Validators.required],
+      amount: [''],
+    });
+    rowData.push(row);
   }
   addRow() {
     const rowData = this.invoicesForm.get('rowData') as FormArray;
