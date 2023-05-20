@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { IInvoice } from '../../../../../../libs/typings/src';
+import { IInvoice, IInvoiceItems } from '../../../../../../libs/typings/src';
 import { Router } from '@angular/router';
 import { InvoiceService } from '../../services/invoices.service';
 import { MatTableDataSource } from '@angular/material/table';
@@ -15,6 +15,7 @@ export class InvoicesListComponent implements OnInit {
   displayedColumns: string[] = ['id', 'name', 'date', 'amount', 'tools'];
 
   invoices: IInvoice[] = [];
+  item!: IInvoiceItems;
   dataSource = new MatTableDataSource<IInvoice>(this.invoices);
   constructor(
     private router: Router,
@@ -35,9 +36,9 @@ export class InvoicesListComponent implements OnInit {
     });
   }
 
-  editInvoice(invoices: IInvoice) {
-    this.router.navigate(['/invoices', invoices.id, 'edit'], {
-      state: { data: invoices },
+  editInvoice(invoice: IInvoice, item: IInvoiceItems) {
+    this.router.navigate(['/invoices', invoice.id, 'items', item.id, 'edit'], {
+      state: { data: { invoice, item } },
     });
   }
 

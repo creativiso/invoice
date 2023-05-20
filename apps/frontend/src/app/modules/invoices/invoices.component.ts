@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { InvoiceService } from '../../services/invoices.service';
 import { IInvoice, IInvoiceItems } from 'libs/typings/src';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'crtvs-invoices',
@@ -16,7 +16,7 @@ export class InvoicesComponent implements OnInit {
   quantity = 0;
   priceWithoutVat = 0;
   vatPercent = 0;
-
+  invoice!: IInvoice;
   get rowData() {
     return this.invoicesForm.get('rowData') as FormArray;
   }
@@ -36,7 +36,8 @@ export class InvoicesComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private invoiceService: InvoiceService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {
     this.invoicesForm = this.formBuilder.group({
       supplierName: ['', Validators.required],
@@ -73,8 +74,8 @@ export class InvoicesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.params.subscribe((params) => {
-      const invoiceId = +params['id']; // Assuming the parameter name is 'id'
+    this.route.params.subscribe(() => {
+      const invoiceId = Number(this.route.snapshot.paramMap.get('id'));
 
       this.invoiceService.getInvoiceById(invoiceId).subscribe(
         (invoice) => {

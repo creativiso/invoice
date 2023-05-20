@@ -28,7 +28,7 @@ import { NotLoggedInGuard } from './auth/notLoggedIn.guard';
           canActivate: [AuthGuard],
         },
         {
-          path: 'invoices/:id/edit',
+          path: 'invoices/:id/items/:id/edit',
           loadChildren: () =>
             import('./modules/invoices/invoices.module').then(
               (m) => m.InvoicesModule
