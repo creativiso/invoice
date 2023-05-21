@@ -54,9 +54,9 @@ export class InvoicesComponent implements OnInit {
       receiverManager: ['', Validators.required],
       receiverCity: ['', Validators.required],
       receiverAddress: ['', Validators.required],
-      typeOfInvoice: ['', Validators.required],
-      issuedAt: ['', Validators.required],
-      eventAt: ['', Validators.required],
+      typeOfInvoice: ['', Validators.required], // neww
+      issuedAt: ['', Validators.required], //new
+      eventAt: ['', Validators.required], //new
       currency: [this.selectedCurrency, Validators.required],
       rowData: this.formBuilder.array([
         this.formBuilder.group({
@@ -76,9 +76,10 @@ export class InvoicesComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe(() => {
       const invoiceId = Number(this.route.snapshot.paramMap.get('id'));
-
+      console.log('Invoice ID:', invoiceId); // Log the invoice ID to verify if it's correct
       this.invoiceService.getInvoiceById(invoiceId).subscribe(
         (invoice) => {
+          console.log('Retrieved invoice:', invoice); // Log the retrieve
           // Populate the form with the retrieved invoice data
           this.populateFormWithData(invoice);
         },
@@ -107,7 +108,23 @@ export class InvoicesComponent implements OnInit {
       });
   }
   populateFormWithData(invoice: IInvoice) {
+    console.log('Invoice PopulateFormWith data:', invoice); // Log the invoice data
+
     this.invoicesForm.patchValue({
+      prefix: 1,
+      number: 1,
+      contractor: 1,
+      issuedAt: invoice.issue_date,
+      eventAt: invoice.event_date,
+      receiver: invoice.receiver,
+      bank_payment: invoice.bank_payment,
+      vatPercent: invoice.vat,
+      vatReason: invoice.novatreason,
+      currency: this.selectedCurrency,
+      rate: 1.5, //errror
+      typeOfInvoice: invoice.type,
+      related_invoice: invoice.related_date,
+      related_date: invoice.related_date,
       supplierName: invoice.p_name,
       supplierEik: invoice.p_eik,
       supplierVatNumber: invoice.p_ddsnumber,
@@ -122,20 +139,36 @@ export class InvoicesComponent implements OnInit {
       receiverManager: invoice.c_mol,
       receiverCity: invoice.c_city,
       receiverAddress: invoice.c_address,
-      typeOfInvoice: invoice.type,
-      issuedAt: invoice.issue_date,
-      eventAt: invoice.event_date,
-      currency: this.selectedCurrency,
-      vatPercent: invoice.vat,
-      wayOfPaying: '',
-      vatReason: invoice.novatreason,
+      p_bank: invoice.p_bank,
+      p_iban: invoice.p_iban,
+      p_bic: invoice.p_bic,
+      p_zdds: invoice.p_zdds,
+      author: invoice.author,
+      author_user: invoice.author_user,
+      author_sign: invoice.author_sign,
+      //items: [],
     });
 
-    // Populate rows data
-    for (const item of invoice.items) {
-      this.addRowWithData(item);
+    console.log('Form values:', this.invoicesForm.value); /// ERRRORR
+
+    if (invoice.items) {
+      const itemsArray = Array.isArray(invoice.items)
+        ? invoice.items
+        : [invoice.items];
+
+      for (const item of itemsArray) {
+        this.addRowWithData(item);
+      }
     }
   }
+
+  clearRows() {
+    const rowData = this.invoicesForm.get('rowData') as FormArray;
+    while (rowData.length !== 0) {
+      rowData.removeAt(0);
+    }
+  }
+
   addRowWithData(item: IInvoiceItems) {
     const rowData = this.invoicesForm.get('rowData') as FormArray;
     const row = this.formBuilder.group({
