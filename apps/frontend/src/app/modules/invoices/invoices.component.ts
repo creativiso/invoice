@@ -111,9 +111,9 @@ export class InvoicesComponent implements OnInit {
     console.log('Invoice PopulateFormWith data:', invoice); // Log the invoice data
 
     this.invoicesForm.patchValue({
-      prefix: 1,
-      number: 1,
-      contractor: 1,
+      prefix: invoice.prefix,
+      number: invoice.number,
+      contractor: invoice.contractor,
       issuedAt: invoice.issue_date,
       eventAt: invoice.event_date,
       receiver: invoice.receiver,
