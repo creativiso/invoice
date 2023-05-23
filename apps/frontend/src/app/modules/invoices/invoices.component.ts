@@ -40,23 +40,25 @@ export class InvoicesComponent implements OnInit {
     private router: Router
   ) {
     this.invoicesForm = this.formBuilder.group({
-      supplierName: ['', Validators.required],
-      supplierEik: ['', Validators.required],
-      supplierVatNumber: [''],
-      supplierManager: ['', Validators.required],
-      supplierCity: ['', Validators.required],
-      supplierAddress: ['', Validators.required],
-      receiverName: ['', Validators.required],
-      individualPerson: [false],
-      receiverEgn: [''],
-      receiverEik: [''],
-      receiverVatNumber: [''],
-      receiverManager: ['', Validators.required],
-      receiverCity: ['', Validators.required],
-      receiverAddress: ['', Validators.required],
-      typeOfInvoice: ['', Validators.required], // neww
-      issuedAt: ['', Validators.required], //new
-      eventAt: ['', Validators.required], //new
+      p_name: ['', Validators.required],
+      p_eik: ['', Validators.required],
+      p_ddsnumber: [''],
+      p_mol: ['', Validators.required],
+      p_city: ['', Validators.required],
+      p_address: ['', Validators.required],
+      c_name: ['', Validators.required],
+      c_person: [false],
+      c_egn: [''],
+      c_eik: [''],
+      c_ddsnumber: [''],
+      c_mol: ['', Validators.required],
+      c_city: ['', Validators.required],
+      c_address: ['', Validators.required],
+      type: ['', Validators.required], // neww
+      issue_date: ['', Validators.required], //new
+      event_date: ['', Validators.required], //new
+      related_invoice: [],
+      related_date: [],
       currency: [this.selectedCurrency, Validators.required],
       rowData: this.formBuilder.array([
         this.formBuilder.group({
@@ -79,9 +81,10 @@ export class InvoicesComponent implements OnInit {
       console.log('Invoice ID:', invoiceId); // Log the invoice ID to verify if it's correct
       this.invoiceService.getInvoiceById(invoiceId).subscribe(
         (invoice) => {
-          console.log('Retrieved invoice:', invoice); // Log the retrieve
+          console.log(' getbyID:', invoice); // Log the retrieve
           // Populate the form with the retrieved invoice data
           this.populateFormWithData(invoice);
+          console.log('After method poulateformwithdataaa:---->>>  ' + invoice);
         },
         (error) => {
           console.error('Error occurred while fetching invoice:', error);
@@ -108,48 +111,40 @@ export class InvoicesComponent implements OnInit {
       });
   }
   populateFormWithData(invoice: IInvoice) {
-    console.log('Invoice PopulateFormWith data:', invoice); // Log the invoice data
+    console.log('Before Patch value:', invoice); // Log the invoice data
 
     this.invoicesForm.patchValue({
       prefix: invoice.prefix,
       number: invoice.number,
       contractor: invoice.contractor,
-      issuedAt: invoice.issue_date,
-      eventAt: invoice.event_date,
+      issue_date: invoice.issue_date,
+      event_date: invoice.event_date,
       receiver: invoice.receiver,
       bank_payment: invoice.bank_payment,
       vatPercent: invoice.vat,
       vatReason: invoice.novatreason,
       currency: this.selectedCurrency,
       rate: 1.5, //errror
-      typeOfInvoice: invoice.type,
+      type: invoice.type,
       related_invoice: invoice.related_date,
       related_date: invoice.related_date,
-      supplierName: invoice.p_name,
-      supplierEik: invoice.p_eik,
-      supplierVatNumber: invoice.p_ddsnumber,
-      supplierManager: invoice.p_mol,
-      supplierCity: invoice.p_city,
-      supplierAddress: invoice.p_address,
-      receiverName: invoice.c_name,
-      individualPerson: invoice.c_person,
-      receiverEgn: invoice.c_egn,
-      receiverEik: invoice.c_eik,
-      receiverVatNumber: invoice.c_ddsnumber,
-      receiverManager: invoice.c_mol,
-      receiverCity: invoice.c_city,
-      receiverAddress: invoice.c_address,
-      p_bank: invoice.p_bank,
-      p_iban: invoice.p_iban,
-      p_bic: invoice.p_bic,
-      p_zdds: invoice.p_zdds,
-      author: invoice.author,
-      author_user: invoice.author_user,
-      author_sign: invoice.author_sign,
-      //items: [],
+      p_name: invoice.p_name,
+      p_eik: invoice.p_eik,
+      p_ddsnumber: invoice.p_ddsnumber,
+      p_mol: invoice.p_mol,
+      p_city: invoice.p_city,
+      p_address: invoice.p_address,
+      c_name: invoice.c_name,
+      c_person: invoice.c_person,
+      c_egn: invoice.c_egn,
+      c_eik: invoice.c_eik,
+      c_ddsnumber: invoice.c_ddsnumber,
+      c_mol: invoice.c_mol,
+      c_city: invoice.c_city,
+      c_address: invoice.c_address,
     });
 
-    console.log('Form values:', this.invoicesForm.value); /// ERRRORR
+    console.log('After patch value', JSON.stringify(invoice));
 
     if (invoice.items) {
       const itemsArray = Array.isArray(invoice.items)
@@ -162,12 +157,12 @@ export class InvoicesComponent implements OnInit {
     }
   }
 
-  clearRows() {
-    const rowData = this.invoicesForm.get('rowData') as FormArray;
-    while (rowData.length !== 0) {
-      rowData.removeAt(0);
-    }
-  }
+  // clearRows() {
+  //   const rowData = this.invoicesForm.get('rowData') as FormArray;
+  //   while (rowData.length !== 0) {
+  //     rowData.removeAt(0);
+  //   }
+  // }
 
   addRowWithData(item: IInvoiceItems) {
     const rowData = this.invoicesForm.get('rowData') as FormArray;

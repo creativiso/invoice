@@ -11,25 +11,21 @@
         </mat-card-header>
 
         <mat-form-field>
-          <input
-            matInput
-            placeholder="Доставчик"
-            formControlName="supplierName"
-          />
+          <input matInput placeholder="Доставчик" formControlName="p_name" />
         </mat-form-field>
         <mat-form-field>
-          <input matInput placeholder="ЕИК" formControlName="supplierEik" />
+          <input matInput placeholder="ЕИК" formControlName="p_eik" />
         </mat-form-field>
 
         <mat-form-field>
           <input
             matInput
             placeholder="ДДС номер"
-            formControlName="supplierVatNumber"
+            formControlName="p_ddsnumber"
           />
         </mat-form-field>
         <mat-form-field>
-          <input matInput placeholder="МОЛ" formControlName="supplierManager" />
+          <input matInput placeholder="МОЛ" formControlName="p_mol" />
           <button
             matSuffix
             class="search-btn"
@@ -45,15 +41,11 @@
           <input
             matInput
             placeholder="Населено място"
-            formControlName="supplierCity"
+            formControlName="p_city"
           />
         </mat-form-field>
         <mat-form-field>
-          <input
-            matInput
-            placeholder="Адрес"
-            formControlName="supplierAddress"
-          />
+          <input matInput placeholder="Адрес" formControlName="p_address" />
         </mat-form-field>
       </div>
     </mat-card>
@@ -66,7 +58,7 @@
           <input
             matInput
             placeholder="Получател"
-            formControlName="receiverName"
+            formControlName="c_name"
           /><button
             matSuffix
             class="search-btn"
@@ -78,15 +70,11 @@
             <mat-icon class="search-icon">search</mat-icon>
           </button>
         </mat-form-field>
-        <mat-checkbox color="primary" formControlName="individualPerson">
+        <mat-checkbox color="primary" formControlName="c_person">
           Физическо лице
         </mat-checkbox>
         <mat-form-field id="receiverEik">
-          <input
-            matInput
-            placeholder="ЕИК"
-            formControlName="receiverEik"
-          /><button
+          <input matInput placeholder="ЕИК" formControlName="c_eik" /><button
             matSuffix
             class="search-btn"
             mat-icon-button
@@ -98,11 +86,7 @@
           </button>
         </mat-form-field>
         <mat-form-field id="receiverEgn" class="hidden">
-          <input
-            matInput
-            placeholder="ЕГН"
-            formControlName="receiverEgn"
-          /><button
+          <input matInput placeholder="ЕГН" formControlName="c_egn" /><button
             matSuffix
             class="search-btn"
             mat-icon-button
@@ -117,27 +101,23 @@
           <input
             matInput
             placeholder="ДДС номер"
-            formControlName="receiverVatNumber"
+            formControlName="c_ddsnumber"
           />
         </mat-form-field>
 
         <mat-form-field>
-          <input matInput placeholder="МОЛ" formControlName="receiverManager" />
+          <input matInput placeholder="МОЛ" formControlName="c_mol" />
         </mat-form-field>
 
         <mat-form-field>
           <input
             matInput
             placeholder="Населено място"
-            formControlName="receiverCity"
+            formControlName="c_city"
           />
         </mat-form-field>
         <mat-form-field>
-          <input
-            matInput
-            placeholder="Адрес"
-            formControlName="receiverAddress"
-          />
+          <input matInput placeholder="Адрес" formControlName="c_address" />
         </mat-form-field>
       </div>
     </mat-card>
@@ -145,7 +125,7 @@
   <mat-card class="container">
     <mat-radio-group
       aria-label="Select an option"
-      formControlName="typeOfInvoice"
+      formControlName="type"
       class="grid-layout-top"
     >
       <mat-label class="title">Тип:</mat-label>
@@ -163,7 +143,7 @@
       <mat-label>Дата на издаване</mat-label>
       <input
         matInput
-        formControlName="issuedAt"
+        formControlName="issue_date"
         [matDatepicker]="issuedAtPicker"
       />
 
@@ -177,7 +157,7 @@
       <mat-label>Дата на данъчно събитие</mat-label>
       <input
         matInput
-        formControlName="eventAt"
+        formControlName="event_date"
         [matDatepicker]="eventAtPicker"
       />
 
