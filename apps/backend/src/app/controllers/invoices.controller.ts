@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { InvoicesService } from '../services/invoices.service';
-import { IInvoice, IInvoiceItems } from 'libs/typings/src';
+import { IInvoice, IInvoiceItems } from 'libs/typings/src/model/index';
 
 export const invoicesRouter = Router();
 const invoicesService = new InvoicesService();
@@ -21,8 +21,8 @@ invoicesRouter.get('/:id', async (req, res) => {
   try {
     const id = Number(req.params.id);
 
-    const invoiceAndItems = await invoicesService.getInvoicesAndItemsById(id);
-    res.json({ invoiceAndItems });
+    const invoice = await invoicesService.getInvoicesAndItemsById(id);
+    res.json({ invoice });
   } catch (error) {
     res.status(404).json({ error: 'Invoice not found' });
   }
@@ -78,11 +78,10 @@ invoicesRouter.post('/add', async (req, res) => {
   }
 });
 
-invoicesRouter.put('/:invoice/items/:id', async (req, res) => {
+invoicesRouter.put('/:id', async (req, res) => {
   try {
-    const { invoice, id } = req.params;
+    const id = Number(req.params.id);
     const updatedItem = await invoicesService.updateInvoiceWithItems(
-      Number(invoice),
       Number(id),
       req.body as IInvoice,
       req.body as IInvoiceItems

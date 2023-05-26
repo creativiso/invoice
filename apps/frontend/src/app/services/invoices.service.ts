@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { IInvoice, IInvoiceItems } from '../../../../../libs/typings/src/index';
+import {
+  IInvoice,
+  IInvoiceItems,
+} from '../../../../../libs/typings/src/model/index';
 import { Observable, catchError, throwError } from 'rxjs';
 
 @Injectable({
@@ -25,16 +28,15 @@ export class InvoiceService {
   updateInvoice(
     invoiceId: number,
     invoicesData: IInvoice,
-    itemId: number,
     items: IInvoiceItems[]
   ) {
-    const invoicesItems = items.map((item) => ({
+    const invoice = items.map((item) => ({
       ...item,
       invoice: invoicesData.id,
     }));
     const data = {
       ...invoicesData,
-      items: invoicesItems,
+      items: invoice,
     };
     return this.http.put(`${this.apiUrl}/${invoiceId}/edit`, data);
   }

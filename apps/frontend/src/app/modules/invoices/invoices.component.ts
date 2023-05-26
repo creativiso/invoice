@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { InvoiceService } from '../../services/invoices.service';
-import { IInvoice, IInvoiceItems } from 'libs/typings/src';
+import { IInvoice, IInvoiceItems } from 'libs/typings/src/model/index';
 import { ActivatedRoute, Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'crtvs-invoices',
@@ -17,6 +18,7 @@ export class InvoicesComponent implements OnInit {
   priceWithoutVat = 0;
   vatPercent = 0;
   invoice!: IInvoice;
+  invoiceId!: number;
   get rowData() {
     return this.invoicesForm.get('rowData') as FormArray;
   }
@@ -37,7 +39,8 @@ export class InvoicesComponent implements OnInit {
     private fb: FormBuilder,
     private invoiceService: InvoiceService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private http: HttpClient
   ) {
     //
   }
@@ -101,38 +104,12 @@ export class InvoicesComponent implements OnInit {
 
     this.invoiceService.getInvoiceById(id).subscribe({
       next: (data: IInvoice) => {
-        console.log('Invoice data retrieved:', data);
         console.log('Response Data:', JSON.stringify(data)); // Print the entire response
-
         this.invoice = data;
-        console.log('Prefix:', this.invoice.prefix);
-        console.log('Number:', this.invoice.number);
-        console.log('Contractor:', this.invoice.contractor);
-        console.log('Issue Date:', this.invoice.issue_date);
-        console.log('Event Date:', this.invoice.event_date);
-        console.log('Receiver:', this.invoice.receiver);
-        console.log('Bank Payment:', this.invoice.bank_payment);
-        console.log('VAT Percent:', this.invoice.vat);
-        console.log('VAT Reason:', this.invoice.novatreason);
-        console.log('Currency:', this.invoice.currency);
-        console.log('Rate:', this.invoice.rate);
-        console.log('Type:', this.invoice.type);
-        console.log('Related Invoice:', this.invoice.related_invoice);
-        console.log('Related Date:', this.invoice.related_date);
-        console.log('P Name:', this.invoice.p_name);
+
         console.log('P EIK:', this.invoice.p_eik);
         console.log('P DDS Number:', this.invoice.p_ddsnumber);
         console.log('P MOL:', this.invoice.p_mol);
-        console.log('P City:', this.invoice.p_city);
-        console.log('P Address:', this.invoice.p_address);
-        console.log('C Name:', this.invoice.c_name);
-        console.log('C Person:', this.invoice.c_person);
-        console.log('C EGN:', this.invoice.c_egn);
-        console.log('C EIK:', this.invoice.c_eik);
-        console.log('C DDS Number:', this.invoice.c_ddsnumber);
-        console.log('C MOL:', this.invoice.c_mol);
-        console.log('C City:', this.invoice.c_city);
-        console.log('C Address:', this.invoice.c_address);
 
         this.invoicesForm.patchValue({
           // prefix: this.invoice.prefix,
@@ -149,10 +126,10 @@ export class InvoicesComponent implements OnInit {
           type: this.invoice.type,
           related_invoice: this.invoice.related_date,
           related_date: this.invoice.related_date,
-          p_name: this.invoice.p_name,
+          p_name: data.p_name,
           p_eik: this.invoice.p_eik,
           p_ddsnumber: this.invoice.p_ddsnumber,
-          p_mol: 'deeem textt',
+          p_mol: 'deeemo textt',
           p_city: this.invoice.p_city,
           p_address: this.invoice.p_address,
           c_name: this.invoice.c_name,
