@@ -36,10 +36,7 @@ export class InvoiceService {
       ...invoicesData,
       items: invoicesItems,
     };
-    return this.http.put(
-      `${this.apiUrl}/${invoiceId}/items/${itemId}/edit`,
-      data
-    );
+    return this.http.put(`${this.apiUrl}/${invoiceId}/edit`, data);
   }
   getAllInvoices(): Observable<IInvoice[]> {
     return this.http.get<IInvoice[]>(`${this.apiUrl}/`);
