@@ -86,7 +86,7 @@ export class InvoicesComponent implements OnInit {
     const receiverEgnField = document.getElementById('receiverEgn');
 
     this.invoicesForm
-      .get('individualPerson')
+      .get('c_person')
       ?.valueChanges.subscribe((value: boolean) => {
         if (value) {
           receiverEikField?.classList.add('hidden');
@@ -127,7 +127,8 @@ export class InvoicesComponent implements OnInit {
               c_city: invoice.c_city,
               c_address: invoice.c_address,
               issue_date: invoice.issue_date,
-              currency: invoice.currency,
+              event_date: invoice.event_date,
+              selectedCurrency: invoice.currency.currencyCode,
               vatPercent: invoice.vat,
               wayOfPaying: invoice.bank_payment,
               vatReason: invoice.novatreason,
@@ -141,15 +142,10 @@ export class InvoicesComponent implements OnInit {
           },
         });
       });
-      this.invoicesForm
-        .get('wayOfPaying')
-        ?.setValue(`${this.invoice.bank_payment}`);
-      if (this.invoice.c_eik) {
-        this.invoicesForm.get('individualPerson')?.patchValue(false);
-      }
+
       // Populate rowData (FormArray)
-      const rowDataArray = this.invoicesForm.get('rowData') as FormArray;
-      rowDataArray.clear(); // Clear existing rows
+      //const rowDataArray = this.invoicesForm.get('rowData') as FormArray;
+      //rowDataArray.clear(); // Clear existing rows
     }
   }
 
