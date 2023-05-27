@@ -69,10 +69,10 @@ export class InvoicesComponent implements OnInit {
       currency: [this.selectedCurrency, Validators.required],
       rowData: this.fb.array([
         this.fb.group({
-          nameField: ['', Validators.required],
+          name: ['', Validators.required],
           quantity: ['', Validators.required],
-          priceWithoutVat: ['', Validators.required],
-          measure: [''],
+          price: ['', Validators.required],
+          measurement: [''],
           amount: [''],
         }),
       ]),
@@ -128,11 +128,12 @@ export class InvoicesComponent implements OnInit {
               c_address: invoice.c_address,
               issue_date: invoice.issue_date,
               event_date: invoice.event_date,
-              selectedCurrency: invoice.currency.currencyCode,
+              currency: invoice.currency.currencyCode, // not showing
               type: String(invoice.type),
               vatPercent: invoice.vat,
               wayOfPaying: String(invoice.bank_payment),
               vatReason: invoice.novatreason,
+              rowData: invoice.items,
             });
           },
           error: (error) => {
@@ -149,10 +150,10 @@ export class InvoicesComponent implements OnInit {
   addRowWithData(item: IInvoiceItems) {
     const rowData = this.invoicesForm.get('rowData') as FormArray;
     const row = this.fb.group({
-      nameField: [item.name, Validators.required],
+      name: [item.name, Validators.required],
       quantity: [item.quantity, Validators.required],
-      measure: [item.measurement, Validators.required],
-      priceWithoutVat: [item.price, Validators.required],
+      measurement: [item.measurement, Validators.required],
+      price: [item.price, Validators.required],
       amount: [''],
     });
     rowData.push(row);
@@ -160,10 +161,10 @@ export class InvoicesComponent implements OnInit {
   addRow() {
     const rowData = this.invoicesForm.get('rowData') as FormArray;
     const row = this.fb.group({
-      nameField: ['', Validators.required],
+      name: ['', Validators.required],
       quantity: ['', Validators.required],
-      measure: ['', Validators.required],
-      priceWithoutVat: ['', Validators.required],
+      measurement: ['', Validators.required],
+      price: ['', Validators.required],
       amount: [''],
     });
     rowData.push(row);
@@ -177,7 +178,7 @@ export class InvoicesComponent implements OnInit {
   calculateRowAmount(index: number): number {
     const rowData = this.invoicesForm.get('rowData') as FormArray;
     const quantity = rowData.at(index).get('quantity')?.value;
-    const priceWithoutVat = rowData.at(index).get('priceWithoutVat')?.value;
+    const priceWithoutVat = rowData.at(index).get('price')?.value;
     return quantity * priceWithoutVat;
   }
   calculateTotalRowAmount(): number {
@@ -240,10 +241,10 @@ export class InvoicesComponent implements OnInit {
     const rows = formData.rowData;
     for (let i = 0; i < rows.length; i++) {
       const dataInvoicesItems: IInvoiceItems = {
-        name: rows[i].nameField,
+        name: rows[i].name,
         quantity: rows[i].quantity,
-        measurement: rows[i].measure,
-        price: rows[i].priceWithoutVat,
+        measurement: rows[i].measurement,
+        price: rows[i].price,
       };
       dataInvoice.items.push(dataInvoicesItems); // add the new item to the items array
     }
