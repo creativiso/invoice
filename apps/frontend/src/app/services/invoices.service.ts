@@ -4,7 +4,7 @@ import {
   IInvoice,
   IInvoiceItems,
 } from '../../../../../libs/typings/src/model/index';
-import { Observable, catchError, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -34,10 +34,11 @@ export class InvoiceService {
       ...item,
       invoice: invoicesData.id,
     }));
-    const data = {
+    const data: IInvoice = {
       ...invoicesData,
       items: invoice,
     };
+
     return this.http.put(`${this.apiUrl}/${invoiceId}/edit`, data);
   }
   getAllInvoices(): Observable<IInvoice[]> {
@@ -45,12 +46,6 @@ export class InvoiceService {
   }
 
   getInvoiceById(invoiceId: number): Observable<IInvoice> {
-    return this.http.get<IInvoice>(`${this.apiUrl}/${invoiceId}`).pipe(
-      catchError((error: any) => {
-        console.error('Error occurred while fetching invoice:', error);
-        // Handle the error if necessary
-        return throwError(error);
-      })
-    );
+    return this.http.get<IInvoice>(`${this.apiUrl}/${invoiceId}`);
   }
 }

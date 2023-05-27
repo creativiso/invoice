@@ -80,11 +80,15 @@ invoicesRouter.post('/add', async (req, res) => {
 
 invoicesRouter.put('/:id', async (req, res) => {
   try {
-    const id = Number(req.params.id);
+    //const id = Number(req.params.id);
+    const invoiceId = Number(req.params.id);
+    const invoiceData = req.body.invoiceData as IInvoice;
+    const itemData = req.body.itemData as IInvoiceItems;
+
     const updatedItem = await invoicesService.updateInvoiceWithItems(
-      Number(id),
-      req.body as IInvoice,
-      req.body as IInvoiceItems
+      invoiceId,
+      invoiceData,
+      itemData
     );
     res.json(updatedItem);
   } catch (error) {

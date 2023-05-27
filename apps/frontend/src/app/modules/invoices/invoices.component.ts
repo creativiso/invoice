@@ -18,7 +18,7 @@ export class InvoicesComponent implements OnInit {
   priceWithoutVat = 0;
   vatPercent = 0;
   invoice!: IInvoice;
-  invoiceId!: number;
+  invoiceId!: number | undefined;
   get rowData() {
     return this.invoicesForm.get('rowData') as FormArray;
   }
@@ -101,62 +101,57 @@ export class InvoicesComponent implements OnInit {
 
     const id = Number(this.route.snapshot.paramMap.get('id'));
     console.log('Retrieving invoice data for ID:', id);
+    this.invoiceId = id ? id : undefined;
+    if (id !== null) {
+      this.invoiceService.getInvoiceById(id).subscribe((response: any) => {
+        const invoice: IInvoice = response.invoice; // Cast the response
 
-    this.invoiceService.getInvoiceById(id).subscribe({
-      next: (data: IInvoice) => {
-        console.log('Response Data:', JSON.stringify(data)); // Print the entire response
-        this.invoice = data;
+        this.invoiceService.getInvoiceById(id).subscribe({
+          next: (data: IInvoice) => {
+            console.log('Response Data:', JSON.stringify(data));
+            this.invoice = data;
 
-        console.log('P EIK:', this.invoice.p_eik);
-        console.log('P DDS Number:', this.invoice.p_ddsnumber);
-        console.log('P MOL:', this.invoice.p_mol);
-
-        this.invoicesForm.patchValue({
-          // prefix: this.invoice.prefix,
-          number: this.invoice.number,
-          contractor: this.invoice.contractor,
-          issue_date: this.invoice.issue_date,
-          event_date: this.invoice.event_date,
-          receiver: this.invoice.receiver,
-          bank_payment: this.invoice.bank_payment,
-          vatPercent: this.invoice.vat,
-          vatReason: this.invoice.novatreason,
-          currency: this.invoice.currency,
-          rate: 1.5, //errror
-          type: this.invoice.type,
-          related_invoice: this.invoice.related_date,
-          related_date: this.invoice.related_date,
-          p_name: data.p_name,
-          p_eik: this.invoice.p_eik,
-          p_ddsnumber: this.invoice.p_ddsnumber,
-          p_mol: 'deeemo textt',
-          p_city: this.invoice.p_city,
-          p_address: this.invoice.p_address,
-          c_name: this.invoice.c_name,
-          c_person: this.invoice.c_person,
-          c_egn: this.invoice.c_egn,
-          c_eik: this.invoice.c_eik,
-          c_ddsnumber: this.invoice.c_ddsnumber,
-          c_mol: this.invoice.c_mol,
-          c_city: this.invoice.c_city,
-          c_address: this.invoice.c_address,
+            this.invoicesForm.patchValue({
+              p_name: invoice.p_name,
+              p_eik: invoice.p_eik,
+              p_ddsnumber: invoice.p_ddsnumber,
+              p_mol: invoice.p_mol,
+              p_city: invoice.p_city,
+              p_address: invoice.p_address,
+              c_name: invoice.c_name,
+              c_person: invoice.c_person,
+              c_egn: invoice.c_egn,
+              c_eik: invoice.c_eik,
+              c_ddsnumber: invoice.c_ddsnumber,
+              c_mol: invoice.c_mol,
+              c_city: invoice.c_city,
+              c_address: invoice.c_address,
+              issue_date: invoice.issue_date,
+              currency: invoice.currency,
+              vatPercent: invoice.vat,
+              wayOfPaying: invoice.bank_payment,
+              vatReason: invoice.novatreason,
+            });
+          },
+          error: (error) => {
+            console.error(error);
+          },
+          complete: () => {
+            console.log('Get invoice by id completed.');
+          },
         });
-      },
-      error: (error) => {
-        console.error(error);
-      },
-      complete: () => {
-        console.log('Get invoice by id completed.');
-      },
-    });
+      });
+      this.invoicesForm
+        .get('wayOfPaying')
+        ?.setValue(`${this.invoice.bank_payment}`);
+      if (this.invoice.c_eik) {
+        this.invoicesForm.get('individualPerson')?.patchValue(false);
+      }
+      // Populate rowData (FormArray)
+      const rowDataArray = this.invoicesForm.get('rowData') as FormArray;
+      rowDataArray.clear(); // Clear existing rows
+    }
   }
-
-  // clearRows() {
-  //   const rowData = this.invoicesForm.get('rowData') as FormArray;
-  //   while (rowData.length !== 0) {
-  //     rowData.removeAt(0);
-  //   }
-  // }
 
   addRowWithData(item: IInvoiceItems) {
     const rowData = this.invoicesForm.get('rowData') as FormArray;
