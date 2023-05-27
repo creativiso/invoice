@@ -129,8 +129,9 @@ export class InvoicesComponent implements OnInit {
               issue_date: invoice.issue_date,
               event_date: invoice.event_date,
               selectedCurrency: invoice.currency.currencyCode,
+              type: String(invoice.type),
               vatPercent: invoice.vat,
-              wayOfPaying: invoice.bank_payment,
+              wayOfPaying: String(invoice.bank_payment),
               vatReason: invoice.novatreason,
             });
           },
@@ -142,10 +143,6 @@ export class InvoicesComponent implements OnInit {
           },
         });
       });
-
-      // Populate rowData (FormArray)
-      //const rowDataArray = this.invoicesForm.get('rowData') as FormArray;
-      //rowDataArray.clear(); // Clear existing rows
     }
   }
 
