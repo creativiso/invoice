@@ -28,7 +28,7 @@ invoicesRouter.get('/:id', async (req, res) => {
   }
 });
 
-invoicesRouter.post('/add', async (req, res) => {
+invoicesRouter.post('/', async (req, res) => {
   try {
     const invoice: IInvoice = {
       prefix: req.body.prefix,
@@ -80,7 +80,6 @@ invoicesRouter.post('/add', async (req, res) => {
 
 invoicesRouter.put('/:id', async (req, res) => {
   try {
-    //const id = Number(req.params.id);
     const invoiceId = Number(req.params.id);
     const invoiceData = req.body.invoiceData as IInvoice;
     const itemData = req.body.itemData as IInvoiceItems;

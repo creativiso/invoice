@@ -23,7 +23,7 @@ export class InvoiceService {
       ...invoiceData,
       items: invoicesItems,
     };
-    return this.http.post(`${this.apiUrl}/add`, data);
+    return this.http.post(`${this.apiUrl}/`, data);
   }
   updateInvoice(
     invoiceId: number,
@@ -39,7 +39,7 @@ export class InvoiceService {
       items: invoice,
     };
 
-    return this.http.put(`${this.apiUrl}/${invoiceId}/edit`, data);
+    return this.http.put(`${this.apiUrl}/${invoiceId}`, data);
   }
   getAllInvoices(): Observable<IInvoice[]> {
     return this.http.get<IInvoice[]>(`${this.apiUrl}/`);
