@@ -133,8 +133,19 @@ export class InvoicesComponent implements OnInit {
               vatPercent: invoice.vat,
               wayOfPaying: String(invoice.bank_payment),
               vatReason: invoice.novatreason,
-              rowData: invoice.items,
+              //rowData: invoice.items,
+              rowData: [],
             });
+            // Clear existing rows
+
+            while (this.rowData.length !== 0) {
+              this.rowData.removeAt(0);
+            }
+
+            // Add rows for each item in the invoice
+            for (const item of invoice.items) {
+              this.addRowWithData(item);
+            }
           },
           error: (error) => {
             console.error(error);
