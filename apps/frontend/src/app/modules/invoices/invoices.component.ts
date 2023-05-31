@@ -215,31 +215,31 @@ export class InvoicesComponent implements OnInit {
       prefix: 1, //-----------------???
       number: 1, //-----------------???
       contractor: 1, //----------------------????
-      issue_date: formData.issuedAt,
-      event_date: formData.eventAt,
-      receiver: formData.receiverName,
+      issue_date: formData.issue_date,
+      event_date: formData.event_date,
+      receiver: formData.c_name,
       bank_payment: 2, //--------------???
       vat: formData.vatPercent,
       novatreason: formData.vatReason,
-      currency: formData.currency,
-      rate: 1.5,
-      type: formData.typeOfInvoice,
-      related_invoice: 'fff', //-------------??????
-      related_date: new Date('2023-05-17'), //--------??
-      c_name: formData.receiverName,
-      c_city: formData.receiverCity,
-      c_address: formData.receiverAddress,
-      c_eik: formData.receiverEik,
-      c_ddsnumber: formData.receiverVatNumber,
-      c_mol: formData.receiverManager,
-      c_person: formData.individualPerson,
-      c_egn: formData.receiverEgn,
-      p_name: formData.supplierName,
-      p_city: formData.supplierCity,
-      p_address: formData.supplierAddress,
-      p_eik: formData.supplierEik,
-      p_ddsnumber: formData.supplierVatNumber,
-      p_mol: formData.supplierManager,
+      currency: formData.currency.currencyCode,
+      rate: formData.currency.exchangeRate,
+      type: formData.type,
+      related_invoice: formData.related_invoice,
+      related_date: formData.related_date,
+      c_name: formData.c_name,
+      c_city: formData.c_city,
+      c_address: formData.c_address,
+      c_eik: formData.c_eik,
+      c_ddsnumber: formData.c_ddsnumber,
+      c_mol: formData.c_mol,
+      c_person: formData.c_person,
+      c_egn: formData.c_egn,
+      p_name: formData.p_name,
+      p_city: formData.p_city,
+      p_address: formData.p_address,
+      p_eik: formData.p_eik,
+      p_ddsnumber: formData.p_ddsnumber,
+      p_mol: formData.p_mol,
       p_bank: 'Some bank',
       p_iban: 'Some iban',
       p_bic: 'Some bic',
@@ -249,6 +249,7 @@ export class InvoicesComponent implements OnInit {
       author_sign: 'Some sign',
       items: [],
     };
+
     const rows = formData.rowData;
     for (let i = 0; i < rows.length; i++) {
       const dataInvoicesItems: IInvoiceItems = {
@@ -260,24 +261,48 @@ export class InvoicesComponent implements OnInit {
       dataInvoice.items.push(dataInvoicesItems); // add the new item to the items array
     }
 
-    this.invoiceService
-      .createInvoice(dataInvoice, dataInvoice.items)
-      .subscribe({
-        next: (response) => {
-          console.log('HTTP request successful:', response);
-          const successMessage = 'Invoice created successfully.';
-          // Displaying success message to user
-          alert(successMessage);
-        },
-        error: (error) => {
-          console.error('Error occurred:', error);
-          const errorMessage = 'Invoices creation failed. Please try again.';
-          // Displaying error message to user
-          alert(errorMessage);
-        },
-        complete: () => {
-          console.log('HTTP request complete');
-        },
-      });
+    if (this.invoiceId) {
+      // Update existing invoice
+      this.invoiceService
+        .updateInvoice(this.invoiceId, dataInvoice, dataInvoice.items)
+        .subscribe({
+          next: (response) => {
+            console.log('HTTP request successful:', response);
+            const successMessage = 'Invoice updated successfully.';
+            // Display success message to the user
+            alert(successMessage);
+          },
+          error: (error) => {
+            console.error('Error occurred:', error);
+            const errorMessage = 'Invoice update failed. Please try again.';
+            // Display error message to the user
+            alert(errorMessage);
+          },
+          complete: () => {
+            console.log('HTTP request complete');
+          },
+        });
+    } else {
+      // Create new invoice
+      this.invoiceService
+        .createInvoice(dataInvoice, dataInvoice.items)
+        .subscribe({
+          next: (response) => {
+            console.log('HTTP request successful:', response);
+            const successMessage = 'Invoice created successfully.';
+            // Display success message to the user
+            alert(successMessage);
+          },
+          error: (error) => {
+            console.error('Error occurred:', error);
+            const errorMessage = 'Invoice creation failed. Please try again.';
+            // Display error message to the user
+            alert(errorMessage);
+          },
+          complete: () => {
+            console.log('HTTP request complete');
+          },
+        });
+    }
   }
 }
