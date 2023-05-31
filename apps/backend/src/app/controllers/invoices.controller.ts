@@ -82,7 +82,7 @@ invoicesRouter.put('/:id', async (req, res) => {
   try {
     const invoiceId = Number(req.params.id);
     const invoiceData = req.body.invoiceData as IInvoice;
-    const itemData = req.body.itemData as IInvoiceItems;
+    const itemData = req.body.itemData as IInvoiceItems[]; // Update the type to IInvoiceItems[]
 
     const updatedItem = await invoicesService.updateInvoiceWithItems(
       invoiceId,
