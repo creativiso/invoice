@@ -37,7 +37,7 @@ export class InvoicesListComponent implements OnInit {
   }
 
   editInvoice(invoice: IInvoice) {
-    this.router.navigate(['/invoices', invoice.id, 'edit'], {
+    this.router.navigate(['/invoices', invoice.id], {
       state: { data: { invoice } },
     });
   }

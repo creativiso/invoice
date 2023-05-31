@@ -37,7 +37,7 @@ export class InvoicesService {
   async updateInvoiceWithItems(
     invoiceId: number,
     invoiceData: IInvoice,
-    itemData: IInvoiceItems[]
+    itemData: IInvoiceItems[] | undefined
   ) {
     const transaction = await sequelize.transaction();
     try {
@@ -47,16 +47,18 @@ export class InvoicesService {
       }
       await invoice.update(invoiceData, { transaction });
 
-      for (const item of itemData) {
-        // Use 'item' instead of 'itemData'
-        const invoiceItem = await InvoiceItems.findOne({
-          where: { invoice: invoiceId, id: item.id },
-          transaction,
-        });
-        if (!invoiceItem) {
-          throw new Error('Invoice item not found');
+      if (itemData && Array.isArray(itemData)) {
+        // Ensure itemData is an array
+        for (const item of itemData) {
+          const invoiceItem = await InvoiceItems.findOne({
+            where: { invoice: invoiceId, id: item.id },
+            transaction,
+          });
+          if (!invoiceItem) {
+            throw new Error('Invoice item not found');
+          }
+          await invoiceItem.update(item, { transaction });
         }
-        await invoiceItem.update(item, { transaction });
       }
 
       await transaction.commit();

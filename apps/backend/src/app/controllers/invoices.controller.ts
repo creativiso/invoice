@@ -82,16 +82,23 @@ invoicesRouter.put('/:id', async (req, res) => {
   try {
     const invoiceId = Number(req.params.id);
     const invoiceData = req.body.invoiceData as IInvoice;
-    const itemData = req.body.itemData as IInvoiceItems[]; // Update the type to IInvoiceItems[]
+    const itemData = req.body.itemData as IInvoiceItems[];
+
+    console.log('Invoice ID:', invoiceId); // Log the invoice ID to ensure it is correctly extracted
+    console.log('Invoice Data:', invoiceData); // Log the invoice data received from the request
+    console.log('Item Data:', itemData); // Log the item data received from the request
 
     const updatedItem = await invoicesService.updateInvoiceWithItems(
       invoiceId,
       invoiceData,
       itemData
     );
+
+    console.log('Update Result:', updatedItem); // Log the result of the update operation
+
     res.json(updatedItem);
   } catch (error) {
-    console.error(error);
+    console.error('Error updating invoices item:', error); // Log the error for debugging
     res.status(500).send('Error updating invoices item');
   }
 });
