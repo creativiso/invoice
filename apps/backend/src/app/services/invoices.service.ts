@@ -45,20 +45,24 @@ export class InvoicesService {
       if (!invoice) {
         throw new Error('Invoice not found');
       }
-      await invoice.update(invoiceData, { transaction });
+
+      // Update invoice fields individually
+      Object.assign(invoice, invoiceData);
+      await invoice.save({ transaction });
 
       if (itemData && Array.isArray(itemData)) {
-        // Ensure itemData is an array
-        for (const item of itemData) {
-          const invoiceItem = await InvoiceItems.findOne({
-            where: { invoice: invoiceId, id: item.id },
-            transaction,
-          });
-          if (!invoiceItem) {
-            throw new Error('Invoice item not found');
-          }
-          await invoiceItem.update(item, { transaction });
-        }
+        // Delete existing invoice items
+        await InvoiceItems.destroy({
+          where: { invoice: invoiceId },
+          transaction,
+        });
+
+        // Create new invoice items
+        const invoiceItems = itemData.map((item) => ({
+          ...item,
+          invoice: invoiceId,
+        }));
+        await InvoiceItems.bulkCreate(invoiceItems, { transaction });
       }
 
       await transaction.commit();
