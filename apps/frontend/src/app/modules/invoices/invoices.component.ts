@@ -251,6 +251,7 @@ export class InvoicesComponent implements OnInit {
     };
 
     const rows = formData.rowData;
+    //dataInvoice.items = []; // Clear existing items before adding updated items
     for (let i = 0; i < rows.length; i++) {
       const dataInvoicesItems: IInvoiceItems = {
         name: rows[i].name,
@@ -268,6 +269,8 @@ export class InvoicesComponent implements OnInit {
         .subscribe({
           next: (response) => {
             console.log('HTTP request successful:', response);
+            console.log('dataInvoice:', JSON.stringify(dataInvoice));
+
             const successMessage = 'Invoice updated successfully.';
             // Display success message to the user
             alert(successMessage);
@@ -277,9 +280,6 @@ export class InvoicesComponent implements OnInit {
             const errorMessage = 'Invoice update failed. Please try again.';
             // Display error message to the user
             alert(errorMessage);
-          },
-          complete: () => {
-            console.log('HTTP request complete');
           },
         });
     } else {

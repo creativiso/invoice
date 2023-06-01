@@ -29,10 +29,15 @@ export class InvoiceService {
     invoiceId: number,
     invoiceData: IInvoice,
     items: IInvoiceItems[]
-  ) {
-    const data: IInvoice = {
-      ...invoiceData,
-      items: [...items],
+  ): Observable<any> {
+    const invoiceItems = items.map((item) => ({
+      //each item is associated with the correct invoice
+      ...item,
+      invoice: invoiceId,
+    }));
+    const data = {
+      invoiceData,
+      items: invoiceItems,
     };
     return this.http.put(`${this.apiUrl}/${invoiceId}`, data);
   }

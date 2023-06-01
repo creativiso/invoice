@@ -83,11 +83,6 @@ invoicesRouter.put('/:id', async (req, res) => {
     const invoiceId = Number(req.params.id);
     const invoiceData = req.body.invoiceData as IInvoice;
     const itemData = req.body.itemData as IInvoiceItems[];
-
-    console.log('Invoice ID:', invoiceId); // Log the invoice ID to ensure it is correctly extracted
-    console.log('Invoice Data:', invoiceData); // Log the invoice data received from the request
-    console.log('Item Data:', itemData); // Log the item data received from the request
-
     const updatedItem = await invoicesService.updateInvoiceWithItems(
       invoiceId,
       invoiceData,
