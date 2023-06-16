@@ -3,10 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ContractorsService } from 'src/app/services/contractors.service';
 import { IContractor } from '../../../../../../libs/typings/src/model';
-import { eikValidator } from '../../validators/eik.validator';
 import { egnValidator } from '../../validators/egn.validator';
-import { vatValidator } from '../../validators/vatNumber.validator';
-import { validateVerticalPosition } from '@angular/cdk/overlay';
 
 @Component({
   selector: 'crtvs-contractors',
