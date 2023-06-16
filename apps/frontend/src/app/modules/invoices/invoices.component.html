@@ -13,6 +13,13 @@
         <mat-form-field>
           <input matInput placeholder="Доставчик" formControlName="p_name" />
         </mat-form-field>
+        <div
+          class="error"
+          *ngIf="invoicesForm.get('p_name')?.errors?.['minlength']"
+        >
+          Името трябва да е поне 2 знака!
+        </div>
+
         <mat-form-field>
           <input matInput placeholder="ЕИК" formControlName="p_eik" />
         </mat-form-field>

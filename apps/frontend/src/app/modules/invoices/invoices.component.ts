@@ -47,7 +47,17 @@ export class InvoicesComponent implements OnInit {
 
   ngOnInit() {
     this.invoicesForm = this.fb.group({
-      p_name: ['', [Validators.required, Validators.pattern('^[A-Za-z]+$')]],
+      p_name: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(2),
+          Validators.maxLength(40),
+          Validators.pattern(
+            '^([A-ZА-Я][a-zа-я]*([-\\s][A-ZА-Я][a-zа-я]*)*)?$'
+          ),
+        ],
+      ],
       p_eik: ['', Validators.required],
       p_ddsnumber: [''],
       p_mol: ['', Validators.required],
