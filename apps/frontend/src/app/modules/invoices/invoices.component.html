@@ -17,7 +17,13 @@
           class="error"
           *ngIf="invoicesForm.get('p_name')?.errors?.['minlength']"
         >
-          Името трябва да е поне 2 знака!
+          Доставчика трябва да е поне 2 знака!
+        </div>
+        <div
+          class="error"
+          *ngIf="invoicesForm.get('p_name')?.errors?.['maxlength']"
+        >
+          Доставчика трябва да е по-малко от 40 знака!
         </div>
 
         <mat-form-field>
@@ -44,6 +50,25 @@
             <mat-icon class="search-icon">person_add</mat-icon>
           </button>
         </mat-form-field>
+        <div
+          class="error"
+          *ngIf="invoicesForm.get('p_mol')?.hasError('pattern')"
+        >
+          МОЛ трябва да съдържа име и фамилия! Пъравата буква от името и
+          фамилията трябва да бъдат с главна буква!
+        </div>
+        <div
+          class="error"
+          *ngIf="invoicesForm.get('p_mol')?.hasError('minlength')"
+        >
+          МОЛ трябва да съдържа поне 2 букви!
+        </div>
+        <div
+          class="error"
+          *ngIf="invoicesForm.get('p_mol')?.hasError('maxlength')"
+        >
+          МОЛ трябва да съдържа максимум 40 букви!
+        </div>
         <mat-form-field>
           <input
             matInput
