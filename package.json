@@ -29,7 +29,6 @@
     "jsonwebtoken": "^9.0.0",
     "mariadb": "^3.0.2",
     "mysql2": "^2.3.3",
-    "path-browserify": "^1.0.1",
     "rxjs": "~7.4.0",
     "sequelize": "^6.21.3",
     "sequelize-typescript": "^2.1.3",
