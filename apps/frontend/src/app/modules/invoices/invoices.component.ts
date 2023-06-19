@@ -63,9 +63,7 @@ export class InvoicesComponent implements OnInit {
           Validators.required,
           Validators.minLength(2),
           Validators.maxLength(40),
-          Validators.pattern(
-            '^([A-ZА-Я][a-zа-я]*([-\\s][A-ZА-Я][a-zа-я]*)*)?$'
-          ),
+          Validators.pattern('^([A-ZА-Я][a-zа-я]*([-\\s][A-ZА-Я][a-zа-я]*)+)$'),
         ],
       ],
       p_city: ['', Validators.required],
