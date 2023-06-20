@@ -205,7 +205,8 @@ export class InvoicesComponent implements OnInit {
               //rowData: invoice.items,
               rowData: [],
             });
-            // Clear existing rows
+            const isPerson = this.invoice.c_person;
+            this.invoicesForm.get('c_person')?.setValue(isPerson);
 
             while (this.rowData.length !== 0) {
               this.rowData.removeAt(0);
@@ -279,6 +280,11 @@ export class InvoicesComponent implements OnInit {
   }
 
   onSubmit() {
+    if (this.invoicesForm.invalid) {
+      // Form is not valid, display error messages
+      alert('Моля, въведете всички полета.');
+      return;
+    }
     const formData = this.invoicesForm.value;
     const dataInvoice: IInvoice = {
       prefix: 1, //-----------------???
@@ -358,13 +364,14 @@ export class InvoicesComponent implements OnInit {
         .subscribe({
           next: (response) => {
             console.log('HTTP request successful:', response);
-            const successMessage = 'Invoice created successfully.';
+            const successMessage = 'Фактурата е създадена успешно.';
             // Display success message to the user
             alert(successMessage);
           },
           error: (error) => {
             console.error('Error occurred:', error);
-            const errorMessage = 'Invoice creation failed. Please try again.';
+            const errorMessage =
+              'Създаването на фактура беше неуспешно, моля опитайте отново!';
             // Display error message to the user
             alert(errorMessage);
           },
