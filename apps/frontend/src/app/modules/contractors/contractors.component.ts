@@ -24,10 +24,10 @@ export class ContractorsComponent implements OnInit {
   ngOnInit() {
     this.contractorsForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(2)]],
-      isPerson: [false],
+      person: [false],
       eik: ['', [Validators.required]],
       egn: [''],
-      vatNumber: [''],
+      ddsnumber: [''],
       mol: [
         '',
         [
@@ -49,11 +49,11 @@ export class ContractorsComponent implements OnInit {
       ],
       address: ['', [Validators.required, Validators.minLength(5)]],
     });
-    this.contractorsForm.get('isPerson')?.valueChanges.subscribe((isPerson) => {
+    this.contractorsForm.get('person')?.valueChanges.subscribe((person) => {
       const eikControl = this.contractorsForm.get('eik');
       const egnControl = this.contractorsForm.get('egn');
 
-      if (isPerson === true) {
+      if (person === true) {
         eikControl?.clearValidators();
         egnControl?.setValidators([Validators.required, egnValidator()]);
       }
@@ -69,7 +69,7 @@ export class ContractorsComponent implements OnInit {
 
     // Subscribe to changes in the isPerson form control value
     this.contractorsForm
-      .get('isPerson')
+      .get('person')
       ?.valueChanges.subscribe((value: boolean) => {
         if (value) {
           // Hide the Eik and VatNumber form fields
@@ -89,12 +89,13 @@ export class ContractorsComponent implements OnInit {
         this.contractor = data;
         this.contractorsForm.patchValue({
           name: this.contractor.name,
-          isPerson: this.contractor.person,
+          person: this.contractor.person,
+          eik: this.contractor.eik,
+          ddsnumber: this.contractor.ddsnumber,
           egn: this.contractor.egn,
           mol: this.contractor.mol,
           city: this.contractor.city,
           address: this.contractor.address,
-          vatNumber: this.contractor.ddsnumber,
         });
       },
       error: (error) => {
@@ -117,7 +118,7 @@ export class ContractorsComponent implements OnInit {
           .subscribe({
             next: (res) => {
               console.log('Contractor updated successfully.', res);
-              alert('Contractor is updated Successfully');
+              alert('Контрагентът е променен успешно!');
               this.router.navigate(['/contractorsList']);
             },
             error: (error) => {
@@ -129,7 +130,7 @@ export class ContractorsComponent implements OnInit {
         this.contractorsService.createContractor(contractorData).subscribe({
           next: (res) => {
             console.log('Contractor created successfully.', res);
-            alert('Contractor is created Successfully');
+            alert('Контрагентът е успешно създаден!');
             this.router.navigate(['/contractorsList']);
           },
           error: (error) => {

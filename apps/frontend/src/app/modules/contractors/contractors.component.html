@@ -1,7 +1,7 @@
 <form [formGroup]="contractorsForm" (ngSubmit)="onSubmit()">
   <mat-card class="contactor-card">
     <mat-card-header>
-      <mat-card-title>Добавяне на Контрагент</mat-card-title>
+      <mat-card-title>Контрагент</mat-card-title>
     </mat-card-header>
     <mat-card-content>
       <div class="input-field">
@@ -22,7 +22,7 @@
         <mat-checkbox
           color="primary"
           class="example-margin"
-          formControlName="isPerson"
+          formControlName="person"
           >Физическо лице</mat-checkbox
         >
       </div>
@@ -60,20 +60,8 @@
       <div class="input-field" id="contractorVatNumber">
         <mat-form-field appearance="outline" [ngStyle]="{ width: '50%' }">
           <mat-label>ДДС Номер</mat-label>
-          <input matInput formControlName="vatNumber" />
+          <input matInput formControlName="ddsnumber" />
         </mat-form-field>
-        <div
-          class="error"
-          *ngIf="contractorsForm.get('vatNumber')?.errors?.['invalidVatNumber']"
-        >
-          Невалиден ДДС номер. Трябва да бъде във формат BGXXXXXXXXX !
-        </div>
-        <div
-          *ngIf="contractorsForm.get('vatNumber')?.errors?.['invalidVatNumberPrefix']"
-        >
-          VAT number must start with 'BG' if the EIK and VAT number are the
-          same.
-        </div>
       </div>
       <div class="input-field">
         <mat-form-field appearance="outline" [ngStyle]="{ width: '50%' }">

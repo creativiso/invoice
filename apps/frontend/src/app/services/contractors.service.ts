@@ -14,7 +14,6 @@ export class ContractorsService {
   createContractor(contractorData: IContractor) {
     const headers = { 'Content-Type': 'application/json' };
     return this.http.post(`${this.apiUrl}/add`, contractorData, { headers });
-    //return this.http.post(`${this.apiUrl}/add`, contractorData);
   }
 
   updateContractor(contractorId: number, contractorData: IContractor) {
