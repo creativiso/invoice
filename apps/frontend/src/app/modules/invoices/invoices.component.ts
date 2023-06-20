@@ -66,16 +66,59 @@ export class InvoicesComponent implements OnInit {
           Validators.pattern('^([A-ZА-Я][a-zа-я]*([-\\s][A-ZА-Я][a-zа-я]*)+)$'),
         ],
       ],
-      p_city: ['', Validators.required],
-      p_address: ['', Validators.required],
-      c_name: ['', Validators.required],
+      p_city: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(2),
+          Validators.maxLength(40),
+        ],
+      ],
+      p_address: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(2),
+          Validators.maxLength(60),
+        ],
+      ],
+      c_name: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(2),
+          Validators.maxLength(60),
+        ],
+      ],
       c_person: [false],
       c_egn: [''],
       c_eik: [''],
       c_ddsnumber: [''],
-      c_mol: ['', Validators.required],
-      c_city: ['', Validators.required],
-      c_address: ['', Validators.required],
+      c_mol: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(2),
+          Validators.maxLength(40),
+          Validators.pattern('^([A-ZА-Я][a-zа-я]*([-\\s][A-ZА-Я][a-zа-я]*)+)$'),
+        ],
+      ],
+      c_city: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(2),
+          Validators.maxLength(60),
+        ],
+      ],
+      c_address: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(2),
+          Validators.maxLength(60),
+        ],
+      ],
       type: ['', Validators.required], // neww
       issue_date: ['', Validators.required], //new
       event_date: ['', Validators.required], //new

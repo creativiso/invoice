@@ -15,15 +15,9 @@
         </mat-form-field>
         <div
           class="error"
-          *ngIf="invoicesForm.get('p_name')?.errors?.['minlength']"
+          *ngIf="invoicesForm.get('p_name')?.errors?.['minlength'] || invoicesForm.get('p_name')?.errors?.['maxlength'] "
         >
-          Доставчика трябва да е поне 2 знака!
-        </div>
-        <div
-          class="error"
-          *ngIf="invoicesForm.get('p_name')?.errors?.['maxlength']"
-        >
-          Доставчика трябва да е по-малко от 40 знака!
+          Доставчика трябва да е между 2 и 40 знака!
         </div>
 
         <mat-form-field>
@@ -50,6 +44,7 @@
             <mat-icon class="search-icon">person_add</mat-icon>
           </button>
         </mat-form-field>
+
         <div
           class="error"
           *ngIf="invoicesForm.get('p_mol')?.hasError('pattern')"
@@ -76,9 +71,21 @@
             formControlName="p_city"
           />
         </mat-form-field>
+        <div
+          class="error"
+          *ngIf="invoicesForm.get('p_city')?.errors?.['maxlength'] || invoicesForm.get('p_city')?.errors?.['minlength']"
+        >
+          Населеното място трябва да е между 2 и 40 знака!
+        </div>
         <mat-form-field>
           <input matInput placeholder="Адрес" formControlName="p_address" />
         </mat-form-field>
+        <div
+          class="error"
+          *ngIf="invoicesForm.get('p_address')?.errors?.['maxlength'] || invoicesForm.get('p_address')?.errors?.['minlength']"
+        >
+          Адресът трябва да е между 2 и 60 знака!
+        </div>
       </div>
     </mat-card>
     <mat-card>
@@ -102,6 +109,12 @@
             <mat-icon class="search-icon">search</mat-icon>
           </button>
         </mat-form-field>
+        <div
+          class="error"
+          *ngIf="invoicesForm.get('c_name')?.errors?.['minlength'] || invoicesForm.get('c_name')?.errors?.['maxlength'] "
+        >
+          Получателят трябва да е между 2 и 40 знака!
+        </div>
         <mat-checkbox color="primary" formControlName="c_person">
           Физическо лице
         </mat-checkbox>
@@ -140,7 +153,25 @@
         <mat-form-field>
           <input matInput placeholder="МОЛ" formControlName="c_mol" />
         </mat-form-field>
-
+        <div
+          class="error"
+          *ngIf="invoicesForm.get('c_mol')?.hasError('pattern')"
+        >
+          МОЛ трябва да съдържа име и фамилия! Пъравата буква от името и
+          фамилията трябва да бъдат с главна буква!
+        </div>
+        <div
+          class="error"
+          *ngIf="invoicesForm.get('c_mol')?.hasError('minlength')"
+        >
+          МОЛ трябва да съдържа поне 2 букви!
+        </div>
+        <div
+          class="error"
+          *ngIf="invoicesForm.get('c_mol')?.hasError('maxlength')"
+        >
+          МОЛ трябва да съдържа максимум 40 букви!
+        </div>
         <mat-form-field>
           <input
             matInput
@@ -148,9 +179,21 @@
             formControlName="c_city"
           />
         </mat-form-field>
+        <div
+          class="error"
+          *ngIf="invoicesForm.get('c_city')?.errors?.['maxlength'] || invoicesForm.get('c_city')?.errors?.['minlength']"
+        >
+          Населеното място трябва да е между 2 и 40 знака!
+        </div>
         <mat-form-field>
           <input matInput placeholder="Адрес" formControlName="c_address" />
         </mat-form-field>
+        <div
+          class="error"
+          *ngIf="invoicesForm.get('c_address')?.errors?.['maxlength'] || invoicesForm.get('c_address')?.errors?.['minlength']"
+        >
+          Адресът трябва да е между 2 и 40 знака!
+        </div>
       </div>
     </mat-card>
   </div>
