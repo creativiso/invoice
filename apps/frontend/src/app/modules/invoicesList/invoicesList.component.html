@@ -43,17 +43,15 @@
     <ng-container matColumnDef="tools">
       <th mat-header-cell *matHeaderCellDef>Инструменти</th>
       <td mat-cell *matCellDef="let invoice">
-        <div *ngFor="let item of invoice.items">
-          <button
-            class="icon-edit-btn"
-            mat-icon-button
-            matTooltip="редактиране на ред"
-            aria-label="редактиране на ред"
-            (click)="editInvoice(invoice)"
-          >
-            <mat-icon>edit</mat-icon>
-          </button>
-        </div>
+        <button
+          class="icon-edit-btn"
+          mat-icon-button
+          matTooltip="редактиране на ред"
+          aria-label="редактиране на ред"
+          (click)="editInvoice(invoice)"
+        >
+          <mat-icon>edit</mat-icon>
+        </button>
       </td>
     </ng-container>
 
