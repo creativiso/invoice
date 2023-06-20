@@ -128,17 +128,28 @@ export class InvoicesComponent implements OnInit {
       rowData: this.fb.array([
         this.fb.group({
           name: ['', Validators.required],
-          quantity: ['', Validators.required],
-          price: ['', Validators.required],
+          quantity: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
+          price: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
           measurement: [''],
           amount: [''],
         }),
       ]),
-      vatPercent: ['', Validators.required],
+      vatPercent: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
       wayOfPaying: ['', Validators.required],
-      vatReason: [''],
+      vatReason: ['', [Validators.minLength(4), Validators.maxLength(40)]],
     });
+    this.invoicesForm.get('isPerson')?.valueChanges.subscribe((isPerson) => {
+      const eikControl = this.invoicesForm.get('eik');
+      const egnControl = this.invoicesForm.get('egn');
 
+      if (isPerson === true) {
+        eikControl?.clearValidators();
+        //egnControl?.setValidators([Validators.required, egnValidator()]);
+      }
+
+      eikControl?.updateValueAndValidity();
+      egnControl?.updateValueAndValidity();
+    });
     const receiverEikField = document.getElementById('receiverEik');
     const receiverVatNumberField = document.getElementById('receiverVatNumber');
     const receiverEgnField = document.getElementById('receiverEgn');
