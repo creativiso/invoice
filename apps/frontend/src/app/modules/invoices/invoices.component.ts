@@ -138,11 +138,21 @@ export class InvoicesComponent implements OnInit {
       wayOfPaying: ['', Validators.required],
       vatReason: ['', [Validators.minLength(4), Validators.maxLength(40)]],
     });
-    this.invoicesForm.get('isPerson')?.valueChanges.subscribe((isPerson) => {
+    // Subscribe to changes in the 'egn' control
+    this.invoicesForm.get('c_egn')?.valueChanges.subscribe((value: string) => {
+      const cPersonControl = this.invoicesForm.get('c_person');
+
+      if (value && value.length > 0) {
+        cPersonControl?.setValue(true);
+      } else {
+        cPersonControl?.setValue(false);
+      }
+    });
+    this.invoicesForm.get('c_person')?.valueChanges.subscribe((c_person) => {
       const eikControl = this.invoicesForm.get('eik');
       const egnControl = this.invoicesForm.get('egn');
 
-      if (isPerson === true) {
+      if (c_person === true) {
         eikControl?.clearValidators();
         //egnControl?.setValidators([Validators.required, egnValidator()]);
       }
@@ -205,8 +215,6 @@ export class InvoicesComponent implements OnInit {
               //rowData: invoice.items,
               rowData: [],
             });
-            const isPerson = this.invoice.c_person;
-            this.invoicesForm.get('c_person')?.setValue(isPerson);
 
             while (this.rowData.length !== 0) {
               this.rowData.removeAt(0);
