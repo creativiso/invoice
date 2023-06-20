@@ -27,7 +27,7 @@ export class ContractorsComponent implements OnInit {
       person: [false],
       eik: ['', [Validators.required]],
       egn: [''],
-      ddsnumber: [''],
+      ddsumber: [''],
       mol: [
         '',
         [
@@ -35,7 +35,7 @@ export class ContractorsComponent implements OnInit {
           Validators.minLength(2),
           Validators.maxLength(40),
           Validators.pattern(
-            '^([A-ZА-Я][a-zа-я]*([-\\s][A-ZА-Я][a-zа-я]*)*)?$'
+            '^(?:[A-Za-z]+|[А-ЯЁа-яё]+)(?: [A-Za-z]+|[А-ЯЁа-яё]+)+$'
           ),
         ],
       ],
