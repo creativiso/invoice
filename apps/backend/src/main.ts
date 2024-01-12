@@ -4,6 +4,7 @@ import { usersRouter } from './app/controllers/user.controller';
 import { Router } from 'express';
 import { contractorsRouter } from '../src/app/controllers/contractor.controller';
 import { proformsRouter } from './app/controllers/proform.controller';
+import { invoicesRouter } from '../src/app/controllers/invoices.controller';
 import { settingsRouter } from './app/controllers/settings.controller';
 import loginRouter from './app/controllers/login.controller';
 import cors from 'cors';
@@ -31,6 +32,7 @@ export const apiRouter = Router();
   apiRouter.use('/users', usersRouter);
   apiRouter.use('/contractors', contractorsRouter);
   apiRouter.use('/proforms', proformsRouter);
+  apiRouter.use('/invoices', invoicesRouter);
   apiRouter.use('/settings', settingsRouter);
   apiRouter.use('/login', loginRouter);
 

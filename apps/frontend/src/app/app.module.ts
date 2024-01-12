@@ -28,6 +28,22 @@ import { NotLoggedInGuard } from './auth/notLoggedIn.guard';
           canActivate: [AuthGuard],
         },
         {
+          path: 'invoices/:id',
+          loadChildren: () =>
+            import('./modules/invoices/invoices.module').then(
+              (m) => m.InvoicesModule
+            ),
+          canActivate: [AuthGuard],
+        },
+        {
+          path: 'invoicesList',
+          loadChildren: () =>
+            import('./modules/invoicesList/invoicesList.module').then(
+              (m) => m.InvoicesListModule
+            ),
+          canActivate: [AuthGuard],
+        },
+        {
           path: 'proformas',
           loadChildren: () =>
             import('./modules/proformas/proformas.module').then(
