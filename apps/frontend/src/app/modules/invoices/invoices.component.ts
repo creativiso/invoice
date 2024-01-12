@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { InvoiceService } from '../../services/invoices.service';
-import { IInvoice, IInvoiceItems } from 'libs/typings/src/model/index';
+import {
+  IInvoice,
+  IInvoiceItems,
+} from '../../../../../../libs/typings/src/model/index';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 
