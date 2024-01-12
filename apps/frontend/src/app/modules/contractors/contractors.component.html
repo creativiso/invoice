@@ -1,50 +1,134 @@
-<mat-card class="contactor-card">
-  <mat-card-header>
-    <mat-card-title>Добавяне на Контрагент</mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
-    <div class="input-field">
-      <mat-form-field appearance="outline" [ngStyle]="{ width: '50%' }">
-        <mat-label>Име*</mat-label> <input matInput />
+<form [formGroup]="contractorsForm" (ngSubmit)="onSubmit()">
+  <mat-card class="contactor-card">
+    <mat-card-header>
+      <mat-card-title>Контрагент</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="input-field">
+        <mat-form-field appearance="outline" [ngStyle]="{ width: '50%' }">
+          <mat-label>Име</mat-label>
+          <input matInput formControlName="name" />
 
-        <mat-hint>Задължително*</mat-hint>
-      </mat-form-field>
-    </div>
-    <div class="input-field">
-      <mat-checkbox class="example-margin">Физическо лице</mat-checkbox>
-    </div>
-    <div class="input-field">
-      <mat-form-field appearance="outline" [ngStyle]="{ width: '50%' }">
-        <mat-label>ЕИК*</mat-label>
-        <input matInput />
-      </mat-form-field>
-    </div>
-    <div class="input-field">
-      <mat-form-field appearance="outline" [ngStyle]="{ width: '50%' }">
-        <mat-label>ДДС Номер</mat-label>
-        <input matInput />
-      </mat-form-field>
-    </div>
-    <div class="input-field">
-      <mat-form-field appearance="outline" [ngStyle]="{ width: '50%' }">
-        <mat-label>МОЛ*</mat-label>
-        <input matInput />
-      </mat-form-field>
-    </div>
-    <div class="input-field">
-      <mat-form-field appearance="outline" [ngStyle]="{ width: '50%' }">
-        <mat-label>Населено място*</mat-label>
-        <input matInput />
-      </mat-form-field>
-    </div>
-    <div class="input-field">
-      <mat-form-field appearance="outline" [ngStyle]="{ width: '50%' }">
-        <mat-label>Адрес*</mat-label>
-        <input matInput />
-      </mat-form-field>
-    </div>
-  </mat-card-content>
-  <mat-card-actions>
-    <button mat-raised-button>Изпрати</button>
-  </mat-card-actions>
-</mat-card>
+          <mat-hint>Задължително *</mat-hint>
+        </mat-form-field>
+        <div
+          class="error"
+          *ngIf="contractorsForm.get('name')?.errors?.['minlength']"
+        >
+          Името трябва да е поне 2 знака!
+        </div>
+      </div>
+      <div class="input-field">
+        <mat-checkbox
+          color="primary"
+          class="example-margin"
+          formControlName="person"
+          >Физическо лице</mat-checkbox
+        >
+      </div>
+      <div class="input-field" id="contractorEik">
+        <mat-form-field appearance="outline" [ngStyle]="{ width: '50%' }">
+          <mat-label>ЕИК</mat-label>
+          <input matInput formControlName="eik" />
+        </mat-form-field>
+        <div
+          class="error"
+          *ngIf="contractorsForm.get('eik')?.errors?.['invalidEik']"
+        >
+          Невалиден ЕИК номер.Трябва да се състои от 9 или 13 числа.
+        </div>
+      </div>
+      <div class="input-field hidden" id="contractorEgn">
+        <mat-form-field appearance="outline" [ngStyle]="{ width: '50%' }">
+          <mat-label>ЕГН</mat-label>
+          <input matInput formControlName="egn" />
+        </mat-form-field>
+        <div
+          class="error"
+          *ngIf="contractorsForm.get('egn')?.errors?.['invalidEgnLength']"
+        >
+          Невалидно ЕГН. Трябва да се състои от 10 знака!
+        </div>
+        <div
+          class="error"
+          *ngIf="contractorsForm.get('egn')?.errors?.['invalidEgnChecksum']"
+        >
+          Невалидно ЕГН!
+        </div>
+      </div>
+
+      <div class="input-field" id="contractorVatNumber">
+        <mat-form-field appearance="outline" [ngStyle]="{ width: '50%' }">
+          <mat-label>ДДС Номер</mat-label>
+          <input matInput formControlName="ddsnumber" />
+        </mat-form-field>
+      </div>
+      <div class="input-field">
+        <mat-form-field appearance="outline" [ngStyle]="{ width: '50%' }">
+          <mat-label>МОЛ</mat-label>
+          <input matInput formControlName="mol" />
+        </mat-form-field>
+
+        <div
+          class="error"
+          *ngIf="contractorsForm.get('mol')?.hasError('pattern')"
+        >
+          МОЛ трябва да съдържа име и фамилия! Пъравата буква от името и
+          фамилията трябва да бъдат с главна буква!
+        </div>
+        <div
+          class="error"
+          *ngIf="contractorsForm.get('mol')?.hasError('minlength')"
+        >
+          МОЛ трябва да съдържа поне 2 букви!
+        </div>
+        <div
+          class="error"
+          *ngIf="contractorsForm.get('mol')?.hasError('maxlength')"
+        >
+          МОЛ трябва да съдържа максимум 40 букви!
+        </div>
+      </div>
+      <div class="input-field">
+        <mat-form-field appearance="outline" [ngStyle]="{ width: '50%' }">
+          <mat-label>Населено място</mat-label>
+          <input matInput formControlName="city" />
+        </mat-form-field>
+        <div
+          class="error"
+          *ngIf="contractorsForm.get('city')?.hasError('minlength')"
+        >
+          Населено място трябва да съдържа минимум 3 букви!
+        </div>
+        <div
+          class="error"
+          *ngIf="contractorsForm.get('city')?.hasError('pattern')"
+        >
+          Населено място трябва да започва с главна буква!
+        </div>
+      </div>
+      <div class="input-field">
+        <mat-form-field appearance="outline" [ngStyle]="{ width: '50%' }">
+          <mat-label>Адрес</mat-label>
+          <input matInput formControlName="address" />
+        </mat-form-field>
+        <div
+          class="error"
+          *ngIf="contractorsForm.get('address')?.hasError('minlength')"
+        >
+          Адреса трябва да има поне 5 символа!
+        </div>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <button
+        [disabled]="isFormInvalid()"
+        type="submit"
+        mat-raised-button
+        class="btn-submit"
+      >
+        <a>Изпрати</a>
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</form>

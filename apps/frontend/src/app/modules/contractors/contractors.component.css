@@ -1,0 +1,14 @@
+.btn-submit {
+  background-color: #172647;
+}
+.btn-submit a {
+  color: #f4f2f1;
+  text-decoration: none;
+  cursor: pointer;
+}
+.hidden {
+  display: none !important;
+}
+.error {
+  color: rgb(230, 69, 69);
+}

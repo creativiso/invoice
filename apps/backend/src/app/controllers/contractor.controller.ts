@@ -18,7 +18,7 @@ contractorsRouter.get('/:id', async (req, res) => {
   }
 });
 //create
-contractorsRouter.post('/', async (req, res) => {
+contractorsRouter.post('/add', async (req, res) => {
   const { name, city, address, eik, dds, ddsnumber, mol, person, egn } =
     req.body;
   const contractor = await contractorService.createContractor(

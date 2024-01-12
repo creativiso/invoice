@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
-import { ContractorsComponent } from './contractors.component';
+import { ContractorListComponent } from './contractorsList.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -12,12 +12,14 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatNativeDateModule } from '@angular/material/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { MatTableModule } from '@angular/material/table';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
-const routes: Routes = [{ path: '', component: ContractorsComponent }];
+const routes: Routes = [{ path: '', component: ContractorListComponent }];
 
 @NgModule({
-  declarations: [ContractorsComponent],
+  declarations: [ContractorListComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
@@ -31,7 +33,9 @@ const routes: Routes = [{ path: '', component: ContractorsComponent }];
     MatIconModule,
     MatCheckboxModule,
     MatNativeDateModule,
-    ReactiveFormsModule,
+    MatTableModule,
+    MatTooltipModule,
+    MatPaginatorModule,
   ],
 })
-export class ContractorsModule {}
+export class ContractorsListModule {}

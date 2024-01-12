@@ -185,10 +185,6 @@ export class ProformasComponent implements OnInit {
       .subscribe({
         next: (response) => {
           console.log('HTTP request successful:', response);
-          const successMessage = 'Proform created successfully.';
-          // Displaying success message to user
-          alert(successMessage);
-          location.reload();
         },
         error: (error) => {
           console.error('Error occurred:', error);
