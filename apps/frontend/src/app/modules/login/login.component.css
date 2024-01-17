@@ -13,14 +13,6 @@ form {
   margin: auto;
 }
 
-mat-card {
-  padding: 16px;
-}
-
-mat-card-header {
-  padding-bottom: 16px;
-}
-
 mat-form-field {
   width: 100%;
 }
