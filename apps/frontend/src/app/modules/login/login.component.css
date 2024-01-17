@@ -9,12 +9,14 @@ form {
   align-items: center;
   justify-content: center;
   padding-top: 50px;
-  max-width: 400px;
+  max-width: 450px;
   margin: auto;
 }
+
 mat-form-field {
   width: 100%;
 }
+
 .btn-submit {
   background-color: #172647;
   color: #f4f2f1;
