@@ -6,6 +6,7 @@
         src="https://creativiso.bg/img/logo-94955cf1a6.svg"
         alt=""
         class="logo"
+        color="primary"
       />
     </div>
     <mat-card-header>
@@ -30,6 +31,7 @@
           (click)="hide = !hide"
           [attr.aria-label]="'Hide password'"
           [attr.aria-pressed]="hide"
+
         >
           <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
         </button>
@@ -38,7 +40,7 @@
         {{ errorMessage }}
       </p>
 
-      <button class="btn-submit" type="submit" mat-raised-button>
+      <button class="btn-submit" type="submit" mat-raised-button >
         Изпрати
       </button>
     </div>

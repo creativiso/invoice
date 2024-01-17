@@ -9,9 +9,18 @@ form {
   align-items: center;
   justify-content: center;
   padding-top: 50px;
-  max-width: 400px;
+  max-width: 450px;
   margin: auto;
 }
+
+mat-card {
+  padding: 15px;
+}
+
+mat-card-header {
+  padding-bottom: 15px;
+}
+
 mat-form-field {
   width: 100%;
 }
