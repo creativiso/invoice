@@ -13,8 +13,8 @@
       <mat-card-title>Вход</mat-card-title>
     </mat-card-header>
 
-    <div class="login-container">
-      <mat-card-content>
+    <mat-card-content>
+      <div class="login-container">
         <mat-form-field>
           <mat-label>Име</mat-label>
           <input matInput formControlName="username" />
@@ -39,11 +39,13 @@
         <p *ngIf="errorMessage" class="error-message">
           {{ errorMessage }}
         </p>
+      </div>
+    </mat-card-content>
 
-        <button class="btn-submit" type="submit" mat-raised-button>
-          Изпрати
-        </button>
-      </mat-card-content>
-    </div>
+    <mat-card-actions>
+      <button class="btn-submit" type="submit" mat-raised-button>
+        Изпрати
+      </button>
+    </mat-card-actions>
   </mat-card>
 </form>
