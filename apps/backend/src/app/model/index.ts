@@ -22,6 +22,7 @@ export const sequelize = new Sequelize(
   env.DB_PASSWORD,
   {
     host: env.DB_HOST,
+    port: parseInt(env.DB_PORT),
     dialect: 'mariadb',
     models: [
       Contractor,

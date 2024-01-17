@@ -111,6 +111,11 @@ import { NotLoggedInGuard } from './auth/notLoggedIn.guard';
             ),
           canActivate: [AuthGuard],
         },
+        {
+          path: '',
+          pathMatch: 'full',
+          redirectTo: 'dashboard',
+        },
       ],
       { initialNavigation: 'enabledBlocking' }
     ),
