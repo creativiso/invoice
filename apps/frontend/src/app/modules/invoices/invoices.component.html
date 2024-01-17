@@ -244,9 +244,10 @@
 
     <mat-form-field class="currency" appearance="outline">
       <mat-label>Изберете валута</mat-label>
+      <!-- <mat-select [(value)]="selectedCurrency" formControlName="currency"> -->
       <mat-select [(value)]="selectedCurrency" formControlName="currency">
-        <mat-option *ngFor="let currency of currencies" [value]="currency">{{
-          currency.currencyCode
+        <mat-option *ngFor="let currency of currencies" [value]="currency.id">{{
+          currency.code
         }}</mat-option>
       </mat-select>
     </mat-form-field>
@@ -355,11 +356,13 @@
     <div class="flex-table row" role="rowgroup">
       <div class="flex-row right price" role="cell">Данъчна основа:</div>
       <div class="flex-row right priceNum" role="cell">
-        <ng-container *ngIf="selectedCurrency.currencyCode === '€'">
-          {{ calculateTotalRowAmount() | number: '1.2-2' }} €
+        <!-- <ng-container *ngIf="selectedCurrency.currencyCode === '€'"> -->
+        <ng-container *ngIf="selectedCurrency.code === 'EUR'">
+          {{ calculateTotalRowAmount() | number : '1.2-2' }} €
         </ng-container>
-        <ng-container *ngIf="selectedCurrency.currencyCode === 'лв'">
-          {{ calculateTotalRowAmount() | number: '1.2-2' }} лв
+        <!-- <ng-container *ngIf="selectedCurrency.currencyCode === 'лв'"> -->
+        <ng-container *ngIf="selectedCurrency.code === 'BGN'">
+          {{ calculateTotalRowAmount() | number : '1.2-2' }} лв
         </ng-container>
       </div>
     </div>
@@ -375,11 +378,11 @@
     <div class="flex-table row">
       <div class="flex-row sum right" role="cell">Общо:</div>
       <div class="flex-row right priceNum" role="cell">
-        <ng-container *ngIf="selectedCurrency.currencyCode === '€'">
-          {{ calculateTotalAmountWthVat() | number: '1.2-2' }} €
+        <ng-container *ngIf="selectedCurrency.code === 'EUR'">
+          {{ calculateTotalAmountWthVat() | number : '1.2-2' }} €
         </ng-container>
-        <ng-container *ngIf="selectedCurrency.currencyCode === 'лв'">
-          {{ calculateTotalAmountWthVat() | number: '1.2-2' }} лв
+        <ng-container *ngIf="selectedCurrency.code === 'лв'">
+          {{ calculateTotalAmountWthVat() | number : '1.2-2' }} лв
         </ng-container>
       </div>
     </div>

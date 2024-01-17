@@ -25,19 +25,27 @@ export class InvoicesComponent implements OnInit {
   get rowData() {
     return this.invoicesForm.get('rowData') as FormArray;
   }
-  public currencies = [
-    { exchangeRate: 1, currencyCode: 'лв' },
-    { exchangeRate: 1.95, currencyCode: '€' },
-  ];
-  currencyFormatters = {
-    Лев: new Intl.NumberFormat('bg-BG', { style: 'currency', currency: 'BGN' }),
-    Евро: new Intl.NumberFormat('bg-BG', {
-      style: 'currency',
-      currency: 'EUR',
-    }),
-  };
 
+  // public currencies = [
+  //   { exchangeRate: 1, currencyCode: 'лв' },
+  //   { exchangeRate: 1.95, currencyCode: '€' },
+  // ];
+
+  // currencyFormatters = {
+  //   Лев: new Intl.NumberFormat('bg-BG', { style: 'currency', currency: 'BGN' }),
+  //   Евро: new Intl.NumberFormat('bg-BG', {
+  //     style: 'currency',
+  //     currency: 'EUR',
+  //   }),
+  // };
+
+  // selectedCurrency = this.currencies[0];
+  public currencies = [
+    { id: 1, code: 'BGN' },
+    { id: 2, code: 'EUR' },
+  ];
   selectedCurrency = this.currencies[0];
+
   constructor(
     private fb: FormBuilder,
     private invoiceService: InvoiceService,
@@ -127,7 +135,8 @@ export class InvoicesComponent implements OnInit {
       event_date: ['', Validators.required], //new
       related_invoice: [],
       related_date: [],
-      currency: [this.selectedCurrency, Validators.required],
+      // currency: [this.selectedCurrency, Validators.required],
+      currency: [this.selectedCurrency.code, Validators.required],
       rowData: this.fb.array([
         this.fb.group({
           name: ['', Validators.required],
@@ -210,7 +219,8 @@ export class InvoicesComponent implements OnInit {
               c_address: invoice.c_address,
               issue_date: invoice.issue_date,
               event_date: invoice.event_date,
-              currency: invoice.currency.currencyCode, // not showing
+              // currency: invoice.currency.currencyCode, // not showing
+              currency: invoice.currency,
               type: String(invoice.type),
               vatPercent: invoice.vat,
               wayOfPaying: String(invoice.bank_payment),
@@ -307,7 +317,8 @@ export class InvoicesComponent implements OnInit {
       bank_payment: 2, //--------------???
       vat: formData.vatPercent,
       novatreason: formData.vatReason,
-      currency: formData.currency.currencyCode,
+      // currency: formData.currency.currencyCode,
+      currency: formData.currency,
       rate: formData.currency.exchangeRate,
       type: formData.type,
       related_invoice: formData.related_invoice,

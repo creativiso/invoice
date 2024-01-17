@@ -14,14 +14,8 @@ export interface IContractor {
 }
 export interface ICurrency {
   id: number;
-  currency: string;
+  code: string;
   rate: number;
-  sign: string;
-  longsign: string;
-  subsign: string;
-  default_c: boolean;
-  updated: Date;
-  g: string;
   createAt: Date;
   updatedAt: Date;
 }
@@ -36,10 +30,7 @@ export interface IInvoice {
   bank_payment: number;
   vat: number;
   novatreason: string;
-  currency: {
-    exchangeRate: number;
-    currencyCode: string;
-  };
+  currency: number;
   rate: number;
   type: number;
   related_invoice: string;
