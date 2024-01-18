@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ContractorsService } from 'src/app/services/contractors.service';
 import { IContractor } from '../../../../../../libs/typings/src/model';
 import { egnValidator } from '../../validators/egn.validator';
+import { eikValidator } from 'src/app/validators/eik.validator';
 
 @Component({
   selector: 'crtvs-contractors',
@@ -25,7 +26,7 @@ export class ContractorsComponent implements OnInit {
     this.contractorsForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(2)]],
       person: [false],
-      eik: ['', [Validators.required]],
+      eik: ['', [Validators.required, eikValidator()]],
       egn: [''],
       ddsumber: [''],
       mol: [
@@ -52,20 +53,34 @@ export class ContractorsComponent implements OnInit {
     this.contractorsForm.get('person')?.valueChanges.subscribe((person) => {
       const eikControl = this.contractorsForm.get('eik');
       const egnControl = this.contractorsForm.get('egn');
+      const molControl = this.contractorsForm.get('mol');
 
-      if (person === true) {
+      if (person) {
         eikControl?.clearValidators();
+        molControl?.clearValidators();
         egnControl?.setValidators([Validators.required, egnValidator()]);
+      } else {
+        molControl?.setValidators([
+          Validators.required,
+          Validators.minLength(2),
+          Validators.maxLength(40),
+          Validators.pattern(
+            '^(?:[A-Za-z]+|[А-ЯЁа-яё]+)(?: [A-Za-z]+|[А-ЯЁа-яё]+)+$'
+          ),
+        ]);
+        eikControl?.setValidators([Validators.required, eikValidator()]);
+        egnControl?.clearValidators();
       }
-
       eikControl?.updateValueAndValidity();
       egnControl?.updateValueAndValidity();
+      molControl?.updateValueAndValidity();
     });
     const contractorEikField = document.getElementById('contractorEik');
     const contractorVatNumberField = document.getElementById(
       'contractorVatNumber'
     );
     const contractorEgnField = document.getElementById('contractorEgn');
+    const contractorMolField = document.getElementById('contractorMol');
 
     // Subscribe to changes in the isPerson form control value
     this.contractorsForm
@@ -75,11 +90,13 @@ export class ContractorsComponent implements OnInit {
           // Hide the Eik and VatNumber form fields
           contractorEikField?.classList.add('hidden');
           contractorVatNumberField?.classList.add('hidden');
+          contractorMolField?.classList.add('hidden');
           contractorEgnField?.classList.remove('hidden');
         } else {
           // Show the Eik and VatNumber form fields
           contractorEikField?.classList.remove('hidden');
           contractorVatNumberField?.classList.remove('hidden');
+          contractorMolField?.classList.remove('hidden');
           contractorEgnField?.classList.add('hidden');
         }
       });
