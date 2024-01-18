@@ -44,10 +44,7 @@ export class Invoice extends Model<IInvoice> {
   novatreason: string;
 
   @Column({ type: DataTypes.JSON })
-  currency: {
-    exchangeRate: number;
-    currencyCode: string;
-  };
+  currency: number;
 
   @Column({ type: DataTypes.INTEGER })
   rate: number;
