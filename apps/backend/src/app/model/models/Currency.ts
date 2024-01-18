@@ -11,4 +11,7 @@ export class Currency extends Model<ICurrency> {
 
   @Column({ type: DataTypes.INTEGER })
   rate: number;
+
+  @Column({ type: DataTypes.STRING })
+  code: number;
 }
