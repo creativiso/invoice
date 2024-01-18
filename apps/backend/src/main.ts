@@ -8,6 +8,7 @@ import { invoicesRouter } from '../src/app/controllers/invoices.controller';
 import { settingsRouter } from './app/controllers/settings.controller';
 import loginRouter from './app/controllers/login.controller';
 import cors from 'cors';
+import { currenciesRouter } from './app/controllers/currencies.controller';
 
 export const apiRouter = Router();
 
@@ -33,6 +34,7 @@ export const apiRouter = Router();
   apiRouter.use('/contractors', contractorsRouter);
   apiRouter.use('/proforms', proformsRouter);
   apiRouter.use('/invoices', invoicesRouter);
+  apiRouter.use('/currencies', currenciesRouter);
   apiRouter.use('/settings', settingsRouter);
   apiRouter.use('/login', loginRouter);
 
