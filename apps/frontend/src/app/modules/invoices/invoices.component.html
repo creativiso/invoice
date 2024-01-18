@@ -244,11 +244,11 @@
 
     <mat-form-field class="currency" appearance="outline">
       <mat-label>Изберете валута</mat-label>
-      <mat-select [(value)]="selectedCurrency" formControlName="currency">
+      <mat-select [(value)]="selectedCurrencyId" formControlName="currency">
         <mat-option
           *ngFor="let currency of currencyList"
           [value]="currency.id"
-          >{{ currency.code }}</mat-option
+          >{{ currency?.code }}</mat-option
         >
       </mat-select>
     </mat-form-field>

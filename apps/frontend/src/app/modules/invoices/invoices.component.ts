@@ -27,8 +27,10 @@ export class InvoicesComponent implements OnInit {
   get rowData() {
     return this.invoicesForm.get('rowData') as FormArray;
   }
+
   currencyList?: ICurrency[] | null;
-  selectedCurrency?: ICurrency | null;
+  selectedCurrency?: ICurrency;
+  selectedCurrencyId?: number;
 
   constructor(
     private fb: FormBuilder,
@@ -40,10 +42,18 @@ export class InvoicesComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.currenciesService.getAllCurrencies().subscribe((res) => {
-      this.currencyList = res;
-      console.log(res);
-    });
+    this.currenciesService.getAllCurrencies().subscribe(
+      (res) => {
+        if (res) {
+          this.currencyList = res;
+          this.selectedCurrency = this.currencyList[0];
+          this.selectedCurrencyId = this.currencyList[0]?.id;
+        }
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
 
     this.invoicesForm = this.fb.group({
       p_name: [
