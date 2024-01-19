@@ -1,20 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import {
-  FormGroup,
-  FormBuilder,
-  FormControl,
-  FormArray,
-} from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl, FormArray } from '@angular/forms';
 import { SettingService } from '../../services/settings.service';
-import {
-  ISettings
-} from '../../../../../../libs/typings/src/model/index';
-
-export interface Tags {
-  value: string;
-}
+import { ISettings } from '../../../../../../libs/typings/src/model/index';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { Observable, map, startWith } from 'rxjs';
 
 @Component({
   selector: 'crtvs-settings',
@@ -24,15 +15,25 @@ export interface Tags {
 export class SettingsComponent implements OnInit {
   settingsForm: FormGroup;
   tagsCtrl = new FormControl();
-  tags: Tags[] = [];
+  tags: string[] = [];
   separatorKeysCodes: number[] = [ENTER, COMMA];
   addOnBlur = true;
 
-  visible = true;
-  selectable = true;
-  removable = true;
+  @ViewChild('fruitInput') tagInput!: ElementRef<HTMLInputElement>;
+  allTags: string[] = ['кг', 'г'];
+  filteredTags?: Observable<string[]>;
 
-  constructor(private fb: FormBuilder, private settingsService: SettingService) {
+  constructor(
+    private fb: FormBuilder,
+    private settingsService: SettingService
+  ) {
+    this.filteredTags = this.tagsCtrl.valueChanges.pipe(
+      startWith(null),
+      map((tag: string | null) =>
+        tag ? this._filter(tag) : this.allTags.slice()
+      )
+    );
+
     this.settingsForm = new FormGroup({
       supplierName: new FormControl(''),
       supplierVatNumber: new FormControl(''),
@@ -42,8 +43,8 @@ export class SettingsComponent implements OnInit {
       bicSwift: new FormControl(''),
       bank: new FormControl(''),
       dds: new FormControl(''),
-      paymentMethod: new FormControl(''),
-      individualPerson: new FormControl(''),
+      paymentMethod: new FormControl(),
+      individualPerson: new FormControl(false),
       quantityNumber: new FormControl(''),
       singlePriceNumber: new FormControl(''),
       totalPriceNumber: new FormControl(''),
@@ -53,38 +54,52 @@ export class SettingsComponent implements OnInit {
     });
   }
 
-
   add(event: MatChipInputEvent): void {
-    const input = event.input;
-    const value = event.value;
-    if ((value || '').trim()) {
-      this.tags.push({value: value.trim()});  
+    // const input = event.input;
+    const value = (event.value || '').trim();
+    if (value) {
+      this.tags.push(value);
       const requirements = this.settingsForm.get('units') as FormArray;
       requirements.push(this.fb.control(value.trim()));
-    }
 
-    if (input) {
-      input.value = '';
+      // Clear the input value
+      event.chipInput!.clear();
+      this.tagsCtrl.setValue(null);
     }
   }
 
-  remove(tag: Tags): void {
+  remove(tag: string): void {
     const index = this.tags.indexOf(tag);
     const units = this.settingsForm.get('units') as FormArray;
     if (index >= 0) {
       this.tags.splice(index, 1);
       units.removeAt(index);
     }
-    
-    
+  }
+
+  selected(event: MatAutocompleteSelectedEvent): void {
+    this.tags.push(event.option.viewValue);
+    this.tagInput.nativeElement.value = '';
+    this.tagsCtrl.setValue(null);
+  }
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.allTags.filter((tag) =>
+      tag.toLowerCase().includes(filterValue)
+    );
   }
 
   ngOnInit(): void {
-    this.settingsService.getSettings().subscribe(settings => {
+    this.tagInput = new ElementRef<HTMLInputElement>(
+      document.createElement('input')
+    );
+    this.settingsService.getSettings().subscribe((settings) => {
       this.settingsForm.setValue({
         supplierName: settings.supplierName,
         supplierVatNumber: settings.supplierVatNumber,
-        supplierCity:  settings.supplierCity,
+        supplierCity: settings.supplierCity,
         supplierAddress: settings.supplierAddress,
         iban: settings.iban,
         bicSwift: settings.bicSwift,
@@ -100,18 +115,19 @@ export class SettingsComponent implements OnInit {
         units: [],
       });
     });
-    this.settingsService.getUnits().subscribe(units => {
-      const tags = units.map(unit => ({ value: unit }));
+    this.settingsService.getUnits().subscribe((units) => {
+      // const tags = units.map((unit) => unit);
+      const tags = [...units];
       this.tags = [...this.tags, ...tags];
       const requirements = this.settingsForm.get('units') as FormArray;
-      tags.forEach(tag => requirements.push(this.fb.control(tag.value)));
+      tags.forEach((tag) => requirements.push(this.fb.control(tag)));
     });
   }
 
   onSubmit() {
     const formData = this.settingsForm.value;
     const dataSettings: ISettings = {
-      id:1,
+      id: 1,
       supplierName: formData.supplierName,
       supplierVatNumber: formData.supplierVatNumber,
       supplierCity: formData.supplierCity,
@@ -129,7 +145,7 @@ export class SettingsComponent implements OnInit {
       supplierManager: formData.supplierManager,
       units: formData.units,
     };
-  console.log(dataSettings);
+    console.log(dataSettings);
     this.settingsService.putSetting(dataSettings).subscribe({
       next: (response) => {
         console.log('HTTP request successful:', response);
@@ -147,5 +163,3 @@ export class SettingsComponent implements OnInit {
     });
   }
 }
-  
- 
