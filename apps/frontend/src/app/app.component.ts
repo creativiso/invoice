@@ -50,8 +50,4 @@ export class AppComponent {
     this.authService.logout();
     this.router.navigate(['/login']);
   }
-
-  public navigateTo(path: string) {
-    this.router.navigate([path]);
-  }
 }
