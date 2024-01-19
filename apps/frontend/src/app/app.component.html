@@ -52,43 +52,34 @@
         /></a>
       </mat-list-item>
 
-      <mat-list-item>
-        <mat-icon><span class="material-icons"> dashboard </span></mat-icon>
-        <a routerLink="/">Табло за управление</a>
+      <mat-list-item matRipple routerLink="/">
+        <mat-icon matListItemIcon> dashboard </mat-icon>
+        <div matListItemTitle>Табло за управление</div>
       </mat-list-item>
-      <mat-list-item>
-        <mat-icon><span class="material-icons"> wysiwyg </span></mat-icon>
-        <a routerLink="/invoicesList">Фактури</a>
+
+      <mat-list-item matRipple routerLink="/invoicesList">
+        <mat-icon matListItemIcon> wysiwyg </mat-icon>
+        <div matListItemTitle>Фактури</div>
       </mat-list-item>
-      <mat-list-item>
-        <mat-icon>
-          <span class="material-icons">article</span>
-        </mat-icon>
-        <a routerLink="/proformas">Проформа фактури</a>
+      <mat-list-item matRipple routerLink="/proformas">
+        <mat-icon matListItemIcon> article </mat-icon>
+        <div matListItemTitle>Проформа фактури</div>
       </mat-list-item>
-      <mat-list-item>
-        <mat-icon>
-          <span class="material-icons">handshake</span>
-        </mat-icon>
-        <a routerLink="/contractorsList">Контрагенти</a>
+      <mat-list-item matRipple routerLink="/contractorsList">
+        <mat-icon matListItemIcon> handshake </mat-icon>
+        <div matListItemTitle>Контрагенти</div>
       </mat-list-item>
-      <mat-list-item>
-        <mat-icon>
-          <span class="material-icons">settings</span>
-        </mat-icon>
-        <a routerLink="/settings">Настройки</a>
+      <mat-list-item matRipple routerLink="/settings">
+        <mat-icon matListItemIcon> settings </mat-icon>
+        <div matListItemTitle>Настройки</div>
       </mat-list-item>
-      <mat-list-item>
-        <mat-icon>
-          <span class="material-icons">group</span>
-        </mat-icon>
-        <a routerLink="/users">Потребители</a>
+      <mat-list-item matRipple routerLink="/users">
+        <mat-icon matListItemIcon> group </mat-icon>
+        <div matListItemTitle>Потребители</div>
       </mat-list-item>
-      <mat-list-item>
-        <mat-icon>
-          <span class="material-icons">person</span>
-        </mat-icon>
-        <a routerLink="/profile">Профил</a>
+      <mat-list-item matRipple routerLink="/profile">
+        <mat-icon matListItemIcon> person </mat-icon>
+        <div matListItemTitle>Профил</div>
       </mat-list-item>
     </mat-list>
   </mat-sidenav>

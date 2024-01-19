@@ -33,6 +33,13 @@ export class AppComponent {
     this.authService.isLoggedIn.subscribe((isLoggedIn) => {
       this.isLoggedIn = isLoggedIn;
     });
+
+    this.router.events.subscribe((event) => {
+      // close sidenav on routing
+      if (this.isHandset) {
+        this.drawer.close();
+      }
+    });
   }
 
   public toggleNav() {
