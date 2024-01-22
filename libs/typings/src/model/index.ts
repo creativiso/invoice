@@ -171,7 +171,7 @@ export interface ISettings {
   bank: string;
   dds: number;
   paymentMethod: string;
-  individualPerson: boolean;
+  priceInputWithVat: boolean;
   quantityNumber: number;
   singlePriceNumber: number;
   totalPriceNumber: number;
