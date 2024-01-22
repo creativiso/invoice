@@ -9,6 +9,7 @@ import { settingsRouter } from './app/controllers/settings.controller';
 import loginRouter from './app/controllers/login.controller';
 import cors from 'cors';
 import { currenciesRouter } from './app/controllers/currencies.controller';
+import { paymentMethodsRouter } from './app/controllers/paymentMethodsController';
 
 export const apiRouter = Router();
 
@@ -35,6 +36,7 @@ export const apiRouter = Router();
   apiRouter.use('/proforms', proformsRouter);
   apiRouter.use('/invoices', invoicesRouter);
   apiRouter.use('/currencies', currenciesRouter);
+  apiRouter.use('/paymentMethods', paymentMethodsRouter);
   apiRouter.use('/settings', settingsRouter);
   apiRouter.use('/login', loginRouter);
 
