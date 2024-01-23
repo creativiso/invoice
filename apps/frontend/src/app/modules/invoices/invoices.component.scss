@@ -253,11 +253,9 @@ div {
 .div7 {
   grid-area: 2 / 3 / 3 / 4;
 }
-.grid-layout-top {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-column: span 2;
-  margin-bottom: 20px;
+.flex-radio-btn {
+  display: flex;
+  gap: 70px;
 }
 
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {

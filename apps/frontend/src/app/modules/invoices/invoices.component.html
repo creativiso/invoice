@@ -197,61 +197,72 @@
       </div>
     </mat-card>
   </div>
-  <mat-card class="container">
-    <mat-radio-group
-      aria-label="Select an option"
-      formControlName="type"
-      class="grid-layout-top"
-    >
-      <mat-label class="title">Тип:</mat-label>
-      <mat-radio-button color="primary" class="div01" value="1"
-        >Фактура:</mat-radio-button
-      >
-      <mat-radio-button color="primary" class="div02" value="2"
-        >Кредитно известие:</mat-radio-button
-      >
-      <mat-radio-button color="primary" class="div03" value="3"
-        >Дебитно известие:</mat-radio-button
-      >
-    </mat-radio-group>
-    <mat-form-field appearance="outline" class="datepicker">
-      <mat-label>Дата на издаване</mat-label>
-      <input
-        matInput
-        formControlName="issue_date"
-        [matDatepicker]="issuedAtPicker"
-      />
-
-      <mat-datepicker-toggle matSuffix [for]="issuedAtPicker">
-      </mat-datepicker-toggle>
-
-      <mat-datepicker #issuedAtPicker color="primary"> </mat-datepicker>
-    </mat-form-field>
-
-    <mat-form-field appearance="outline" class="datepicker">
-      <mat-label>Дата на данъчно събитие</mat-label>
-      <input
-        matInput
-        formControlName="event_date"
-        [matDatepicker]="eventAtPicker"
-      />
-
-      <mat-datepicker-toggle matSuffix [for]="eventAtPicker">
-      </mat-datepicker-toggle>
-
-      <mat-datepicker #eventAtPicker color="primary"> </mat-datepicker>
-    </mat-form-field>
-
-    <mat-form-field class="currency" appearance="outline">
-      <mat-label>Изберете валута</mat-label>
-      <mat-select [(value)]="selectedCurrencyId" formControlName="currency">
-        <mat-option
-          *ngFor="let currency of currencyList"
-          [value]="currency.id"
-          >{{ currency?.code }}</mat-option
+  <mat-card>
+    <mat-card-header><mat-card-title>Тип:</mat-card-title></mat-card-header>
+    <br>
+    <mat-card-content>
+      <p>
+        <mat-radio-group
+          aria-label="Select an option"
+          formControlName="type"
+          class="flex-radio-btn"
         >
-      </mat-select>
-    </mat-form-field>
+          <mat-radio-button color="primary" class="div01" value="1"
+            >Фактура:</mat-radio-button
+          >
+          <mat-radio-button color="primary" class="div02" value="2"
+            >Кредитно известие:</mat-radio-button
+          >
+          <mat-radio-button color="primary" class="div03" value="3"
+            >Дебитно известие:</mat-radio-button
+          >
+        </mat-radio-group>
+      </p>
+
+      <p>
+        <mat-form-field appearance="outline" class="datepicker">
+          <mat-label>Дата на издаване</mat-label>
+          <input
+            matInput
+            formControlName="issue_date"
+            [matDatepicker]="issuedAtPicker"
+          />
+
+          <mat-datepicker-toggle matSuffix [for]="issuedAtPicker">
+          </mat-datepicker-toggle>
+
+          <mat-datepicker #issuedAtPicker color="primary"> </mat-datepicker>
+        </mat-form-field>
+      </p>
+      <p>
+        <mat-form-field appearance="outline" class="datepicker">
+          <mat-label>Дата на данъчно събитие</mat-label>
+          <input
+            matInput
+            formControlName="event_date"
+            [matDatepicker]="eventAtPicker"
+          />
+
+          <mat-datepicker-toggle matSuffix [for]="eventAtPicker">
+          </mat-datepicker-toggle>
+
+          <mat-datepicker #eventAtPicker color="primary"> </mat-datepicker>
+        </mat-form-field>
+      </p>
+
+      <p>
+        <mat-form-field class="currency" appearance="outline">
+          <mat-label>Изберете валута</mat-label>
+          <mat-select [(value)]="selectedCurrencyId" formControlName="currency">
+            <mat-option
+              *ngFor="let currency of currencyList"
+              [value]="currency.id"
+              >{{ currency?.code }}</mat-option
+            >
+          </mat-select>
+        </mat-form-field>
+      </p>
+    </mat-card-content>
   </mat-card>
   <mat-card>
     <div class="table-container" role="table" aria-label="tableData">
