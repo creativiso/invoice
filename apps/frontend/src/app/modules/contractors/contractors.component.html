@@ -3,31 +3,32 @@
     <mat-card-header>
       <mat-card-title>Контрагент</mat-card-title>
     </mat-card-header>
-    <br>
+    <br />
     <mat-card-content>
-
-        <mat-form-field appearance="outline" [ngStyle]="{ width: '50.01%' }">
+      <p>
+        <mat-form-field appearance="outline">
           <mat-label>Име</mat-label>
           <input matInput formControlName="name" />
 
-          <mat-hint [ngStyle]="{color: '#f44336'}" *ngIf="isFormInvalid()">Полетата отбелязани с * са задължителни!</mat-hint>
+          <mat-hint [ngStyle]="{ color: '#f44336' }" *ngIf="isFormInvalid()"
+            >Полетата отбелязани с * са задължителни!</mat-hint
+          >
           <mat-error *ngIf="contractorsForm.get('name')?.errors?.['minlength']"
             >Името трябва да е поне 2 знака!</mat-error
           >
         </mat-form-field>
-
-
-        <p>
-      <mat-checkbox
-        color="primary"
-        class="example-margin"
-        formControlName="person"
-        >Физическо лице</mat-checkbox
-      >
+      </p>
+      <p>
+        <mat-checkbox
+          color="primary"
+          class="example-margin"
+          formControlName="person"
+          >Физическо лице</mat-checkbox
+        >
       </p>
 
       <p id="contractorEik">
-        <mat-form-field appearance="outline" [ngStyle]="{ width: '50.01%' }">
+        <mat-form-field appearance="outline">
           <mat-label>ЕИК</mat-label>
           <input matInput formControlName="eik" />
           <mat-error *ngIf="contractorsForm.get('eik')?.errors?.['invalidEik']"
@@ -36,7 +37,7 @@
         </mat-form-field>
       </p>
       <p id="contractorEgn" class="hidden">
-        <mat-form-field appearance="outline" [ngStyle]="{ width: '50.01%' }">
+        <mat-form-field appearance="outline">
           <mat-label>ЕГН</mat-label>
           <input matInput formControlName="egn" />
           <mat-error
@@ -50,13 +51,13 @@
         </mat-form-field>
       </p>
       <p id="contractorVatNumber">
-        <mat-form-field appearance="outline" [ngStyle]="{ width: '50.01%' }">
+        <mat-form-field appearance="outline">
           <mat-label>ДДС Номер</mat-label>
           <input matInput formControlName="ddsnumber" />
         </mat-form-field>
       </p>
       <p id="contractorMol">
-        <mat-form-field appearance="outline" [ngStyle]="{ width: '50.01%' }">
+        <mat-form-field appearance="outline">
           <mat-label>МОЛ</mat-label>
           <input matInput formControlName="mol" />
 
@@ -69,7 +70,7 @@
         </mat-form-field>
       </p>
       <p>
-        <mat-form-field appearance="outline" [ngStyle]="{ width: '50.01%' }">
+        <mat-form-field appearance="outline">
           <mat-label>Населено място</mat-label>
           <input matInput formControlName="city" />
           <ng-template #minLettersError>
@@ -88,7 +89,7 @@
         </mat-form-field>
       </p>
       <p>
-        <mat-form-field appearance="outline" [ngStyle]="{ width: '50.01%' }">
+        <mat-form-field appearance="outline">
           <mat-label>Адрес</mat-label>
           <input matInput formControlName="address" />
           <mat-error
@@ -99,11 +100,7 @@
       </p>
     </mat-card-content>
     <mat-card-actions>
-      <button
-        [disabled]="isFormInvalid()"
-        type="submit"
-        mat-raised-button
-      >
+      <button [disabled]="isFormInvalid()" type="submit" mat-raised-button>
         <a>Изпрати</a>
       </button>
     </mat-card-actions>
