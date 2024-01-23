@@ -51,6 +51,7 @@ export class SettingsComponent implements OnInit {
     });
   }
 
+  // Add tag (Measurement unit)
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
     if (value && !this.tags.includes(value)) {
@@ -65,6 +66,7 @@ export class SettingsComponent implements OnInit {
     }
   }
 
+  // Remove tag (Measurement unit)
   remove(tag: string): void {
     const index = this.tags.indexOf(tag);
     const units = this.settingsForm.get('units') as FormArray;
@@ -82,6 +84,7 @@ export class SettingsComponent implements OnInit {
     }
   }
 
+  // Select tag from suggestions (Measurement unit)
   selected(event: MatAutocompleteSelectedEvent): void {
     this.tags.push(event.option.value);
     const unitsArray = this.settingsForm.get('units') as FormArray;
@@ -89,6 +92,7 @@ export class SettingsComponent implements OnInit {
     this.removeSuggestedTag(event.option.value);
   }
 
+  // Remove suggested tag (Measurement unit)
   removeSuggestedTag(tag: string) {
     const index = this.suggestedTags?.indexOf(tag);
     if (index !== undefined && index !== -1) {
@@ -96,6 +100,7 @@ export class SettingsComponent implements OnInit {
     }
   }
 
+  // Get all measurement units
   getMeasurementUnits() {
     this.settingsService.getUnits().subscribe((units) => {
       this.tags = [...units];
@@ -110,6 +115,7 @@ export class SettingsComponent implements OnInit {
     });
   }
 
+  // Get all payment methods
   getPaymentMethods() {
     this.paymentMethods.getAllPaymentMethods().subscribe((payMethods) => {
       this.paymentMethodsList = [...payMethods];
@@ -162,7 +168,6 @@ export class SettingsComponent implements OnInit {
       supplierManager: formData.supplierManager,
       units: formData.units,
     };
-    console.log(dataSettings);
     this.settingsService.putSetting(dataSettings).subscribe({
       next: (response) => {
         console.log('HTTP request successful:', response);
