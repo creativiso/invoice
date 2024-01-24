@@ -51,6 +51,7 @@ export class SettingsComponent implements OnInit {
     });
   }
 
+  // Add Tag
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
     if (value && !this.tags.includes(value)) {
@@ -65,6 +66,7 @@ export class SettingsComponent implements OnInit {
     }
   }
 
+  // Remove Tag
   remove(tag: string): void {
     const index = this.tags.indexOf(tag);
     const units = this.settingsForm.get('units') as FormArray;
@@ -82,6 +84,7 @@ export class SettingsComponent implements OnInit {
     }
   }
 
+  // Select Tag from Suggestions list
   selected(event: MatAutocompleteSelectedEvent): void {
     this.tags.push(event.option.value);
     const unitsArray = this.settingsForm.get('units') as FormArray;
@@ -89,6 +92,7 @@ export class SettingsComponent implements OnInit {
     this.removeSuggestedTag(event.option.value);
   }
 
+  // Remove Tag from Suggestions list
   removeSuggestedTag(tag: string) {
     const index = this.suggestedTags?.indexOf(tag);
     if (index !== undefined && index !== -1) {

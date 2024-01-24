@@ -7,25 +7,21 @@
         </mat-card-header>
         <mat-card-content>
           <mat-form-field>
-            <input matInput placeholder="Име" formControlName="supplierName" />
+            <mat-label>Име</mat-label>
+            <input matInput formControlName="supplierName" />
           </mat-form-field>
           <mat-form-field>
-            <input matInput placeholder="ЕИК" formControlName="supplierEik" />
+            <mat-label>ЕИК</mat-label>
+            <input matInput formControlName="supplierEik" />
           </mat-form-field>
 
           <mat-form-field>
-            <input
-              matInput
-              placeholder="ДДС номер"
-              formControlName="supplierVatNumber"
-            />
+            <mat-label>ДДС Номер</mat-label>
+            <input matInput formControlName="supplierVatNumber" />
           </mat-form-field>
           <mat-form-field>
-            <input
-              matInput
-              placeholder="МОЛ"
-              formControlName="supplierManager"
-            />
+            <mat-label>МОЛ</mat-label>
+            <input matInput formControlName="supplierManager" />
             <button
               matSuffix
               class="search-btn"
@@ -38,38 +34,28 @@
             </button>
           </mat-form-field>
           <mat-form-field>
-            <input
-              matInput
-              placeholder="Населено място"
-              formControlName="supplierCity"
-            />
+            <mat-label>Населено място</mat-label>
+            <input matInput formControlName="supplierCity" />
           </mat-form-field>
           <mat-form-field>
-            <input
-              matInput
-              placeholder="Адрес"
-              formControlName="supplierAddress"
-            />
+            <mat-label>Адрес</mat-label>
+            <input matInput formControlName="supplierAddress" />
           </mat-form-field>
           <mat-form-field>
-            <input matInput placeholder="IBAN" formControlName="iban" />
+            <mat-label>IBAN</mat-label>
+            <input matInput formControlName="iban" />
           </mat-form-field>
           <mat-form-field>
-            <input
-              matInput
-              placeholder="BIC/SWIFT"
-              formControlName="bicSwift"
-            />
+            <mat-label>BIC/SWIFT</mat-label>
+            <input matInput formControlName="bicSwift" />
           </mat-form-field>
           <mat-form-field>
-            <input matInput placeholder="При Банка" formControlName="bank" />
+            <mat-label>Банка</mat-label>
+            <input matInput formControlName="bank" />
           </mat-form-field>
           <mat-form-field>
-            <input
-              matInput
-              placeholder="ДДС по подразбиране %"
-              formControlName="dds"
-            />
+            <mat-label>ДДС по подразбиране %</mat-label>
+            <input matInput formControlName="dds" />
           </mat-form-field>
         </mat-card-content>
       </mat-card>
@@ -88,42 +74,40 @@
       <mat-card class="flex-item">
         <mat-card-header>
           <mat-card-title>Разред</mat-card-title>
-          <mat-card-subtitle
-            >бр. цифри след десетичната запетая</mat-card-subtitle
-          >
+          <mat-card-subtitle>Цифри след десетичната запетая</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
           <mat-form-field>
+            <mat-label>Количество</mat-label>
             <input
               type="number"
               class="form-control"
               matInput
               name="quantityNumber"
-              placeholder="Количество:"
               formControlName="quantityNumber"
               min="0"
               max="5"
             />
           </mat-form-field>
           <mat-form-field>
+            <mat-label>Единична цена</mat-label>
             <input
               type="number"
               class="form-control"
               matInput
               name="singlePriceNumber"
-              placeholder="Единична цена:"
               formControlName="singlePriceNumber"
               min="0"
               max="5"
             />
           </mat-form-field>
           <mat-form-field>
+            <mat-label>Обща цена</mat-label>
             <input
               type="number"
               class="form-control"
               matInput
               name="totalPriceNumber"
-              placeholder="Цена общо:"
               formControlName="totalPriceNumber"
               min="0"
               max="5"
@@ -139,7 +123,7 @@
           <mat-form-field appearance="outline">
             <mat-label>Изберете начин на плащане</mat-label>
             <mat-select formControlName="paymentMethod">
-              @for(method of paymentMethodsList;track method){
+              @for(method of paymentMethodsList; track method){
               <mat-option [value]="method.id">{{ method.name }}</mat-option>
               }
             </mat-select>
@@ -163,6 +147,7 @@
                 </mat-chip-row>
                 }
               </mat-chip-grid>
+              <mat-label>Мерни единици</mat-label>
               <input
                 placeholder="Нова мерна единица..."
                 [formControl]="tagsCtrl"
