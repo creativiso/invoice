@@ -170,7 +170,7 @@ export interface ISettings {
   bicSwift: string;
   bank: string;
   dds: number;
-  paymentMethod: string;
+  paymentMethod: number;
   priceInputWithVat: boolean;
   quantityNumber: number;
   singlePriceNumber: number;
