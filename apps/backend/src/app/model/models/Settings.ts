@@ -33,8 +33,8 @@ export class Settings extends Model<ISettings> {
   @Column({ type: DataTypes.INTEGER })
   dds: number;
 
-  @Column({ type: DataTypes.STRING })
-  paymentMethod: string;
+  @Column({ type: DataTypes.INTEGER })
+  paymentMethod: number;
 
   @Column({ type: DataTypes.BOOLEAN })
   priceInputWithVat: boolean;

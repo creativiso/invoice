@@ -16,7 +16,7 @@ export class SettingsService {
         bicSwift: '',
         bank: '',
         dds: 20,
-        paymentMethod: '',
+        paymentMethod: null,
         priceInputWithVat: false,
         quantityNumber: 2,
         singlePriceNumber: 2,
