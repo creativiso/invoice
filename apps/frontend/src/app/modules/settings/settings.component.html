@@ -157,10 +157,8 @@
           <mat-card-title>Мерни единици</mat-card-title>
         </mat-card-header>
         <mat-card-content>
-          <!--  -->
           <mat-form-field class="example-chip-list">
             <mat-form-field class="example-chip-list">
-              <mat-label>Мерни единици</mat-label>
               <mat-chip-grid #chipGrid aria-label="Мерни единици">
                 @for (tag of tags; track tag) {
                 <mat-chip-row (removed)="remove(tag)">
@@ -173,7 +171,6 @@
               </mat-chip-grid>
               <input
                 placeholder="Нова мерна единица..."
-                #tagInput
                 [formControl]="tagsCtrl"
                 [matChipInputFor]="chipGrid"
                 [matAutocomplete]="auto"
@@ -184,13 +181,12 @@
                 #auto="matAutocomplete"
                 (optionSelected)="selected($event)"
               >
-                @for (tag of filteredTags | async; track tag) {
-                <mat-option [value]="tag">{{ tag }}</mat-option>
+                @for (chip of suggestedTags; track chip) {
+                <mat-option [value]="chip">{{ chip }}</mat-option>
                 }
               </mat-autocomplete>
             </mat-form-field>
           </mat-form-field>
-          <!--  -->
         </mat-card-content>
       </mat-card>
     </div>

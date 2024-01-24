@@ -5,7 +5,6 @@ import { FormGroup, FormBuilder, FormControl, FormArray } from '@angular/forms';
 import { SettingService } from '../../services/settings.service';
 import { ISettings } from '../../../../../../libs/typings/src/model/index';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { Observable, map, startWith } from 'rxjs';
 
 @Component({
   selector: 'crtvs-settings',
@@ -17,23 +16,14 @@ export class SettingsComponent implements OnInit {
   tagsCtrl = new FormControl();
   tags: string[] = [];
   separatorKeysCodes: number[] = [ENTER, COMMA];
-  addOnBlur = true;
 
-  @ViewChild('fruitInput') tagInput!: ElementRef<HTMLInputElement>;
-  allTags: string[] = ['кг', 'г'];
-  filteredTags?: Observable<string[]>;
+  initialSuggestions: string[] = ['кг', 'г', 'л', 'мл'];
+  suggestedTags: string[] = [];
 
   constructor(
     private fb: FormBuilder,
     private settingsService: SettingService
   ) {
-    this.filteredTags = this.tagsCtrl.valueChanges.pipe(
-      startWith(null),
-      map((tag: string | null) =>
-        tag ? this._filter(tag) : this.allTags.slice()
-      )
-    );
-
     this.settingsForm = new FormGroup({
       supplierName: new FormControl(''),
       supplierVatNumber: new FormControl(''),
@@ -44,7 +34,7 @@ export class SettingsComponent implements OnInit {
       bank: new FormControl(''),
       dds: new FormControl(''),
       paymentMethod: new FormControl(),
-      priceInputWithVat: new FormControl(false),
+      priceInputWithVat: new FormControl(),
       quantityNumber: new FormControl(''),
       singlePriceNumber: new FormControl(''),
       totalPriceNumber: new FormControl(''),
@@ -55,12 +45,12 @@ export class SettingsComponent implements OnInit {
   }
 
   add(event: MatChipInputEvent): void {
-    // const input = event.input;
     const value = (event.value || '').trim();
-    if (value) {
-      this.tags.push(value);
-      const requirements = this.settingsForm.get('units') as FormArray;
-      requirements.push(this.fb.control(value.trim()));
+    if (value && !this.tags.includes(value)) {
+      this.tags.push(value); // add to tags
+      const unitsArray = this.settingsForm.get('units') as FormArray;
+      unitsArray.push(this.fb.control(value)); // add to form
+      this.removeSuggestedTag(event.value);
 
       // Clear the input value
       event.chipInput!.clear();
@@ -75,26 +65,31 @@ export class SettingsComponent implements OnInit {
       this.tags.splice(index, 1);
       units.removeAt(index);
     }
+
+    // Add the removed tag back to suggestedTags if it's not already there
+    if (
+      this.suggestedTags?.indexOf(tag) === -1 &&
+      this.initialSuggestions.includes(tag)
+    ) {
+      this.suggestedTags?.push(tag);
+    }
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
-    this.tags.push(event.option.viewValue);
-    this.tagInput.nativeElement.value = '';
-    this.tagsCtrl.setValue(null);
+    this.tags.push(event.option.value);
+    const unitsArray = this.settingsForm.get('units') as FormArray;
+    unitsArray.push(this.fb.control(event.option.value));
+    this.removeSuggestedTag(event.option.value);
   }
 
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-
-    return this.allTags.filter((tag) =>
-      tag.toLowerCase().includes(filterValue)
-    );
+  removeSuggestedTag(tag: string) {
+    const index = this.suggestedTags?.indexOf(tag);
+    if (index !== undefined && index !== -1) {
+      this.suggestedTags?.splice(index, 1);
+    }
   }
 
   ngOnInit(): void {
-    this.tagInput = new ElementRef<HTMLInputElement>(
-      document.createElement('input')
-    );
     this.settingsService.getSettings().subscribe((settings) => {
       this.settingsForm.setValue({
         supplierName: settings.supplierName,
@@ -116,11 +111,15 @@ export class SettingsComponent implements OnInit {
       });
     });
     this.settingsService.getUnits().subscribe((units) => {
-      // const tags = units.map((unit) => unit);
-      const tags = [...units];
-      this.tags = [...this.tags, ...tags];
-      const requirements = this.settingsForm.get('units') as FormArray;
-      tags.forEach((tag) => requirements.push(this.fb.control(tag)));
+      this.tags = [...units];
+      const unitsArray = this.settingsForm.get('units') as FormArray;
+      this.tags.forEach((tag) => unitsArray.push(this.fb.control(tag)));
+
+      this.suggestedTags = [...this.initialSuggestions];
+      const suggestedArray = this.suggestedTags?.filter(
+        (item) => unitsArray.value.indexOf(item) === -1
+      );
+      this.suggestedTags = suggestedArray;
     });
   }
 
