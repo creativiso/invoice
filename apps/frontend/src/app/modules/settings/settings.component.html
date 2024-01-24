@@ -138,16 +138,10 @@
         <mat-card-content>
           <mat-form-field appearance="outline">
             <mat-label>Изберете начин на плащане</mat-label>
-            <!-- <mat-select [(value)]="selectedCurrency" formControlName="currency"> -->
             <mat-select formControlName="paymentMethod">
-              <mat-option value="euro">В брой</mat-option>
-              <mat-option value="dollar">По банков път</mat-option>
-              <mat-option value="lev">Наложен платеж</mat-option>
-              <mat-option value="lev">С карта</mat-option>
-              <mat-option value="lev">Платежно нареждане</mat-option>
-              <mat-option value="lev">Чек / Ваучер</mat-option>
-              <mat-option value="lev">С насрещно прихващане</mat-option>
-              <mat-option value="lev">Други методи</mat-option>
+              @for(method of paymentMethodsList;track method){
+              <mat-option [value]="method.id">{{ method.name }}</mat-option>
+              }
             </mat-select>
           </mat-form-field>
         </mat-card-content>

@@ -1,10 +1,14 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { FormGroup, FormBuilder, FormControl, FormArray } from '@angular/forms';
 import { SettingService } from '../../services/settings.service';
-import { ISettings } from '../../../../../../libs/typings/src/model/index';
+import {
+  IPaymentMethod,
+  ISettings,
+} from '../../../../../../libs/typings/src/model/index';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { PaymentMethodsService } from 'src/app/services/paymentMethods.service';
 
 @Component({
   selector: 'crtvs-settings',
@@ -20,9 +24,12 @@ export class SettingsComponent implements OnInit {
   initialSuggestions: string[] = ['кг', 'г', 'л', 'мл'];
   suggestedTags: string[] = [];
 
+  paymentMethodsList: IPaymentMethod[] = [];
+
   constructor(
     private fb: FormBuilder,
-    private settingsService: SettingService
+    private settingsService: SettingService,
+    private paymentMethodsService: PaymentMethodsService
   ) {
     this.settingsForm = new FormGroup({
       supplierName: new FormControl(''),
@@ -89,6 +96,28 @@ export class SettingsComponent implements OnInit {
     }
   }
 
+  getMeasurementUnits() {
+    this.settingsService.getUnits().subscribe((units) => {
+      this.tags = [...units];
+      const unitsArray = this.settingsForm.get('units') as FormArray;
+      this.tags.forEach((tag) => unitsArray.push(this.fb.control(tag)));
+
+      this.suggestedTags = [...this.initialSuggestions];
+      const suggestedArray = this.suggestedTags?.filter(
+        (item) => unitsArray.value.indexOf(item) === -1
+      );
+      this.suggestedTags = suggestedArray;
+    });
+  }
+
+  getPaymentMethods() {
+    this.paymentMethodsService
+      .getAllPaymentMethods()
+      .subscribe((payMethods) => {
+        this.paymentMethodsList = [...payMethods];
+      });
+  }
+
   ngOnInit(): void {
     this.settingsService.getSettings().subscribe((settings) => {
       this.settingsForm.setValue({
@@ -110,17 +139,8 @@ export class SettingsComponent implements OnInit {
         units: [],
       });
     });
-    this.settingsService.getUnits().subscribe((units) => {
-      this.tags = [...units];
-      const unitsArray = this.settingsForm.get('units') as FormArray;
-      this.tags.forEach((tag) => unitsArray.push(this.fb.control(tag)));
-
-      this.suggestedTags = [...this.initialSuggestions];
-      const suggestedArray = this.suggestedTags?.filter(
-        (item) => unitsArray.value.indexOf(item) === -1
-      );
-      this.suggestedTags = suggestedArray;
-    });
+    this.getPaymentMethods();
+    this.getMeasurementUnits();
   }
 
   onSubmit() {
