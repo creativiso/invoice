@@ -13,7 +13,7 @@ import { AuthGuard } from './auth/auth.guard';
 import { AuthService } from './services/auth.service';
 //import { AuthInterceptor } from './auth/auth.interceptor';
 import { NotLoggedInGuard } from './auth/notLoggedIn.guard';
-import { MatRipple, MatRippleModule } from '@angular/material/core';
+import { MatRippleModule } from '@angular/material/core';
 @NgModule({
   declarations: [AppComponent, NxWelcomeComponent, NavigationComponent],
   imports: [
@@ -45,10 +45,26 @@ import { MatRipple, MatRippleModule } from '@angular/material/core';
           canActivate: [AuthGuard],
         },
         {
-          path: 'proformas',
+          path: 'proforma',
           loadChildren: () =>
             import('./modules/proformas/proformas.module').then(
               (m) => m.ProformasModule
+            ),
+          canActivate: [AuthGuard],
+        },
+        {
+          path: 'proforma/:id',
+          loadChildren: () =>
+            import('./modules/proformas/proformas.module').then(
+              (m) => m.ProformasModule
+            ),
+          canActivate: [AuthGuard],
+        },
+        {
+          path: 'proformasList',
+          loadChildren: () =>
+            import('./modules/proformasList/proformasList.module').then(
+              (m) => m.ProformasListModule
             ),
           canActivate: [AuthGuard],
         },
