@@ -196,7 +196,7 @@ export class InvoicesComponent implements OnInit {
 
         this.invoiceService.getInvoiceById(id).subscribe({
           next: (data: IInvoice) => {
-            console.log('Response Data:', JSON.stringify(data));
+             console.log('Response Data:', JSON.stringify(data));
             this.invoice = data;
 
             this.invoicesForm.patchValue({
