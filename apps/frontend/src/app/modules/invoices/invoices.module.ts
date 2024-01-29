@@ -11,23 +11,23 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { InvoiceComponent } from './invoice/invoice.component';
 
 const routes: Routes = [
-  { path: '', component: InvoicesComponent }
+  { path: '', component: InvoicesComponent },
+  { path: 'new', component: InvoiceComponent },
+  { path: ':id', component: InvoiceComponent },
 ];
 
 @NgModule({
-  declarations: [
-    InvoicesComponent
-  ],
+  declarations: [InvoicesComponent, InvoiceComponent],
   imports: [
     CommonModule,
-    FormsModule,
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
@@ -37,12 +37,12 @@ const routes: Routes = [
     MatIconModule,
     MatSelectModule,
     MatCheckboxModule,
-    MatGridListModule,
     MatCardModule,
     MatRadioModule,
     MatTableModule,
     MatTooltipModule,
-    RouterModule.forChild(routes)
-  ]
+    RouterModule.forChild(routes),
+    MatPaginatorModule,
+  ],
 })
-export class InvoicesModule { }
+export class InvoicesModule {}

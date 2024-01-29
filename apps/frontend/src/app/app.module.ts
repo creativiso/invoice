@@ -11,9 +11,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { AuthGuard } from './auth/auth.guard';
 import { AuthService } from './services/auth.service';
-//import { AuthInterceptor } from './auth/auth.interceptor';
 import { NotLoggedInGuard } from './auth/notLoggedIn.guard';
-import { MatRipple, MatRippleModule } from '@angular/material/core';
+import { MatRippleModule } from '@angular/material/core';
 @NgModule({
   declarations: [AppComponent, NxWelcomeComponent, NavigationComponent],
   imports: [
@@ -25,22 +24,6 @@ import { MatRipple, MatRippleModule } from '@angular/material/core';
           loadChildren: () =>
             import('./modules/invoices/invoices.module').then(
               (m) => m.InvoicesModule
-            ),
-          canActivate: [AuthGuard],
-        },
-        {
-          path: 'invoices/:id',
-          loadChildren: () =>
-            import('./modules/invoices/invoices.module').then(
-              (m) => m.InvoicesModule
-            ),
-          canActivate: [AuthGuard],
-        },
-        {
-          path: 'invoicesList',
-          loadChildren: () =>
-            import('./modules/invoicesList/invoicesList.module').then(
-              (m) => m.InvoicesListModule
             ),
           canActivate: [AuthGuard],
         },
