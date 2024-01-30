@@ -10,8 +10,9 @@ import {
   Validator,
   Validators,
 } from '@angular/forms';
-import { Subscription } from 'rxjs';
-import { ICurrency } from '../../../../../../libs/typings/src';
+import { EMPTY, Subscription, catchError, tap } from 'rxjs';
+import { ICurrency, IPaymentMethod } from '../../../../../../libs/typings/src';
+import { PaymentMethodsService } from 'src/app/services/payment-methods.service';
 
 @Component({
   selector: 'crtvs-base-form-items',
@@ -34,20 +35,43 @@ export class BaseFormItemsComponent
   implements OnDestroy, ControlValueAccessor, Validator, OnInit
 {
   @Input()
-  selectedCurrency?: ICurrency
+  selectedCurrency?: ICurrency;
   @Input()
-  number?: number
-
+  number?: number;
 
   baseFormItems!: FormGroup;
-
   get itemData() {
     return this.baseFormItems.get('itemData') as FormArray;
   }
 
-  constructor(private fb: FormBuilder) {}
+  paymentMethods?: IPaymentMethod[] | null;
+  selectedPaymentMethod?: IPaymentMethod;
+  selectedPaymentMethodId?: number;
+
+  constructor(
+    private fb: FormBuilder,
+    private paymentMethodsService: PaymentMethodsService
+  ) {}
 
   ngOnInit(): void {
+    this.paymentMethodsService
+      .getAllPaymentMethods()
+      .pipe(
+        tap((res) => {
+          if (res) {
+            this.paymentMethods = res;
+            this.selectedPaymentMethod = this.paymentMethods[0];
+            this.selectedPaymentMethodId = this.paymentMethods[0]?.id;
+            console.log(this.paymentMethods);
+          }
+        }),
+        catchError((error) => {
+          console.log(error);
+          return EMPTY;
+        })
+      )
+      .subscribe();
+
     this.baseFormItems = this.fb.group({
       itemData: this.fb.array([
         this.fb.group({

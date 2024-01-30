@@ -19,10 +19,11 @@ import { EMPTY, catchError, tap } from 'rxjs';
 export class InvoicesComponent implements OnInit {
   invoicesForm!: FormGroup;
   invoice!: IInvoice;
-  invoiceId!: number | undefined;
+  invoiceId!: number;
   get rowData() {
     return this.invoicesForm.get('rowData') as FormArray;
   }
+  editMode!: boolean;
 
   currencyList?: ICurrency[] | null;
   selectedCurrency?: ICurrency;
@@ -46,24 +47,7 @@ export class InvoicesComponent implements OnInit {
             this.currencyList = res;
             this.selectedCurrency = this.currencyList[0];
             this.selectedCurrencyId = this.currencyList[0]?.id;
-            console.log(this.currencyList);
-          }
-        }),
-        catchError((error) => {
-          console.log(error);
-          return EMPTY;
-        })
-      )
-      .subscribe();
-    this.currenciesService
-      .getAllCurrencies()
-      .pipe(
-        tap((res) => {
-          if (res) {
-            this.currencyList = res;
-            this.selectedCurrency = this.currencyList[0];
-            this.selectedCurrencyId = this.currencyList[0]?.id;
-            console.log(this.currencyList);
+            console.log(this.currencyList)
           }
         }),
         catchError((error) => {
@@ -86,9 +70,14 @@ export class InvoicesComponent implements OnInit {
     });
 
     const id = Number(this.route.snapshot.paramMap.get('id'));
+
+    if (id) {
+      this.editMode = true;
+      this.invoiceId = id;
+    }
+
     console.log('Retrieving invoice data for ID:', id);
-    this.invoiceId = id ? id : undefined;
-    if (id !== null) {
+    if (this.editMode) {
       this.invoiceService.getInvoiceById(id).subscribe((response: any) => {
         const invoice: IInvoice = response.invoice; // Cast the response
 
@@ -151,7 +140,7 @@ export class InvoicesComponent implements OnInit {
       vat: formData.vatPercent,
       novatreason: formData.vatReason,
       // currency: formData.currency.currencyCode,
-      currency: formData.currency,
+      currency: formData.currency.id,
       rate: formData.currency.exchangeRate,
       type: formData.type,
       related_invoice: formData.related_invoice,
@@ -192,7 +181,7 @@ export class InvoicesComponent implements OnInit {
       dataInvoice.items.push(dataInvoicesItems); // add the new item to the items array
     }
 
-    if (this.invoiceId) {
+    if (this.editMode) {
       // Update existing invoice
       this.invoiceService
         .updateInvoice(this.invoiceId, dataInvoice, dataInvoice.items)

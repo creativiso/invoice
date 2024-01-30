@@ -120,11 +120,7 @@
     <div class="flex-row vat" role="cell">
       <mat-form-field>
         <mat-label>ДДС</mat-label>
-        <input
-          matInput
-          aria-label="ДДС"
-          formControlName="vatPercent"
-        />
+        <input matInput aria-label="ДДС" formControlName="vatPercent" />
         <mat-icon matSuffix>percentage</mat-icon>
       </mat-form-field>
     </div>
@@ -143,7 +139,7 @@
   <div class="flex-table row">
     <div class="flex-row vatReason" role="cell">
       <mat-form-field>
-            <mat-label>Основание за начисление на ДДС</mat-label>
+        <mat-label>Основание за начисление на ДДС</mat-label>
 
         <input
           matInput
@@ -163,26 +159,12 @@
     formControlName="wayOfPaying"
     class="flex-radio-group"
   >
-    <mat-radio-button color="primary" class="radio-btn" value="1"
-      >В брой</mat-radio-button
-    >
-    <mat-radio-button color="primary" class="radio-btn" value="2"
-      >Наложен платеж</mat-radio-button
-    >
-    <mat-radio-button color="primary" class="radio-btn" value="3"
-      >С карта</mat-radio-button
-    >
-    <mat-radio-button color="primary" class="radio-btn" value="4"
-      >Платежно нареждане</mat-radio-button
-    >
-    <mat-radio-button color="primary" class="radio-btn" value="5"
-      >Чек / Ваучер</mat-radio-button
-    >
-    <mat-radio-button color="primary" class="radio-btn" value="6"
-      >С насрещно прихващане
-    </mat-radio-button>
-    <mat-radio-button color="primary" class="radio-btn" value="7"
-      >Други методи</mat-radio-button
+    <mat-radio-button
+      color="primary"
+      class="radio-btn"
+      [value]="paymentMethod.id"
+      *ngFor="let paymentMethod of paymentMethods"
+      >{{ paymentMethod.name }}</mat-radio-button
     >
   </mat-radio-group>
 </fieldset>
