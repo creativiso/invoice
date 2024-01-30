@@ -36,23 +36,7 @@ import { MatRippleModule } from '@angular/material/core';
           canActivate: [AuthGuard],
         },
         {
-          path: 'contractorsList',
-          loadChildren: () =>
-            import('./modules/contractorList/contractorsList.module').then(
-              (m) => m.ContractorsListModule
-            ),
-          canActivate: [AuthGuard],
-        },
-        {
           path: 'contractors',
-          loadChildren: () =>
-            import('./modules/contractors/contractors.module').then(
-              (m) => m.ContractorsModule
-            ),
-          canActivate: [AuthGuard],
-        },
-        {
-          path: 'contractors/:id/edit',
           loadChildren: () =>
             import('./modules/contractors/contractors.module').then(
               (m) => m.ContractorsModule
