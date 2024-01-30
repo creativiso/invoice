@@ -76,6 +76,7 @@ export class ProformasComponent implements OnInit {
     const receiverEikField = document.getElementById('receiverEik');
     const receiverVatNumberField = document.getElementById('receiverVatNumber');
     const receiverEgnField = document.getElementById('receiverEgn');
+    const receiverManagerField = document.getElementById('receiverManager');
 
     // Subscribe to changes in the individualPerson form control value
     this.proformasForm
@@ -85,6 +86,7 @@ export class ProformasComponent implements OnInit {
           // Hide the receiverEik and receiverVatNumber form fields
           receiverEikField?.classList.add('hidden');
           receiverVatNumberField?.classList.add('hidden');
+          receiverManagerField?.classList.add('hidden');
           receiverEgnField?.classList.remove('hidden');
         } else {
           // Show the receiverEik and receiverVatNumber form fields
