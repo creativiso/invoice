@@ -9,7 +9,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { AuthService } from './services/auth.service';
 import { NotLoggedInGuard } from './guards/notLoggedIn.guard';
 import { MatRippleModule } from '@angular/material/core';
-import { AppRoutingModule } from './appRouting.module';
+import { AppRoutingModule } from './app-routing.module';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatListModule } from '@angular/material/list';
