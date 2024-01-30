@@ -13,7 +13,7 @@ import { AuthGuard } from './auth/auth.guard';
 import { AuthService } from './services/auth.service';
 //import { AuthInterceptor } from './auth/auth.interceptor';
 import { NotLoggedInGuard } from './auth/notLoggedIn.guard';
-import { MatRipple, MatRippleModule } from '@angular/material/core';
+import { MatRippleModule } from '@angular/material/core';
 @NgModule({
   declarations: [AppComponent, NxWelcomeComponent, NavigationComponent],
   imports: [
