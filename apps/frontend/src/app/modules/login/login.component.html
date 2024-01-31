@@ -13,18 +13,9 @@
 
       <mat-form-field>
         <mat-label>Парола</mat-label>
-        <input
-          matInput
-          formControlName="password"
-          [type]="hide ? 'password' : 'text'"
-        />
-        <button
-          mat-icon-button
-          matSuffix
-          (click)="hide = !hide"
-          [attr.aria-label]="'Hide password'"
-          [attr.aria-pressed]="hide"
-        >
+        <input matInput formControlName="password" [type]="hide ? 'password' : 'text'" />
+        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+          [attr.aria-pressed]="hide">
           <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
         </button>
       </mat-form-field>
@@ -36,7 +27,7 @@
 
     <mat-card-actions align="end">
       <button class="btn-submit" type="submit" mat-raised-button color="primary">
-        Изпрати
+        Вход
       </button>
     </mat-card-actions>
   </mat-card>

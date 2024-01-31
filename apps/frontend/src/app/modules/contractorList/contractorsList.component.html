@@ -1,12 +1,7 @@
 <div class="mat-elevation-z8">
   <h1>Контрагенти</h1>
-  <button
-    class="btn-add"
-    mat-raised-button
-    matTooltip="добавяне на контрагент"
-    aria-label="добавяне на контрагент"
-  >
-    <a routerLink="/contractors">Добавяне</a>
+  <button class="btn-add" mat-raised-button matTooltip="добавяне на контрагент" aria-label="добавяне на контрагент">
+    <a routerLink="/contractors">Добави</a>
   </button>
 
   <table mat-table [dataSource]="dataSource" class="">
@@ -41,13 +36,8 @@
     <ng-container matColumnDef="tools">
       <th mat-header-cell *matHeaderCellDef>Инструменти</th>
       <td mat-cell *matCellDef="let contractor">
-        <button
-          class="icon-edit-btn"
-          mat-icon-button
-          (click)="editContractor(contractor)"
-          matTooltip="редактиране на ред"
-          aria-label="редактиране на ред"
-        >
+        <button class="icon-edit-btn" mat-icon-button (click)="editContractor(contractor)"
+          matTooltip="редактиране на ред" aria-label="редактиране на ред">
           <mat-icon>edit</mat-icon>
         </button>
       </td>
@@ -57,10 +47,6 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let contractor; columns: displayedColumns"></tr>
   </table>
-  <mat-paginator
-    [length]="contractors.length"
-    [pageSize]="5"
-    [pageSizeOptions]="[5, 10, 25, 100]"
-    showFirstLastButtons
-  ></mat-paginator>
+  <mat-paginator [length]="contractors.length" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]"
+    showFirstLastButtons></mat-paginator>
 </div>
