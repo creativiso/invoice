@@ -3,6 +3,9 @@ import { AbstractControl, ValidatorFn } from '@angular/forms';
 export function egnValidator(): ValidatorFn {
   return (control: AbstractControl): { [key: string]: any } | null => {
     const egn = control.value;
+    if (!egn) {
+      return null; // Return null for empty field
+    }
     if (egn && !/^\d{10}$/.test(egn)) {
       return { invalidEgnLength: true };
     }
