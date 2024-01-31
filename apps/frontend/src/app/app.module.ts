@@ -45,10 +45,26 @@ import { MatRippleModule } from '@angular/material/core';
           canActivate: [AuthGuard],
         },
         {
-          path: 'proformas',
+          path: 'proforma',
           loadChildren: () =>
             import('./modules/proformas/proformas.module').then(
               (m) => m.ProformasModule
+            ),
+          canActivate: [AuthGuard],
+        },
+        {
+          path: 'proforma/:id',
+          loadChildren: () =>
+            import('./modules/proformas/proformas.module').then(
+              (m) => m.ProformasModule
+            ),
+          canActivate: [AuthGuard],
+        },
+        {
+          path: 'proformasList',
+          loadChildren: () =>
+            import('./modules/proformasList/proformasList.module').then(
+              (m) => m.ProformasListModule
             ),
           canActivate: [AuthGuard],
         },
