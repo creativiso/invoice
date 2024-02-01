@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
-import { InvoicesComponent } from './invoices.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -16,9 +15,10 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { InvoiceComponent } from './invoice/invoice.component';
 import { BaseFormModule } from '../base-form/base-form.module';
 import { BaseFormItemsModule } from '../base-form-items/base-form-items.module';
+import { InvoicesComponent } from './invoices.component';
+import { InvoiceComponent } from './invoice/invoice.component';
 
 const routes: Routes = [
   { path: '', component: InvoicesComponent },
@@ -44,6 +44,7 @@ const routes: Routes = [
     MatTableModule,
     MatTooltipModule,
     RouterModule.forChild(routes),
+    MatPaginatorModule,
     BaseFormModule,
     BaseFormItemsModule,
   ],
