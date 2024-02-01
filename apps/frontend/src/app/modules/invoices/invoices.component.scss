@@ -1,89 +1,25 @@
-div {
-  box-sizing: border-box;
-}
-
-form {
-  max-width: 90%;
-  margin: 0 auto;
-  padding: 10px;
-}
-
-mat-form-field {
+table {
   width: 100%;
 }
+.btn-add {
+  background-color: #172647;
 
-mat-form-field,
-input {
-  font-size: 14px;
+  float: right;
+  margin-bottom: 10px;
 }
-
-tr td {
-  padding-right: 10px !important;
+.btn-add a {
+  color: #f4f2f1;
+  text-decoration: none;
+  cursor: pointer;
 }
-
-mat-icon {
-  color: rgb(48, 48, 48);
-}
-
-mat-card {
-  margin-top: 20px;
-}
-
-.container {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr;
-  gap: 0px 1px;
-  grid-template-areas: '. .';
-  column-gap: 10px;
-}
-
-.btn-submit {
-  margin-top: 10px;
-}
-
-.title {
-  margin: 20px 0;
+h1 {
+  color: #172647;
   font-weight: 600;
-  color: rgb(48, 48, 48);
-  font-size: 1.2em;
 }
-
-.flex-radio-group {
-  display: flex;
-  gap: 60px;
-  row-gap: 10px;
-  flex-wrap: wrap;
-  justify-content: flex-start;
+.mat-elevation-z8 {
+  background-color: #fff;
+  padding: 20px;
 }
-
-.radio-btn {
-  width: 27%;
-}
-
-.hidden {
-  display: none !important;
-}
-
-::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
-  padding: 0.9em 0 0.8em 0 !important;
-  margin-top: -4px;
-}
-
-@media all and (max-width: 980px) {
-  .payment-radio {
-    width: 35%;
-  }
-  .radio-type {
-    width: 35%;
-  }
-}
-
-@media (max-width: 600px) {
-  .container {
-    grid-template-columns: 1fr;
-    grid-template-areas:
-      'col-1'
-      'col-2';
-  }
+.btn-add {
+  margin-top: 50px;
 }
