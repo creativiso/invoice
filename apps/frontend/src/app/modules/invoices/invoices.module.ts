@@ -17,6 +17,8 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { InvoiceComponent } from './invoice/invoice.component';
+import { BaseFormModule } from '../base-form/base-form.module';
+import { BaseFormItemsModule } from '../base-form-items/base-form-items.module';
 
 const routes: Routes = [
   { path: '', component: InvoicesComponent },
@@ -42,7 +44,8 @@ const routes: Routes = [
     MatTableModule,
     MatTooltipModule,
     RouterModule.forChild(routes),
-    MatPaginatorModule,
+    BaseFormModule,
+    BaseFormItemsModule,
   ],
 })
 export class InvoicesModule {}
