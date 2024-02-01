@@ -15,10 +15,9 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { BaseFormModule } from '../base-form/base-form.module';
-import { BaseFormItemsModule } from '../base-form-items/base-form-items.module';
 import { InvoicesComponent } from './invoices.component';
 import { InvoiceComponent } from './invoice/invoice.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 const routes: Routes = [
   { path: '', component: InvoicesComponent },
@@ -45,8 +44,7 @@ const routes: Routes = [
     MatTooltipModule,
     RouterModule.forChild(routes),
     MatPaginatorModule,
-    BaseFormModule,
-    BaseFormItemsModule,
+    SharedModule,
   ],
 })
 export class InvoicesModule {}

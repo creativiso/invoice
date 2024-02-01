@@ -5,26 +5,15 @@
       <mat-label class="title">00 - 00000000000000</mat-label>
     </mat-card-content>
   </mat-card>
-  <div class="container">
-    <mat-card>
-      <mat-card-content>
-        <crtvs-base-form
-          formControlName="provider"
-          [shouldHaveCheckbox]="false"
-          header="Доставчик"
-        ></crtvs-base-form>
-      </mat-card-content>
-    </mat-card>
-    <mat-card>
-      <mat-card-content>
-        <crtvs-base-form
-          formControlName="receiver"
-          [shouldHaveCheckbox]="true"
-          header="Получател"
-        ></crtvs-base-form>
-      </mat-card-content>
-    </mat-card>
-  </div>
+  <mat-card>
+    <mat-card-content>
+      <crtvs-base-form
+        formControlName="receiver"
+        [shouldHaveCheckbox]="true"
+        header="Получател"
+      ></crtvs-base-form>
+    </mat-card-content>
+  </mat-card>
   <mat-card>
     <mat-card-header>
       <mat-card-title>Тип:</mat-card-title>

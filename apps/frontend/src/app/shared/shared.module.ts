@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { BaseFormComponent } from './base-form/base-form.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -14,10 +15,10 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { BaseFormItemsComponent } from './base-form-items.component';
+import { BaseFormItemsComponent } from './base-form-items/base-form-items.component';
 
 @NgModule({
-  declarations: [BaseFormItemsComponent],
+  declarations: [BaseFormComponent, BaseFormItemsComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -36,6 +37,6 @@ import { BaseFormItemsComponent } from './base-form-items.component';
     MatTableModule,
     MatTooltipModule,
   ],
-  exports: [BaseFormItemsComponent],
+  exports: [BaseFormComponent, BaseFormItemsComponent],
 })
-export class BaseFormItemsModule {}
+export class SharedModule {}
