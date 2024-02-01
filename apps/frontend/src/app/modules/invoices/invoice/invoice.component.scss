@@ -1,0 +1,58 @@
+div {
+  box-sizing: border-box;
+}
+form {
+  max-width: 90%;
+  margin: 0 auto;
+  padding: 10px;
+}
+mat-form-field {
+  width: 100%;
+}
+mat-form-field,
+input {
+  font-size: 14px;
+}
+tr td {
+  padding-right: 10px !important;
+}
+mat-icon {
+  color: rgb(48, 48, 48);
+}
+mat-card {
+  margin-top: 20px;
+}
+.btn-submit {
+  margin-top: 10px;
+}
+.title {
+  margin: 20px 0;
+  font-weight: 600;
+  color: rgb(48, 48, 48);
+  font-size: 1.2em;
+}
+.flex-radio-group {
+  display: flex;
+  gap: 60px;
+  row-gap: 10px;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+.radio-btn {
+  width: 27%;
+}
+.hidden {
+  display: none !important;
+}
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
+  padding: 0.9em 0 0.8em 0 !important;
+  margin-top: -4px;
+}
+@media all and (max-width: 980px) {
+  .payment-radio {
+    width: 35%;
+  }
+  .radio-type {
+    width: 35%;
+  }
+}

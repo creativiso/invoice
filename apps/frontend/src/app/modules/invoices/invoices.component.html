@@ -1,100 +1,68 @@
-<form [formGroup]="invoicesForm" (ngSubmit)="onSubmit()">
-  <mat-card>
-    <mat-card-content>
-      <mat-card-title>Префикс / от кочан:</mat-card-title>
-      <mat-label class="title">00 - 00000000000000</mat-label>
-    </mat-card-content>
-  </mat-card>
-  <div class="container">
-    <mat-card>
-      <mat-card-content>
-          <crtvs-base-form  formControlName="provider" [shouldHaveCheckbox]="false" header="Доставчик"></crtvs-base-form>
-      </mat-card-content>
-    </mat-card>
-    <mat-card>
-      <mat-card-content>
+<div class="mat-elevation-z8">
+  <h1>Фактури</h1>
+  <button
+    class="btn-add mat-raised-button matTooltip"
+    aria-label="добавяне на контрагент"
+    mat-raised-button
+  >
+    <a routerLink="./new">
+      <span class="add-text">Добавяне</span>
+    </a>
+  </button>
 
-          <crtvs-base-form  formControlName="receiver" [shouldHaveCheckbox]="true" header="Получател"></crtvs-base-form>
-      </mat-card-content>
-    </mat-card>
-  </div>
-  <mat-card>
-    <mat-card-header>
-      <mat-card-title>Тип:</mat-card-title>
-    </mat-card-header>
-    <br />
-    <mat-card-content>
-      <p>
-        <mat-radio-group
-          aria-label="Select an option"
-          formControlName="type"
-          class="flex-radio-group"
+  <table mat-table [dataSource]="dataSource" class="">
+    <!-- Name Column -->
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef>ID</th>
+      <td mat-cell *matCellDef="let invoice">{{ invoice.id }}</td>
+    </ng-container>
+
+    <!-- City Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Фирма</th>
+      <td mat-cell *matCellDef="let invoice">{{ invoice.receiver }}</td>
+    </ng-container>
+
+    <!-- MOL Column -->
+    <ng-container matColumnDef="date">
+      <th mat-header-cell *matHeaderCellDef>Дата</th>
+      <td mat-cell *matCellDef="let invoice">{{ invoice.issue_date }}</td>
+    </ng-container>
+
+    <!-- EGN Column -->
+    <ng-container matColumnDef="amount">
+      <th mat-header-cell *matHeaderCellDef>Стойност</th>
+      <td mat-cell *matCellDef="let invoice">
+        <div *ngFor="let item of invoice.items">
+          {{ item.price }} {{ invoice.currency.currencyCode }}
+        </div>
+      </td>
+    </ng-container>
+
+    <!-- Tools Column -->
+    <ng-container matColumnDef="tools">
+      <th mat-header-cell *matHeaderCellDef>Инструменти</th>
+      <td mat-cell *matCellDef="let invoice">
+        <button
+          class="icon-edit-btn"
+          mat-icon-button
+          matTooltip="редактиране на ред"
+          aria-label="редактиране на ред"
+          (click)="editInvoice(invoice)"
         >
-          <mat-radio-button color="primary" class="radio-type" value="1"
-            >Фактура:</mat-radio-button
-          >
-          <mat-radio-button color="primary" class="radio-type" value="2"
-            >Кредитно известие:</mat-radio-button
-          >
-          <mat-radio-button color="primary" class="radio-type" value="3"
-            >Дебитно известие:</mat-radio-button
-          >
-        </mat-radio-group>
-      </p>
+          <mat-icon>edit</mat-icon>
+        </button>
+      </td>
+    </ng-container>
 
-      <p>
-        <mat-form-field appearance="outline" class="datepicker">
-          <mat-label>Дата на издаване</mat-label>
-          <input
-            matInput
-            formControlName="issue_date"
-            [matDatepicker]="issuedAtPicker"
-          />
-
-          <mat-datepicker-toggle matSuffix [for]="issuedAtPicker">
-          </mat-datepicker-toggle>
-
-          <mat-datepicker #issuedAtPicker color="primary"> </mat-datepicker>
-        </mat-form-field>
-      </p>
-      <p>
-        <mat-form-field appearance="outline" class="datepicker">
-          <mat-label>Дата на данъчно събитие</mat-label>
-          <input
-            matInput
-            formControlName="event_date"
-            [matDatepicker]="eventAtPicker"
-          />
-
-          <mat-datepicker-toggle matSuffix [for]="eventAtPicker">
-          </mat-datepicker-toggle>
-
-          <mat-datepicker #eventAtPicker color="primary"> </mat-datepicker>
-        </mat-form-field>
-      </p>
-
-      <p>
-        <mat-form-field class="currency" appearance="outline">
-          <mat-label>Изберете валута</mat-label>
-          <mat-select [(value)]="selectedCurrency" formControlName="currency">
-            <mat-option
-              *ngFor="let currency of currencyList"
-              [value]="currency"
-              >{{ currency?.code }}</mat-option
-            >
-          </mat-select>
-        </mat-form-field>
-      </p>
-    </mat-card-content>
-  </mat-card>
-  <mat-card>
-    <mat-card-content>
-      <crtvs-base-form-items  formControlName="invoice_items" [selectedCurrency]="selectedCurrency"></crtvs-base-form-items>
-    </mat-card-content>
-  </mat-card>
-  <mat-card-actions>
-    <button class="btn-submit" aria-label="изпрати формуляра" mat-raised-button>
-      Изпрати
-    </button>
-  </mat-card-actions>
-</form>
+    <!-- Table rows -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let contractor; columns: displayedColumns"></tr>
+  </table>
+  <mat-paginator
+    [length]="invoices.length"
+    [pageSize]="5"
+    [pageSizeOptions]="[5, 10, 25, 100]"
+    showFirstLastButtons
+  ></mat-paginator>
+</div>
