@@ -12,6 +12,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { ContractorComponent } from './contractor/contractor.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 const routes: Routes = [
   { path: '', component: ContractorsComponent },
@@ -33,6 +34,7 @@ const routes: Routes = [
     ReactiveFormsModule,
     MatPaginatorModule,
     MatTableModule,
+    SharedModule,
   ],
 })
 export class ContractorsModule {}
