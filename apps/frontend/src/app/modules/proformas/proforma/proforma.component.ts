@@ -16,15 +16,7 @@ import { EMPTY, catchError, tap } from 'rxjs';
 })
 export class ProformaComponent implements OnInit {
   proformasForm: FormGroup;
-  rowAmount = 0;
-  totalAmount = 0;
-  quantity = 0;
-  priceWithoutVat = 0;
-  vatPercent = 0;
-  //rowData = FormArray;
-  get rowData() {
-    return this.proformasForm.get('rowData') as FormArray;
-  }
+  
   currencyList?: ICurrency[] | null;
   selectedCurrency?: ICurrency;
   selectedCurrencyId?: number;
