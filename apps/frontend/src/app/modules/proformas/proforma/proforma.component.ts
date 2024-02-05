@@ -19,19 +19,7 @@ export class ProformaComponent implements OnInit {
   get rowData() {
     return this.proformasForm.get('rowData') as FormArray;
   }
-  public currencies = [
-    { exchangeRate: 1, currencyCode: 'Лев' },
-    { exchangeRate: 1.95, currencyCode: 'Евро' },
-  ];
-  currencyFormatters = {
-    Лев: new Intl.NumberFormat('bg-BG', { style: 'currency', currency: 'BGN' }),
-    Евро: new Intl.NumberFormat('bg-BG', {
-      style: 'currency',
-      currency: 'EUR',
-    }),
-  };
 
-  selectedCurrency = this.currencies[0];
   constructor(
     private formBuilder: FormBuilder,
     private proformasService: ProformasService
@@ -52,7 +40,7 @@ export class ProformaComponent implements OnInit {
       receiverCity: ['', Validators.required],
       receiverAddress: ['', Validators.required],
       releasedAt: ['', Validators.required],
-      currency: [this.selectedCurrency, Validators.required],
+      currency: [null, Validators.required],
       rowData: this.formBuilder.array([
         this.formBuilder.group({
           nameField: ['', Validators.required],
@@ -136,13 +124,12 @@ export class ProformaComponent implements OnInit {
     console.log(formData.currency);
     console.log(formData.wayOfPaying);
     const dataProform: IProform = {
-      contractor: 1,
+      contractor_id: 1,
       issue_date: formData.releasedAt,
       payment_method: formData.wayOfPaying, //null
       vat: formData.vatPercent,
       novatreason: formData.vatReason,
       currency: formData.currency,
-      rate: 1.5,
       c_name: formData.receiverName,
       c_city: formData.receiverCity,
       c_address: formData.receiverAddress,
@@ -160,9 +147,7 @@ export class ProformaComponent implements OnInit {
       p_bank: 'Some bank',
       p_iban: 'Some iban',
       p_bic: 'Some bic',
-      p_zdds: true,
       author: 'Some author',
-      author_user: 1,
       author_sign: 'Some sign',
       items: [],
     };

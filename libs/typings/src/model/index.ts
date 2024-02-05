@@ -4,7 +4,6 @@ export interface IContractor {
   city: string;
   address: string;
   eik: string;
-  dds: boolean;
   ddsnumber: string;
   mol: string;
   person: boolean;
@@ -32,15 +31,14 @@ export interface IInvoice {
   novatreason: string;
   currency: number;
   type: number;
-  related_invoice: string;
-  related_date: Date;
+  related_invoice_id: number;
   c_name: string;
   c_city: string;
   c_address: string;
   c_eik: string;
   c_ddsnumber: string;
   c_mol: string;
-  c_person: string;
+  c_person: boolean;
   c_egn: string;
   p_name: string;
   p_city: string;
@@ -51,9 +49,7 @@ export interface IInvoice {
   p_bank: string;
   p_iban: string;
   p_bic: string;
-  p_zdds: boolean;
   author: string;
-  author_user: number;
   author_sign: string;
   createAt?: Date;
   updatedAt?: Date;
@@ -103,9 +99,7 @@ export interface IProform {
   p_bank: string;
   p_iban: string;
   p_bic: string;
-  p_zdds: boolean;
   author: string;
-  author_user: number;
   author_sign: string;
   createAt?: Date;
   updatedAt?: Date;
