@@ -48,6 +48,7 @@ export class SettingsComponent implements OnInit {
       supplierEik: new FormControl(''),
       supplierManager: new FormControl(''),
       units: this.fb.array([]),
+      prefix: new FormControl(''),
     });
   }
 
@@ -122,6 +123,10 @@ export class SettingsComponent implements OnInit {
       });
   }
 
+  panelOpenState: boolean = false;
+
+  addPrefix(): void {}
+
   ngOnInit(): void {
     this.settingsService.getSettings().subscribe((settings) => {
       this.settingsForm.setValue({
@@ -141,6 +146,7 @@ export class SettingsComponent implements OnInit {
         supplierEik: settings.supplierEik,
         supplierManager: settings.supplierManager,
         units: [],
+        prefix: settings.prefix,
       });
     });
     this.getPaymentMethods();
@@ -167,6 +173,7 @@ export class SettingsComponent implements OnInit {
       supplierEik: formData.supplierEik,
       supplierManager: formData.supplierManager,
       units: formData.units,
+      prefix: formData.prefix,
     };
     console.log(dataSettings);
     this.settingsService.putSetting(dataSettings).subscribe({

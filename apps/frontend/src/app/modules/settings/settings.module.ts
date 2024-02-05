@@ -19,7 +19,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatCommonModule } from '@angular/material/core';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-
+import { MatExpansionModule } from '@angular/material/expansion';
 const routes: Routes = [{ path: '', component: SettingsComponent }];
 
 @NgModule({
@@ -45,6 +45,7 @@ const routes: Routes = [{ path: '', component: SettingsComponent }];
     MatCommonModule,
     RouterModule.forChild(routes),
     MatAutocompleteModule,
+    MatExpansionModule,
   ],
 })
 export class SettingsModule {}

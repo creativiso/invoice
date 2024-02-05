@@ -178,6 +178,7 @@ export interface ISettings {
   supplierEik: string;
   supplierManager: string;
   units: string[];
+  prefix: number;
   createAt?: Date;
   updatedAt?: Date;
 }

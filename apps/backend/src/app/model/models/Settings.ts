@@ -58,4 +58,7 @@ export class Settings extends Model<ISettings> {
     type: DataTypes.JSON,
   })
   units: string[];
+
+  @Column({ type: DataTypes.INTEGER })
+  prefix: number;
 }

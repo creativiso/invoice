@@ -24,6 +24,7 @@ export class SettingsService {
         supplierEik: '',
         supplierManager: '',
         units: [],
+        prefix: null,
       };
       const newSettings = await Settings.create(defaultSettings);
 

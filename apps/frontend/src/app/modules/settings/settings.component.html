@@ -22,14 +22,8 @@
           <mat-form-field>
             <mat-label>МОЛ</mat-label>
             <input matInput formControlName="supplierManager" />
-            <button
-              matSuffix
-              class="search-btn"
-              mat-icon-button
-              color=""
-              aria-label="search"
-              matTooltip="Търсене от Базата"
-            >
+            <button matSuffix class="search-btn" mat-icon-button color="" aria-label="search"
+              matTooltip="Търсене от Базата">
               <mat-icon class="search-icon">person_add</mat-icon>
             </button>
           </mat-form-field>
@@ -79,39 +73,18 @@
         <mat-card-content>
           <mat-form-field>
             <mat-label>Количество</mat-label>
-            <input
-              type="number"
-              class="form-control"
-              matInput
-              name="quantityNumber"
-              formControlName="quantityNumber"
-              min="0"
-              max="5"
-            />
+            <input type="number" class="form-control" matInput name="quantityNumber" formControlName="quantityNumber"
+              min="0" max="5" />
           </mat-form-field>
           <mat-form-field>
             <mat-label>Единична цена</mat-label>
-            <input
-              type="number"
-              class="form-control"
-              matInput
-              name="singlePriceNumber"
-              formControlName="singlePriceNumber"
-              min="0"
-              max="5"
-            />
+            <input type="number" class="form-control" matInput name="singlePriceNumber"
+              formControlName="singlePriceNumber" min="0" max="5" />
           </mat-form-field>
           <mat-form-field>
             <mat-label>Обща цена</mat-label>
-            <input
-              type="number"
-              class="form-control"
-              matInput
-              name="totalPriceNumber"
-              formControlName="totalPriceNumber"
-              min="0"
-              max="5"
-            />
+            <input type="number" class="form-control" matInput name="totalPriceNumber"
+              formControlName="totalPriceNumber" min="0" max="5" />
           </mat-form-field>
         </mat-card-content>
       </mat-card>
@@ -148,18 +121,10 @@
                 }
               </mat-chip-grid>
               <mat-label>Мерни единици</mat-label>
-              <input
-                placeholder="Нова мерна единица..."
-                [formControl]="tagsCtrl"
-                [matChipInputFor]="chipGrid"
-                [matAutocomplete]="auto"
-                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                (matChipInputTokenEnd)="add($event)"
-              />
-              <mat-autocomplete
-                #auto="matAutocomplete"
-                (optionSelected)="selected($event)"
-              >
+              <input placeholder="Нова мерна единица..." [formControl]="tagsCtrl" [matChipInputFor]="chipGrid"
+                [matAutocomplete]="auto" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                (matChipInputTokenEnd)="add($event)" />
+              <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
                 @for (chip of suggestedTags; track chip) {
                 <mat-option [value]="chip">{{ chip }}</mat-option>
                 }
@@ -168,6 +133,21 @@
           </mat-form-field>
         </mat-card-content>
       </mat-card>
+      <mat-card class="flex-item">
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-card-title>
+              Допълнителни настройки
+            </mat-card-title>
+          </mat-expansion-panel-header>
+          <mat-label>Задаване на префикс</mat-label>
+          <mat-form-field>
+            <input matInput name="prefix" formControlName="prefix" />
+
+          </mat-form-field>
+        </mat-expansion-panel>
+      </mat-card>
+
     </div>
   </div>
   <button class="btn-submit" mat-raised-button (click)="onSubmit()">
