@@ -23,15 +23,14 @@ export interface IInvoice {
   id?: number;
   prefix: number;
   number: number;
-  contractor: number;
+  contractor_id: number;
   issue_date: Date;
   event_date: Date;
   receiver: string;
-  bank_payment: number;
+  payment_method: number;
   vat: number;
   novatreason: string;
   currency: number;
-  rate: number;
   type: number;
   related_invoice: string;
   related_date: Date;
@@ -81,16 +80,12 @@ export interface IPaymentMethod {
 
 export interface IProform {
   id?: number;
-  contractor: number;
+  contractor_id: number;
   issue_date: Date;
   payment_method: number;
   vat: number;
   novatreason: string;
-  currency: {
-    exchangeRate: number;
-    currencyCode: string;
-  };
-  rate: number;
+  currency: number;
   c_name: string;
   c_city: string;
   c_address: string;
