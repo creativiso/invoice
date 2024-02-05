@@ -70,8 +70,8 @@ export class Invoice extends Model<IInvoice> {
   @Column({ type: DataTypes.STRING })
   c_mol: string;
 
-  @Column({ type: DataTypes.STRING })
-  c_person: string;
+  @Column({ type: DataTypes.TINYINT })
+  c_person: boolean;
 
   @Column({ type: DataTypes.STRING })
   c_egn: string;
