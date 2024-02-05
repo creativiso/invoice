@@ -1,3 +1,4 @@
+import { Response } from 'express';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
@@ -8,6 +9,8 @@ import {
 import { ProformasService } from 'src/app/services/proformas.service';
 import { CurrenciesService } from 'src/app/services/currencies.service';
 import { EMPTY, catchError, tap } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { P } from '@angular/cdk/keycodes';
 
 @Component({
   selector: 'crtvs-proforma',
@@ -16,7 +19,10 @@ import { EMPTY, catchError, tap } from 'rxjs';
 })
 export class ProformaComponent implements OnInit {
   proformasForm: FormGroup;
-  
+  proform!: IProform;
+  proformId!: number;
+  editMode!: boolean;
+
   currencyList?: ICurrency[] | null;
   selectedCurrency?: ICurrency;
   selectedCurrencyId?: number;
@@ -24,6 +30,7 @@ export class ProformaComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private proformasService: ProformasService,
+    private route: ActivatedRoute,
     private currenciesService: CurrenciesService
   ) {
     this.proformasForm = this.formBuilder.group({
@@ -52,6 +59,55 @@ export class ProformaComponent implements OnInit {
         })
       )
       .subscribe();
+
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+
+    if (id) {
+      this.editMode = true;
+      this.proformId = id;
+    }
+
+    console.log('Retrieving proform data for ID:', id);
+
+    if (this.editMode) {
+      this.proformasService.getProformById(this.proformId).subscribe({
+        next: (response: any) => {
+          const proform: IProform = response.proformAndItems;
+
+          this.proform = proform;
+          console.log('curr', proform);
+
+          this.proformasForm.patchValue({
+            receiver: {
+              name: proform.c_name,
+              person: proform.c_person,
+              egn: proform.c_egn,
+              eik: proform.c_eik,
+              dds: proform.c_ddsnumber,
+              mol: proform.c_mol,
+              city: proform.c_city,
+              address: proform.c_address,
+            },
+            releasedAt: proform.issue_date,
+            currency: this.currencyList
+              ? this.currencyList[proform.currency]
+              : this.selectedCurrency,
+            proforma_items: {
+              itemData: proform.items,
+              vatPercent: proform.vat,
+              wayOfPaying: proform.payment_method,
+              vatReason: proform.novatreason,
+            },
+          });
+        },
+        error: (error) => {
+          console.error(error);
+        },
+        complete: () => {
+          console.log('Get proform by id completed.');
+        },
+      });
+    }
   }
   onSubmit() {
     const formData = this.proformasForm.value;

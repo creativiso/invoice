@@ -68,7 +68,7 @@ export interface IInvoiceItems {
   quantity: number;
   measurement: string;
   price: number;
-  createAt?: Date;
+  createdAt?: Date;
   updatedAt?: Date;
 }
 
@@ -86,10 +86,7 @@ export interface IProform {
   payment_method: number;
   vat: number;
   novatreason: string;
-  currency: {
-    exchangeRate: number;
-    currencyCode: string;
-  };
+  currency: number,
   rate: number;
   c_name: string;
   c_city: string;

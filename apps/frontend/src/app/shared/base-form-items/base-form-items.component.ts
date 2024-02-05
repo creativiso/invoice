@@ -119,7 +119,7 @@ export class BaseFormItemsComponent
 
   writeValue(value: any) {
     if (value) {
-      this.baseFormItems.setValue(value, { emitEvent: false });
+      this.baseFormItems.patchValue(value, { emitEvent: false });
     }
   }
 

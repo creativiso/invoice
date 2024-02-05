@@ -38,7 +38,7 @@ export class BaseFormComponent
   header: string = '';
   @Input()
   isNotSettings: boolean = true;
-  isPerson = false;
+  isPerson?: boolean;
 
   constructor(private fb: FormBuilder) {}
 
@@ -115,7 +115,7 @@ export class BaseFormComponent
 
   writeValue(value: any) {
     if (value) {
-      this.baseForm.setValue(value, { emitEvent: false });
+      this.baseForm.patchValue(value, { emitEvent: false });
     }
   }
 
