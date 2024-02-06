@@ -8,7 +8,7 @@ import {
   ISettings,
 } from '../../../../../../libs/typings/src/model/index';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { PaymentMethodsService } from 'src/app/services/paymentMethods.service';
+import { PaymentMethodsService } from 'src/app/services/payment-methods.service';
 
 @Component({
   selector: 'crtvs-settings',
