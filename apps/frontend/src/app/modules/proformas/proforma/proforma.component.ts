@@ -10,7 +10,6 @@ import { ProformasService } from 'src/app/services/proformas.service';
 import { CurrenciesService } from 'src/app/services/currencies.service';
 import { EMPTY, catchError, tap } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-import { P } from '@angular/cdk/keycodes';
 
 @Component({
   selector: 'crtvs-proforma',
@@ -121,7 +120,6 @@ export class ProformaComponent implements OnInit {
       vat: formData.proforma_items.vatPercent,
       novatreason: formData.proforma_items.vatReason,
       currency: formData.currency,
-      rate: 1.5,
       c_name: formData.receiver.name,
       c_city: formData.receiver.city,
       c_address: formData.receiver.address,

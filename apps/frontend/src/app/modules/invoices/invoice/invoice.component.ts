@@ -102,7 +102,7 @@ export class InvoiceComponent implements OnInit {
             invoice_items: {
               itemData: invoice.items,
               vatPercent: invoice.vat,
-              wayOfPaying: invoice.bank_payment,
+              wayOfPaying: invoice.payment_method,
               vatReason: invoice.novatreason,
             },
           });
@@ -132,7 +132,7 @@ export class InvoiceComponent implements OnInit {
       issue_date: formData.issue_date,
       event_date: formData.event_date,
       receiver: formData.receiver.name,
-      bank_payment: formData.invoice_items.wayOfPaying, //--------------???
+      payment_method: formData.invoice_items.wayOfPaying, //--------------???
       vat: formData.invoice_items.vatPercent,
       novatreason: formData.invoice_items_vatReason,
       // currency: formData.currency.currencyCode,
