@@ -93,11 +93,12 @@ export class InvoiceComponent implements OnInit {
               mol: invoice.c_mol,
               city: invoice.c_city,
               address: invoice.c_address,
-
             },
             issue_date: invoice.issue_date,
             event_date: invoice.event_date,
-            currency: this.currencyList ? this.currencyList[invoice.currency] : this.selectedCurrency,
+            currency: this.currencyList
+              ? this.currencyList[invoice.currency]
+              : this.selectedCurrency,
             type: String(invoice.type),
             invoice_items: {
               itemData: invoice.items,
@@ -121,6 +122,7 @@ export class InvoiceComponent implements OnInit {
     if (this.invoicesForm.invalid) {
       // Form is not valid, display error messages
       alert('Моля, въведете всички полета.');
+      console.log(this.invoicesForm);
       return;
     }
     const formData = this.invoicesForm.value;
