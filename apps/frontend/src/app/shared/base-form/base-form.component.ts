@@ -46,7 +46,7 @@ export class BaseFormComponent
     this.baseForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(2)]],
       eik: ['', [Validators.required, eikValidator()]],
-      person: [false],
+      person: [],
       egn: ['', [egnValidator()]],
       dds: [''],
       mol: [
@@ -79,6 +79,8 @@ export class BaseFormComponent
       dds_percent: [''],
     });
 
+    console.log(this.isPerson);
+
     this.baseForm.get('person')?.valueChanges.subscribe((person) => {
       this.isPerson = person;
     });
@@ -97,12 +99,10 @@ export class BaseFormComponent
   registerOnChange(onChange: any) {
     const sub = this.baseForm.valueChanges.subscribe(onChange);
     this.onChangeSubs.push(sub);
-    console.log(this.baseForm.value);
   }
 
   registerOnTouched(onTouched: Function) {
     this.onTouched = onTouched;
-    console.log('touch');
   }
 
   setDisabledState(disabled: boolean) {
@@ -115,7 +115,7 @@ export class BaseFormComponent
 
   writeValue(value: any) {
     if (value) {
-      this.baseForm.patchValue(value, { emitEvent: false });
+      this.baseForm.patchValue(value);
     }
   }
 
