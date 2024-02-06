@@ -56,13 +56,12 @@ export class ProformaComponent implements OnInit {
     const formData = this.proformasForm.value;
     console.log(formData);
     const dataProform: IProform = {
-      contractor: 1,
+      contractor_id: 1,
       issue_date: formData.releasedAt,
       payment_method: formData.proforma_items.wayOfPaying, //null
       vat: formData.proforma_items.vatPercent,
       novatreason: formData.proforma_items.vatReason,
       currency: formData.currency,
-      rate: 1.5,
       c_name: formData.receiver.name,
       c_city: formData.receiver.city,
       c_address: formData.receiver.address,
@@ -80,9 +79,7 @@ export class ProformaComponent implements OnInit {
       p_bank: 'Some bank',
       p_iban: 'Some iban',
       p_bic: 'Some bic',
-      p_zdds: true,
       author: 'Some author',
-      author_user: 1,
       author_sign: 'Some sign',
       items: [],
     };

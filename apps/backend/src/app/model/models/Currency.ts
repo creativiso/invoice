@@ -9,7 +9,7 @@ export class Currency extends Model<ICurrency> {
   @Column({ type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true })
   id: number;
 
-  @Column({ type: DataTypes.INTEGER })
+  @Column({ type: DataTypes.DOUBLE })
   rate: number;
 
   @Column({ type: DataTypes.STRING })
