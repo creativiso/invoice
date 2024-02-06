@@ -40,7 +40,6 @@ settingsRouter.put('/', async (req, res) => {
   }
 });
 
-
 settingsRouter.delete('/', async (req, res) => {
   try {
     const id = 1;
@@ -54,24 +53,3 @@ settingsRouter.delete('/', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
-
-// createDefaultSetting(): Observable<ISettings> {
-  //   const defaultSetting = {
-  //     id: 1,
-  //     supplierName: '',
-  //     supplierVatNumber: '',
-  //     supplierCity: '',
-  //     supplierAddress: '',
-  //     iban: '',
-  //     bicSwift: '',
-  //     bank: '',
-  //     dds: 20,
-  //     paymentMethod: '',
-  //     individualPerson: false,
-  //     quantityNumber: 2,
-  //     singlePriceNumber: 2,
-  //     totalPriceNumber: 2,
-  //     supplierEik: '',
-  //     supplierManager: '',
-  //     units: []
-  //   };

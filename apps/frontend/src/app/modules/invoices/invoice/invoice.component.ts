@@ -60,8 +60,7 @@ export class InvoiceComponent implements OnInit {
       type: ['', Validators.required], // neww
       issue_date: ['', Validators.required], //new
       event_date: ['', Validators.required], //new
-      related_invoice: [],
-      related_date: [],
+      related_invoice_id: [],
       currency: [this.selectedCurrency?.code, Validators.required],
       invoice_items: [],
     });
@@ -127,7 +126,7 @@ export class InvoiceComponent implements OnInit {
     const dataInvoice: IInvoice = {
       prefix: 1, //-----------------???
       number: 1, //-----------------???
-      contractor: 1, //----------------------????
+      contractor_id: 1,
       issue_date: formData.issue_date,
       event_date: formData.event_date,
       receiver: formData.receiver.name,
@@ -136,10 +135,8 @@ export class InvoiceComponent implements OnInit {
       novatreason: formData.invoice_items_vatReason,
       // currency: formData.currency.currencyCode,
       currency: formData.currency.id,
-      rate: formData.currency.exchangeRate,
       type: formData.type,
-      related_invoice: formData.related_invoice,
-      related_date: formData.related_date,
+      related_invoice_id: formData.related_invoice_id,
       c_name: formData.receiver.name,
       c_city: formData.receiver.city,
       c_address: formData.receiver.address,
@@ -157,9 +154,7 @@ export class InvoiceComponent implements OnInit {
       p_bank: 'Some bank',
       p_iban: 'Some iban',
       p_bic: 'Some bic',
-      p_zdds: true,
       author: 'Some author',
-      author_user: 1,
       author_sign: 'Some sign',
       items: [],
     };

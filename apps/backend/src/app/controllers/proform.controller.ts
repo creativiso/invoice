@@ -31,13 +31,12 @@ proformsRouter.get('/:id', async (req, res) => {
 proformsRouter.post('/add', async (req, res) => {
   try {
     const proform: IProform = {
-      contractor: req.body.contractor,
+      contractor_id: req.body.contractor_id,
       issue_date: req.body.issue_date,
       payment_method: req.body.payment_method,
       vat: req.body.vat,
       novatreason: req.body.novatreason,
       currency: req.body.currency,
-      rate: req.body.rate,
       c_name: req.body.c_name,
       c_city: req.body.c_city,
       c_address: req.body.c_address,
@@ -55,9 +54,7 @@ proformsRouter.post('/add', async (req, res) => {
       p_bank: req.body.p_bank,
       p_iban: req.body.p_iban,
       p_bic: req.body.p_bic,
-      p_zdds: req.body.p_zdds,
       author: req.body.author,
-      author_user: req.body.author_user,
       author_sign: req.body.author_sign,
       items: req.body.items, // add items property here
     };
