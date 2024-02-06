@@ -97,12 +97,10 @@ export class BaseFormComponent
   registerOnChange(onChange: any) {
     const sub = this.baseForm.valueChanges.subscribe(onChange);
     this.onChangeSubs.push(sub);
-    console.log(this.baseForm.value);
   }
 
   registerOnTouched(onTouched: Function) {
     this.onTouched = onTouched;
-    console.log('touch');
   }
 
   setDisabledState(disabled: boolean) {

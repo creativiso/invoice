@@ -44,7 +44,6 @@ export class InvoiceComponent implements OnInit {
             this.currencyList = res;
             this.selectedCurrency = this.currencyList[0];
             this.selectedCurrencyId = this.currencyList[0]?.id;
-            console.log(this.currencyList);
           }
         }),
         catchError((error) => {
@@ -119,11 +118,11 @@ export class InvoiceComponent implements OnInit {
   }
 
   onSubmit() {
-    // if (this.invoicesForm.invalid) {
-    //   // Form is not valid, display error messages
-    //   alert('Моля, въведете всички полета.');
-    //   return;
-    // }
+    if (this.invoicesForm.invalid) {
+      // Form is not valid, display error messages
+      alert('Моля, въведете всички полета.');
+      return;
+    }
     const formData = this.invoicesForm.value;
     const dataInvoice: IInvoice = {
       prefix: 1, //-----------------???

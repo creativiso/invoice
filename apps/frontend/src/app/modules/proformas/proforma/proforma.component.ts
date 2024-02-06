@@ -16,7 +16,7 @@ import { EMPTY, catchError, tap } from 'rxjs';
 })
 export class ProformaComponent implements OnInit {
   proformasForm: FormGroup;
-  
+
   currencyList?: ICurrency[] | null;
   selectedCurrency?: ICurrency;
   selectedCurrencyId?: number;
@@ -47,7 +47,6 @@ export class ProformaComponent implements OnInit {
           }
         }),
         catchError((error) => {
-          console.log(error);
           return EMPTY;
         })
       )
@@ -97,7 +96,6 @@ export class ProformaComponent implements OnInit {
       };
       dataProform.items.push(dataProformItems); // add the new item to the items array
     }
-    console.log(dataProform);
 
     this.proformasService
       .createProform(dataProform, dataProform.items)

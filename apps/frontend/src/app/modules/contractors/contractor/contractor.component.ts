@@ -50,7 +50,6 @@ export class ContractorComponent implements OnInit {
   }
   onSubmit() {
     const contractorData = this.contractorsForm.value.contractor;
-    console.log('Form data:', contractorData); // log the form data
     if (this.contractorsForm.valid) {
       if (this.contractor) {
         // Update existing contractor
