@@ -19,14 +19,12 @@ contractorsRouter.get('/:id', async (req, res) => {
 });
 //create
 contractorsRouter.post('/add', async (req, res) => {
-  const { name, city, address, eik, dds, ddsnumber, mol, person, egn } =
-    req.body;
+  const { name, city, address, eik, ddsnumber, mol, person, egn } = req.body;
   const contractor = await contractorService.createContractor(
     name,
     city,
     address,
     eik,
-    dds,
     ddsnumber,
     mol,
     person,
@@ -38,15 +36,13 @@ contractorsRouter.post('/add', async (req, res) => {
 contractorsRouter.put('/:id', async (req, res) => {
   try {
     const id = Number(req.params.id);
-    const { name, city, address, eik, dds, ddsnumber, mol, person, egn } =
-      req.body;
+    const { name, city, address, eik, ddsnumber, mol, person, egn } = req.body;
     const contractor = await contractorService.updateContractor(
       id,
       name,
       city,
       address,
       eik,
-      dds,
       ddsnumber,
       mol,
       person,
