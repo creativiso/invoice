@@ -1,45 +1,43 @@
 form {
-    max-width: 90%;
-    margin: 0 auto;
-  }
+  max-width: 90%;
+  margin: 0 auto;
+}
 mat-icon {
   color: rgb(48, 48, 48);
 }
 mat-form-field {
-    width: 100%;
-  }
-  
+  width: 100%;
+}
+
 mat-form-field,
-  input {
-    font-size: 14px;
-  }
+input {
+  font-size: 14px;
+}
 mat-card {
-    margin-top: 20px;
-  }
+  margin-top: 20px;
+}
 mat-icon {
-    color: rgb(48, 48, 48);
-  }
+  color: rgb(48, 48, 48);
+}
 .container {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-column-gap: 10px;
-  }
-  mat-label {
-    display:inline-block;
-  }
-.range
-{
-    display: grid;
-    grid-template-rows: repeat(3, 1fr);
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-column-gap: 10px;
 }
-.flex-content
-{
-    display: flex;
-    flex-direction: column;
-    justify-content:space-around;
+mat-label {
+  display: inline-block;
 }
-.flex-item{ 
-    flex-grow:1;
+.range {
+  display: grid;
+  grid-template-rows: repeat(3, 1fr);
+}
+.flex-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.flex-item {
+  flex-grow: 1;
 }
 .btn-submit {
   background-color: #172647;
@@ -59,10 +57,22 @@ button:hover {
   margin-left: 10px;
 }
 @media (max-width: 600px) {
-    .container {
-      grid-template-columns: 1fr;
-      grid-template-areas:
-        'col-1'
-        'col-2';
+  .container {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      'col-1'
+      'col-2';
+  }
+}
+
+.additional-settings {
+  margin-top: 20px;
+  
+  background: transparent !important;
+  box-shadow: none !important;
+  ::ng-deep {
+    .mat-expansion-panel-body {
+      padding: 0 0 20px !important;
     }
   }
+}
