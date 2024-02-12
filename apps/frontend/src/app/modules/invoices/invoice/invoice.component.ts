@@ -44,7 +44,6 @@ export class InvoiceComponent implements OnInit {
             this.currencyList = res;
             this.selectedCurrency = this.currencyList[0];
             this.selectedCurrencyId = this.currencyList[0]?.id;
-            console.log(this.currencyList);
           }
         }),
         catchError((error) => {
@@ -121,7 +120,6 @@ export class InvoiceComponent implements OnInit {
     if (this.invoicesForm.invalid) {
       // Form is not valid, display error messages
       alert('Моля, въведете всички полета.');
-      console.log(this.invoicesForm);
       return;
     }
     const formData = this.invoicesForm.value;
@@ -134,7 +132,7 @@ export class InvoiceComponent implements OnInit {
       receiver: formData.receiver.name,
       payment_method: formData.invoice_items.wayOfPaying, //--------------???
       vat: formData.invoice_items.vatPercent,
-      novatreason: formData.invoice_items_vatReason,
+      novatreason: formData.invoice_items.vatReason,
       // currency: formData.currency.currencyCode,
       currency: formData.currency.id,
       type: formData.type,

@@ -26,7 +26,6 @@ export class ProformaComponent implements OnInit {
   selectedCurrency?: ICurrency;
   selectedCurrencyId?: number;
 
-
   constructor(
     private formBuilder: FormBuilder,
     private proformasService: ProformasService,
@@ -36,7 +35,6 @@ export class ProformaComponent implements OnInit {
     this.proformasForm = this.formBuilder.group({
       receiver: [''],
       releasedAt: ['', Validators.required],
-
       currency: [this.selectedCurrency, Validators.required],
       proforma_items: [],
     });
@@ -55,7 +53,6 @@ export class ProformaComponent implements OnInit {
           }
         }),
         catchError((error) => {
-          console.log(error);
           return EMPTY;
         })
       )
