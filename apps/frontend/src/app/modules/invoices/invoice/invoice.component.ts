@@ -20,9 +20,6 @@ export class InvoiceComponent implements OnInit {
   invoicesForm!: FormGroup;
   invoice!: IInvoice;
   invoiceId!: number;
-  get rowData() {
-    return this.invoicesForm.get('rowData') as FormArray;
-  }
   editMode!: boolean;
 
   currencyList?: ICurrency[] | null;
@@ -47,7 +44,6 @@ export class InvoiceComponent implements OnInit {
             this.currencyList = res;
             this.selectedCurrency = this.currencyList[0];
             this.selectedCurrencyId = this.currencyList[0]?.id;
-            console.log(this.currencyList);
           }
         }),
         catchError((error) => {
@@ -124,7 +120,6 @@ export class InvoiceComponent implements OnInit {
     if (this.invoicesForm.invalid) {
       // Form is not valid, display error messages
       alert('Моля, въведете всички полета.');
-      console.log(this.invoicesForm.value);
       return;
     }
     const formData = this.invoicesForm.value;
@@ -135,7 +130,7 @@ export class InvoiceComponent implements OnInit {
       issue_date: formData.issue_date,
       event_date: formData.event_date,
       receiver: formData.receiver.name,
-      payment_method: 2, //--------------???
+      payment_method: formData.invoice_items.wayOfPaying, //--------------???
       vat: formData.vatPercent,
       novatreason: formData.vatReason,
       // currency: formData.currency.currencyCode,
@@ -150,12 +145,12 @@ export class InvoiceComponent implements OnInit {
       c_mol: formData.receiver.mol,
       c_person: formData.receiver.person,
       c_egn: formData.receiver.egn,
-      p_name: formData.provider.name,
-      p_city: formData.provider.city,
-      p_address: formData.provider.address,
-      p_eik: formData.provider.eik,
-      p_ddsnumber: formData.provider.dds,
-      p_mol: formData.provider.mol,
+      p_name: '',
+      p_city: '',
+      p_address: '',
+      p_eik: '',
+      p_ddsnumber: '',
+      p_mol: '',
       p_bank: 'Some bank',
       p_iban: 'Some iban',
       p_bic: 'Some bic',
@@ -175,6 +170,9 @@ export class InvoiceComponent implements OnInit {
       };
       dataInvoice.items.push(dataInvoicesItems); // add the new item to the items array
     }
+
+    console.log(formData);
+    console.log(dataInvoice);
 
     if (this.editMode) {
       // Update existing invoice

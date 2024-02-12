@@ -7,6 +7,8 @@ input {
   font-size: 14px;
 }
 
-.hidden {
-  display: none !important;
+@media screen and (max-width: 550px) {
+  mat-form-field {
+    margin-bottom: 25px;
+  }
 }

@@ -31,22 +31,13 @@ export class SettingsComponent implements OnInit {
     private settingsService: SettingService,
     private paymentMethodsService: PaymentMethodsService
   ) {
-    this.settingsForm = new FormGroup({
-      supplierName: new FormControl(''),
-      supplierVatNumber: new FormControl(''),
-      supplierCity: new FormControl(''),
-      supplierAddress: new FormControl(''),
-      iban: new FormControl(''),
-      bicSwift: new FormControl(''),
-      bank: new FormControl(''),
-      dds: new FormControl(''),
-      paymentMethod: new FormControl(),
-      priceInputWithVat: new FormControl(),
-      quantityNumber: new FormControl(''),
-      singlePriceNumber: new FormControl(''),
-      totalPriceNumber: new FormControl(''),
-      supplierEik: new FormControl(''),
-      supplierManager: new FormControl(''),
+    this.settingsForm = this.fb.group({
+      supplier_data: [''],
+      paymentMethod: [''],
+      priceInputWithVat: [''],
+      quantityNumber: [''],
+      singlePriceNumber: [''],
+      totalPriceNumber: [''],
       units: this.fb.array([]),
     });
   }
@@ -125,21 +116,25 @@ export class SettingsComponent implements OnInit {
   ngOnInit(): void {
     this.settingsService.getSettings().subscribe((settings) => {
       this.settingsForm.setValue({
-        supplierName: settings.supplierName,
-        supplierVatNumber: settings.supplierVatNumber,
-        supplierCity: settings.supplierCity,
-        supplierAddress: settings.supplierAddress,
-        iban: settings.iban,
-        bicSwift: settings.bicSwift,
-        bank: settings.bank,
-        dds: settings.dds,
+        supplier_data: {
+          name: settings.supplierName,
+          eik: settings.supplierEik,
+          dds: settings.supplierVatNumber,
+          mol: settings.supplierManager,
+          city: settings.supplierCity,
+          address: settings.supplierAddress,
+          iban: settings.iban,
+          bic_swift: settings.bicSwift,
+          bank: settings.bank,
+          dds_percent: settings.dds,
+          person: false,
+          egn: '',
+        },
         paymentMethod: settings.paymentMethod,
         priceInputWithVat: settings.priceInputWithVat,
         quantityNumber: settings.quantityNumber,
         singlePriceNumber: settings.singlePriceNumber,
         totalPriceNumber: settings.totalPriceNumber,
-        supplierEik: settings.supplierEik,
-        supplierManager: settings.supplierManager,
         units: [],
       });
     });
@@ -151,21 +146,21 @@ export class SettingsComponent implements OnInit {
     const formData = this.settingsForm.value;
     const dataSettings: ISettings = {
       id: 1,
-      supplierName: formData.supplierName,
-      supplierVatNumber: formData.supplierVatNumber,
-      supplierCity: formData.supplierCity,
-      supplierAddress: formData.supplierAddress,
-      iban: formData.iban,
-      bicSwift: formData.bicSwift,
-      bank: formData.bank,
-      dds: formData.dds,
+      supplierName: formData.supplier_data.name,
+      supplierVatNumber: formData.supplier_data.dds,
+      supplierCity: formData.supplier_data.city,
+      supplierAddress: formData.supplier_data.address,
+      supplierEik: formData.supplier_data.eik,
+      supplierManager: formData.supplier_data.mol,
+      iban: formData.supplier_data.iban,
+      bicSwift: formData.supplier_data.bic_swift,
+      bank: formData.supplier_data.bank,
+      dds: formData.supplier_data.dds_percent,
       paymentMethod: formData.paymentMethod,
       priceInputWithVat: formData.priceInputWithVat,
       quantityNumber: formData.quantityNumber,
       singlePriceNumber: formData.singlePriceNumber,
       totalPriceNumber: formData.totalPriceNumber,
-      supplierEik: formData.supplierEik,
-      supplierManager: formData.supplierManager,
       units: formData.units,
     };
     console.log(dataSettings);
