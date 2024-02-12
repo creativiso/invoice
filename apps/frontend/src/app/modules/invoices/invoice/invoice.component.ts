@@ -1,9 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterContentChecked, AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { CurrenciesService } from 'src/app/services/currencies.service';
-import { EMPTY, catchError, tap } from 'rxjs';
 import {
   ICurrency,
   IInvoice,
@@ -16,7 +14,7 @@ import { InvoiceService } from 'src/app/services/invoices.service';
   templateUrl: './invoice.component.html',
   styleUrls: ['./invoice.component.scss'],
 })
-export class InvoiceComponent implements OnInit {
+export class InvoiceComponent implements OnInit, AfterContentChecked {
   invoicesForm!: FormGroup;
   invoice!: IInvoice;
   invoiceId!: number;
@@ -24,48 +22,28 @@ export class InvoiceComponent implements OnInit {
     return this.invoicesForm.get('rowData') as FormArray;
   }
   editMode!: boolean;
-
-  currencyList?: ICurrency[] | null;
   selectedCurrency?: ICurrency;
-  selectedCurrencyId?: number;
 
   constructor(
     private fb: FormBuilder,
     private invoiceService: InvoiceService,
     private route: ActivatedRoute,
     private router: Router,
-    private http: HttpClient,
-    private currenciesService: CurrenciesService
+    private http: HttpClient
   ) {}
+  ngAfterContentChecked(): void {
+
+  }
 
   ngOnInit() {
-    this.currenciesService
-      .getAllCurrencies()
-      .pipe(
-        tap((res) => {
-          if (res) {
-            this.currencyList = res;
-            this.selectedCurrency = this.currencyList[0];
-            this.selectedCurrencyId = this.currencyList[0]?.id;
-            console.log(this.currencyList);
-          }
-        }),
-        catchError((error) => {
-          console.log(error);
-          return EMPTY;
-        })
-      )
-      .subscribe();
-
     this.invoicesForm = this.fb.group({
-      provider: [],
       receiver: [],
-      type: ['', Validators.required], // neww
-      issue_date: ['', Validators.required], //new
-      event_date: ['', Validators.required], //new
-      related_invoice_id: [],
-      currency: [this.selectedCurrency?.code, Validators.required],
+      doc_type: [],
       invoice_items: [],
+    });
+
+    this.invoicesForm.get('doc_type')?.valueChanges.subscribe((value) => {
+      this.selectedCurrency = value.currency;
     });
 
     const id = Number(this.route.snapshot.paramMap.get('id'));
@@ -103,6 +81,7 @@ export class InvoiceComponent implements OnInit {
               event_date: invoice.event_date,
               currency: invoice.currency,
               type: String(invoice.type),
+              related_invoice_id: invoice.related_invoice_id,
               vatPercent: invoice.vat,
               wayOfPaying: String(invoice.payment_method),
               vatReason: invoice.novatreason,
@@ -120,11 +99,13 @@ export class InvoiceComponent implements OnInit {
     }
   }
 
+
+
   onSubmit() {
     if (this.invoicesForm.invalid) {
       // Form is not valid, display error messages
       alert('Моля, въведете всички полета.');
-      console.log(this.invoicesForm.value);
+      console.log(this.invoicesForm);
       return;
     }
     const formData = this.invoicesForm.value;

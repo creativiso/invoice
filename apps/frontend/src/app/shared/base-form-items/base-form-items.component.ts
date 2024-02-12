@@ -13,6 +13,7 @@ import {
 import { EMPTY, Subscription, catchError, tap } from 'rxjs';
 import { ICurrency, IPaymentMethod } from '../../../../../../libs/typings/src';
 import { PaymentMethodsService } from 'src/app/services/payment-methods.service';
+import { SettingService } from 'src/app/services/settings.service';
 
 @Component({
   selector: 'crtvs-base-form-items',
@@ -39,30 +40,58 @@ export class BaseFormItemsComponent
   @Input()
   number?: number;
 
+  private numberRegex!: RegExp;
+
   baseFormItems!: FormGroup;
   get itemData() {
     return this.baseFormItems.get('itemData') as FormArray;
   }
 
   paymentMethods?: IPaymentMethod[] | null;
-  selectedPaymentMethod?: IPaymentMethod;
   selectedPaymentMethodId?: number;
+
+  units?: string[];
+
+  quantityFormat: number = 2;
+  singlePriceFormat: number = 2;
+  totalPriceFormat: number = 2;
 
   constructor(
     private fb: FormBuilder,
-    private paymentMethodsService: PaymentMethodsService
+    private paymentMethodsService: PaymentMethodsService,
+    private settingsService: SettingService
   ) {}
 
   ngOnInit(): void {
+    this.numberRegex = new RegExp('^[0-9]+(?:.[0-9]+)?$');
+
+    this.baseFormItems = this.fb.group({
+      itemData: this.fb.array([
+        this.fb.group({
+          name: ['', Validators.required],
+          quantity: [
+            '',
+            [Validators.required, Validators.pattern(this.numberRegex)],
+          ],
+          price: [
+            '',
+            [Validators.required, Validators.pattern(this.numberRegex)],
+          ],
+          measurement: [''],
+          amount: ['', Validators.pattern(this.numberRegex)],
+        }),
+      ]),
+      vatPercent: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
+      wayOfPaying: ['', Validators.required],
+      vatReason: ['', [Validators.minLength(4), Validators.maxLength(40)]],
+    });
+
     this.paymentMethodsService
       .getAllPaymentMethods()
       .pipe(
         tap((res) => {
           if (res) {
             this.paymentMethods = res;
-            this.selectedPaymentMethod = this.paymentMethods[0];
-            this.selectedPaymentMethodId = this.paymentMethods[0]?.id;
-            console.log(this.paymentMethods);
           }
         }),
         catchError((error) => {
@@ -72,20 +101,30 @@ export class BaseFormItemsComponent
       )
       .subscribe();
 
-    this.baseFormItems = this.fb.group({
-      itemData: this.fb.array([
-        this.fb.group({
-          name: ['', Validators.required],
-          quantity: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
-          price: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
-          measurement: [''],
-          amount: ['', Validators.pattern('^[0-9]+$')],
+    this.settingsService
+      .getSettings()
+      .pipe(
+        tap((res) => {
+          if (res) {
+            this.units = res.units;
+            this.quantityFormat = res.quantityNumber;
+            this.singlePriceFormat = res.singlePriceNumber;
+            this.totalPriceFormat = res.totalPriceNumber;
+
+            this.baseFormItems.patchValue({
+              vatPercent: res.dds,
+              wayOfPaying: res.paymentMethod,
+            });
+
+            console.log(res);
+          }
         }),
-      ]),
-      vatPercent: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
-      wayOfPaying: ['', Validators.required],
-      vatReason: ['', [Validators.minLength(4), Validators.maxLength(40)]],
-    });
+        catchError((error) => {
+          console.log(error);
+          return EMPTY;
+        })
+      )
+      .subscribe();
   }
 
   onTouched: Function = () => {};
@@ -101,12 +140,10 @@ export class BaseFormItemsComponent
   registerOnChange(onChange: any) {
     const sub = this.baseFormItems.valueChanges.subscribe(onChange);
     this.onChangeSubs.push(sub);
-    console.log(this.baseFormItems.value);
   }
 
   registerOnTouched(onTouched: Function) {
     this.onTouched = onTouched;
-    console.log('touch');
   }
 
   setDisabledState(disabled: boolean) {
@@ -153,10 +190,13 @@ export class BaseFormItemsComponent
     const itemData = this.baseFormItems.get('itemData') as FormArray;
     const row = this.fb.group({
       name: ['', Validators.required],
-      quantity: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
-      price: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
+      quantity: [
+        '',
+        [Validators.required, Validators.pattern(this.numberRegex)],
+      ],
+      price: ['', [Validators.required, Validators.pattern(this.numberRegex)]],
       measurement: [''],
-      amount: ['', Validators.pattern('^[0-9]+$')],
+      amount: ['', Validators.pattern(this.numberRegex)],
     });
     itemData.push(row);
   }
@@ -187,5 +227,8 @@ export class BaseFormItemsComponent
         100 +
       this.calculateTotalRowAmount()
     );
+  }
+  formatNumber(decimalPlaces: number): string {
+    return `1.${decimalPlaces}-${decimalPlaces}`;
   }
 }

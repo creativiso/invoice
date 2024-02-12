@@ -4,15 +4,15 @@ import { Observable, map } from 'rxjs';
 import { ISettings } from '../../../../../libs/typings/src/index';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SettingService {
   private apiUrl = 'http://localhost:3333/api/v1/settings';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getSettings(): Observable<ISettings> {
-    return this.http.get<ISettings >(`${this.apiUrl}`);
+    return this.http.get<ISettings>(`${this.apiUrl}`);
   }
 
   putSetting(setting: ISettings): Observable<ISettings> {
@@ -20,8 +20,8 @@ export class SettingService {
   }
 
   getUnits(): Observable<string[]> {
-    return this.http.get<ISettings>(`${this.apiUrl}`).pipe(
-      map((setting: ISettings) => setting.units)
-    );
- }
+    return this.http
+      .get<ISettings>(`${this.apiUrl}`)
+      .pipe(map((setting: ISettings) => setting.units));
+  }
 }

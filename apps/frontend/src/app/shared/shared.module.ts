@@ -16,9 +16,15 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { BaseFormItemsComponent } from './base-form-items/base-form-items.component';
+import { NumberFormatterDirective } from './directives/number-formatter.directive';
+import { DocTypeFormComponent } from './doc-type-form/doc-type-form.component';
 
 @NgModule({
-  declarations: [BaseFormComponent, BaseFormItemsComponent],
+  declarations: [
+    BaseFormComponent,
+    BaseFormItemsComponent,
+    DocTypeFormComponent,
+  ],
   imports: [
     CommonModule,
     FormsModule,
@@ -36,7 +42,8 @@ import { BaseFormItemsComponent } from './base-form-items/base-form-items.compon
     MatRadioModule,
     MatTableModule,
     MatTooltipModule,
+    NumberFormatterDirective,
   ],
-  exports: [BaseFormComponent, BaseFormItemsComponent],
+  exports: [BaseFormComponent, BaseFormItemsComponent, DocTypeFormComponent],
 })
 export class SharedModule {}
