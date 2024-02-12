@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import {
   IInvoice,
   IInvoiceItems,
@@ -13,7 +13,7 @@ import { InvoiceService } from 'src/app/services/invoices.service';
   templateUrl: './invoices.component.html',
   styleUrls: ['./invoices.component.scss'],
 })
-export class InvoicesComponent implements OnInit {
+export class InvoicesComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   displayedColumns: string[] = ['id', 'name', 'date', 'amount', 'tools'];
 
@@ -31,12 +31,6 @@ export class InvoicesComponent implements OnInit {
       next: (data: IInvoice[]) => {
         this.invoices = data;
         this.dataSource.data = this.invoices;
-      },
-      error: (error) => {
-        console.error(error);
-      },
-      complete: () => {
-        console.log('Get all invoices completed.');
       },
     });
   }

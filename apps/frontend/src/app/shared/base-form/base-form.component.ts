@@ -78,8 +78,6 @@ export class BaseFormComponent
       dds_percent: [''],
     });
 
-    console.log(this.isPerson);
-
     this.baseForm.get('person')?.valueChanges.subscribe((person) => {
       this.isPerson = person;
 

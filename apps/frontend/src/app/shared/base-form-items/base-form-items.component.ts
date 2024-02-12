@@ -62,11 +62,9 @@ export class BaseFormItemsComponent
             this.paymentMethods = res;
             this.selectedPaymentMethod = this.paymentMethods[0];
             this.selectedPaymentMethodId = this.paymentMethods[0]?.id;
-            console.log(this.paymentMethods);
           }
         }),
         catchError((error) => {
-          console.log(error);
           return EMPTY;
         })
       )
@@ -101,12 +99,10 @@ export class BaseFormItemsComponent
   registerOnChange(onChange: any) {
     const sub = this.baseFormItems.valueChanges.subscribe(onChange);
     this.onChangeSubs.push(sub);
-    console.log(this.baseFormItems.value);
   }
 
   registerOnTouched(onTouched: Function) {
     this.onTouched = onTouched;
-    console.log('touch');
   }
 
   setDisabledState(disabled: boolean) {

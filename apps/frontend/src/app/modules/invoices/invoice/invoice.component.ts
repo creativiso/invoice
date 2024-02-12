@@ -47,7 +47,6 @@ export class InvoiceComponent implements OnInit {
           }
         }),
         catchError((error) => {
-          console.log(error);
           return EMPTY;
         })
       )
@@ -71,15 +70,12 @@ export class InvoiceComponent implements OnInit {
       this.invoiceId = id;
     }
 
-    console.log('Retrieving invoice data for ID:', id);
-
     if (this.editMode) {
       this.invoiceService.getInvoiceById(this.invoiceId).subscribe({
         next: (response: any) => {
           const invoice: IInvoice = response.invoice;
 
           this.invoice = invoice;
-          console.log('items', invoice.items);
 
           this.invoicesForm.patchValue({
             receiver: {
@@ -105,13 +101,7 @@ export class InvoiceComponent implements OnInit {
               vatReason: invoice.novatreason,
             },
           });
-        },
-        error: (error) => {
-          console.error(error);
-        },
-        complete: () => {
-          console.log('Get invoice by id completed.');
-        },
+        }
       });
     }
   }
@@ -162,24 +152,18 @@ export class InvoiceComponent implements OnInit {
       dataInvoice.items.push(dataInvoicesItems); // add the new item to the items array
     }
 
-    console.log(formData);
-    console.log(dataInvoice);
-
     if (this.editMode) {
       // Update existing invoice
       this.invoiceService
         .updateInvoice(this.invoiceId, dataInvoice, dataInvoice.items)
         .subscribe({
           next: (response) => {
-            console.log('HTTP request successful:', response);
-            console.log('dataInvoice:', JSON.stringify(dataInvoice));
 
             const successMessage = 'Invoice updated successfully.';
             // Display success message to the user
             alert(successMessage);
           },
           error: (error) => {
-            console.error('Error occurred:', error);
             const errorMessage = 'Invoice update failed. Please try again.';
             // Display error message to the user
             alert(errorMessage);
@@ -191,21 +175,16 @@ export class InvoiceComponent implements OnInit {
         .createInvoice(dataInvoice, dataInvoice.items)
         .subscribe({
           next: (response) => {
-            console.log('HTTP request successful:', response);
             const successMessage = 'Фактурата е създадена успешно.';
             // Display success message to the user
             alert(successMessage);
           },
           error: (error) => {
-            console.error('Error occurred:', error);
             const errorMessage =
               'Създаването на фактура беше неуспешно, моля опитайте отново!';
             // Display error message to the user
             alert(errorMessage);
-          },
-          complete: () => {
-            console.log('HTTP request complete');
-          },
+          }
         });
     }
   }

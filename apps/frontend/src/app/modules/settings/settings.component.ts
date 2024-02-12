@@ -163,20 +163,14 @@ export class SettingsComponent implements OnInit {
       totalPriceNumber: formData.totalPriceNumber,
       units: formData.units,
     };
-    console.log(dataSettings);
     this.settingsService.putSetting(dataSettings).subscribe({
       next: (response) => {
-        console.log('HTTP request successful:', response);
         const successMessage = 'Settings updated successfully.';
         alert(successMessage);
       },
       error: (error) => {
-        console.error('Error occurred:', error);
         const errorMessage = 'Settings update failed. Please try again.';
         alert(errorMessage);
-      },
-      complete: () => {
-        console.log('HTTP request complete');
       },
     });
   }

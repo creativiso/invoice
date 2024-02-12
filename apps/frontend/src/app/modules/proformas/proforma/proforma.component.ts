@@ -49,7 +49,6 @@ export class ProformaComponent implements OnInit {
             this.currencyList = res;
             this.selectedCurrency = this.currencyList[0];
             this.selectedCurrencyId = this.currencyList[0]?.id;
-            console.log(this.currencyList);
           }
         }),
         catchError((error) => {
@@ -65,15 +64,12 @@ export class ProformaComponent implements OnInit {
       this.proformId = id;
     }
 
-    console.log('Retrieving proform data for ID:', id);
-
     if (this.editMode) {
       this.proformasService.getProformById(this.proformId).subscribe({
         next: (response: any) => {
           const proform: IProform = response.proformAndItems;
 
           this.proform = proform;
-          console.log('curr', proform);
 
           this.proformasForm.patchValue({
             receiver: {
@@ -98,18 +94,11 @@ export class ProformaComponent implements OnInit {
             },
           });
         },
-        error: (error) => {
-          console.error(error);
-        },
-        complete: () => {
-          console.log('Get proform by id completed.');
-        },
       });
     }
   }
   onSubmit() {
     const formData = this.proformasForm.value;
-    console.log(formData);
     const dataProform: IProform = {
       contractor_id: 1,
       issue_date: formData.releasedAt,
@@ -139,22 +128,16 @@ export class ProformaComponent implements OnInit {
       };
       dataProform.items.push(dataProformItems); // add the new item to the items array
     }
-    console.log(dataProform);
 
     this.proformasService
       .createProform(dataProform, dataProform.items)
       .subscribe({
         next: (response) => {
-          console.log('HTTP request successful:', response);
         },
         error: (error) => {
-          console.error('Error occurred:', error);
           const errorMessage = 'Proform creation failed. Please try again.';
           // Displaying error message to user
           alert(errorMessage);
-        },
-        complete: () => {
-          console.log('HTTP request complete');
         },
       });
   }
