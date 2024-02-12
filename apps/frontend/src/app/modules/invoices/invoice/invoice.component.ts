@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { CurrenciesService } from 'src/app/services/currencies.service';
@@ -47,7 +47,6 @@ export class InvoiceComponent implements OnInit {
           }
         }),
         catchError((error) => {
-          console.log(error);
           return EMPTY;
         })
       )
@@ -71,47 +70,38 @@ export class InvoiceComponent implements OnInit {
       this.invoiceId = id;
     }
 
-    console.log('Retrieving invoice data for ID:', id);
     if (this.editMode) {
-      this.invoiceService.getInvoiceById(id).subscribe((response: any) => {
-        const invoice: IInvoice = response.invoice; // Cast the response
+      this.invoiceService.getInvoiceById(this.invoiceId).subscribe({
+        next: (response: any) => {
+          const invoice: IInvoice = response.invoice;
 
-        this.invoiceService.getInvoiceById(id).subscribe({
-          next: (data: IInvoice) => {
-            this.invoice = data;
+          this.invoice = invoice;
 
-            this.invoicesForm.patchValue({
-              p_name: invoice.p_name,
-              p_eik: invoice.p_eik,
-              p_ddsnumber: invoice.p_ddsnumber,
-              p_mol: invoice.p_mol,
-              p_city: invoice.p_city,
-              p_address: invoice.p_address,
-              c_name: invoice.c_name,
-              c_person: invoice.c_person,
-              c_egn: invoice.c_egn,
-              c_eik: invoice.c_eik,
-              c_ddsnumber: invoice.c_ddsnumber,
-              c_mol: invoice.c_mol,
-              c_city: invoice.c_city,
-              c_address: invoice.c_address,
-              issue_date: invoice.issue_date,
-              event_date: invoice.event_date,
-              currency: invoice.currency,
-              type: String(invoice.type),
+          this.invoicesForm.patchValue({
+            receiver: {
+              name: invoice.c_name,
+              person: invoice.c_person,
+              egn: invoice.c_egn,
+              eik: invoice.c_eik,
+              dds: invoice.c_ddsnumber,
+              mol: invoice.c_mol,
+              city: invoice.c_city,
+              address: invoice.c_address,
+            },
+            issue_date: invoice.issue_date,
+            event_date: invoice.event_date,
+            currency: this.currencyList
+              ? this.currencyList[invoice.currency]
+              : this.selectedCurrency,
+            type: String(invoice.type),
+            invoice_items: {
+              itemData: invoice.items,
               vatPercent: invoice.vat,
-              wayOfPaying: String(invoice.payment_method),
+              wayOfPaying: invoice.payment_method,
               vatReason: invoice.novatreason,
-              rowData: invoice.items,
-            });
-          },
-          error: (error) => {
-            console.error(error);
-          },
-          complete: () => {
-            console.log('Get invoice by id completed.');
-          },
-        });
+            },
+          });
+        }
       });
     }
   }
@@ -131,8 +121,8 @@ export class InvoiceComponent implements OnInit {
       event_date: formData.event_date,
       receiver: formData.receiver.name,
       payment_method: formData.invoice_items.wayOfPaying, //--------------???
-      vat: formData.vatPercent,
-      novatreason: formData.vatReason,
+      vat: formData.invoice_items.vatPercent,
+      novatreason: formData.invoice_items.vatReason,
       // currency: formData.currency.currencyCode,
       currency: formData.currency.id,
       type: formData.type,
@@ -145,15 +135,6 @@ export class InvoiceComponent implements OnInit {
       c_mol: formData.receiver.mol,
       c_person: formData.receiver.person,
       c_egn: formData.receiver.egn,
-      p_name: '',
-      p_city: '',
-      p_address: '',
-      p_eik: '',
-      p_ddsnumber: '',
-      p_mol: '',
-      p_bank: 'Some bank',
-      p_iban: 'Some iban',
-      p_bic: 'Some bic',
       author: 'Some author',
       author_sign: 'Some sign',
       items: [],
@@ -171,24 +152,18 @@ export class InvoiceComponent implements OnInit {
       dataInvoice.items.push(dataInvoicesItems); // add the new item to the items array
     }
 
-    console.log(formData);
-    console.log(dataInvoice);
-
     if (this.editMode) {
       // Update existing invoice
       this.invoiceService
         .updateInvoice(this.invoiceId, dataInvoice, dataInvoice.items)
         .subscribe({
           next: (response) => {
-            console.log('HTTP request successful:', response);
-            console.log('dataInvoice:', JSON.stringify(dataInvoice));
 
             const successMessage = 'Invoice updated successfully.';
             // Display success message to the user
             alert(successMessage);
           },
           error: (error) => {
-            console.error('Error occurred:', error);
             const errorMessage = 'Invoice update failed. Please try again.';
             // Display error message to the user
             alert(errorMessage);
@@ -200,21 +175,16 @@ export class InvoiceComponent implements OnInit {
         .createInvoice(dataInvoice, dataInvoice.items)
         .subscribe({
           next: (response) => {
-            console.log('HTTP request successful:', response);
             const successMessage = 'Фактурата е създадена успешно.';
             // Display success message to the user
             alert(successMessage);
           },
           error: (error) => {
-            console.error('Error occurred:', error);
             const errorMessage =
               'Създаването на фактура беше неуспешно, моля опитайте отново!';
             // Display error message to the user
             alert(errorMessage);
-          },
-          complete: () => {
-            console.log('HTTP request complete');
-          },
+          }
         });
     }
   }

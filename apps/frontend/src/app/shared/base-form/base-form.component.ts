@@ -38,21 +38,20 @@ export class BaseFormComponent
   header: string = '';
   @Input()
   isNotSettings: boolean = true;
-  isPerson = false;
+  isPerson?: boolean;
 
   constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.baseForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(2)]],
-      eik: ['', [Validators.required, eikValidator()]],
-      person: [false],
+      eik: ['', [eikValidator()]],
+      person: [],
       egn: ['', [egnValidator()]],
       dds: [''],
       mol: [
         '',
         [
-          Validators.required,
           Validators.maxLength(40),
           Validators.pattern('^([A-ZА-Я][a-zа-я]*([-\\s][A-ZА-Я][a-zа-я]*)+)$'),
         ],
@@ -81,6 +80,31 @@ export class BaseFormComponent
 
     this.baseForm.get('person')?.valueChanges.subscribe((person) => {
       this.isPerson = person;
+
+      this.baseForm
+        .get('egn')
+        ?.setValidators([
+          this.isPerson ? Validators.required : Validators.nullValidator,
+          egnValidator(),
+        ]);
+      this.baseForm
+        .get('eik')
+        ?.setValidators([
+          !this.isPerson ? Validators.required : Validators.nullValidator,
+          eikValidator(),
+        ]);
+      this.baseForm
+        .get('mol')
+        ?.setValidators([
+          !this.isPerson ? Validators.required : Validators.nullValidator,
+          Validators.maxLength(40),
+          Validators.pattern('^([A-ZА-Я][a-zа-я]*([-\\s][A-ZА-Я][a-zа-я]*)+)$'),
+        ]);
+
+      // To ensure the field's validity state is updated after changing validators
+      this.baseForm.get('egn')?.updateValueAndValidity();
+      this.baseForm.get('eik')?.updateValueAndValidity();
+      this.baseForm.get('mol')?.updateValueAndValidity();
     });
   }
 
@@ -113,7 +137,7 @@ export class BaseFormComponent
 
   writeValue(value: any) {
     if (value) {
-      this.baseForm.setValue(value, { emitEvent: false });
+      this.baseForm.patchValue(value);
     }
   }
 

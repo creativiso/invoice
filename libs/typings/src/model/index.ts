@@ -40,15 +40,6 @@ export interface IInvoice {
   c_mol: string;
   c_person: boolean;
   c_egn: string;
-  p_name: string;
-  p_city: string;
-  p_address: string;
-  p_eik: string;
-  p_ddsnumber: string;
-  p_mol: string;
-  p_bank: string;
-  p_iban: string;
-  p_bic: string;
   author: string;
   author_sign: string;
   createAt?: Date;
@@ -63,7 +54,7 @@ export interface IInvoiceItems {
   quantity: number;
   measurement: string;
   price: number;
-  createAt?: Date;
+  createdAt?: Date;
   updatedAt?: Date;
 }
 
@@ -90,15 +81,6 @@ export interface IProform {
   c_mol: string;
   c_person: boolean;
   c_egn: string;
-  p_name: string;
-  p_city: string;
-  p_address: string;
-  p_eik: string;
-  p_ddsnumber: string;
-  p_mol: string;
-  p_bank: string;
-  p_iban: string;
-  p_bic: string;
   author: string;
   author_sign: string;
   createAt?: Date;
