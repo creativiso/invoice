@@ -19,7 +19,7 @@ export class Proform extends Model<IProform> {
   id: number;
 
   @Column({ type: DataTypes.INTEGER })
-  contractor: number;
+  contractor_id: number;
 
   @Column({ type: DataTypes.DATE })
   issue_date: Date;
@@ -33,14 +33,8 @@ export class Proform extends Model<IProform> {
   @Column({ type: DataTypes.STRING })
   novatreason: string;
 
-  @Column({ type: DataTypes.JSON })
-  currency: {
-    exchangeRate: number;
-    currencyCode: string;
-  };
-
   @Column({ type: DataTypes.INTEGER })
-  rate: number;
+  currency: number
 
   @Column({ type: DataTypes.STRING })
   c_name: string;
@@ -67,40 +61,7 @@ export class Proform extends Model<IProform> {
   c_egn: string;
 
   @Column({ type: DataTypes.STRING })
-  p_name: string;
-
-  @Column({ type: DataTypes.STRING })
-  p_city: string;
-
-  @Column({ type: DataTypes.STRING })
-  p_address: string;
-
-  @Column({ type: DataTypes.STRING })
-  p_eik: string;
-
-  @Column({ type: DataTypes.STRING })
-  p_ddsnumber: string;
-
-  @Column({ type: DataTypes.STRING })
-  p_mol: string;
-
-  @Column({ type: DataTypes.STRING })
-  p_bank: string;
-
-  @Column({ type: DataTypes.STRING })
-  p_iban: string;
-
-  @Column({ type: DataTypes.STRING })
-  p_bic: string;
-
-  @Column({ type: DataTypes.BOOLEAN })
-  p_zdds: boolean;
-
-  @Column({ type: DataTypes.STRING })
   author: string;
-
-  @Column({ type: DataTypes.INTEGER })
-  author_user: number;
 
   @Column({ type: DataTypes.STRING })
   author_sign: string;

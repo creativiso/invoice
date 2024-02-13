@@ -1,0 +1,124 @@
+<fieldset [formGroup]="baseForm">
+  <mat-card-header>
+    <mat-card-title>{{ header }}</mat-card-title>
+  </mat-card-header>
+  <br />
+
+  <p>
+    <mat-form-field>
+      <mat-label>{{ header }}</mat-label>
+      <input matInput formControlName="name" />
+      <mat-error
+        *ngIf="baseForm.get('name')?.errors?.['minlength'] || baseForm.get('name')?.errors?.['maxlength'] "
+      >
+        Доставчикът трябва да съдържа между 2 и 40 знака!
+      </mat-error>
+    </mat-form-field>
+  </p>
+
+  <mat-checkbox *ngIf="isNotSettings" color="primary" formControlName="person">
+    Физическо лице
+  </mat-checkbox>
+
+  <p *ngIf="isPerson">
+    <mat-form-field>
+      <mat-label>ЕГН</mat-label>
+      <input matInput formControlName="egn" />
+      <mat-error *ngIf="baseForm.get('egn')?.errors?.['invalidEgnLength']"
+        >ЕГН Трябва да се състои от 10 знака!</mat-error
+      >
+      <mat-error *ngIf="baseForm.get('egn')?.errors?.['invalidEgnChecksum']"
+        >Невалидно ЕГН!</mat-error
+      >
+    </mat-form-field>
+  </p>
+
+  <p *ngIf="!isPerson">
+    <mat-form-field>
+      <mat-label>ЕИК</mat-label>
+      <input matInput formControlName="eik" />
+    </mat-form-field>
+  </p>
+
+  <p *ngIf="!isPerson">
+    <mat-form-field>
+      <mat-label>ДДС номер</mat-label>
+      <input matInput formControlName="dds" />
+    </mat-form-field>
+  </p>
+
+  <p *ngIf="!isPerson">
+    <mat-form-field>
+      <mat-label>МОЛ</mat-label>
+      <mat-hint> МОЛ трябва да съдържа име и фамилия. </mat-hint>
+      <input matInput formControlName="mol" />
+
+      <mat-error
+        *ngIf="baseForm.get('mol')?.hasError('pattern'); else lengthErr"
+      >
+        Пъравите букви от името и фамилията трябва да бъдат главни!
+      </mat-error>
+      <ng-template #lengthErr>
+        <mat-error *ngIf="baseForm.get('mol')?.hasError('maxlength')">
+          МОЛ трябва да съдържа максимум 40 символа!
+        </mat-error>
+      </ng-template>
+    </mat-form-field>
+  </p>
+
+  <p>
+    <mat-form-field>
+      <mat-label>Населено място</mat-label>
+      <input matInput formControlName="city" />
+      <ng-template #minLettersError>
+        <mat-error *ngIf="baseForm.get('city')?.hasError('minlength')"
+          >Населено място трябва да съдържа минимум 3 символа!</mat-error
+        >
+      </ng-template>
+      <mat-error
+        *ngIf="baseForm.get('city')?.hasError('pattern'); else minLettersError"
+        >Населеното място трябва да започва с главна буква!</mat-error
+      >
+    </mat-form-field>
+  </p>
+
+  <p>
+    <mat-form-field>
+      <mat-label>Адрес</mat-label>
+      <input matInput formControlName="address" />
+      <mat-error
+        *ngIf="baseForm.get('address')?.errors?.['maxlength'] || baseForm.get('address')?.errors?.['minlength']"
+      >
+        Адресът трябва да е между 5 и 60 знака!
+      </mat-error>
+    </mat-form-field>
+  </p>
+
+  <p *ngIf="!isNotSettings">
+    <mat-form-field>
+      <mat-label>IBAN</mat-label>
+      <input matInput formControlName="iban" />
+    </mat-form-field>
+  </p>
+
+  <p *ngIf="!isNotSettings">
+    <mat-form-field>
+      <mat-label>BIC/SWIFT</mat-label>
+      <input matInput formControlName="bic_swift" />
+    </mat-form-field>
+  </p>
+
+  <p *ngIf="!isNotSettings">
+    <mat-form-field>
+      <mat-label>Банка</mat-label>
+      <input matInput formControlName="bank" />
+    </mat-form-field>
+  </p>
+
+  <p *ngIf="!isNotSettings">
+    <mat-form-field>
+      <mat-label>ДДС по подразбиране %</mat-label>
+      <input matInput formControlName="dds_percent" />
+    </mat-form-field>
+  </p>
+</fieldset>

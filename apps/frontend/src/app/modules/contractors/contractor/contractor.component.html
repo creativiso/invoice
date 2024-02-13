@@ -1,0 +1,18 @@
+<form [formGroup]="contractorsForm" (ngSubmit)="onSubmit()">
+  <div class="form-container">
+    <mat-card>
+      <mat-card-content>
+        <crtvs-base-form
+          formControlName="contractor"
+          [isNotSettings]="true"
+          header="Контрагент"
+        ></crtvs-base-form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <mat-card-actions>
+    <button type="submit" mat-raised-button>
+      <a>Изпрати</a>
+    </button>
+  </mat-card-actions>
+</form>

@@ -23,7 +23,7 @@ export class Invoice extends Model<IInvoice> {
   number: number;
 
   @Column({ type: DataTypes.INTEGER })
-  contractor: number;
+  contractor_id: number;
 
   @Column({ type: DataTypes.DATE })
   issue_date: Date;
@@ -35,7 +35,7 @@ export class Invoice extends Model<IInvoice> {
   receiver: string;
 
   @Column({ type: DataTypes.INTEGER })
-  bank_payment: number;
+  payment_method: number;
 
   @Column({ type: DataTypes.INTEGER })
   vat: number;
@@ -47,16 +47,10 @@ export class Invoice extends Model<IInvoice> {
   currency: number;
 
   @Column({ type: DataTypes.INTEGER })
-  rate: number;
-
-  @Column({ type: DataTypes.INTEGER })
   type: number;
 
-  @Column({ type: DataTypes.STRING })
-  related_invoice: string;
-
-  @Column({ type: DataTypes.DATE })
-  related_date: Date;
+  @Column({ type: DataTypes.INTEGER })
+  related_invoice_id: number;
 
   @Column({ type: DataTypes.STRING })
   c_name: string;
@@ -76,47 +70,14 @@ export class Invoice extends Model<IInvoice> {
   @Column({ type: DataTypes.STRING })
   c_mol: string;
 
-  @Column({ type: DataTypes.STRING })
-  c_person: string;
+  @Column({ type: DataTypes.TINYINT })
+  c_person: boolean;
 
   @Column({ type: DataTypes.STRING })
   c_egn: string;
 
   @Column({ type: DataTypes.STRING })
-  p_name: string;
-
-  @Column({ type: DataTypes.STRING })
-  p_city: string;
-
-  @Column({ type: DataTypes.STRING })
-  p_address: string;
-
-  @Column({ type: DataTypes.STRING })
-  p_eik: string;
-
-  @Column({ type: DataTypes.STRING })
-  p_ddsnumber: string;
-
-  @Column({ type: DataTypes.STRING })
-  p_mol: string;
-
-  @Column({ type: DataTypes.STRING })
-  p_bank: string;
-
-  @Column({ type: DataTypes.STRING })
-  p_iban: string;
-
-  @Column({ type: DataTypes.STRING })
-  p_bic: string;
-
-  @Column({ type: DataTypes.BOOLEAN })
-  p_zdds: boolean;
-
-  @Column({ type: DataTypes.STRING })
   author: string;
-
-  @Column({ type: DataTypes.INTEGER })
-  author_user: number;
 
   @Column({ type: DataTypes.STRING })
   author_sign: string;

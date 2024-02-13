@@ -1,231 +1,53 @@
-<form [formGroup]="proformasForm" (ngSubmit)="onSubmit()">
-  <!--SUPPLIER INFO-->
-  <div class="container">
-    <mat-card>
-      <div class="col-1">
-        <mat-card-header>
-          <mat-card-title>Доставчик</mat-card-title>
-        </mat-card-header>
-
-        <mat-form-field>
-          <input matInput placeholder="Доставчик" formControlName="supplierName" />
-        </mat-form-field>
-        <mat-form-field>
-          <input matInput placeholder="ЕИК" formControlName="supplierEik" />
-        </mat-form-field>
-
-        <mat-form-field>
-          <input matInput placeholder="ДДС номер" formControlName="supplierVatNumber" />
-        </mat-form-field>
-        <mat-form-field>
-          <input matInput placeholder="МОЛ" formControlName="supplierManager" />
-          <button matSuffix class="search-btn" mat-icon-button color="" aria-label="search"
-            matTooltip="Търсене от Базата">
-            <mat-icon class="search-icon">person_add</mat-icon>
-          </button>
-        </mat-form-field>
-        <mat-form-field>
-          <input matInput placeholder="Населено място" formControlName="supplierCity" />
-        </mat-form-field>
-        <mat-form-field>
-          <input matInput placeholder="Адрес" formControlName="supplierAddress" />
-        </mat-form-field>
-        <!--RECEIVER INFO-->
-      </div>
-    </mat-card>
-    <mat-card>
-      <div class="col-2">
-        <mat-card-header>
-          <mat-card-title>Получател</mat-card-title>
-        </mat-card-header>
-        <mat-form-field>
-          <input matInput placeholder="Получател" formControlName="receiverName" /><button matSuffix class="search-btn"
-            mat-icon-button color="" aria-label="search" matTooltip="Търсене от Базата">
-            <mat-icon class="search-icon">search</mat-icon>
-          </button>
-        </mat-form-field>
-        <mat-checkbox color="primary" formControlName="individualPerson">
-          Физическо лице
-        </mat-checkbox>
-        <mat-form-field id="receiverEik">
-          <input matInput placeholder="ЕИК" formControlName="receiverEik" /><button matSuffix class="search-btn"
-            mat-icon-button color="" aria-label="search" matTooltip="Търсене от Базата">
-            <mat-icon class="search-icon">search</mat-icon>
-          </button>
-        </mat-form-field>
-        <mat-form-field id="receiverEgn" class="hidden">
-          <input matInput placeholder="ЕГН" formControlName="receiverEgn" /><button matSuffix class="search-btn"
-            mat-icon-button color="" aria-label="search" matTooltip="Търсене от Базата">
-            <mat-icon class="search-icon">search</mat-icon>
-          </button>
-        </mat-form-field>
-        <mat-form-field id="receiverVatNumber">
-          <input matInput placeholder="ДДС номер" formControlName="receiverVatNumber" />
-        </mat-form-field>
-
-        <mat-form-field id="receiverManager">
-          <input matInput placeholder="МОЛ" formControlName="receiverManager" />
-        </mat-form-field>
-
-        <mat-form-field>
-          <input matInput placeholder="Населено място" formControlName="receiverCity" />
-        </mat-form-field>
-        <mat-form-field>
-          <input matInput placeholder="Адрес" formControlName="receiverAddress" />
-        </mat-form-field>
-      </div>
-    </mat-card>
-  </div>
-  <mat-card class="container">
-    <mat-form-field appearance="outline" class="datepicker">
-      <input matInput formControlName="releasedAt" [matDatepicker]="releasedAtPicker" />
-
-      <mat-datepicker-toggle matSuffix [for]="releasedAtPicker">
-      </mat-datepicker-toggle>
-
-      <mat-datepicker #releasedAtPicker color="primary"> </mat-datepicker>
-    </mat-form-field>
-    <mat-form-field class="currency" appearance="outline">
-      <mat-label>Изберете валута</mat-label>
-      <mat-select [(value)]="selectedCurrency" formControlName="currency">
-        <mat-option *ngFor="let currency of currencies" [value]="currency">{{
-          currency.currencyCode
-          }}</mat-option>
-      </mat-select>
-    </mat-form-field>
-    <!--<p>Вие избрахте: {{ selected }}</p> -->
-  </mat-card>
-  <mat-card>
-    <div class="table-container" role="table" aria-label="tableData">
-      <div class="flex-table header" role="rowgroup">
-        <div class="flex-row first" role="columnheader">
-          <button class="icon-add-btn" mat-icon-button matTooltip="добавяне на ред" aria-label="добавяне на ред"
-            (click)="addRow()">
-            <mat-icon class="icon-add-btn">add</mat-icon>
-          </button>
-        </div>
-        <div class="flex-row nameFieldHeader" role="columnheader">
-          Наименование
-        </div>
-        <div class="flex-row qtyHeader" role="columnheader">Количество</div>
-        <div class="flex-row measureHeader" role="columnheader">Мярка</div>
-        <div class="flex-row unitPriceHeader" role="columnheader">Ед.цена</div>
-        <div class="flex-row amountHeader" role="columnheader">Стойност</div>
-      </div>
-      <!----------------GROUP TABLEDATA------------------->
-      <ng-container *ngFor="let row of rowData.controls; let i = index" ; let i="index">
-        <div class="flex-table row" role="rowgroup" formArrayName="rowData">
-          <ng-container [formGroupName]="i">
-            <div class="flex-row first delete" role="cell">
-              <button class="icon-delete-btn" mat-icon-button matTooltip="изтриване на ред"
-                aria-label="изтриване на ред" (click)="deleteRow(i)" [disabled]="rowData.length === 1">
-                <mat-icon>delete</mat-icon>
-              </button>
-            </div>
-
-            <div class="flex-row nameField second" role="cell">
-              <mat-form-field>
-                <input matInput placeholder="Наименование" aria-label="Наименование" formControlName="nameField" />
-              </mat-form-field>
-            </div>
-            <div class="flex-row third" role="cell">
-              <mat-form-field class="">
-                <input matInput placeholder="Количество" aria-label="Количество" formControlName="quantity" />
-              </mat-form-field>
-            </div>
-            <div class="flex-row fourth" role="cell">
-              <mat-form-field class="measure-select" appearance="outline">
-                <mat-label>Мярка</mat-label>
-                <mat-select formControlName="measure">
-                  <mat-option aria-label="брой" value="broi">брой</mat-option>
-                  <mat-option aria-label="кутия" value="kutiq">кутия</mat-option>
-                  <mat-option aria-label="кашон" value="kashon">кашон</mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
-            <div class="flex-row fifth" role="cell">
-              <mat-form-field>
-                <input matInput aria-label="Ед.цена" placeholder="Ед.цена без ДДС" formControlName="priceWithoutVat" />
-              </mat-form-field>
-            </div>
-            <div class="flex-row amount sixth" role="cell">
-              <mat-form-field>
-                <input matInput [formControlName]="'amount'" [value]="calculateRowAmount(i) | number: '1.2-2'"
-                  readonly />
-                <!--[matSuffix]="selectedCurrency === '1' ? '€' : 'лв'" WE SHOUD UPGRADE TO MATERIAL 2.0 to wokrs-->
-              </mat-form-field>
-            </div>
-
-            <!------------------------------------------------------------------->
-          </ng-container>
-        </div>
-      </ng-container>
-      <div class="flex-table row" role="rowgroup">
-        <div class="flex-row right price" role="cell">Данъчна основа:</div>
-        <div class="flex-row right priceNum" role="cell">
-          <ng-container *ngIf="selectedCurrency.currencyCode === 'Евро'">
-            {{ calculateTotalRowAmount() | number: '1.2-2' }} €
-          </ng-container>
-          <ng-container *ngIf="selectedCurrency.currencyCode === 'Лев'">
-            {{ calculateTotalRowAmount() | number: '1.2-2' }} лв
-          </ng-container>
-        </div>
-      </div>
-      <div class="flex-table row">
-        <div class="flex-row vatPercent right" role="cell">Начислен ДДС:</div>
-        <div class="flex-row vat" role="cell">
-          <mat-form-field>
-            <input matInput placeholder="ДДС" formControlName="vatPercent" />
-            <mat-icon matSuffix>percentage</mat-icon>
-          </mat-form-field>
-        </div>
-      </div>
-      <div class="flex-table row">
-        <div class="flex-row sum right" role="cell">Общо:</div>
-        <div class="flex-row right priceNum" role="cell">
-          <ng-container *ngIf="selectedCurrency.currencyCode === 'Евро'">
-            {{ calculateTotalAmountWthVat() | number: '1.2-2' }} €
-          </ng-container>
-          <ng-container *ngIf="selectedCurrency.currencyCode === 'Лев'">
-            {{ calculateTotalAmountWthVat() | number: '1.2-2' }} лв
-          </ng-container>
-        </div>
-      </div>
-      <div class="flex-table row">
-        <div class="flex-row vatReason" role="cell">
-          <mat-form-field>
-            <input matInput placeholder="Основание за начисление на ДДС" formControlName="vatReason" />
-          </mat-form-field>
-        </div>
-      </div>
-    </div>
-    <mat-label class="title">Начин на плащане:</mat-label>
-    <mat-radio-group aria-label="Select an option" formControlName="wayOfPaying" aria-label="Начин на плащане"
-      class="grid-layout">
-      <mat-radio-button color="primary" class="div1" value="1">В брой</mat-radio-button>
-      <mat-radio-button color="primary" class="div2" value="2">Наложен платеж</mat-radio-button>
-      <mat-radio-button color="primary" class="div3" value="3">С карта</mat-radio-button>
-      <mat-radio-button color="primary" class="div4" value="4">Платежно нареждане</mat-radio-button>
-      <mat-radio-button color="primary" class="div5" value="5">Чек / Ваучер</mat-radio-button>
-      <mat-radio-button color="primary" class="div6" value="6">С насрещно прихващане
-      </mat-radio-button>
-      <mat-radio-button color="primary" class="div7" value="7">Други методи</mat-radio-button>
-    </mat-radio-group>
-  </mat-card>
-  <!--<mat-card>
-    <mat-card-title>Банкови детайли</mat-card-title>
-    <mat-form-field>
-      <input matInput placeholder="IBAN" formControlName="iban" />
-    </mat-form-field>
-    <mat-form-field>
-      <input matInput placeholder="BIC/SWIFT" formControlName="bicSwift" />
-    </mat-form-field>
-
-    <mat-form-field>
-      <input matInput placeholder="Банка" formControlName="bankName" />
-    </mat-form-field>
-  </mat-card> -->
-  <button class="btn-submit" aria-label="изпрати формуляра" mat-raised-button>
-    Добави
+<div class="mat-elevation-z8">
+  <h1>Проформа фактури</h1>
+  <button class="btn-add mat-raised-button matTooltip" aria-label="добавяне на проформа" mat-raised-button>
+    <a routerLink="./new">
+      <span class="add-text">Добавяне</span>
+    </a>
   </button>
-</form>
+
+  <table mat-table [dataSource]="dataSource" class="">
+    <!-- Name Column -->
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef>ID</th>
+      <td mat-cell *matCellDef="let proforma">{{ proforma.id }}</td>
+    </ng-container>
+
+    <!-- City Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Фирма</th>
+      <td mat-cell *matCellDef="let proforma">{{ proforma.receiver }}</td>
+    </ng-container>
+
+    <!-- MOL Column -->
+    <ng-container matColumnDef="date">
+      <th mat-header-cell *matHeaderCellDef>Дата</th>
+      <td mat-cell *matCellDef="let proforma">{{ proforma.issue_date }}</td>
+    </ng-container>
+
+    <!-- EGN Column -->
+    <ng-container matColumnDef="amount">
+      <th mat-header-cell *matHeaderCellDef>Стойност</th>
+      <td mat-cell *matCellDef="let proforma">
+        <div *ngFor="let item of proforma.items">{{ item.price }} {{ '' }}</div>
+      </td>
+    </ng-container>
+
+    <!-- Tools Column -->
+    <ng-container matColumnDef="tools">
+      <th mat-header-cell *matHeaderCellDef>Инструменти</th>
+      <td mat-cell *matCellDef="let proforma">
+        <button class="icon-edit-btn" mat-icon-button matTooltip="редактиране на ред" aria-label="редактиране на ред"
+          (click)="editProforma(proforma)">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <!-- Table rows -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let contractor; columns: displayedColumns"></tr>
+  </table>
+  <mat-paginator [length]="proformas.length" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]"
+    showFirstLastButtons></mat-paginator>
+</div>

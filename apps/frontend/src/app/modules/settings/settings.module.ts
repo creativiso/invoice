@@ -20,6 +20,8 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatCommonModule } from '@angular/material/core';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { SharedModule } from 'src/app/shared/shared.module';
+
 const routes: Routes = [{ path: '', component: SettingsComponent }];
 
 @NgModule({
@@ -46,6 +48,7 @@ const routes: Routes = [{ path: '', component: SettingsComponent }];
     RouterModule.forChild(routes),
     MatAutocompleteModule,
     MatExpansionModule,
+    SharedModule,
   ],
 })
 export class SettingsModule {}

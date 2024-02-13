@@ -9,7 +9,7 @@ import { settingsRouter } from './app/controllers/settings.controller';
 import loginRouter from './app/controllers/login.controller';
 import cors from 'cors';
 import { currenciesRouter } from './app/controllers/currencies.controller';
-import { paymentMethodsRouter } from './app/controllers/paymentMethods.controller';
+import { paymentMethodsRouter } from './app/controllers/payment-method.controller';
 
 export const apiRouter = Router();
 
