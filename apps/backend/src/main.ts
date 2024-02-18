@@ -10,7 +10,7 @@ import loginRouter from './app/controllers/login.controller';
 import cors from 'cors';
 import { currenciesRouter } from './app/controllers/currencies.controller';
 import { paymentMethodsRouter } from './app/controllers/payment-method.controller';
-import verifyUser from './app/auth/verifyUser';
+import verifyUser from './app/auth/verify-user';
 import logoutRouter from './app/controllers/logout.controller';
 import pingRouter from './app/controllers/ping.controller';
 import cookieParser from 'cookie-parser';

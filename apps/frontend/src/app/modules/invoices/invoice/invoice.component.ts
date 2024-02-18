@@ -101,7 +101,7 @@ export class InvoiceComponent implements OnInit {
               vatReason: invoice.novatreason,
             },
           });
-        }
+        },
       });
     }
   }
@@ -123,7 +123,6 @@ export class InvoiceComponent implements OnInit {
       payment_method: formData.invoice_items.wayOfPaying, //--------------???
       vat: formData.invoice_items.vatPercent,
       novatreason: formData.invoice_items.vatReason,
-      // currency: formData.currency.currencyCode,
       currency: formData.currency.id,
       type: formData.type,
       related_invoice_id: formData.related_invoice_id,
@@ -135,8 +134,6 @@ export class InvoiceComponent implements OnInit {
       c_mol: formData.receiver.mol,
       c_person: formData.receiver.person,
       c_egn: formData.receiver.egn,
-      author: 'Some author',
-      author_sign: 'Some sign',
       items: [],
     };
 
@@ -158,7 +155,6 @@ export class InvoiceComponent implements OnInit {
         .updateInvoice(this.invoiceId, dataInvoice, dataInvoice.items)
         .subscribe({
           next: (response) => {
-
             const successMessage = 'Invoice updated successfully.';
             // Display success message to the user
             alert(successMessage);
@@ -184,7 +180,7 @@ export class InvoiceComponent implements OnInit {
               'Създаването на фактура беше неуспешно, моля опитайте отново!';
             // Display error message to the user
             alert(errorMessage);
-          }
+          },
         });
     }
   }

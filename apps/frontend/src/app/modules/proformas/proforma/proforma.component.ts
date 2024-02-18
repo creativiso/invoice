@@ -114,8 +114,6 @@ export class ProformaComponent implements OnInit {
       c_mol: formData.receiver.mol,
       c_person: formData.receiver.person, // boolean?
       c_egn: formData.receiver.egn,
-      author: 'Some author',
-      author_sign: 'Some sign',
       items: [],
     };
     const rows = formData.proforma_items.itemData;
@@ -132,8 +130,7 @@ export class ProformaComponent implements OnInit {
     this.proformasService
       .createProform(dataProform, dataProform.items)
       .subscribe({
-        next: (response) => {
-        },
+        next: (response) => {},
         error: (error) => {
           const errorMessage = 'Proform creation failed. Please try again.';
           // Displaying error message to user
