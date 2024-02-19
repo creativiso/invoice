@@ -95,7 +95,7 @@ export class InvoiceComponent implements OnInit {
               currency: this.currencyList
                 ? this.currencyList[invoice.currency - 1]
                 : this.selectedCurrency,
-              related_invoice_id: invoice.related_invoice_id,
+              related_invoice_num: invoice.related_invoice_num,
             },
             invoice_items: {
               itemData: invoice.items,
@@ -128,7 +128,7 @@ export class InvoiceComponent implements OnInit {
       // currency: formData.currency.currencyCode,
       currency: formData.doc_type.currency.id,
       type: formData.doc_type.type,
-      related_invoice_id: formData.doc_type.related_invoice_id,
+      related_invoice_num: formData.doc_type.related_invoice_num,
       c_name: formData.receiver.name,
       c_city: formData.receiver.city,
       c_address: formData.receiver.address,

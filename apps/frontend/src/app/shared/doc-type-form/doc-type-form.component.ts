@@ -50,18 +50,18 @@ export class DocTypeFormComponent
       type: ['1', Validators.required],
       issue_date: [new Date(), Validators.required],
       event_date: [new Date(), Validators.required],
-      related_invoice_id: [Validators.required],
+      related_invoice_num: [Validators.required],
       currency: [Validators.required],
     });
 
     this.docTypeForm
-      .get('related_invoice_id')
+      .get('related_invoice_num')
       ?.setValidators([
         this.showRelInvoiceInput
           ? Validators.required
           : Validators.nullValidator,
       ]);
-    this.docTypeForm.get('related_invoice_id')?.updateValueAndValidity;
+    this.docTypeForm.get('related_invoice_num')?.updateValueAndValidity;
   }
 
   onTouched: Function = () => {};
@@ -107,7 +107,7 @@ export class DocTypeFormComponent
     errors = this.addControlErrors(errors, 'type');
     errors = this.addControlErrors(errors, 'issue_date');
     errors = this.addControlErrors(errors, 'event_date');
-    errors = this.addControlErrors(errors, 'related_invoice_id');
+    errors = this.addControlErrors(errors, 'related_invoice_num');
     errors = this.addControlErrors(errors, 'currency');
 
     return errors;
