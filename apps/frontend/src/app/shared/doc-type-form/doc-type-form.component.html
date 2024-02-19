@@ -1,9 +1,9 @@
 <fieldset [formGroup]="docTypeForm">
-  <mat-card-header>
+  <mat-card-header *ngIf="isInvoice">
     <mat-card-title>Тип:</mat-card-title>
   </mat-card-header>
   <br />
-  <p>
+  <p *ngIf="isInvoice">
     <mat-radio-group
       aria-label="Select an option"
       formControlName="type"
@@ -22,7 +22,7 @@
     </mat-radio-group>
   </p>
 
-  <p>
+  <p *ngIf="isInvoice">
     <mat-form-field
       appearance="outline"
       class="datepicker"
@@ -48,7 +48,7 @@
       <mat-datepicker #issuedAtPicker color="primary"> </mat-datepicker>
     </mat-form-field>
   </p>
-  <p>
+  <p *ngIf="isInvoice">
     <mat-form-field appearance="outline" class="datepicker">
       <mat-label>Дата на данъчно събитие</mat-label>
       <input
@@ -66,7 +66,7 @@
 
   <mat-form-field class="currency" appearance="outline">
     <mat-label>Изберете валута</mat-label>
-    <mat-select [(value)]="selectedCurrency" formControlName="currency">
+    <mat-select formControlName="currency">
       <mat-option *ngFor="let currency of currencyList" [value]="currency">{{
         currency?.code
       }}</mat-option>

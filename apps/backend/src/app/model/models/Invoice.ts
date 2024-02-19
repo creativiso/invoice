@@ -77,33 +77,6 @@ export class Invoice extends Model<IInvoice> {
   c_egn: string;
 
   @Column({ type: DataTypes.STRING })
-  p_name: string;
-
-  @Column({ type: DataTypes.STRING })
-  p_city: string;
-
-  @Column({ type: DataTypes.STRING })
-  p_address: string;
-
-  @Column({ type: DataTypes.STRING })
-  p_eik: string;
-
-  @Column({ type: DataTypes.STRING })
-  p_ddsnumber: string;
-
-  @Column({ type: DataTypes.STRING })
-  p_mol: string;
-
-  @Column({ type: DataTypes.STRING })
-  p_bank: string;
-
-  @Column({ type: DataTypes.STRING })
-  p_iban: string;
-
-  @Column({ type: DataTypes.STRING })
-  p_bic: string;
-
-  @Column({ type: DataTypes.STRING })
   author: string;
 
   @Column({ type: DataTypes.STRING })

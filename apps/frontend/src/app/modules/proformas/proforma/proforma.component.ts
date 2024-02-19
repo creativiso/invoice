@@ -1,7 +1,15 @@
+import { Response } from 'express';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { IProform, IProformItem } from '../../../../../../../libs/typings/src';
+import {
+  ICurrency,
+  IProform,
+  IProformItem,
+} from '../../../../../../../libs/typings/src';
 import { ProformasService } from 'src/app/services/proformas.service';
+import { CurrenciesService } from 'src/app/services/currencies.service';
+import { EMPTY, catchError, tap } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'crtvs-proforma',
@@ -10,173 +18,157 @@ import { ProformasService } from 'src/app/services/proformas.service';
 })
 export class ProformaComponent implements OnInit {
   proformasForm: FormGroup;
-  rowAmount = 0;
-  totalAmount = 0;
-  quantity = 0;
-  priceWithoutVat = 0;
-  vatPercent = 0;
-  //rowData = FormArray;
-  get rowData() {
-    return this.proformasForm.get('rowData') as FormArray;
-  }
+  proform!: IProform;
+  proformId!: number;
+  editMode!: boolean;
+
+  currencyList?: ICurrency[];
+  selectedCurrency?: ICurrency;
 
   constructor(
     private formBuilder: FormBuilder,
-    private proformasService: ProformasService
+    private proformasService: ProformasService,
+    private route: ActivatedRoute,
+    private currenciesService: CurrenciesService
   ) {
     this.proformasForm = this.formBuilder.group({
-      supplierName: ['', Validators.required],
-      supplierEik: ['', Validators.required],
-      supplierVatNumber: [''],
-      supplierManager: ['', Validators.required],
-      supplierCity: ['', Validators.required],
-      supplierAddress: ['', Validators.required],
-      receiverName: ['', Validators.required],
-      individualPerson: [false],
-      receiverEgn: [''],
-      receiverEik: [''],
-      receiverVatNumber: [''],
-      receiverManager: ['', Validators.required],
-      receiverCity: ['', Validators.required],
-      receiverAddress: ['', Validators.required],
-      releasedAt: ['', Validators.required],
-      currency: [null, Validators.required],
-      rowData: this.formBuilder.array([
-        this.formBuilder.group({
-          nameField: ['', Validators.required],
-          quantity: ['', Validators.required],
-          priceWithoutVat: ['', Validators.required],
-          measure: ['', Validators.required],
-          amount: [''],
-        }),
-      ]),
-      vatPercent: ['', Validators.required],
-      wayOfPaying: ['', Validators.required],
-      vatReason: [''],
+      receiver: [''],
+      details: [''],
+      proforma_items: [],
     });
   }
 
   ngOnInit() {
-    //Get the form fields
-    const receiverEikField = document.getElementById('receiverEik');
-    const receiverVatNumberField = document.getElementById('receiverVatNumber');
-    const receiverEgnField = document.getElementById('receiverEgn');
+    this.currenciesService
+      .getAllCurrencies()
+      .pipe(
+        tap((res) => {
+          if (res) {
+            this.currencyList = res;
+            this.selectedCurrency = this.currencyList[0];
+          }
+        }),
+        catchError((error) => {
+          return EMPTY;
+        })
+      )
+      .subscribe();
 
-    // Subscribe to changes in the individualPerson form control value
-    this.proformasForm
-      .get('individualPerson')
-      ?.valueChanges.subscribe((value: boolean) => {
-        if (value) {
-          // Hide the receiverEik and receiverVatNumber form fields
-          receiverEikField?.classList.add('hidden');
-          receiverVatNumberField?.classList.add('hidden');
-          receiverEgnField?.classList.remove('hidden');
-        } else {
-          // Show the receiverEik and receiverVatNumber form fields
-          receiverEikField?.classList.remove('hidden');
-          receiverVatNumberField?.classList.remove('hidden');
-          receiverEgnField?.classList.add('hidden');
-        }
-      });
-  }
-  addRow() {
-    const rowData = this.proformasForm.get('rowData') as FormArray;
-    const row = this.formBuilder.group({
-      nameField: ['', Validators.required],
-      quantity: ['', Validators.required],
-      measure: ['', Validators.required],
-      priceWithoutVat: ['', Validators.required],
-      amount: [''],
+    this.proformasForm.get('details')?.valueChanges.subscribe((value) => {
+      this.selectedCurrency = value.currency;
     });
-    rowData.push(row);
-  }
 
-  deleteRow(index: number) {
-    if (this.rowData.length > 1) {
-      (this.proformasForm.get('rowData') as FormArray).removeAt(index);
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+
+    if (id) {
+      this.editMode = true;
+      this.proformId = id;
+    }
+
+    if (this.editMode) {
+      this.proformasService.getProformById(this.proformId).subscribe({
+        next: (response: any) => {
+          const proform: IProform = response.proformAndItems;
+
+          this.proform = proform;
+
+          this.proformasForm.patchValue({
+            receiver: {
+              name: proform.c_name,
+              person: proform.c_person,
+              egn: proform.c_egn,
+              eik: proform.c_eik,
+              dds: proform.c_ddsnumber,
+              mol: proform.c_mol,
+              city: proform.c_city,
+              address: proform.c_address,
+            },
+            details: {
+              issue_date: proform.issue_date,
+              currency: this.currencyList
+                ? this.currencyList[proform.currency - 1]
+                : this.selectedCurrency,
+            },
+            proforma_items: {
+              itemData: proform.items,
+              vatPercent: proform.vat,
+              wayOfPaying: proform.payment_method,
+              vatReason: proform.novatreason,
+            },
+          });
+        },
+      });
     }
   }
-  calculateRowAmount(index: number): number {
-    const rowData = this.proformasForm.get('rowData') as FormArray;
-    const quantity = rowData.at(index).get('quantity')?.value;
-    const priceWithoutVat = rowData.at(index).get('priceWithoutVat')?.value;
-    return quantity * priceWithoutVat;
-  }
-  calculateTotalRowAmount(): number {
-    let total = 0;
-    const rowData = this.proformasForm.get('rowData') as FormArray;
-    for (let i = 0; i < rowData.length; i++) {
-      total += this.calculateRowAmount(i);
-    }
-    return total;
-  }
-  calculateTotalAmountWthVat(): number {
-    return (
-      (this.calculateTotalRowAmount() *
-        this.proformasForm.get('vatPercent')?.value) /
-        100 +
-      this.calculateTotalRowAmount()
-    );
-  }
-
   onSubmit() {
+    if (this.proformasForm.invalid) {
+      alert('Моля, въведете всички полета.');
+      return;
+    }
     const formData = this.proformasForm.value;
-    console.log(formData.currency);
-    console.log(formData.wayOfPaying);
     const dataProform: IProform = {
       contractor_id: 1,
-      issue_date: formData.releasedAt,
-      payment_method: formData.wayOfPaying, //null
-      vat: formData.vatPercent,
-      novatreason: formData.vatReason,
-      currency: formData.currency,
-      c_name: formData.receiverName,
-      c_city: formData.receiverCity,
-      c_address: formData.receiverAddress,
-      c_eik: formData.receiverEik,
-      c_ddsnumber: formData.receiverVatNumber,
-      c_mol: formData.receiverManager,
-      c_person: formData.individualPerson, // boolean?
-      c_egn: formData.receiverEgn,
-      p_name: formData.supplierName,
-      p_city: formData.supplierCity,
-      p_address: formData.supplierAddress,
-      p_eik: formData.supplierEik,
-      p_ddsnumber: formData.supplierVatNumber,
-      p_mol: formData.supplierManager,
-      p_bank: 'Some bank',
-      p_iban: 'Some iban',
-      p_bic: 'Some bic',
+      payment_method: formData.proforma_items.wayOfPaying, //null
+      vat: formData.proforma_items.vatPercent,
+      novatreason: formData.proforma_items.vatReason,
+      currency: formData.details.currency.id,
+      issue_date: formData.details.issue_date,
+      c_name: formData.receiver.name,
+      c_city: formData.receiver.city,
+      c_address: formData.receiver.address,
+      c_eik: formData.receiver.eik,
+      c_ddsnumber: formData.receiver.dds,
+      c_mol: formData.receiver.mol,
+      c_person: formData.receiver.person, // boolean?
+      c_egn: formData.receiver.egn,
       author: 'Some author',
       author_sign: 'Some sign',
       items: [],
     };
-    const rows = formData.rowData;
+    const rows = formData.proforma_items.itemData;
     for (let i = 0; i < rows.length; i++) {
       const dataProformItems: IProformItem = {
-        name: rows[i].nameField,
+        name: rows[i].name,
         quantity: rows[i].quantity,
-        measurement: rows[i].measure,
-        price: rows[i].priceWithoutVat,
+        measurement: rows[i].measurement,
+        price: rows[i].price,
       };
       dataProform.items.push(dataProformItems); // add the new item to the items array
     }
 
-    this.proformasService
-      .createProform(dataProform, dataProform.items)
-      .subscribe({
-        next: (response) => {
-          console.log('HTTP request successful:', response);
-        },
-        error: (error) => {
-          console.error('Error occurred:', error);
-          const errorMessage = 'Proform creation failed. Please try again.';
-          // Displaying error message to user
-          alert(errorMessage);
-        },
-        complete: () => {
-          console.log('HTTP request complete');
-        },
-      });
+    if (this.editMode) {
+      // Update existing invoice
+      this.proformasService
+        .updateProform(this.proformId, dataProform, dataProform.items)
+        .subscribe({
+          next: (response) => {
+            const successMessage = 'Proform updated successfully.';
+            // Display success message to the user
+            alert(successMessage);
+          },
+          error: (error) => {
+            const errorMessage = 'Proform update failed. Please try again.';
+            // Display error message to the user
+            alert(errorMessage);
+          },
+        });
+    } else {
+      // Create new invoice
+      this.proformasService
+        .createProform(dataProform, dataProform.items)
+        .subscribe({
+          next: (response) => {
+            const successMessage = 'Проформата е създадена успешно.';
+            // Display success message to the user
+            alert(successMessage);
+          },
+          error: (error) => {
+            const errorMessage =
+              'Създаването на проформа беше неуспешно, моля опитайте отново!';
+            // Display error message to the user
+            alert(errorMessage);
+          },
+        });
+    }
   }
 }

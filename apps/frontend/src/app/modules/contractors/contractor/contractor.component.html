@@ -1,108 +1,18 @@
 <form [formGroup]="contractorsForm" (ngSubmit)="onSubmit()">
-  <mat-card class="contactor-card">
-    <mat-card-header>
-      <mat-card-title>Контрагент</mat-card-title>
-    </mat-card-header>
-    <br />
-    <mat-card-content>
-      <p>
-        <mat-form-field appearance="outline">
-          <mat-label>Име</mat-label>
-          <input matInput formControlName="name" />
-
-          <mat-hint [ngStyle]="{ color: '#f44336' }" *ngIf="isFormInvalid()"
-            >Полетата отбелязани с * са задължителни!</mat-hint
-          >
-          <mat-error *ngIf="contractorsForm.get('name')?.errors?.['minlength']"
-            >Името трябва да е поне 2 знака!</mat-error
-          >
-        </mat-form-field>
-      </p>
-      <p>
-        <mat-checkbox
-          color="primary"
-          class="example-margin"
-          formControlName="person"
-          >Физическо лице</mat-checkbox
-        >
-      </p>
-
-      <p id="contractorEik">
-        <mat-form-field appearance="outline">
-          <mat-label>ЕИК</mat-label>
-          <input matInput formControlName="eik" />
-          <mat-error *ngIf="contractorsForm.get('eik')?.errors?.['invalidEik']"
-            >ЕИК номерът трябва да се състои от 9 или 13 цифри.</mat-error
-          >
-        </mat-form-field>
-      </p>
-      <p id="contractorEgn" class="hidden">
-        <mat-form-field appearance="outline">
-          <mat-label>ЕГН</mat-label>
-          <input matInput formControlName="egn" />
-          <mat-error
-            *ngIf="contractorsForm.get('egn')?.errors?.['invalidEgnLength']"
-            >ЕГН Трябва да се състои от 10 знака!</mat-error
-          >
-          <mat-error
-            *ngIf="contractorsForm.get('egn')?.errors?.['invalidEgnChecksum']"
-            >Невалидно ЕГН!</mat-error
-          >
-        </mat-form-field>
-      </p>
-      <p id="contractorVatNumber">
-        <mat-form-field appearance="outline">
-          <mat-label>ДДС Номер</mat-label>
-          <input matInput formControlName="ddsnumber" />
-        </mat-form-field>
-      </p>
-      <p id="contractorMol">
-        <mat-form-field appearance="outline">
-          <mat-label>МОЛ</mat-label>
-          <input matInput formControlName="mol" />
-
-          <mat-error *ngIf="contractorsForm.get('mol')?.hasError('minlength')"
-            >МОЛ трябва да съдържа поне 2 букви!</mat-error
-          >
-          <mat-error *ngIf="contractorsForm.get('mol')?.hasError('maxlength')"
-            >МОЛ трябва да съдържа максимум 40 букви!</mat-error
-          >
-        </mat-form-field>
-      </p>
-      <p>
-        <mat-form-field appearance="outline">
-          <mat-label>Населено място</mat-label>
-          <input matInput formControlName="city" />
-          <ng-template #minLettersError>
-            <mat-error
-              *ngIf="contractorsForm.get('city')?.hasError('minlength')"
-              >Населено място трябва да съдържа минимум 3 букви!</mat-error
-            >
-          </ng-template>
-          <mat-error
-            *ngIf="
-              contractorsForm.get('city')?.hasError('pattern');
-              else minLettersError
-            "
-            >Населено място трябва да започва с главна буква!</mat-error
-          >
-        </mat-form-field>
-      </p>
-      <p>
-        <mat-form-field appearance="outline">
-          <mat-label>Адрес</mat-label>
-          <input matInput formControlName="address" />
-          <mat-error
-            *ngIf="contractorsForm.get('address')?.hasError('minlength')"
-            >Адресът трябва да съдържа поне 5 символа!</mat-error
-          >
-        </mat-form-field>
-      </p>
-    </mat-card-content>
-    <mat-card-actions>
-      <button [disabled]="isFormInvalid()" type="submit" mat-raised-button>
-        <a>Изпрати</a>
-      </button>
-    </mat-card-actions>
-  </mat-card>
+  <div class="form-container">
+    <mat-card>
+      <mat-card-content>
+        <crtvs-base-form
+          formControlName="contractor"
+          [isNotSettings]="true"
+          header="Контрагент"
+        ></crtvs-base-form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <mat-card-actions>
+    <button type="submit" mat-raised-button>
+      <a>Изпрати</a>
+    </button>
+  </mat-card-actions>
 </form>

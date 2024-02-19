@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import {
   AbstractControl,
   ControlValueAccessor,
@@ -9,9 +9,8 @@ import {
   Validator,
   Validators,
 } from '@angular/forms';
-import { CurrenciesService } from 'src/app/services/currencies.service';
 import { ICurrency } from '../../../../../../libs/typings/src';
-import { EMPTY, Subscription, catchError, tap } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'crtvs-doc-type-form',
@@ -37,41 +36,32 @@ export class DocTypeFormComponent
 
   showRelInvoiceInput!: boolean;
 
-  currencyList?: ICurrency[] | null;
+  @Input()
+  currencyList?: ICurrency[];
+  @Input()
   selectedCurrency?: ICurrency;
-  selectedCurrencyId?: number;
+  @Input()
+  isInvoice!: boolean;
 
-  constructor(
-    private fb: FormBuilder,
-    private currenciesService: CurrenciesService
-  ) {}
+  constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
-    this.currenciesService
-      .getAllCurrencies()
-      .pipe(
-        tap((res) => {
-          if (res) {
-            this.currencyList = res;
-            this.selectedCurrency = this.currencyList[0];
-            this.selectedCurrencyId = this.currencyList[0]?.id;
-            console.log(this.currencyList);
-          }
-        }),
-        catchError((error) => {
-          console.log(error);
-          return EMPTY;
-        })
-      )
-      .subscribe();
-
     this.docTypeForm = this.fb.group({
       type: ['1', Validators.required],
       issue_date: [new Date(), Validators.required],
       event_date: [new Date(), Validators.required],
-      related_invoice_id: ['', Validators.required],
-      currency: [this.selectedCurrency?.code, Validators.required],
+      related_invoice_id: [Validators.required],
+      currency: [Validators.required],
     });
+
+    this.docTypeForm
+      .get('related_invoice_id')
+      ?.setValidators([
+        this.showRelInvoiceInput
+          ? Validators.required
+          : Validators.nullValidator,
+      ]);
+    this.docTypeForm.get('related_invoice_id')?.updateValueAndValidity;
   }
 
   onTouched: Function = () => {};

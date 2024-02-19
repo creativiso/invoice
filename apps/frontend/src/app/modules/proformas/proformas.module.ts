@@ -17,6 +17,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { ProformaComponent } from './proforma/proforma.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 const routes: Routes = [
   { path: '', component: ProformasComponent },
@@ -43,6 +44,7 @@ const routes: Routes = [
     MatTooltipModule,
     RouterModule.forChild(routes),
     MatPaginatorModule,
+    SharedModule,
   ],
 })
 export class ProformasModule {}

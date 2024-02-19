@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IContractor } from '../../../../../../libs/typings/src/model';
 import { MatPaginator } from '@angular/material/paginator';
@@ -10,7 +10,7 @@ import { ContractorsService } from 'src/app/services/contractors.service';
   templateUrl: './contractors.component.html',
   styleUrls: ['./contractors.component.scss'],
 })
-export class ContractorsComponent {
+export class ContractorsComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   displayedColumns: string[] = ['name', 'city', 'egn', 'mol', 'tools'];
@@ -27,12 +27,6 @@ export class ContractorsComponent {
       next: (data: IContractor[]) => {
         this.contractors = data;
         this.dataSource.data = this.contractors;
-      },
-      error: (error) => {
-        console.error(error);
-      },
-      complete: () => {
-        console.log('Get all contractors completed.');
       },
     });
   }

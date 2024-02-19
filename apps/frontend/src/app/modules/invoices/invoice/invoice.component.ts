@@ -1,5 +1,5 @@
-import { AfterContentChecked, AfterViewInit, Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import {
@@ -8,20 +8,22 @@ import {
   IInvoiceItems,
 } from '../../../../../../../libs/typings/src';
 import { InvoiceService } from 'src/app/services/invoices.service';
+import { CurrenciesService } from 'src/app/services/currencies.service';
+import { EMPTY, catchError, tap } from 'rxjs';
+import { __values } from 'tslib';
 
 @Component({
   selector: 'crtvs-invoice',
   templateUrl: './invoice.component.html',
   styleUrls: ['./invoice.component.scss'],
 })
-export class InvoiceComponent implements OnInit, AfterContentChecked {
+export class InvoiceComponent implements OnInit {
   invoicesForm!: FormGroup;
   invoice!: IInvoice;
   invoiceId!: number;
-  get rowData() {
-    return this.invoicesForm.get('rowData') as FormArray;
-  }
   editMode!: boolean;
+
+  currencyList?: ICurrency[];
   selectedCurrency?: ICurrency;
 
   constructor(
@@ -29,11 +31,9 @@ export class InvoiceComponent implements OnInit, AfterContentChecked {
     private invoiceService: InvoiceService,
     private route: ActivatedRoute,
     private router: Router,
-    private http: HttpClient
+    private http: HttpClient,
+    private currenciesService: CurrenciesService
   ) {}
-  ngAfterContentChecked(): void {
-
-  }
 
   ngOnInit() {
     this.invoicesForm = this.fb.group({
@@ -41,6 +41,23 @@ export class InvoiceComponent implements OnInit, AfterContentChecked {
       doc_type: [],
       invoice_items: [],
     });
+
+    this.currenciesService
+      .getAllCurrencies()
+      .pipe(
+        tap((res) => {
+          if (res) {
+            this.currencyList = res;
+            this.selectedCurrency = this.currencyList[0];
+          }
+        }),
+        catchError((error) => {
+          return EMPTY;
+        })
+      )
+      .subscribe();
+
+    // this.invoicesForm.get('doc_type')?.value.currency;
 
     this.invoicesForm.get('doc_type')?.valueChanges.subscribe((value) => {
       this.selectedCurrency = value.currency;
@@ -53,59 +70,48 @@ export class InvoiceComponent implements OnInit, AfterContentChecked {
       this.invoiceId = id;
     }
 
-    console.log('Retrieving invoice data for ID:', id);
     if (this.editMode) {
-      this.invoiceService.getInvoiceById(id).subscribe((response: any) => {
-        const invoice: IInvoice = response.invoice; // Cast the response
+      this.invoiceService.getInvoiceById(this.invoiceId).subscribe({
+        next: (response: any) => {
+          const invoice: IInvoice = response.invoice;
 
-        this.invoiceService.getInvoiceById(id).subscribe({
-          next: (data: IInvoice) => {
-            this.invoice = data;
+          this.invoice = invoice;
 
-            this.invoicesForm.patchValue({
-              p_name: invoice.p_name,
-              p_eik: invoice.p_eik,
-              p_ddsnumber: invoice.p_ddsnumber,
-              p_mol: invoice.p_mol,
-              p_city: invoice.p_city,
-              p_address: invoice.p_address,
-              c_name: invoice.c_name,
-              c_person: invoice.c_person,
-              c_egn: invoice.c_egn,
-              c_eik: invoice.c_eik,
-              c_ddsnumber: invoice.c_ddsnumber,
-              c_mol: invoice.c_mol,
-              c_city: invoice.c_city,
-              c_address: invoice.c_address,
+          this.invoicesForm.patchValue({
+            receiver: {
+              name: invoice.c_name,
+              person: invoice.c_person,
+              egn: invoice.c_egn,
+              eik: invoice.c_eik,
+              dds: invoice.c_ddsnumber,
+              mol: invoice.c_mol,
+              city: invoice.c_city,
+              address: invoice.c_address,
+            },
+            doc_type: {
               issue_date: invoice.issue_date,
               event_date: invoice.event_date,
-              currency: invoice.currency,
               type: String(invoice.type),
+              currency: this.currencyList
+                ? this.currencyList[invoice.currency - 1]
+                : this.selectedCurrency,
               related_invoice_id: invoice.related_invoice_id,
+            },
+            invoice_items: {
+              itemData: invoice.items,
               vatPercent: invoice.vat,
-              wayOfPaying: String(invoice.payment_method),
+              wayOfPaying: invoice.payment_method,
               vatReason: invoice.novatreason,
-              rowData: invoice.items,
-            });
-          },
-          error: (error) => {
-            console.error(error);
-          },
-          complete: () => {
-            console.log('Get invoice by id completed.');
-          },
-        });
+            },
+          });
+        },
       });
     }
   }
 
-
-
   onSubmit() {
     if (this.invoicesForm.invalid) {
-      // Form is not valid, display error messages
       alert('Моля, въведете всички полета.');
-      console.log(this.invoicesForm);
       return;
     }
     const formData = this.invoicesForm.value;
@@ -113,16 +119,16 @@ export class InvoiceComponent implements OnInit, AfterContentChecked {
       prefix: 1, //-----------------???
       number: 1, //-----------------???
       contractor_id: 1,
-      issue_date: formData.issue_date,
-      event_date: formData.event_date,
+      issue_date: formData.doc_type.issue_date,
+      event_date: formData.doc_type.event_date,
       receiver: formData.receiver.name,
-      payment_method: 2, //--------------???
-      vat: formData.vatPercent,
-      novatreason: formData.vatReason,
+      payment_method: formData.invoice_items.wayOfPaying, //--------------???
+      vat: formData.invoice_items.vatPercent,
+      novatreason: formData.invoice_items.vatReason,
       // currency: formData.currency.currencyCode,
-      currency: formData.currency.id,
-      type: formData.type,
-      related_invoice_id: formData.related_invoice_id,
+      currency: formData.doc_type.currency.id,
+      type: formData.doc_type.type,
+      related_invoice_id: formData.doc_type.related_invoice_id,
       c_name: formData.receiver.name,
       c_city: formData.receiver.city,
       c_address: formData.receiver.address,
@@ -131,15 +137,6 @@ export class InvoiceComponent implements OnInit, AfterContentChecked {
       c_mol: formData.receiver.mol,
       c_person: formData.receiver.person,
       c_egn: formData.receiver.egn,
-      p_name: formData.provider.name,
-      p_city: formData.provider.city,
-      p_address: formData.provider.address,
-      p_eik: formData.provider.eik,
-      p_ddsnumber: formData.provider.dds,
-      p_mol: formData.provider.mol,
-      p_bank: 'Some bank',
-      p_iban: 'Some iban',
-      p_bic: 'Some bic',
       author: 'Some author',
       author_sign: 'Some sign',
       items: [],
@@ -163,15 +160,11 @@ export class InvoiceComponent implements OnInit, AfterContentChecked {
         .updateInvoice(this.invoiceId, dataInvoice, dataInvoice.items)
         .subscribe({
           next: (response) => {
-            console.log('HTTP request successful:', response);
-            console.log('dataInvoice:', JSON.stringify(dataInvoice));
-
             const successMessage = 'Invoice updated successfully.';
             // Display success message to the user
             alert(successMessage);
           },
           error: (error) => {
-            console.error('Error occurred:', error);
             const errorMessage = 'Invoice update failed. Please try again.';
             // Display error message to the user
             alert(errorMessage);
@@ -183,20 +176,15 @@ export class InvoiceComponent implements OnInit, AfterContentChecked {
         .createInvoice(dataInvoice, dataInvoice.items)
         .subscribe({
           next: (response) => {
-            console.log('HTTP request successful:', response);
             const successMessage = 'Фактурата е създадена успешно.';
             // Display success message to the user
             alert(successMessage);
           },
           error: (error) => {
-            console.error('Error occurred:', error);
             const errorMessage =
               'Създаването на фактура беше неуспешно, моля опитайте отново!';
             // Display error message to the user
             alert(errorMessage);
-          },
-          complete: () => {
-            console.log('HTTP request complete');
           },
         });
     }

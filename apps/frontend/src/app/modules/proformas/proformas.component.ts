@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import {
   IProform,
   IProformItem,
@@ -13,7 +13,7 @@ import { ProformasService } from 'src/app/services/proformas.service';
   templateUrl: './proformas.component.html',
   styleUrls: ['./proformas.component.scss'],
 })
-export class ProformasComponent implements OnInit {
+export class ProformasComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   displayedColumns: string[] = ['id', 'name', 'date', 'amount', 'tools'];
 
@@ -30,12 +30,6 @@ export class ProformasComponent implements OnInit {
       next: (data: IProform[]) => {
         this.proformas = data;
         this.dataSource.data = this.proformas;
-      },
-      error: (error) => {
-        console.error(error);
-      },
-      complete: () => {
-        console.log('Get all Proformas completed.');
       },
     });
   }

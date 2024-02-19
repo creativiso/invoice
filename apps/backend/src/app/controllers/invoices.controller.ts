@@ -51,15 +51,6 @@ invoicesRouter.post('/', async (req, res) => {
       c_mol: req.body.c_mol,
       c_person: req.body.c_person,
       c_egn: req.body.c_egn,
-      p_name: req.body.p_name,
-      p_city: req.body.p_city,
-      p_address: req.body.p_address,
-      p_eik: req.body.p_eik,
-      p_ddsnumber: req.body.p_ddsnumber,
-      p_mol: req.body.p_mol,
-      p_bank: req.body.p_bank,
-      p_iban: req.body.p_iban,
-      p_bic: req.body.p_bic,
       author: req.body.author,
       author_sign: req.body.author_sign,
       items: req.body.items, // add items property here
@@ -84,8 +75,6 @@ invoicesRouter.put('/:id', async (req, res) => {
       invoiceData,
       itemData
     );
-
-    console.log('Update Result:', updatedItem); // Log the result of the update operation
 
     res.json(updatedItem);
   } catch (error) {

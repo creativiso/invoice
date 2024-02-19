@@ -70,11 +70,11 @@ export class BaseFormItemsComponent
         this.fb.group({
           name: ['', Validators.required],
           quantity: [
-            '',
+            0,
             [Validators.required, Validators.pattern(this.numberRegex)],
           ],
           price: [
-            '',
+            0,
             [Validators.required, Validators.pattern(this.numberRegex)],
           ],
           measurement: [''],
@@ -95,7 +95,6 @@ export class BaseFormItemsComponent
           }
         }),
         catchError((error) => {
-          console.log(error);
           return EMPTY;
         })
       )
@@ -111,16 +110,20 @@ export class BaseFormItemsComponent
             this.singlePriceFormat = res.singlePriceNumber;
             this.totalPriceFormat = res.totalPriceNumber;
 
-            this.baseFormItems.patchValue({
-              vatPercent: res.dds,
-              wayOfPaying: res.paymentMethod,
-            });
+            if (!this.baseFormItems.get('vatPercent')?.value) {
+                this.baseFormItems.patchValue({
+                  vatPercent: res.dds,
+                });
+            }
 
-            console.log(res);
+            if (!this.baseFormItems.get('wayOfPaying')?.value) {
+              this.baseFormItems.patchValue({
+                wayOfPaying: res.paymentMethod,
+              });
+            }
           }
         }),
         catchError((error) => {
-          console.log(error);
           return EMPTY;
         })
       )
@@ -156,7 +159,7 @@ export class BaseFormItemsComponent
 
   writeValue(value: any) {
     if (value) {
-      this.baseFormItems.setValue(value, { emitEvent: false });
+      this.baseFormItems.patchValue(value, { emitEvent: true });
     }
   }
 

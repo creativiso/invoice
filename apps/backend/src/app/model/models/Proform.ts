@@ -33,6 +33,9 @@ export class Proform extends Model<IProform> {
   @Column({ type: DataTypes.STRING })
   novatreason: string;
 
+  @Column({ type: DataTypes.INTEGER })
+  currency: number
+
   @Column({ type: DataTypes.STRING })
   c_name: string;
 
@@ -56,33 +59,6 @@ export class Proform extends Model<IProform> {
 
   @Column({ type: DataTypes.STRING })
   c_egn: string;
-
-  @Column({ type: DataTypes.STRING })
-  p_name: string;
-
-  @Column({ type: DataTypes.STRING })
-  p_city: string;
-
-  @Column({ type: DataTypes.STRING })
-  p_address: string;
-
-  @Column({ type: DataTypes.STRING })
-  p_eik: string;
-
-  @Column({ type: DataTypes.STRING })
-  p_ddsnumber: string;
-
-  @Column({ type: DataTypes.STRING })
-  p_mol: string;
-
-  @Column({ type: DataTypes.STRING })
-  p_bank: string;
-
-  @Column({ type: DataTypes.STRING })
-  p_iban: string;
-
-  @Column({ type: DataTypes.STRING })
-  p_bic: string;
 
   @Column({ type: DataTypes.STRING })
   author: string;

@@ -6,7 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
@@ -25,6 +25,7 @@ import { DocTypeFormComponent } from './doc-type-form/doc-type-form.component';
     BaseFormItemsComponent,
     DocTypeFormComponent,
   ],
+  providers: [{ provide: MAT_DATE_LOCALE, useValue: 'bg-BG' }],
   imports: [
     CommonModule,
     FormsModule,

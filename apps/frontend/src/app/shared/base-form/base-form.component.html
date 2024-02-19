@@ -1,5 +1,5 @@
 <fieldset [formGroup]="baseForm">
-  <mat-card-header>
+  <mat-card-header >
     <mat-card-title>{{ header }}</mat-card-title>
   </mat-card-header>
   <br />
@@ -16,11 +16,7 @@
     </mat-form-field>
   </p>
 
-  <mat-checkbox
-    *ngIf="shouldHaveCheckbox"
-    color="primary"
-    formControlName="person"
-  >
+  <mat-checkbox *ngIf="isNotSettings" color="primary" formControlName="person">
     Физическо лице
   </mat-checkbox>
 
@@ -95,6 +91,34 @@
       >
         Адресът трябва да е между 5 и 60 знака!
       </mat-error>
+    </mat-form-field>
+  </p>
+
+  <p *ngIf="!isNotSettings">
+    <mat-form-field>
+      <mat-label>IBAN</mat-label>
+      <input matInput formControlName="iban" />
+    </mat-form-field>
+  </p>
+
+  <p *ngIf="!isNotSettings">
+    <mat-form-field>
+      <mat-label>BIC/SWIFT</mat-label>
+      <input matInput formControlName="bic_swift" />
+    </mat-form-field>
+  </p>
+
+  <p *ngIf="!isNotSettings">
+    <mat-form-field>
+      <mat-label>Банка</mat-label>
+      <input matInput formControlName="bank" />
+    </mat-form-field>
+  </p>
+
+  <p *ngIf="!isNotSettings">
+    <mat-form-field>
+      <mat-label>ДДС по подразбиране %</mat-label>
+      <input matInput formControlName="dds_percent" />
     </mat-form-field>
   </p>
 </fieldset>
