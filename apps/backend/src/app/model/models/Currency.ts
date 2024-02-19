@@ -1,6 +1,6 @@
 import { Table, Column, Model, ForeignKey } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
-import { ICurrency } from 'libs/typings/src/model';
+import { ICurrency } from 'libs/typings/src';
 @Table({
   timestamps: true,
 })
@@ -13,5 +13,5 @@ export class Currency extends Model<ICurrency> {
   rate: number;
 
   @Column({ type: DataTypes.STRING })
-  code: number;
+  code: string;
 }

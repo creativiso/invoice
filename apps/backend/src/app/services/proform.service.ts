@@ -38,9 +38,8 @@ export class ProformService {
 
   async updateProformWithItems(
     proformId: number,
-    itemId: number,
     proformData: IProform,
-    itemData: IProformItem
+    itemData: IProformItem[]
   ) {
     let result;
     const transaction = await sequelize.transaction();
@@ -51,14 +50,20 @@ export class ProformService {
       }
       await proform.update(proformData, { transaction });
 
-      const proformItem = await ProformItem.findOne({
-        where: { id: itemId, proform: proformId },
-        transaction,
-      });
-      if (!proformItem) {
-        throw new Error('Proform item not found');
+      if (itemData && Array.isArray(itemData)) {
+        // Delete existing invoice items
+        await ProformItem.destroy({
+          where: { proform: proformId },
+          transaction,
+        });
+
+        // Create new invoice items
+        const proformItems = itemData.map((item) => ({
+          ...item,
+          proform: proformId,
+        }));
+        await ProformItem.bulkCreate(proformItems, { transaction });
       }
-      await proformItem.update(itemData, { transaction });
 
       await transaction.commit();
       result = {

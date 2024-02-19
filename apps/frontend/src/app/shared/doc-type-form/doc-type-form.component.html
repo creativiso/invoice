@@ -1,0 +1,75 @@
+<fieldset [formGroup]="docTypeForm">
+  <mat-card-header *ngIf="isInvoice">
+    <mat-card-title>Тип:</mat-card-title>
+  </mat-card-header>
+  <br />
+  <p *ngIf="isInvoice">
+    <mat-radio-group
+      aria-label="Select an option"
+      formControlName="type"
+      class="flex-radio-group"
+      (change)="onRadioChange($event)"
+    >
+      <mat-radio-button color="primary" class="radio-type" value="1"
+        >Фактура:</mat-radio-button
+      >
+      <mat-radio-button color="primary" class="radio-type" value="2"
+        >Кредитно известие:</mat-radio-button
+      >
+      <mat-radio-button color="primary" class="radio-type" value="3"
+        >Дебитно известие:</mat-radio-button
+      >
+    </mat-radio-group>
+  </p>
+
+  <p *ngIf="isInvoice">
+    <mat-form-field
+      appearance="outline"
+      class="datepicker"
+      *ngIf="showRelInvoiceInput"
+    >
+      <mat-label>Към фактура №</mat-label>
+      <input matInput formControlName="related_invoice_num" />
+    </mat-form-field>
+  </p>
+
+  <p>
+    <mat-form-field appearance="outline" class="datepicker">
+      <mat-label>Дата на издаване</mat-label>
+      <input
+        matInput
+        formControlName="issue_date"
+        [matDatepicker]="issuedAtPicker"
+      />
+
+      <mat-datepicker-toggle matSuffix [for]="issuedAtPicker">
+      </mat-datepicker-toggle>
+
+      <mat-datepicker #issuedAtPicker color="primary"> </mat-datepicker>
+    </mat-form-field>
+  </p>
+  <p *ngIf="isInvoice">
+    <mat-form-field appearance="outline" class="datepicker">
+      <mat-label>Дата на данъчно събитие</mat-label>
+      <input
+        matInput
+        formControlName="event_date"
+        [matDatepicker]="eventAtPicker"
+      />
+
+      <mat-datepicker-toggle matSuffix [for]="eventAtPicker">
+      </mat-datepicker-toggle>
+
+      <mat-datepicker #eventAtPicker color="primary"> </mat-datepicker>
+    </mat-form-field>
+  </p>
+
+  <mat-form-field class="currency" appearance="outline">
+    <mat-label>Изберете валута</mat-label>
+    <mat-select formControlName="currency">
+      <mat-option *ngFor="let currency of currencyList" [value]="currency">{{
+        currency?.code
+      }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+</fieldset>
