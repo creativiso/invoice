@@ -56,8 +56,12 @@
 
               <input
                 matInput
+                type="number"
+                min="-1"
                 aria-label="Количество"
                 formControlName="quantity"
+                crtvsNumberFormatter
+                [decimalPlaces]="quantityFormat"
               />
             </mat-form-field>
           </div>
@@ -65,9 +69,9 @@
             <mat-form-field class="measure-select" appearance="outline">
               <mat-label>Мярка</mat-label>
               <mat-select aria-label="Мярка" formControlName="measurement">
-                <mat-option aria-label="брой" value="broi">брой</mat-option>
-                <mat-option aria-label="кутия" value="kutiq">кутия</mat-option>
-                <mat-option aria-label="кашон" value="kashon">кашон</mat-option>
+                <mat-option [value]="unit" *ngFor="let unit of units">
+                  {{ unit }}
+                </mat-option>
               </mat-select>
             </mat-form-field>
           </div>
@@ -76,9 +80,13 @@
               <mat-label>Ед.цена</mat-label>
               <input
                 matInput
+                type="number"
+                min="0"
                 aria-label="Ед.цена"
                 placeholder="Без ДДС"
                 formControlName="price"
+                crtvsNumberFormatter
+                [decimalPlaces]="singlePriceFormat"
               />
             </mat-form-field>
           </div>
@@ -87,9 +95,10 @@
               <mat-label>Стойност</mat-label>
               <input
                 matInput
+                type="number"
                 aria-label="Стойност"
                 [formControlName]="'amount'"
-                [value]="calculateRowAmount(i)"
+                [value]="calculateRowAmount(i).toFixed(totalPriceFormat)"
                 readonly
               />
             </mat-form-field>
@@ -105,11 +114,17 @@
     <div class="flex-row right priceNum" role="cell">
       <!-- <ng-container *ngIf="selectedCurrency.currencyCode === '€'"> -->
       <ng-container *ngIf="selectedCurrency?.code === 'EUR'">
-        {{ calculateTotalRowAmount() | number : '1.2-2' }} €
+        {{
+          calculateTotalRowAmount() | number : formatNumber(totalPriceFormat)
+        }}
+        €
       </ng-container>
       <!-- <ng-container *ngIf="selectedCurrency.currencyCode === 'лв'"> -->
       <ng-container *ngIf="selectedCurrency?.code === 'BGN'">
-        {{ calculateTotalRowAmount() | number : '1.2-2' }} лв
+        {{
+          calculateTotalRowAmount() | number : formatNumber(totalPriceFormat)
+        }}
+        лв
       </ng-container>
     </div>
   </div>
@@ -120,7 +135,12 @@
     <div class="flex-row vat" role="cell">
       <mat-form-field>
         <mat-label>ДДС</mat-label>
-        <input matInput aria-label="ДДС" formControlName="vatPercent" />
+        <input
+          matInput
+          type="number"
+          aria-label="ДДС"
+          formControlName="vatPercent"
+        />
         <mat-icon matSuffix>percentage</mat-icon>
       </mat-form-field>
     </div>
@@ -129,10 +149,16 @@
     <div class="flex-row sum right" role="cell">Общо:</div>
     <div class="flex-row right priceNum" role="cell">
       <ng-container *ngIf="selectedCurrency?.code === 'EUR'">
-        {{ calculateTotalAmountWthVat() | number : '1.2-2' }} €
+        {{
+          calculateTotalAmountWthVat() | number : formatNumber(totalPriceFormat)
+        }}
+        €
       </ng-container>
       <ng-container *ngIf="selectedCurrency?.code === 'BGN'">
-        {{ calculateTotalAmountWthVat() | number : '1.2-2' }} лв
+        {{
+          calculateTotalAmountWthVat() | number : formatNumber(totalPriceFormat)
+        }}
+        лв
       </ng-container>
     </div>
   </div>
@@ -140,7 +166,6 @@
     <div class="flex-row vatReason" role="cell">
       <mat-form-field>
         <mat-label>Основание за начисление на ДДС</mat-label>
-
         <input
           matInput
           aria-label="Основание за начисление на ДДС"

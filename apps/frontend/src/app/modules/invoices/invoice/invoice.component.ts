@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { CurrenciesService } from 'src/app/services/currencies.service';
-import { EMPTY, catchError, tap } from 'rxjs';
 import {
   ICurrency,
   IInvoice,
   IInvoiceItems,
 } from '../../../../../../../libs/typings/src';
 import { InvoiceService } from 'src/app/services/invoices.service';
+import { CurrenciesService } from 'src/app/services/currencies.service';
+import { EMPTY, catchError, tap } from 'rxjs';
+import { __values } from 'tslib';
 
 @Component({
   selector: 'crtvs-invoice',
@@ -22,9 +23,8 @@ export class InvoiceComponent implements OnInit {
   invoiceId!: number;
   editMode!: boolean;
 
-  currencyList?: ICurrency[] | null;
+  currencyList?: ICurrency[];
   selectedCurrency?: ICurrency;
-  selectedCurrencyId?: number;
 
   constructor(
     private fb: FormBuilder,
@@ -36,6 +36,12 @@ export class InvoiceComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.invoicesForm = this.fb.group({
+      receiver: [],
+      doc_type: [],
+      invoice_items: [],
+    });
+
     this.currenciesService
       .getAllCurrencies()
       .pipe(
@@ -43,7 +49,6 @@ export class InvoiceComponent implements OnInit {
           if (res) {
             this.currencyList = res;
             this.selectedCurrency = this.currencyList[0];
-            this.selectedCurrencyId = this.currencyList[0]?.id;
           }
         }),
         catchError((error) => {
@@ -52,15 +57,10 @@ export class InvoiceComponent implements OnInit {
       )
       .subscribe();
 
-    this.invoicesForm = this.fb.group({
-      provider: [],
-      receiver: [],
-      type: ['', Validators.required], // neww
-      issue_date: ['', Validators.required], //new
-      event_date: ['', Validators.required], //new
-      related_invoice_id: [],
-      currency: [this.selectedCurrency?.code, Validators.required],
-      invoice_items: [],
+    // this.invoicesForm.get('doc_type')?.value.currency;
+
+    this.invoicesForm.get('doc_type')?.valueChanges.subscribe((value) => {
+      this.selectedCurrency = value.currency;
     });
 
     const id = Number(this.route.snapshot.paramMap.get('id'));
@@ -88,12 +88,15 @@ export class InvoiceComponent implements OnInit {
               city: invoice.c_city,
               address: invoice.c_address,
             },
-            issue_date: invoice.issue_date,
-            event_date: invoice.event_date,
-            currency: this.currencyList
-              ? this.currencyList[invoice.currency]
-              : this.selectedCurrency,
-            type: String(invoice.type),
+            doc_type: {
+              issue_date: invoice.issue_date,
+              event_date: invoice.event_date,
+              type: String(invoice.type),
+              currency: this.currencyList
+                ? this.currencyList[invoice.currency - 1]
+                : this.selectedCurrency,
+              related_invoice_num: invoice.related_invoice_num,
+            },
             invoice_items: {
               itemData: invoice.items,
               vatPercent: invoice.vat,
@@ -108,7 +111,6 @@ export class InvoiceComponent implements OnInit {
 
   onSubmit() {
     if (this.invoicesForm.invalid) {
-      // Form is not valid, display error messages
       alert('Моля, въведете всички полета.');
       return;
     }
@@ -117,15 +119,15 @@ export class InvoiceComponent implements OnInit {
       prefix: 1, //-----------------???
       number: 1, //-----------------???
       contractor_id: 1,
-      issue_date: formData.issue_date,
-      event_date: formData.event_date,
+      issue_date: formData.doc_type.issue_date,
+      event_date: formData.doc_type.event_date,
       receiver: formData.receiver.name,
       payment_method: formData.invoice_items.wayOfPaying, //--------------???
       vat: formData.invoice_items.vatPercent,
       novatreason: formData.invoice_items.vatReason,
-      currency: formData.currency.id,
-      type: formData.type,
-      related_invoice_id: formData.related_invoice_id,
+      currency: formData.doc_type.currency.id,
+      type: formData.doc_type.type,
+      related_invoice_num: formData.doc_type.related_invoice_num,
       c_name: formData.receiver.name,
       c_city: formData.receiver.city,
       c_address: formData.receiver.address,

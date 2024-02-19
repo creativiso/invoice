@@ -6,7 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
@@ -16,9 +16,16 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { BaseFormItemsComponent } from './base-form-items/base-form-items.component';
+import { NumberFormatterDirective } from './directives/number-formatter.directive';
+import { DocTypeFormComponent } from './doc-type-form/doc-type-form.component';
 
 @NgModule({
-  declarations: [BaseFormComponent, BaseFormItemsComponent],
+  declarations: [
+    BaseFormComponent,
+    BaseFormItemsComponent,
+    DocTypeFormComponent,
+  ],
+  providers: [{ provide: MAT_DATE_LOCALE, useValue: 'bg-BG' }],
   imports: [
     CommonModule,
     FormsModule,
@@ -36,7 +43,8 @@ import { BaseFormItemsComponent } from './base-form-items/base-form-items.compon
     MatRadioModule,
     MatTableModule,
     MatTooltipModule,
+    NumberFormatterDirective,
   ],
-  exports: [BaseFormComponent, BaseFormItemsComponent],
+  exports: [BaseFormComponent, BaseFormItemsComponent, DocTypeFormComponent],
 })
 export class SharedModule {}

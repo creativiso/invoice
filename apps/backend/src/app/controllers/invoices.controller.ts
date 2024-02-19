@@ -46,7 +46,7 @@ invoicesRouter.post('/', async (req, res) => {
       novatreason: req.body.novatreason,
       currency: req.body.currency,
       type: req.body.type,
-      related_invoice_id: req.body.related_invoice_id,
+      related_invoice_num: req.body.related_invoice_num,
       c_name: req.body.c_name,
       c_city: req.body.c_city,
       c_address: req.body.c_address,
@@ -79,8 +79,6 @@ invoicesRouter.put('/:id', async (req, res) => {
       invoiceData,
       itemData
     );
-
-    console.log('Update Result:', updatedItem); // Log the result of the update operation
 
     res.json(updatedItem);
   } catch (error) {

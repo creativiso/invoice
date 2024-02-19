@@ -30,14 +30,16 @@ export class ContractorComponent implements OnInit {
       next: (data: IContractor) => {
         this.contractor = data;
         this.contractorsForm.patchValue({
-          name: this.contractor.name,
-          person: this.contractor.person,
-          eik: this.contractor.eik,
-          ddsnumber: this.contractor.ddsnumber,
-          egn: this.contractor.egn,
-          mol: this.contractor.mol,
-          city: this.contractor.city,
-          address: this.contractor.address,
+          contractor: {
+            name: this.contractor.name,
+            person: this.contractor.person,
+            eik: this.contractor.eik,
+            ddsnumber: this.contractor.ddsnumber,
+            egn: this.contractor.egn,
+            mol: this.contractor.mol,
+            city: this.contractor.city,
+            address: this.contractor.address,
+          },
         });
       },
       error: (error) => {
