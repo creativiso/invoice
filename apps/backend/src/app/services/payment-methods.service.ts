@@ -1,7 +1,7 @@
 import { PaymentMethod } from '../model';
 
 export class PaymentMethodsService {
-  // Get all payment methods
+  // Get all PaymentMethods
   async getAllPaymentMethods() {
     return PaymentMethod.findAll();
   }

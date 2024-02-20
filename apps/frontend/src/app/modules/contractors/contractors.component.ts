@@ -1,22 +1,26 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ContractorsService } from 'src/app/services/contractors.service';
 import { IContractor } from '../../../../../../libs/typings/src/model';
-import { egnValidator } from '../../validators/egn.validator';
-import { eikValidator } from 'src/app/validators/eik.validator';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import { ContractorsService } from 'src/app/services/contractors.service';
 
 @Component({
   selector: 'crtvs-contractors',
   templateUrl: './contractors.component.html',
-  styleUrls: ['./contractors.component.css'],
+  styleUrls: ['./contractors.component.scss'],
 })
-export class ContractorsComponent implements OnInit {
-  contractor!: IContractor;
-  contractorsForm!: FormGroup;
+export class ContractorsComponent implements OnInit, AfterViewInit {
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  displayedColumns: string[] = ['name', 'city', 'egn', 'mol', 'tools'];
+
+  contractors: IContractor[] = [];
+  dataSource = new MatTableDataSource<IContractor>(this.contractors);
   constructor(
-    private fb: FormBuilder,
+    private router: Router,
     private contractorsService: ContractorsService,
+<<<<<<< HEAD
     private route: ActivatedRoute,
     private router: Router
   ) {
@@ -126,12 +130,20 @@ export class ContractorsComponent implements OnInit {
         },
       });
     }
+=======
+    private path: ActivatedRoute
+  ) {}
+  ngOnInit(): void {
+    this.contractorsService.getAllContractors().subscribe({
+      next: (data: IContractor[]) => {
+        this.contractors = data;
+        this.dataSource.data = this.contractors;
+      },
+    });
+>>>>>>> master
   }
-  onSubmit() {
-    if (this.contractorsForm.valid) {
-      const contractorData = this.contractorsForm.value;
-      console.log('Form data:', contractorData); // log the form data
 
+<<<<<<< HEAD
       if (this.contractor) {
         // Update existing contractor
 
@@ -161,8 +173,15 @@ export class ContractorsComponent implements OnInit {
         });
       }
     }
+=======
+  editContractor(contractor: IContractor) {
+    this.router.navigate([contractor.id], {
+      relativeTo: this.path,
+      state: { data: contractor },
+    });
+>>>>>>> master
   }
-  isFormInvalid() {
-    return !this.contractorsForm.valid;
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
   }
 }

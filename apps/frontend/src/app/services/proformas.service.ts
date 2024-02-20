@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { IProform, IProformItem } from '../../../../../libs/typings/src/index';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ProformsService {
+export class ProformasService {
   private apiUrl = 'http://localhost:3333/api/v1/proforms';
 
   constructor(private http: HttpClient) {}
@@ -36,11 +37,11 @@ export class ProformsService {
     };
     return this.http.put(`${this.apiUrl}/${proformId}`, data);
   }
-  getAllProforms() {
-    return this.http.get(`${this.apiUrl}/`);
+  getAllProforms(): Observable<IProform[]> {
+    return this.http.get<IProform[]>(`${this.apiUrl}/`);
   }
 
-  getProformById(proformId: number) {
-    return this.http.get(`${this.apiUrl}/${proformId}`);
+  getProformById(proformId: number): Observable<IProform> {
+    return this.http.get<IProform>(`${this.apiUrl}/${proformId}`);
   }
 }

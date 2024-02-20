@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <form [formGroup]="proformasForm" (ngSubmit)="onSubmit()">
   <!--SUPPLIER INFO-->
   <div class="container">
@@ -229,3 +230,71 @@
     Добави
   </button>
 </form>
+=======
+<div class="mat-elevation-z8">
+  <h1>Проформа фактури</h1>
+  <button
+    class="btn-add mat-raised-button matTooltip"
+    aria-label="добавяне на проформа"
+    mat-raised-button
+  >
+    <a routerLink="./new">
+      <span class="add-text">Добавяне</span>
+    </a>
+  </button>
+
+  <table mat-table [dataSource]="dataSource" class="">
+    <!-- Name Column -->
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef>ID</th>
+      <td mat-cell *matCellDef="let proforma">{{ proforma.id }}</td>
+    </ng-container>
+
+    <!-- City Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Фирма</th>
+      <td mat-cell *matCellDef="let proforma">{{ proforma.receiver }}</td>
+    </ng-container>
+
+    <!-- MOL Column -->
+    <ng-container matColumnDef="date">
+      <th mat-header-cell *matHeaderCellDef>Дата</th>
+      <td mat-cell *matCellDef="let proforma">{{ proforma.issue_date }}</td>
+    </ng-container>
+
+    <!-- EGN Column -->
+    <ng-container matColumnDef="amount">
+      <th mat-header-cell *matHeaderCellDef>Стойност</th>
+      <td mat-cell *matCellDef="let proforma">
+        <div *ngFor="let item of proforma.items">{{ item.price }} {{ '' }}</div>
+      </td>
+    </ng-container>
+
+    <!-- Tools Column -->
+    <ng-container matColumnDef="tools">
+      <th mat-header-cell *matHeaderCellDef>Инструменти</th>
+      <td mat-cell *matCellDef="let proforma">
+        <button
+          class="icon-edit-btn"
+          mat-icon-button
+          matTooltip="редактиране на ред"
+          aria-label="редактиране на ред"
+          (click)="editProforma(proforma)"
+        >
+          <mat-icon>edit</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <!-- Table rows -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let contractor; columns: displayedColumns"></tr>
+  </table>
+  <mat-paginator
+    [length]="proformas.length"
+    [pageSize]="5"
+    [pageSizeOptions]="[5, 10, 25, 100]"
+    showFirstLastButtons
+  ></mat-paginator>
+</div>
+>>>>>>> master

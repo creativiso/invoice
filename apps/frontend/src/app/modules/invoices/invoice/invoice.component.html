@@ -1,0 +1,99 @@
+<form [formGroup]="invoicesForm" (ngSubmit)="onSubmit()">
+  <mat-card>
+    <mat-card-content>
+      <mat-card-title>Префикс / от кочан:</mat-card-title>
+      <mat-label class="title">00 - 00000000000000</mat-label>
+    </mat-card-content>
+  </mat-card>
+  <mat-card>
+    <mat-card-content>
+      <crtvs-base-form
+        formControlName="receiver"
+        [isNotSettings]="true"
+        header="Получател"
+      ></crtvs-base-form>
+    </mat-card-content>
+  </mat-card>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Тип:</mat-card-title>
+    </mat-card-header>
+    <br />
+    <mat-card-content>
+      <p>
+        <mat-radio-group
+          aria-label="Select an option"
+          formControlName="type"
+          class="flex-radio-group"
+        >
+          <mat-radio-button color="primary" class="radio-type" value="1"
+            >Фактура:</mat-radio-button
+          >
+          <mat-radio-button color="primary" class="radio-type" value="2"
+            >Кредитно известие:</mat-radio-button
+          >
+          <mat-radio-button color="primary" class="radio-type" value="3"
+            >Дебитно известие:</mat-radio-button
+          >
+        </mat-radio-group>
+      </p>
+
+      <p>
+        <mat-form-field appearance="outline" class="datepicker">
+          <mat-label>Дата на издаване</mat-label>
+          <input
+            matInput
+            formControlName="issue_date"
+            [matDatepicker]="issuedAtPicker"
+          />
+
+          <mat-datepicker-toggle matSuffix [for]="issuedAtPicker">
+          </mat-datepicker-toggle>
+
+          <mat-datepicker #issuedAtPicker color="primary"> </mat-datepicker>
+        </mat-form-field>
+      </p>
+      <p>
+        <mat-form-field appearance="outline" class="datepicker">
+          <mat-label>Дата на данъчно събитие</mat-label>
+          <input
+            matInput
+            formControlName="event_date"
+            [matDatepicker]="eventAtPicker"
+          />
+
+          <mat-datepicker-toggle matSuffix [for]="eventAtPicker">
+          </mat-datepicker-toggle>
+
+          <mat-datepicker #eventAtPicker color="primary"> </mat-datepicker>
+        </mat-form-field>
+      </p>
+
+      <p>
+        <mat-form-field class="currency" appearance="outline">
+          <mat-label>Изберете валута</mat-label>
+          <mat-select [(value)]="selectedCurrency" formControlName="currency">
+            <mat-option
+              *ngFor="let currency of currencyList"
+              [value]="currency"
+              >{{ currency?.code }}</mat-option
+            >
+          </mat-select>
+        </mat-form-field>
+      </p>
+    </mat-card-content>
+  </mat-card>
+  <mat-card>
+    <mat-card-content>
+      <crtvs-base-form-items
+        formControlName="invoice_items"
+        [selectedCurrency]="selectedCurrency"
+      ></crtvs-base-form-items>
+    </mat-card-content>
+  </mat-card>
+  <mat-card-actions>
+    <button class="btn-submit" aria-label="изпрати формуляра" mat-raised-button>
+      Изпрати
+    </button>
+  </mat-card-actions>
+</form>

@@ -4,7 +4,6 @@ export interface IContractor {
   city: string;
   address: string;
   eik: string;
-  dds: boolean;
   ddsnumber: string;
   mol: string;
   person: boolean;
@@ -23,38 +22,25 @@ export interface IInvoice {
   id?: number;
   prefix: number;
   number: number;
-  contractor: number;
+  contractor_id: number;
   issue_date: Date;
   event_date: Date;
   receiver: string;
-  bank_payment: number;
+  payment_method: number;
   vat: number;
   novatreason: string;
   currency: number;
-  rate: number;
   type: number;
-  related_invoice: string;
-  related_date: Date;
+  related_invoice_id: number;
   c_name: string;
   c_city: string;
   c_address: string;
   c_eik: string;
   c_ddsnumber: string;
   c_mol: string;
-  c_person: string;
+  c_person: boolean;
   c_egn: string;
-  p_name: string;
-  p_city: string;
-  p_address: string;
-  p_eik: string;
-  p_ddsnumber: string;
-  p_mol: string;
-  p_bank: string;
-  p_iban: string;
-  p_bic: string;
-  p_zdds: boolean;
   author: string;
-  author_user: number;
   author_sign: string;
   createAt?: Date;
   updatedAt?: Date;
@@ -68,7 +54,7 @@ export interface IInvoiceItems {
   quantity: number;
   measurement: string;
   price: number;
-  createAt?: Date;
+  createdAt?: Date;
   updatedAt?: Date;
 }
 
@@ -81,16 +67,12 @@ export interface IPaymentMethod {
 
 export interface IProform {
   id?: number;
-  contractor: number;
+  contractor_id: number;
   issue_date: Date;
   payment_method: number;
   vat: number;
   novatreason: string;
-  currency: {
-    exchangeRate: number;
-    currencyCode: string;
-  };
-  rate: number;
+  currency: number;
   c_name: string;
   c_city: string;
   c_address: string;
@@ -99,18 +81,7 @@ export interface IProform {
   c_mol: string;
   c_person: boolean;
   c_egn: string;
-  p_name: string;
-  p_city: string;
-  p_address: string;
-  p_eik: string;
-  p_ddsnumber: string;
-  p_mol: string;
-  p_bank: string;
-  p_iban: string;
-  p_bic: string;
-  p_zdds: boolean;
   author: string;
-  author_user: number;
   author_sign: string;
   createAt?: Date;
   updatedAt?: Date;

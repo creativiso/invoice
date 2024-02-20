@@ -1,0 +1,61 @@
+<form [formGroup]="proformasForm" (ngSubmit)="onSubmit()">
+  <!--SUPPLIER INFO-->
+  <mat-card>
+    <mat-card-content>
+      <crtvs-base-form
+        formControlName="receiver"
+        [isNotSettings]="true"
+        header="Получател"
+      ></crtvs-base-form>
+    </mat-card-content>
+  </mat-card>
+  <mat-card class="container">
+    <mat-form-field appearance="outline" class="datepicker">
+      <input
+        matInput
+        formControlName="releasedAt"
+        [matDatepicker]="releasedAtPicker"
+      />
+
+      <mat-datepicker-toggle matSuffix [for]="releasedAtPicker">
+      </mat-datepicker-toggle>
+
+      <mat-datepicker #releasedAtPicker color="primary"> </mat-datepicker>
+    </mat-form-field>
+    <mat-form-field class="currency" appearance="outline">
+      <mat-label>Изберете валута</mat-label>
+      <mat-select [(value)]="selectedCurrency" formControlName="currency">
+        <mat-option *ngFor="let currency of currencyList" [value]="currency">{{
+          currency.code
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <!--<p>Вие избрахте: {{ selected }}</p> -->
+  </mat-card>
+  <mat-card>
+    <mat-card-content>
+      <crtvs-base-form-items
+        formControlName="proforma_items"
+        [selectedCurrency]="selectedCurrency"
+      ></crtvs-base-form-items>
+    </mat-card-content>
+  </mat-card>
+  <!--<mat-card>
+      <mat-card-title>Банкови детайли</mat-card-title>
+      <mat-form-field>
+        <input matInput placeholder="IBAN" formControlName="iban" />
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="BIC/SWIFT" formControlName="bicSwift" />
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="Банка" formControlName="bankName" />
+      </mat-form-field>
+    </mat-card> -->
+  <mat-card-actions>
+    <button class="btn-submit" aria-label="изпрати формуляра" mat-raised-button>
+      Добави
+    </button>
+  </mat-card-actions>
+</form>

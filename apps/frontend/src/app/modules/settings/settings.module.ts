@@ -19,6 +19,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatCommonModule } from '@angular/material/core';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 const routes: Routes = [{ path: '', component: SettingsComponent }];
 
@@ -45,6 +46,7 @@ const routes: Routes = [{ path: '', component: SettingsComponent }];
     MatCommonModule,
     RouterModule.forChild(routes),
     MatAutocompleteModule,
+    SharedModule,
   ],
 })
 export class SettingsModule {}
