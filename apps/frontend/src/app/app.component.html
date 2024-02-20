@@ -7,7 +7,7 @@
         mat-icon-button
         (click)="drawer.toggle()"
         class="transparent-background"
-        *ngIf="isHandset"
+        *ngIf="isHandset && isLoggedIn"
       >
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>

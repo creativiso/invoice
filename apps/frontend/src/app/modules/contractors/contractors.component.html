@@ -5,12 +5,13 @@
     mat-raised-button
     matTooltip="добавяне на контрагент"
     aria-label="добавяне на контрагент"
+    routerLink="./new"
   >
-    <a routerLink="./new">Добави</a>
+    Добавяне
   </button>
 
   <table mat-table [dataSource]="dataSource" class="">
-    <h2>Контрагенти</h2>
+    <h1 class="title">Контрагенти</h1>
     <!-- Name Column -->
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef>Име</th>

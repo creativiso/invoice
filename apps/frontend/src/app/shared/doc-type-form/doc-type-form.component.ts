@@ -50,7 +50,7 @@ export class DocTypeFormComponent
       type: ['1', Validators.required],
       issue_date: [new Date(), Validators.required],
       event_date: [new Date(), Validators.required],
-      related_invoice_num: [Validators.required],
+      related_invoice_num: ['', Validators.required],
       currency: [Validators.required],
     });
 
@@ -61,7 +61,16 @@ export class DocTypeFormComponent
           ? Validators.required
           : Validators.nullValidator,
       ]);
-    this.docTypeForm.get('related_invoice_num')?.updateValueAndValidity;
+    this.docTypeForm.get('related_invoice_num')?.updateValueAndValidity();
+
+    this.docTypeForm.get('type')?.valueChanges.subscribe((value) => {
+      // Check if the form has been filled and set showRelInvoiceInput accordingly
+      if (value === '1') {
+        this.showRelInvoiceInput = false;
+      } else {
+        this.showRelInvoiceInput = true;
+      }
+    });
   }
 
   onTouched: Function = () => {};
@@ -123,14 +132,5 @@ export class DocTypeFormComponent
     }
 
     return errors;
-  }
-
-  onRadioChange(event: any) {
-    const selectedValue = event.value;
-    if (selectedValue === '1') {
-      this.showRelInvoiceInput = false;
-    } else {
-      this.showRelInvoiceInput = true;
-    }
   }
 }
