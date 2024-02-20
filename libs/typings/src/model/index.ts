@@ -31,7 +31,7 @@ export interface IInvoice {
   novatreason: string;
   currency: number;
   type: number;
-  related_invoice_id: number;
+  related_invoice_num: string;
   c_name: string;
   c_city: string;
   c_address: string;

@@ -49,8 +49,8 @@ export class Invoice extends Model<IInvoice> {
   @Column({ type: DataTypes.INTEGER })
   type: number;
 
-  @Column({ type: DataTypes.INTEGER })
-  related_invoice_id: number;
+  @Column({ type: DataTypes.STRING })
+  related_invoice_num: string;
 
   @Column({ type: DataTypes.STRING })
   c_name: string;

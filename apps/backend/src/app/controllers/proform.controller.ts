@@ -59,14 +59,13 @@ proformsRouter.post('/add', async (req, res) => {
   }
 });
 
-proformsRouter.put('/:proform/items/:id', async (req, res) => {
+proformsRouter.put('/:id', async (req, res) => {
   try {
-    const { proform, id } = req.params;
+    const { id } = req.params;
     const updatedItem = await proformService.updateProformWithItems(
-      Number(proform),
       Number(id),
       req.body as IProform,
-      req.body as IProformItem
+      req.body.items as IProformItem[]
     );
     res.json(updatedItem);
   } catch (error) {

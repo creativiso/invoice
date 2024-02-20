@@ -22,9 +22,8 @@ export class ProformaComponent implements OnInit {
   proformId!: number;
   editMode!: boolean;
 
-  currencyList?: ICurrency[] | null;
+  currencyList?: ICurrency[];
   selectedCurrency?: ICurrency;
-  selectedCurrencyId?: number;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -34,8 +33,7 @@ export class ProformaComponent implements OnInit {
   ) {
     this.proformasForm = this.formBuilder.group({
       receiver: [''],
-      releasedAt: ['', Validators.required],
-      currency: [this.selectedCurrency, Validators.required],
+      details: [''],
       proforma_items: [],
     });
   }
@@ -48,7 +46,6 @@ export class ProformaComponent implements OnInit {
           if (res) {
             this.currencyList = res;
             this.selectedCurrency = this.currencyList[0];
-            this.selectedCurrencyId = this.currencyList[0]?.id;
           }
         }),
         catchError((error) => {
@@ -56,6 +53,10 @@ export class ProformaComponent implements OnInit {
         })
       )
       .subscribe();
+
+    this.proformasForm.get('details')?.valueChanges.subscribe((value) => {
+      this.selectedCurrency = value.currency;
+    });
 
     const id = Number(this.route.snapshot.paramMap.get('id'));
 
@@ -82,10 +83,12 @@ export class ProformaComponent implements OnInit {
               city: proform.c_city,
               address: proform.c_address,
             },
-            releasedAt: proform.issue_date,
-            currency: this.currencyList
-              ? this.currencyList[proform.currency]
-              : this.selectedCurrency,
+            details: {
+              issue_date: proform.issue_date,
+              currency: this.currencyList
+                ? this.currencyList[proform.currency - 1]
+                : this.selectedCurrency,
+            },
             proforma_items: {
               itemData: proform.items,
               vatPercent: proform.vat,
@@ -98,14 +101,18 @@ export class ProformaComponent implements OnInit {
     }
   }
   onSubmit() {
+    if (this.proformasForm.invalid) {
+      alert('Моля, въведете всички полета.');
+      return;
+    }
     const formData = this.proformasForm.value;
     const dataProform: IProform = {
       contractor_id: 1,
-      issue_date: formData.releasedAt,
       payment_method: formData.proforma_items.wayOfPaying, //null
       vat: formData.proforma_items.vatPercent,
       novatreason: formData.proforma_items.vatReason,
-      currency: formData.currency.id,
+      currency: formData.details.currency.id,
+      issue_date: formData.details.issue_date,
       c_name: formData.receiver.name,
       c_city: formData.receiver.city,
       c_address: formData.receiver.address,
@@ -129,16 +136,39 @@ export class ProformaComponent implements OnInit {
       dataProform.items.push(dataProformItems); // add the new item to the items array
     }
 
-    this.proformasService
-      .createProform(dataProform, dataProform.items)
-      .subscribe({
-        next: (response) => {
-        },
-        error: (error) => {
-          const errorMessage = 'Proform creation failed. Please try again.';
-          // Displaying error message to user
-          alert(errorMessage);
-        },
-      });
+    if (this.editMode) {
+      // Update existing invoice
+      this.proformasService
+        .updateProform(this.proformId, dataProform, dataProform.items)
+        .subscribe({
+          next: (response) => {
+            const successMessage = 'Proform updated successfully.';
+            // Display success message to the user
+            alert(successMessage);
+          },
+          error: (error) => {
+            const errorMessage = 'Proform update failed. Please try again.';
+            // Display error message to the user
+            alert(errorMessage);
+          },
+        });
+    } else {
+      // Create new invoice
+      this.proformasService
+        .createProform(dataProform, dataProform.items)
+        .subscribe({
+          next: (response) => {
+            const successMessage = 'Проформата е създадена успешно.';
+            // Display success message to the user
+            alert(successMessage);
+          },
+          error: (error) => {
+            const errorMessage =
+              'Създаването на проформа беше неуспешно, моля опитайте отново!';
+            // Display error message to the user
+            alert(errorMessage);
+          },
+        });
+    }
   }
 }

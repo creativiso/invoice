@@ -10,27 +10,15 @@
     </mat-card-content>
   </mat-card>
   <mat-card class="container">
-    <mat-form-field appearance="outline" class="datepicker">
-      <input
-        matInput
-        formControlName="releasedAt"
-        [matDatepicker]="releasedAtPicker"
-      />
-
-      <mat-datepicker-toggle matSuffix [for]="releasedAtPicker">
-      </mat-datepicker-toggle>
-
-      <mat-datepicker #releasedAtPicker color="primary"> </mat-datepicker>
-    </mat-form-field>
-    <mat-form-field class="currency" appearance="outline">
-      <mat-label>Изберете валута</mat-label>
-      <mat-select [(value)]="selectedCurrency" formControlName="currency">
-        <mat-option *ngFor="let currency of currencyList" [value]="currency">{{
-          currency.code
-        }}</mat-option>
-      </mat-select>
-    </mat-form-field>
-    <!--<p>Вие избрахте: {{ selected }}</p> -->
+    <mat-card-content>
+      <crtvs-doc-type-form
+        formControlName="details"
+        [isInvoice]="false"
+        [currencyList]="currencyList"
+        [selectedCurrency]="selectedCurrency"
+      >
+      </crtvs-doc-type-form>
+    </mat-card-content>
   </mat-card>
   <mat-card>
     <mat-card-content>
