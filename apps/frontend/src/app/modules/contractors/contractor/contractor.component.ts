@@ -26,29 +26,31 @@ export class ContractorComponent implements OnInit {
     });
 
     const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.contractorsService.getContractorById(id).subscribe({
-      next: (data: IContractor) => {
-        this.contractor = data;
-        this.contractorsForm.patchValue({
-          contractor: {
-            name: this.contractor.name,
-            person: this.contractor.person,
-            eik: this.contractor.eik,
-            ddsnumber: this.contractor.ddsnumber,
-            egn: this.contractor.egn,
-            mol: this.contractor.mol,
-            city: this.contractor.city,
-            address: this.contractor.address,
-          },
-        });
-      },
-      error: (error) => {
-        console.error(error);
-      },
-      complete: () => {
-        console.log('Get contractor by id completed.');
-      },
-    });
+    if (id) {
+      this.contractorsService.getContractorById(id).subscribe({
+        next: (data: IContractor) => {
+          this.contractor = data;
+          this.contractorsForm.patchValue({
+            contractor: {
+              name: this.contractor.name,
+              person: this.contractor.person,
+              eik: this.contractor.eik,
+              ddsnumber: this.contractor.ddsnumber,
+              egn: this.contractor.egn,
+              mol: this.contractor.mol,
+              city: this.contractor.city,
+              address: this.contractor.address,
+            },
+          });
+        },
+        error: (error) => {
+          console.error(error);
+        },
+        complete: () => {
+          console.log('Get contractor by id completed.');
+        },
+      });
+    }
   }
   onSubmit() {
     const contractorData = this.contractorsForm.value.contractor;
