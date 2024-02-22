@@ -125,7 +125,6 @@ export class InvoiceComponent implements OnInit {
       payment_method: formData.invoice_items.wayOfPaying, //--------------???
       vat: formData.invoice_items.vatPercent,
       novatreason: formData.invoice_items.vatReason,
-      // currency: formData.currency.currencyCode,
       currency: formData.doc_type.currency.id,
       type: formData.doc_type.type,
       related_invoice_num: formData.doc_type.related_invoice_num,
@@ -137,8 +136,6 @@ export class InvoiceComponent implements OnInit {
       c_mol: formData.receiver.mol,
       c_person: formData.receiver.person,
       c_egn: formData.receiver.egn,
-      author: 'Some author',
-      author_sign: 'Some sign',
       items: [],
     };
 

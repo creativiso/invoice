@@ -11,7 +11,6 @@ export class AppComponent {
   public isHandset: boolean;
   public isLoggedIn = false; // Initialize isLoggedIn property
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   @ViewChild('drawer') drawer: any;
   title = 'Pages';
   constructor(
@@ -29,8 +28,9 @@ export class AppComponent {
           this.isHandset = false;
         }
       });
+
     // Subscribe to isLoggedIn observable to update menu visibility
-    this.authService.isLoggedIn.subscribe((isLoggedIn) => {
+    this.authService.getLoginStatus.subscribe((isLoggedIn) => {
       this.isLoggedIn = isLoggedIn;
     });
 
@@ -47,7 +47,10 @@ export class AppComponent {
   }
 
   public logout() {
-    this.authService.logout();
-    this.router.navigate(['/login']);
+    this.authService.logout().subscribe((isLoggedIn) => {
+      if (!isLoggedIn) {
+        this.router.navigate(['/login']);
+      }
+    });
   }
 }

@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { InvoicesService } from '../services/invoices.service';
 import { IInvoice, IInvoiceItems } from 'libs/typings/src/model/index';
+import generateUserSignature from '../utils/generate-user-signature';
 
 export const invoicesRouter = Router();
 const invoicesService = new InvoicesService();
@@ -29,6 +30,9 @@ invoicesRouter.get('/:id', async (req, res) => {
 });
 
 invoicesRouter.post('/', async (req, res) => {
+  // @ts-ignore
+  const user = req.user;
+
   try {
     const invoice: IInvoice = {
       prefix: req.body.prefix,
@@ -51,8 +55,8 @@ invoicesRouter.post('/', async (req, res) => {
       c_mol: req.body.c_mol,
       c_person: req.body.c_person,
       c_egn: req.body.c_egn,
-      author: req.body.author,
-      author_sign: req.body.author_sign,
+      author: user.userName,
+      author_sign: generateUserSignature(user.userId),
       items: req.body.items, // add items property here
     };
     const result = await invoicesService.createInvoiceWithItems(

@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { ProformService } from '../services/proform.service';
 import { IProform, IProformItem } from 'libs/typings/src/model';
+import generateUserSignature from '../utils/generate-user-signature';
 
 export const proformsRouter = Router();
 const proformService = new ProformService();
@@ -29,6 +30,9 @@ proformsRouter.get('/:id', async (req, res) => {
 });
 
 proformsRouter.post('/add', async (req, res) => {
+  // @ts-ignore
+  const user = req.user;
+
   try {
     const proform: IProform = {
       contractor_id: req.body.contractor_id,
@@ -45,8 +49,8 @@ proformsRouter.post('/add', async (req, res) => {
       c_mol: req.body.c_mol,
       c_person: req.body.c_person,
       c_egn: req.body.c_egn,
-      author: req.body.author,
-      author_sign: req.body.author_sign,
+      author: user.userName,
+      author_sign: generateUserSignature(user.userId),
       items: req.body.items, // add items property here
     };
     const result = await proformService.createProformWithItems(
