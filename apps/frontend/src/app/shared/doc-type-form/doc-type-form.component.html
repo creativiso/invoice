@@ -8,7 +8,6 @@
       aria-label="Select an option"
       formControlName="type"
       class="flex-radio-group"
-      (change)="onRadioChange($event)"
     >
       <mat-radio-button color="primary" class="radio-type" value="1"
         >Фактура:</mat-radio-button
@@ -22,12 +21,8 @@
     </mat-radio-group>
   </p>
 
-  <p *ngIf="isInvoice">
-    <mat-form-field
-      appearance="outline"
-      class="datepicker"
-      *ngIf="showRelInvoiceInput"
-    >
+  <p *ngIf="isInvoice && showRelInvoiceInput">
+    <mat-form-field appearance="outline">
       <mat-label>Към фактура №</mat-label>
       <input matInput formControlName="related_invoice_num" />
     </mat-form-field>

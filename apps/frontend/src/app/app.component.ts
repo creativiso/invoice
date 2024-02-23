@@ -36,7 +36,7 @@ export class AppComponent {
 
     this.router.events.subscribe((event) => {
       // close sidenav on routing
-      if (this.isHandset) {
+      if (this.isHandset && this.drawer) {
         this.drawer.close();
       }
     });
