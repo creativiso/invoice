@@ -1,4 +1,11 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import {
   AbstractControl,
   ControlValueAccessor,
@@ -11,7 +18,11 @@ import {
   Validators,
 } from '@angular/forms';
 import { EMPTY, Subscription, catchError, tap } from 'rxjs';
-import { ICurrency, IPaymentMethod } from '../../../../../../libs/typings/src';
+import {
+  ICurrency,
+  IInvoiceItems,
+  IPaymentMethod,
+} from '../../../../../../libs/typings/src';
 import { PaymentMethodsService } from 'src/app/services/payment-methods.service';
 import { SettingService } from 'src/app/services/settings.service';
 
@@ -33,12 +44,14 @@ import { SettingService } from 'src/app/services/settings.service';
   ],
 })
 export class BaseFormItemsComponent
-  implements OnDestroy, ControlValueAccessor, Validator, OnInit
+  implements OnDestroy, ControlValueAccessor, Validator, OnInit, OnChanges
 {
   @Input()
   selectedCurrency?: ICurrency;
   @Input()
   number?: number;
+  @Input()
+  invItems?: IInvoiceItems[];
 
   private numberRegex!: RegExp;
 
@@ -111,9 +124,9 @@ export class BaseFormItemsComponent
             this.totalPriceFormat = res.totalPriceNumber;
 
             if (!this.baseFormItems.get('vatPercent')?.value) {
-                this.baseFormItems.patchValue({
-                  vatPercent: res.dds,
-                });
+              this.baseFormItems.patchValue({
+                vatPercent: res.dds,
+              });
             }
 
             if (!this.baseFormItems.get('wayOfPaying')?.value) {
@@ -128,6 +141,18 @@ export class BaseFormItemsComponent
         })
       )
       .subscribe();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['invItems']) {
+      if (this.invItems) {
+        for (let index = 0; index < this.invItems.length - 1; index++) {
+          this.addRow();
+        }
+        const items = this.baseFormItems.get('itemData') as FormArray;
+        items.patchValue(this.invItems);
+      }
+    }
   }
 
   onTouched: Function = () => {};

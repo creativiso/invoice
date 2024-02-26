@@ -16,6 +16,15 @@ invoicesRouter.get('/', async (req, res) => {
   }
 });
 
+invoicesRouter.get('/lastNumber', async (req, res) => {
+  try {
+    const invoiceNum = await invoicesService.getLastInvoiceNumber();
+    res.json({ invoiceNum });
+  } catch (error) {
+    res.status(500).json({ error: 'Error fetching last invoice number' });
+  }
+});
+
 //read by id proforms and proformitems
 invoicesRouter.get('/:id', async (req, res) => {
   try {
@@ -30,9 +39,10 @@ invoicesRouter.get('/:id', async (req, res) => {
 
 invoicesRouter.post('/', async (req, res) => {
   try {
+    const lastInvoiceNum = await invoicesService.getLastInvoiceNumber();
     const invoice: IInvoice = {
       prefix: req.body.prefix,
-      number: req.body.number,
+      number: lastInvoiceNum + 1,
       contractor_id: req.body.contractor_id,
       issue_date: req.body.issue_date,
       event_date: req.body.event_date,

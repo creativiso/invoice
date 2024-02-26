@@ -2,10 +2,11 @@
   <mat-card>
     <mat-card-content>
       <mat-card-title>Префикс / от кочан:</mat-card-title>
-      <mat-select placeholder="Изберете префикс">
-        <mat-option [value]="1">00 - 00000000000000</mat-option>
+      <mat-select placeholder="Изберете префикс" formControlName="prefix">
+        <mat-option *ngFor="let prefix of prefixes" [value]="prefix">{{
+          prefix
+        }}</mat-option>
       </mat-select>
-      <mat-label class="title"></mat-label>
     </mat-card-content>
   </mat-card>
   <mat-card>
@@ -32,6 +33,7 @@
       <crtvs-base-form-items
         formControlName="invoice_items"
         [selectedCurrency]="selectedCurrency"
+        [invItems]="invItems"
       ></crtvs-base-form-items>
     </mat-card-content>
   </mat-card>
