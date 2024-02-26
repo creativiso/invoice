@@ -22,6 +22,7 @@ import {
   ICurrency,
   IInvoiceItems,
   IPaymentMethod,
+  IProformItem,
 } from '../../../../../../libs/typings/src';
 import { PaymentMethodsService } from 'src/app/services/payment-methods.service';
 import { SettingService } from 'src/app/services/settings.service';
@@ -51,7 +52,7 @@ export class BaseFormItemsComponent
   @Input()
   number?: number;
   @Input()
-  invItems?: IInvoiceItems[];
+  items?: IInvoiceItems[] | IProformItem[];
 
   private numberRegex!: RegExp;
 
@@ -144,13 +145,13 @@ export class BaseFormItemsComponent
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['invItems']) {
-      if (this.invItems) {
-        for (let index = 0; index < this.invItems.length - 1; index++) {
+    if (changes['items']) {
+      if (this.items) {
+        for (let index = 0; index < this.items.length - 1; index++) {
           this.addRow();
         }
         const items = this.baseFormItems.get('itemData') as FormArray;
-        items.patchValue(this.invItems);
+        items.patchValue(this.items);
       }
     }
   }
