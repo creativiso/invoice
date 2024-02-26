@@ -77,7 +77,7 @@ export class InvoiceComponent implements OnInit {
           if (res) {
             this.invNum = res.invoiceNum + 1;
             this.prefixes?.forEach((prefix, index, arr) => {
-              arr[index] = this.formatPrefix(prefix, this.invNum);
+              arr[index] = this.formatPrefix(prefix);
             });
           }
         }),
@@ -106,7 +106,7 @@ export class InvoiceComponent implements OnInit {
           this.invoice = invoice;
           this.invNum = invoice.number;
           this.prefixes?.forEach((prefix, index, arr) => {
-            arr[index] = this.formatPrefix(prefix, this.invNum);
+            arr[index] = this.formatPrefix(prefix);
           });
 
           this.invItems = invoice.items;
@@ -226,7 +226,7 @@ export class InvoiceComponent implements OnInit {
     }
   }
 
-  formatPrefix(prefix: string, num: number): string {
+  formatPrefix(prefix: string): string {
     const paddedNumber = this.invNum
       .toString()
       .padStart(prefix.length - 7, '0');
