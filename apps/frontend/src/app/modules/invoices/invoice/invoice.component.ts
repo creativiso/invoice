@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  FormGroup,
-  FormBuilder,
-  Validators,
-} from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import {
   ICurrency,
   IInvoice,
@@ -14,6 +11,7 @@ import {
 import { InvoiceService } from 'src/app/services/invoices.service';
 import { CurrenciesService } from 'src/app/services/currencies.service';
 import { EMPTY, catchError, tap } from 'rxjs';
+import { SnackbarComponent } from 'src/app/shared/snackbar/snackbar.component';
 
 @Component({
   selector: 'crtvs-invoice',
@@ -44,7 +42,8 @@ export class InvoiceComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private http: HttpClient,
-    private currenciesService: CurrenciesService
+    private currenciesService: CurrenciesService,
+    private _snackBar: MatSnackBar
   ) {}
 
   ngOnInit() {
@@ -147,7 +146,8 @@ export class InvoiceComponent implements OnInit {
 
   onSubmit() {
     if (this.invoicesForm.invalid) {
-      alert('Моля, въведете всички полета.');
+      const invalidFormMessage = 'Моля попъленете всички полета!';
+      this.openSnackBar(invalidFormMessage);
       return;
     }
     const formData = this.invoicesForm.value;
@@ -196,14 +196,16 @@ export class InvoiceComponent implements OnInit {
         .updateInvoice(this.invoiceId, dataInvoice, dataInvoice.items)
         .subscribe({
           next: (response) => {
-            const successMessage = 'Invoice updated successfully.';
+            const successMessage = 'Фактурата е редактирана успешно.';
             // Display success message to the user
-            alert(successMessage);
+            this.openSnackBar(successMessage);
+            this.router.navigate(['/invoices']);
           },
           error: (error) => {
-            const errorMessage = 'Invoice update failed. Please try again.';
+            const errorMessage =
+              'Редактирането на фактура беше неуспешно. Моля опитайте отново!';
             // Display error message to the user
-            alert(errorMessage);
+            this.openSnackBar(errorMessage);
           },
         });
     } else {
@@ -214,13 +216,14 @@ export class InvoiceComponent implements OnInit {
           next: (response) => {
             const successMessage = 'Фактурата е създадена успешно.';
             // Display success message to the user
-            alert(successMessage);
+            this.openSnackBar(successMessage);
+            this.router.navigate(['/invoices']);
           },
           error: (error) => {
             const errorMessage =
-              'Създаването на фактура беше неуспешно, моля опитайте отново!';
+              'Създаването на фактура беше неуспешно. Моля опитайте отново!';
             // Display error message to the user
-            alert(errorMessage);
+            this.openSnackBar(errorMessage);
           },
         });
     }
@@ -234,5 +237,15 @@ export class InvoiceComponent implements OnInit {
       0,
       prefix.length - paddedNumber.length
     )}${paddedNumber}`;
+  }
+
+  openSnackBar(message: string) {
+    this._snackBar.openFromComponent(SnackbarComponent, {
+      duration: 3000,
+      data: {
+        message: message,
+        icon: 'close',
+      },
+    });
   }
 }
