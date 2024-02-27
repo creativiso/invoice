@@ -18,12 +18,15 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { BaseFormItemsComponent } from './base-form-items/base-form-items.component';
 import { NumberFormatterDirective } from './directives/number-formatter.directive';
 import { DocTypeFormComponent } from './doc-type-form/doc-type-form.component';
+import { SnackbarComponent } from './snackbar/snackbar.component';
+import { MatSnackBarAction, MatSnackBarActions, MatSnackBarLabel } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
     BaseFormComponent,
     BaseFormItemsComponent,
     DocTypeFormComponent,
+    SnackbarComponent,
   ],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'bg-BG' }],
   imports: [
@@ -44,7 +47,15 @@ import { DocTypeFormComponent } from './doc-type-form/doc-type-form.component';
     MatTableModule,
     MatTooltipModule,
     NumberFormatterDirective,
+    MatSnackBarLabel,
+    MatSnackBarActions,
+    MatSnackBarAction,
   ],
-  exports: [BaseFormComponent, BaseFormItemsComponent, DocTypeFormComponent],
+  exports: [
+    BaseFormComponent,
+    BaseFormItemsComponent,
+    DocTypeFormComponent,
+    SnackbarComponent,
+  ],
 })
 export class SharedModule {}

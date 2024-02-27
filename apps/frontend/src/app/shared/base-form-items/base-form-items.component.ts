@@ -215,7 +215,11 @@ export class BaseFormItemsComponent
     return errors;
   }
 
-  addRow() {
+  addRow(event?: MouseEvent) {
+    if (event) {
+      event.preventDefault();
+    }
+
     const itemData = this.baseFormItems.get('itemData') as FormArray;
     const row = this.fb.group({
       name: ['', Validators.required],
