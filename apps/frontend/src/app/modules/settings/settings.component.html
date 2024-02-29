@@ -124,6 +124,35 @@
       </mat-card>
     </div>
   </div>
+  <mat-expansion-panel class="transparent">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Допълнителни настройки
+      </mat-panel-title></mat-expansion-panel-header
+    >
+    <div class="container">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Добавяне на префикс</mat-card-title>
+        </mat-card-header>
+        <br />
+        <mat-card-content>
+          <mat-form-field>
+            <mat-label>Въведете префикс</mat-label>
+            <input class="form-control" matInput formControlName="prefix" />
+            <mat-error
+            *ngIf="settingsForm.get('prefix')?.errors?.['duplicatePrefix']"
+            >Префиксът вече същестува!</mat-error
+          >
+          </mat-form-field>
+
+        </mat-card-content>
+        <mat-card-actions align="end">
+          <button mat-raised-button (click)="addPrefix()">Добави</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </mat-expansion-panel>
   <button class="btn-submit" mat-raised-button (click)="onSubmit()">
     Изпрати
   </button>

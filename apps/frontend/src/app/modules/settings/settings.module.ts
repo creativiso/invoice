@@ -17,6 +17,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { MatCommonModule } from '@angular/material/core';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { SharedModule } from 'src/app/shared/shared.module';
@@ -44,6 +45,7 @@ const routes: Routes = [{ path: '', component: SettingsComponent }];
     MatTooltipModule,
     MatChipsModule,
     MatCommonModule,
+    MatExpansionModule,
     RouterModule.forChild(routes),
     MatAutocompleteModule,
     SharedModule,

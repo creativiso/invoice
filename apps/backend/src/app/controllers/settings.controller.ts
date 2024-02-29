@@ -17,6 +17,20 @@ settingsRouter.get('/', async (req, res) => {
   }
 });
 
+settingsRouter.get('/prefixes', async (req, res) => {
+  try {
+    const prefixes = await settingsService.getPrefixes();
+    if (!prefixes) {
+      res.status(404).json({ message: 'Prefixes not found' });
+    } else {
+      res.json(prefixes);
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
 settingsRouter.post('/', async (req, res) => {
   try {
     const newSetting = await settingsService.createSetting(req.body);
@@ -39,6 +53,20 @@ settingsRouter.put('/', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
+settingsRouter.patch('/prefixes', async (req, res) => {
+   try {
+     const id = 1;
+     const updatedSetting = await settingsService.updateSetting(id, req.body);
+     if (!updatedSetting) {
+       res.status(404).json({ error: 'Setting not found' });
+     } else {
+       res.json(updatedSetting.prefixes);
+     }
+   } catch (error) {
+     res.status(500).json({ error: 'Internal server error' });
+   }
+})
 
 settingsRouter.delete('/', async (req, res) => {
   try {

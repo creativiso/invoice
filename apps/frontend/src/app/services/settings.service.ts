@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, map } from 'rxjs';
+import { Observable, catchError, map, switchMap } from 'rxjs';
 import { ISettings } from '../../../../../libs/typings/src/index';
 
 @Injectable({
@@ -23,5 +23,27 @@ export class SettingService {
     return this.http
       .get<ISettings>(`${this.apiUrl}`)
       .pipe(map((setting: ISettings) => setting.units));
+  }
+
+  getPrefixes(): Observable<string[]> {
+    return this.http.get<string[]>(`${this.apiUrl}/prefixes`);
+  }
+
+  addPrefix(preifx: string): Observable<string[]> {
+    return this.getPrefixes().pipe(
+      catchError((error) => {
+        throw error;
+      }),
+      switchMap((prefixes) => {
+        prefixes.push(preifx);
+
+        return this.http.patch<string[]>(`${this.apiUrl}/prefixes`, {
+          prefixes: prefixes,
+        });
+      }),
+      catchError((error) => {
+        throw error;
+      })
+    );
   }
 }

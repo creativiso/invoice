@@ -11,6 +11,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { PaymentMethodsService } from 'src/app/services/payment-methods.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackbarComponent } from 'src/app/shared/snackbar/snackbar.component';
+import { prefixValidator } from 'src/app/validators/prefix.validator';
 
 @Component({
   selector: 'crtvs-settings',
@@ -42,6 +43,7 @@ export class SettingsComponent implements OnInit {
       singlePriceNumber: [''],
       totalPriceNumber: [''],
       units: this.fb.array([]),
+      prefix: ['', [prefixValidator([])]],
     });
   }
 
@@ -118,7 +120,7 @@ export class SettingsComponent implements OnInit {
 
   ngOnInit(): void {
     this.settingsService.getSettings().subscribe((settings) => {
-      this.settingsForm.setValue({
+      this.settingsForm.patchValue({
         supplier_data: {
           name: settings.supplierName,
           eik: settings.supplierEik,
@@ -143,6 +145,14 @@ export class SettingsComponent implements OnInit {
     });
     this.getPaymentMethods();
     this.getMeasurementUnits();
+
+    this.settingsService.getPrefixes().subscribe((prefixes) => {
+      this.settingsForm.controls['prefix'].setValidators([
+        prefixValidator(prefixes),
+      ]);
+
+      this.settingsForm.controls['prefix'].updateValueAndValidity();
+    });
   }
 
   onSubmit() {
@@ -177,10 +187,34 @@ export class SettingsComponent implements OnInit {
         this.openSnackBar(successMessage);
       },
       error: (error) => {
-        const errorMessage = 'Промяната на насторйките беше неуспешна. Моля опитайте отново!';
+        const errorMessage =
+          'Промяната на насторйките беше неуспешна. Моля опитайте отново!';
         this.openSnackBar(errorMessage);
       },
     });
+  }
+
+  addPrefix() {
+    const prefixToAdd: string = this.settingsForm.value.prefix.trim();
+
+    if (this.settingsForm.get('prefix')?.valid) {
+      this.settingsService.addPrefix(prefixToAdd).subscribe({
+        next: (response) => {
+          const successMessage = 'Префиксът е добавен успешно!';
+          this.openSnackBar(successMessage);
+        },
+        error: (error) => {
+          const errorMessage =
+            'Неуспешно добавяне на префикс. Моля опитайте отново!';
+
+          this.openSnackBar(errorMessage);
+        },
+      });
+    } else {
+      const errorMessage = 'Префиксът вече съществува';
+
+      this.openSnackBar(errorMessage);
+    }
   }
 
   openSnackBar(message: string) {
