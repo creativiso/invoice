@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatMenuModule } from '@angular/material/menu';
@@ -13,6 +13,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatListModule } from '@angular/material/list';
+import { HttpInterceptorService } from './services/http-interceptor.service';
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -27,7 +28,16 @@ import { MatListModule } from '@angular/material/list';
     MatToolbarModule,
     MatListModule,
   ],
-  providers: [AuthService, AuthGuard, NotLoggedInGuard],
+  providers: [
+    AuthService,
+    AuthGuard,
+    NotLoggedInGuard,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpInterceptorService,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

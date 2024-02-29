@@ -1,61 +1,69 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:3333/api/v1/login';
+  private apiUrl = 'http://localhost:3333/api/v1';
   private loggedIn = new BehaviorSubject<boolean>(false); //track user status
+  private firstLoad = true;
 
   constructor(private http: HttpClient) {
-    this.checkToken();
+    this.validateToken();
   }
 
-  get isLoggedIn(): Observable<boolean> {
+  get getLoginStatus(): Observable<boolean> {
+    if (this.firstLoad) {
+      this.firstLoad = false;
+      return this.validateToken();
+    }
     return this.loggedIn.asObservable();
   }
 
   login(username: string, password: string): Observable<boolean> {
     return this.http
-      .post<{ token: string }>(`${this.apiUrl}`, { username, password })
+      .post<boolean>(`${this.apiUrl}/login`, { username, password })
       .pipe(
-        tap((response) => {
-          if (response.token) {
-            localStorage.setItem('token', response.token);
-            this.loggedIn.next(true);
-          }
-        }),
-        map((response) => {
-          const token = response.token;
-          if (token) {
-            return true;
-          } else {
-            return false;
-          }
+        tap((isLoggedIn: boolean) => {
+          this.loggedIn.next(isLoggedIn);
+          return isLoggedIn;
         }),
         catchError((error) => {
           console.error(error);
+          this.loggedIn.next(false);
           return of(false);
         })
       );
   }
 
-  logout(): void {
-    localStorage.removeItem('token');
-    this.loggedIn.next(false);
+  logout(): Observable<boolean> {
+    return this.http.get<boolean>(`${this.apiUrl}/logout`).pipe(
+      tap((isLoggedIn: boolean) => {
+        this.loggedIn.next(isLoggedIn);
+      }),
+      catchError((error) => {
+        console.error(error);
+        return of(false);
+      })
+    );
   }
 
-  private checkToken() {
-    const token = localStorage.getItem('token');
-    if (token) {
-      this.loggedIn.next(true);
-    }
-  }
-
-  getToken(): string | null {
-    return localStorage.getItem('token');
+  // Validate token on firstLoad/refresh
+  private validateToken(): Observable<boolean> {
+    // send empty ping request to validate cookie token
+    return this.http.get<boolean>(`${this.apiUrl}/ping`).pipe(
+      tap((isLoggedIn: boolean) => {
+        this.loggedIn.next(isLoggedIn);
+        return isLoggedIn;
+      }),
+      catchError((error) => {
+        console.error(error);
+        this.loggedIn.next(false);
+        return of(false);
+      })
+    );
   }
 }

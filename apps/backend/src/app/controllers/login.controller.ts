@@ -1,19 +1,15 @@
 import { Request, Response, Router } from 'express';
-import { User } from '../model/models/User';
-import { sign } from 'jsonwebtoken';
+import { LoginService } from '../services/login.service';
 
 const loginRouter = Router();
+const loginService = new LoginService();
 
 loginRouter.post('/', async (req: Request, res: Response) => {
   const { username, password } = req.body;
-  const user = await User.comparePassword(username, password);
-  if (!user) {
-    res.status(401).json({ error: 'Invalid username or password' });
-    return;
-  }
+  const token = await loginService.login(username, password);
 
-  const token = sign({ userId: user.id }, 'your-secret-key');
-  res.json({ token });
+  res.cookie('token', token, { httpOnly: true });
+  res.send(true); // login confirmation
 });
 
 export default loginRouter;
