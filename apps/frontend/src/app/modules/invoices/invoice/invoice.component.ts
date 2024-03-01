@@ -12,6 +12,8 @@ import { InvoiceService } from 'src/app/services/invoices.service';
 import { CurrenciesService } from 'src/app/services/currencies.service';
 import { EMPTY, catchError, tap } from 'rxjs';
 import { SnackbarComponent } from 'src/app/shared/snackbar/snackbar.component';
+import { SettingService } from 'src/app/services/settings.service';
+
 
 @Component({
   selector: 'crtvs-invoice',
@@ -28,11 +30,7 @@ export class InvoiceComponent implements OnInit {
   currencyList?: ICurrency[];
   selectedCurrency?: ICurrency;
 
-  prefixes?: string[] = [
-    '00 - 00000000000000',
-    '00 - 0000000000',
-    '00 - 00000000',
-  ];
+  prefixes?: string[];
 
   invNum: number = 1;
 
@@ -43,7 +41,9 @@ export class InvoiceComponent implements OnInit {
     private router: Router,
     private http: HttpClient,
     private currenciesService: CurrenciesService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private settingsService: SettingService
+
   ) {}
 
   ngOnInit() {
@@ -75,9 +75,6 @@ export class InvoiceComponent implements OnInit {
         tap((res) => {
           if (res) {
             this.invNum = res.invoiceNum + 1;
-            this.prefixes?.forEach((prefix, index, arr) => {
-              arr[index] = this.formatPrefix(prefix);
-            });
           }
         }),
         catchError((error) => {
@@ -88,6 +85,12 @@ export class InvoiceComponent implements OnInit {
 
     this.invoicesForm.get('doc_type')?.valueChanges.subscribe((value) => {
       this.selectedCurrency = value.currency;
+    });
+
+    this.settingsService.getPrefixes().subscribe((prefixes) => {
+      this.prefixes = prefixes.map((prefix, index, arr) => {
+        return (arr[index] = this.formatPrefix(prefix));
+      });
     });
 
     const id = Number(this.route.snapshot.paramMap.get('id'));

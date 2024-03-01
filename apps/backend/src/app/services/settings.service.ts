@@ -32,6 +32,26 @@ export class SettingsService {
     return setting;
   }
 
+  async getPrefixes() {
+    const id = 1;
+    const setting = await Settings.findByPk(id);
+
+    if (setting.prefixes) {
+      return setting.prefixes;
+    } else {
+      console.log('prefix not found');
+      const defaultPrefixes = [
+        '00 - 00000000000000',
+        '00 - 0000000000',
+        '00 - 00000000',
+      ];
+
+      setting.prefixes = defaultPrefixes;
+      setting.update(setting);
+      return setting.prefixes;
+    }
+  }
+
   async createSetting(data: Settings): Promise<Settings> {
     return Settings.create(data);
   }
