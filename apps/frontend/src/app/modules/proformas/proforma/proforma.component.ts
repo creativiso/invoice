@@ -75,7 +75,6 @@ export class ProformaComponent implements OnInit {
           const proform: IProform = response.proformAndItems;
 
           this.proform = proform;
-
           this.profItems = proform.items;
 
           this.proformasForm.patchValue({
