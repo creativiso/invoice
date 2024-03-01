@@ -13,6 +13,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackbarComponent } from 'src/app/shared/snackbar/snackbar.component';
 import { prefixValidator } from 'src/app/validators/prefix.validator';
 
+
 @Component({
   selector: 'crtvs-settings',
   templateUrl: './settings.component.html',
@@ -193,7 +194,7 @@ export class SettingsComponent implements OnInit {
       },
     });
   }
-
+  
   addPrefix() {
     const prefixToAdd: string = this.settingsForm.value.prefix.trim();
 
@@ -216,7 +217,7 @@ export class SettingsComponent implements OnInit {
       this.openSnackBar(errorMessage);
     }
   }
-
+  
   openSnackBar(message: string) {
     this._snackBar.openFromComponent(SnackbarComponent, {
       duration: 3000,
