@@ -8,7 +8,9 @@ import {
 import { ProformasService } from 'src/app/services/proformas.service';
 import { CurrenciesService } from 'src/app/services/currencies.service';
 import { EMPTY, catchError, tap } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { SnackbarComponent } from 'src/app/shared/snackbar/snackbar.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'crtvs-proforma',
@@ -29,7 +31,9 @@ export class ProformaComponent implements OnInit {
     private formBuilder: FormBuilder,
     private proformasService: ProformasService,
     private route: ActivatedRoute,
-    private currenciesService: CurrenciesService
+    private router: Router,
+    private currenciesService: CurrenciesService,
+    private _snackBar: MatSnackBar
   ) {
     this.proformasForm = this.formBuilder.group({
       receiver: [''],
@@ -71,8 +75,7 @@ export class ProformaComponent implements OnInit {
           const proform: IProform = response.proformAndItems;
 
           this.proform = proform;
-
-          this.profItems = proform.items
+          this.profItems = proform.items;
 
           this.proformasForm.patchValue({
             receiver: {
@@ -103,7 +106,8 @@ export class ProformaComponent implements OnInit {
   }
   onSubmit() {
     if (this.proformasForm.invalid) {
-      alert('Моля, въведете всички полета.');
+      const message = 'Моля, въведете всички полета.';
+      this.openSnackBar(message);
       return;
     }
     const formData = this.proformasForm.value;
@@ -141,14 +145,16 @@ export class ProformaComponent implements OnInit {
         .updateProform(this.proformId, dataProform, dataProform.items)
         .subscribe({
           next: (response) => {
-            const successMessage = 'Proform updated successfully.';
+            const successMessage = 'Проформата е редактирана успешно';
             // Display success message to the user
-            alert(successMessage);
+            this.openSnackBar(successMessage);
+            this.router.navigate(['/proformas']);
           },
           error: (error) => {
-            const errorMessage = 'Proform update failed. Please try again.';
+            const errorMessage =
+              'Неуспешно редактиране на проформа. Моля опитайете отново!';
             // Display error message to the user
-            alert(errorMessage);
+            this.openSnackBar(errorMessage);
           },
         });
     } else {
@@ -159,15 +165,27 @@ export class ProformaComponent implements OnInit {
           next: (response) => {
             const successMessage = 'Проформата е създадена успешно.';
             // Display success message to the user
-            alert(successMessage);
+            this.openSnackBar(successMessage);
+            this.router.navigate(['/proformas']);
+
           },
           error: (error) => {
             const errorMessage =
-              'Създаването на проформа беше неуспешно, моля опитайте отново!';
+              'Неуспешно създаване на проформа. Моля опитайте отново!';
             // Display error message to the user
-            alert(errorMessage);
+            this.openSnackBar(errorMessage);
           },
         });
     }
+  }
+
+  openSnackBar(message: string) {
+    this._snackBar.openFromComponent(SnackbarComponent, {
+      duration: 3000,
+      data: {
+        message: message,
+        icon: 'close',
+      },
+    });
   }
 }

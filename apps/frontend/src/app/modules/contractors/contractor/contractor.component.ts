@@ -3,6 +3,9 @@ import { IContractor } from '../../../../../../../libs/typings/src';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ContractorsService } from 'src/app/services/contractors.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { SnackbarComponent } from 'src/app/shared/snackbar/snackbar.component';
+import { L } from '@angular/cdk/keycodes';
 
 @Component({
   selector: 'crtvs-contractor',
@@ -12,11 +15,13 @@ import { ContractorsService } from 'src/app/services/contractors.service';
 export class ContractorComponent implements OnInit {
   contractor!: IContractor;
   contractorsForm!: FormGroup;
+  editMode!: boolean;
   constructor(
     private fb: FormBuilder,
     private contractorsService: ContractorsService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private _snackBar: MatSnackBar
   ) {
     //
   }
@@ -29,6 +34,7 @@ export class ContractorComponent implements OnInit {
     this.contractorsService.getContractorById(id).subscribe({
       next: (data: IContractor) => {
         this.contractor = data;
+        this.editMode = true;
         this.contractorsForm.patchValue({
           contractor: {
             name: this.contractor.name,
@@ -53,36 +59,50 @@ export class ContractorComponent implements OnInit {
   onSubmit() {
     const contractorData = this.contractorsForm.value.contractor;
     if (this.contractorsForm.valid) {
-      if (this.contractor) {
+      if (this.editMode) {
         // Update existing contractor
         this.contractorsService
           .updateContractor(this.contractor.id, contractorData)
           .subscribe({
             next: (res) => {
-              console.log('Contractor updated successfully.', res);
-              alert('Контрагентът е променен успешно!');
+              const successMessage = 'Контрагентът е редактиран успешно!';
+              this.openSnackBar(successMessage);
               this.router.navigate(['/contractors']);
             },
             error: (error) => {
-              console.error('Error updating contractor:', error);
+              const errorMessage =
+                'Неуспешно редактиране на контрагент. Моля опитайте отново!';
+              this.openSnackBar(errorMessage);
             },
           });
       } else {
         // Create new contractor
         this.contractorsService.createContractor(contractorData).subscribe({
           next: (res) => {
-            console.log('Contractor created successfully.', res);
-            alert('Контрагентът е успешно създаден!');
+            const successMessage = 'Контрагентът е създаден успешно!';
+            this.openSnackBar(successMessage);
             this.router.navigate(['/contractors']);
           },
           error: (error) => {
-            console.error('Error creating contractor:', error);
+            const errorMessage =
+              'Неуспешно създаване на контрагент. Моля опитайте отново!';
+            this.openSnackBar(errorMessage);
           },
         });
       }
+    } else {
+      const invalidFormMessage = 'Моля попълнете всички полета!';
+      this.openSnackBar(invalidFormMessage);
     }
   }
-  isFormInvalid() {
-    return !this.contractorsForm.valid;
+
+  openSnackBar(message: string) {
+    this._snackBar.openFromComponent(SnackbarComponent, {
+      duration: 3000,
+      data: {
+        message: message,
+        icon: 'close',
+      },
+    });
   }
 }

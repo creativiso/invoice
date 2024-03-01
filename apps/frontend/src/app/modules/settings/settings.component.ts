@@ -9,6 +9,8 @@ import {
 } from '../../../../../../libs/typings/src/model/index';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { PaymentMethodsService } from 'src/app/services/payment-methods.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { SnackbarComponent } from 'src/app/shared/snackbar/snackbar.component';
 
 @Component({
   selector: 'crtvs-settings',
@@ -29,7 +31,8 @@ export class SettingsComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private settingsService: SettingService,
-    private paymentMethodsService: PaymentMethodsService
+    private paymentMethodsService: PaymentMethodsService,
+    private _snackBar: MatSnackBar
   ) {
     this.settingsForm = this.fb.group({
       supplier_data: [''],
@@ -143,6 +146,11 @@ export class SettingsComponent implements OnInit {
   }
 
   onSubmit() {
+    if (this.settingsForm.invalid) {
+      const invalidFormMessage = 'Моля попъленете всички полета!';
+      this.openSnackBar(invalidFormMessage);
+      return;
+    }
     const formData = this.settingsForm.value;
     const dataSettings: ISettings = {
       id: 1,
@@ -165,12 +173,22 @@ export class SettingsComponent implements OnInit {
     };
     this.settingsService.putSetting(dataSettings).subscribe({
       next: (response) => {
-        const successMessage = 'Settings updated successfully.';
-        alert(successMessage);
+        const successMessage = 'Настойките са променени успешно!';
+        this.openSnackBar(successMessage);
       },
       error: (error) => {
-        const errorMessage = 'Settings update failed. Please try again.';
-        alert(errorMessage);
+        const errorMessage = 'Промяната на насторйките беше неуспешна. Моля опитайте отново!';
+        this.openSnackBar(errorMessage);
+      },
+    });
+  }
+
+  openSnackBar(message: string) {
+    this._snackBar.openFromComponent(SnackbarComponent, {
+      duration: 3000,
+      data: {
+        message: message,
+        icon: 'close',
       },
     });
   }
