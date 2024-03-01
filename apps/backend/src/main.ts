@@ -10,6 +10,10 @@ import loginRouter from './app/controllers/login.controller';
 import cors from 'cors';
 import { currenciesRouter } from './app/controllers/currencies.controller';
 import { paymentMethodsRouter } from './app/controllers/payment-method.controller';
+import verifyUser from './app/auth/verify-user';
+import logoutRouter from './app/controllers/logout.controller';
+import pingRouter from './app/controllers/ping.controller';
+import cookieParser from 'cookie-parser';
 
 export const apiRouter = Router();
 
@@ -22,23 +26,25 @@ export const apiRouter = Router();
   }
   const app = express();
   app.use(express.json());
-  app.use(cors());
+  app.use(cookieParser());
+  app.use(cors({ credentials: true, origin: 'http://localhost:4200' })); // allow access from client and allow to set cookie
   app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
     next();
   });
-  //const apiRouter = Router();
+
   app.use('/api/v1', apiRouter);
-  apiRouter.use('/users', usersRouter);
-  apiRouter.use('/contractors', contractorsRouter);
-  apiRouter.use('/proforms', proformsRouter);
-  apiRouter.use('/invoices', invoicesRouter);
-  apiRouter.use('/currencies', currenciesRouter);
-  apiRouter.use('/paymentMethods', paymentMethodsRouter);
-  apiRouter.use('/settings', settingsRouter);
+  apiRouter.use('/users', verifyUser, usersRouter);
+  apiRouter.use('/contractors', verifyUser, contractorsRouter);
+  apiRouter.use('/proforms', verifyUser, proformsRouter);
+  apiRouter.use('/invoices', verifyUser, invoicesRouter);
+  apiRouter.use('/currencies', verifyUser, currenciesRouter);
+  apiRouter.use('/paymentMethods', verifyUser, paymentMethodsRouter);
+  apiRouter.use('/settings', verifyUser, settingsRouter);
   apiRouter.use('/login', loginRouter);
+  apiRouter.use('/logout', logoutRouter);
+  apiRouter.use('/ping', verifyUser, pingRouter);
 
   const port = process.env.port || 3333;
   const server = app.listen(port, () => {

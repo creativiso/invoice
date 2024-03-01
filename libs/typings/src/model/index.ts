@@ -40,8 +40,8 @@ export interface IInvoice {
   c_mol: string;
   c_person: boolean;
   c_egn: string;
-  author: string;
-  author_sign: string;
+  author?: string;
+  author_sign?: string;
   createAt?: Date;
   updatedAt?: Date;
   items: IInvoiceItems[];
@@ -81,8 +81,8 @@ export interface IProform {
   c_mol: string;
   c_person: boolean;
   c_egn: string;
-  author: string;
-  author_sign: string;
+  author?: string;
+  author_sign?: string;
   createAt?: Date;
   updatedAt?: Date;
   items: IProformItem[];
