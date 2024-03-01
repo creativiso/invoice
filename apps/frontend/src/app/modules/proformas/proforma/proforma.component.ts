@@ -1,6 +1,5 @@
-import { Response } from 'express';
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import {
   ICurrency,
   IProform,
@@ -21,6 +20,7 @@ export class ProformaComponent implements OnInit {
   proform!: IProform;
   proformId!: number;
   editMode!: boolean;
+  profItems?: IProformItem[];
 
   currencyList?: ICurrency[];
   selectedCurrency?: ICurrency;
@@ -72,6 +72,8 @@ export class ProformaComponent implements OnInit {
 
           this.proform = proform;
 
+          this.profItems = proform.items
+
           this.proformasForm.patchValue({
             receiver: {
               name: proform.c_name,
@@ -90,7 +92,6 @@ export class ProformaComponent implements OnInit {
                 : this.selectedCurrency,
             },
             proforma_items: {
-              itemData: proform.items,
               vatPercent: proform.vat,
               wayOfPaying: proform.payment_method,
               vatReason: proform.novatreason,

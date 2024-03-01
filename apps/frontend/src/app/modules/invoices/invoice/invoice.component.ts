@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
+import {
+  FormGroup,
+  FormBuilder,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import {
@@ -10,7 +14,6 @@ import {
 import { InvoiceService } from 'src/app/services/invoices.service';
 import { CurrenciesService } from 'src/app/services/currencies.service';
 import { EMPTY, catchError, tap } from 'rxjs';
-import { __values } from 'tslib';
 
 @Component({
   selector: 'crtvs-invoice',
@@ -22,9 +25,18 @@ export class InvoiceComponent implements OnInit {
   invoice!: IInvoice;
   invoiceId!: number;
   editMode!: boolean;
+  invItems!: IInvoiceItems[];
 
   currencyList?: ICurrency[];
   selectedCurrency?: ICurrency;
+
+  prefixes?: string[] = [
+    '00 - 00000000000000',
+    '00 - 0000000000',
+    '00 - 00000000',
+  ];
+
+  invNum: number = 1;
 
   constructor(
     private fb: FormBuilder,
@@ -37,6 +49,7 @@ export class InvoiceComponent implements OnInit {
 
   ngOnInit() {
     this.invoicesForm = this.fb.group({
+      prefix: ['1', Validators.required],
       receiver: [],
       doc_type: [],
       invoice_items: [],
@@ -57,7 +70,22 @@ export class InvoiceComponent implements OnInit {
       )
       .subscribe();
 
-    // this.invoicesForm.get('doc_type')?.value.currency;
+    this.invoiceService
+      .getLastInvoiceNumber()
+      .pipe(
+        tap((res) => {
+          if (res) {
+            this.invNum = res.invoiceNum + 1;
+            this.prefixes?.forEach((prefix, index, arr) => {
+              arr[index] = this.formatPrefix(prefix);
+            });
+          }
+        }),
+        catchError((error) => {
+          return EMPTY;
+        })
+      )
+      .subscribe();
 
     this.invoicesForm.get('doc_type')?.valueChanges.subscribe((value) => {
       this.selectedCurrency = value.currency;
@@ -76,8 +104,17 @@ export class InvoiceComponent implements OnInit {
           const invoice: IInvoice = response.invoice;
 
           this.invoice = invoice;
+          this.invNum = invoice.number;
+          this.prefixes?.forEach((prefix, index, arr) => {
+            arr[index] = this.formatPrefix(prefix);
+          });
+
+          this.invItems = invoice.items;
+
+          console.log(this.invItems);
 
           this.invoicesForm.patchValue({
+            prefix: invoice.prefix,
             receiver: {
               name: invoice.c_name,
               person: invoice.c_person,
@@ -98,7 +135,6 @@ export class InvoiceComponent implements OnInit {
               related_invoice_num: invoice.related_invoice_num,
             },
             invoice_items: {
-              itemData: invoice.items,
               vatPercent: invoice.vat,
               wayOfPaying: invoice.payment_method,
               vatReason: invoice.novatreason,
@@ -117,7 +153,7 @@ export class InvoiceComponent implements OnInit {
     const formData = this.invoicesForm.value;
     const dataInvoice: IInvoice = {
       prefix: 1, //-----------------???
-      number: 1, //-----------------???
+      number: this.invNum, //-----------------???
       contractor_id: 1,
       issue_date: formData.doc_type.issue_date,
       event_date: formData.doc_type.event_date,
@@ -185,5 +221,15 @@ export class InvoiceComponent implements OnInit {
           },
         });
     }
+  }
+
+  formatPrefix(prefix: string): string {
+    const paddedNumber = this.invNum
+      .toString()
+      .padStart(prefix.length - 7, '0');
+    return `${prefix.slice(
+      0,
+      prefix.length - paddedNumber.length
+    )}${paddedNumber}`;
   }
 }

@@ -49,4 +49,8 @@ export class InvoiceService {
   getInvoiceById(invoiceId: number): Observable<IInvoice> {
     return this.http.get<IInvoice>(`${this.apiUrl}/${invoiceId}`);
   }
+
+  getLastInvoiceNumber(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/lastNumber`);
+  }
 }

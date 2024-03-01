@@ -47,7 +47,7 @@ export class InvoicesService {
       }
 
       // Update invoice fields individually
-      Object.assign(invoice, invoiceData);
+      Object.assign(invoice, {...invoiceData, number: invoice.number});
       await invoice.save({ transaction });
 
       if (itemData && Array.isArray(itemData)) {
@@ -101,5 +101,18 @@ export class InvoicesService {
         },
       ],
     });
+  }
+
+  async getLastInvoiceNumber(): Promise<number> {
+    const lastInvoice = await Invoice.findOne({
+      attributes: ['number'],
+      order: [['number', 'DESC']],
+    });
+
+    if (lastInvoice) {
+      return lastInvoice.number;
+    } else {
+      return 1;
+    }
   }
 }
