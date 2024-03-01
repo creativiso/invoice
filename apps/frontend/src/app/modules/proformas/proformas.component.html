@@ -21,13 +21,15 @@
       <!-- City Column -->
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef>Фирма</th>
-        <td mat-cell *matCellDef="let proforma">{{ proforma.receiver }}</td>
+        <td mat-cell *matCellDef="let proforma">{{ proforma.c_name }}</td>
       </ng-container>
 
       <!-- MOL Column -->
       <ng-container matColumnDef="date">
         <th mat-header-cell *matHeaderCellDef>Дата</th>
-        <td mat-cell *matCellDef="let proforma">{{ proforma.issue_date }}</td>
+        <td mat-cell *matCellDef="let proforma">
+          {{ proforma.issue_date | date : 'dd.MM.yyyy' }}
+        </td>
       </ng-container>
 
       <!-- EGN Column -->
