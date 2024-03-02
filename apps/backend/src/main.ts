@@ -14,6 +14,7 @@ import verifyUser from './app/auth/verify-user';
 import logoutRouter from './app/controllers/logout.controller';
 import pingRouter from './app/controllers/ping.controller';
 import cookieParser from 'cookie-parser';
+import * as path from 'path';
 
 export const apiRouter = Router();
 
@@ -45,6 +46,26 @@ export const apiRouter = Router();
   apiRouter.use('/login', loginRouter);
   apiRouter.use('/logout', logoutRouter);
   apiRouter.use('/ping', verifyUser, pingRouter);
+
+  app.use(
+    '/assets',
+    express.static(
+      path.join(__dirname, '..', '..', 'frontend', 'dist', 'frontend', 'assets')
+    )
+  );
+
+  app.use(
+    '/',
+    express.static(
+      path.join(__dirname, '..', '..', 'frontend', 'dist', 'website-admin')
+    )
+  );
+  app.use(
+    '/*',
+    express.static(
+      path.join(__dirname, '..', '..', 'frontend', 'dist', 'website-admin')
+    )
+  );
 
   const port = process.env.port || 3333;
   const server = app.listen(port, () => {

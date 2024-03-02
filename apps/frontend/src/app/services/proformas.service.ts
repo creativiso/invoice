@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { IProform, IProformItem } from '../../../../../libs/typings/src/index';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProformasService {
-  private apiUrl = 'http://localhost:3333/api/v1/proforms';
+  private apiUrl = `${environment.apiBase}/api/v1/proforms`;
 
   constructor(private http: HttpClient) {}
 

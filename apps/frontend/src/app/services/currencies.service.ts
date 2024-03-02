@@ -2,12 +2,13 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ICurrency } from '../../../../../libs/typings/src';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CurrenciesService {
-  private apiUrl = 'http://localhost:3333/api/v1/currencies';
+  private apiUrl = `${environment.apiBase}/api/v1/currencies`;
 
   constructor(private http: HttpClient) {}
 

@@ -6,11 +6,13 @@ import {
 } from '../../../../../libs/typings/src/model/index';
 import { Observable } from 'rxjs';
 
+import { environment } from '../../environments/environment';
+
 @Injectable({
   providedIn: 'root',
 })
 export class InvoiceService {
-  private apiUrl = 'http://localhost:3333/api/v1/invoices';
+  private apiUrl = `${environment.apiBase}/api/v1/invoices`;
 
   constructor(private http: HttpClient) {}
 

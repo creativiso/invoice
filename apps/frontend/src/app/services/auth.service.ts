@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:3333/api/v1';
+  private apiUrl = `${environment.apiBase}/api/v1`;
   private loggedIn = new BehaviorSubject<boolean>(false); //track user status
   private firstLoad = true;
 

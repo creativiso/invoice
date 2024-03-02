@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, map, switchMap } from 'rxjs';
 import { ISettings } from '../../../../../libs/typings/src/index';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SettingService {
-  private apiUrl = 'http://localhost:3333/api/v1/settings';
+  private apiUrl = `${environment.apiBase}/api/v1/settings`;
 
   constructor(private http: HttpClient) {}
 
