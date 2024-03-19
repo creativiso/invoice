@@ -137,21 +137,74 @@
         </mat-card-header>
         <br />
         <mat-card-content>
-          <mat-form-field>
-            <mat-label>Въведете префикс</mat-label>
-            <input class="form-control" matInput formControlName="prefix" />
-            <mat-error
-            *ngIf="settingsForm.get('prefix')?.errors?.['duplicatePrefix']"
-            >Префиксът вече същестува!</mat-error
-          >
-          </mat-form-field>
+          <table mat-table [dataSource]="prefixesData">
+            <!-- Position Column -->
+            <ng-container matColumnDef="prefix">
+              <th mat-header-cell *matHeaderCellDef>Prefix</th>
+              <td mat-cell *matCellDef="let element">{{ element.prefix }}</td>
+            </ng-container>
 
+            <!-- Name Column -->
+            <ng-container matColumnDef="next_num">
+              <th mat-header-cell *matHeaderCellDef>Next Number</th>
+              <td mat-cell *matCellDef="let element">
+                {{ formatNextNumber(element.prefix, element.nextNum) }}
+              </td>
+            </ng-container>
+
+            <mat-radio-group
+              formControlName="def_prefix"
+              (change)="defPrefixChanged()"
+            >
+              <ng-container matColumnDef="select_radio">
+                <th mat-header-cell *matHeaderCellDef>
+                  Префикс по подразбиране
+                </th>
+                <td mat-cell *matCellDef="let element; let i = index">
+                  <mat-radio-button [value]="i"></mat-radio-button>
+                </td>
+              </ng-container>
+            </mat-radio-group>
+
+            <tr mat-header-row *matHeaderRowDef="prefixesCols"></tr>
+            <tr mat-row *matRowDef="let prefix; columns: prefixesCols"></tr>
+          </table>
+          <br />
+          <div class="input-container-flex">
+            <mat-form-field>
+              <mat-label>Въведете префикс</mat-label>
+              <input
+                class="form-control"
+                matInput
+                formControlName="prefix"
+                maxlength="2"
+              />
+              <mat-error
+                *ngIf="settingsForm.get('prefix')?.errors?.['duplicatePrefix']"
+                >Префиксът вече същестува!</mat-error
+              >
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>Следващ номер</mat-label>
+              <input
+                class="form-control"
+                matInput
+                formControlName="next_num"
+                maxlength="8"
+              />
+              <mat-error *ngIf="settingsForm.get('next_num')?.errors"
+                >Номерът трябва да съдържа само цифри!</mat-error
+              >
+            </mat-form-field>
+          </div>
         </mat-card-content>
         <mat-card-actions align="end">
           <button mat-raised-button (click)="addPrefix()">Добави</button>
         </mat-card-actions>
       </mat-card>
     </div>
+    <div class="container"></div>
   </mat-expansion-panel>
   <button class="btn-submit" mat-raised-button (click)="onSubmit()">
     Изпрати

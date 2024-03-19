@@ -55,7 +55,11 @@ div {
   height: 57px !important;
   line-height: 57px;
 }
-
+.input-container-flex {
+  width: 100%;
+  display: flex;
+  gap: 1rem;
+}
 .column {
   display: flex;
   flex-flow: column wrap;

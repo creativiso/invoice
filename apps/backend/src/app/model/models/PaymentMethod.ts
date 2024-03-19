@@ -4,12 +4,11 @@ import { IPaymentMethod } from 'libs/typings/src/model';
 @Table({
   timestamps: true,
 })
-export class PaymentMethod extends Model<IPaymentMethod>{
-    @ForeignKey(() => PaymentMethod)
-    @Column({ type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true })
-    id: number;
+export class PaymentMethod extends Model<IPaymentMethod> {
+  @ForeignKey(() => PaymentMethod)
+  @Column({ type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true })
+  id: number;
 
-    @Column({ type: DataTypes.STRING })
-    name: string;
-    
+  @Column({ type: DataTypes.STRING })
+  name: string;
 }

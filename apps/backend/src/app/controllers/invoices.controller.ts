@@ -2,9 +2,11 @@ import { Router } from 'express';
 import { InvoicesService } from '../services/invoices.service';
 import { IInvoice, IInvoiceItems } from 'libs/typings/src/model/index';
 import generateUserSignature from '../utils/generate-user-signature';
+import { SettingsService } from '../services/settings.service';
 
 export const invoicesRouter = Router();
 const invoicesService = new InvoicesService();
+const settingsService = new SettingsService();
 
 //read all invoices
 invoicesRouter.get('/', async (req, res) => {
@@ -17,9 +19,10 @@ invoicesRouter.get('/', async (req, res) => {
   }
 });
 
-invoicesRouter.get('/lastNumber', async (req, res) => {
+invoicesRouter.get('/:prefix/lastNumber', async (req, res) => {
+  const prefix = Number(req.params.prefix);
   try {
-    const invoiceNum = await invoicesService.getLastInvoiceNumber();
+    const invoiceNum = await invoicesService.getLastInvoiceNumber(prefix, 0);
     res.json({ invoiceNum });
   } catch (error) {
     res.status(500).json({ error: 'Error fetching last invoice number' });
@@ -43,10 +46,15 @@ invoicesRouter.post('/', async (req, res) => {
   const user = req.user;
 
   try {
-    const lastInvoiceNum = await invoicesService.getLastInvoiceNumber();
+    const prefixes = (await settingsService.getPrefixes()).filter(prefix => prefix.id === undefined);
+    const selectedPrefix = prefixes[req.body.prefix];
+    const lastInvoiceNum = await invoicesService.getLastInvoiceNumber(
+      prefixes.findIndex(prefix => prefix.prefix === selectedPrefix.prefix),
+      selectedPrefix.nextNum
+    );
     const invoice: IInvoice = {
       prefix: req.body.prefix,
-      number: lastInvoiceNum + 1,
+      number: Number(lastInvoiceNum) + 1,
       contractor_id: req.body.contractor_id,
       issue_date: req.body.issue_date,
       event_date: req.body.event_date,

@@ -4,7 +4,7 @@ export function prefixValidator(prefixes: string[]): ValidatorFn {
   return (control: AbstractControl): { [key: string]: any } | null => {
     const prefix = control.value;
     if (!prefix) {
-      return null; // Return null for empty field
+      return null; 
     }
 
     if (prefixes.includes(prefix)) {

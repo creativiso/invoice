@@ -2,6 +2,9 @@ form {
   max-width: 90%;
   margin: 0 auto;
 }
+td {
+  padding-right: 10px;
+}
 mat-icon {
   color: rgb(48, 48, 48);
 }
@@ -21,10 +24,18 @@ mat-icon {
   color: rgb(48, 48, 48);
 }
 
+.mdc-data-table__header-cell,
+.mdc-data-table__cell {
+  text-align: center;
+}
 .container {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-column-gap: 10px;
+}
+.input-container-flex {
+  display: flex;
+  gap: 1rem;
 }
 mat-label {
   display: inline-block;

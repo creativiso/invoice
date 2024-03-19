@@ -10,10 +10,9 @@ import {
 } from '../../../../../../../libs/typings/src';
 import { InvoiceService } from 'src/app/services/invoices.service';
 import { CurrenciesService } from 'src/app/services/currencies.service';
-import { EMPTY, catchError, tap } from 'rxjs';
+import { EMPTY, catchError, distinctUntilChanged, tap } from 'rxjs';
 import { SnackbarComponent } from 'src/app/shared/snackbar/snackbar.component';
 import { SettingService } from 'src/app/services/settings.service';
-
 
 @Component({
   selector: 'crtvs-invoice',
@@ -30,9 +29,11 @@ export class InvoiceComponent implements OnInit {
   currencyList?: ICurrency[];
   selectedCurrency?: ICurrency;
 
-  prefixes?: string[];
+  prefixes: { prefix: string; nextNum: number }[] = [];
+  selectedPrefixId: number = 0;
 
   invNum: number = 1;
+  prevReceiver: string = '';
 
   constructor(
     private fb: FormBuilder,
@@ -43,12 +44,11 @@ export class InvoiceComponent implements OnInit {
     private currenciesService: CurrenciesService,
     private _snackBar: MatSnackBar,
     private settingsService: SettingService
-
   ) {}
 
   ngOnInit() {
     this.invoicesForm = this.fb.group({
-      prefix: ['1', Validators.required],
+      prefix: [0, Validators.required],
       receiver: [],
       doc_type: [],
       invoice_items: [],
@@ -69,28 +69,81 @@ export class InvoiceComponent implements OnInit {
       )
       .subscribe();
 
-    this.invoiceService
-      .getLastInvoiceNumber()
-      .pipe(
-        tap((res) => {
-          if (res) {
-            this.invNum = res.invoiceNum + 1;
-          }
-        }),
-        catchError((error) => {
-          return EMPTY;
-        })
-      )
-      .subscribe();
+    this.invoicesForm.get('prefix')?.valueChanges.subscribe((prefix) => {
+      this.selectedPrefixId = prefix;
+
+      const selectedPrefix = this.prefixes[this.selectedPrefixId];
+
+      if (!this.editMode) {
+        this.invNum = selectedPrefix.nextNum;
+      } else {
+        this.prefixes[this.selectedPrefixId].nextNum = this.invNum;
+      }
+    });
 
     this.invoicesForm.get('doc_type')?.valueChanges.subscribe((value) => {
       this.selectedCurrency = value.currency;
     });
 
-    this.settingsService.getPrefixes().subscribe((prefixes) => {
-      this.prefixes = prefixes.map((prefix, index, arr) => {
-        return (arr[index] = this.formatPrefix(prefix));
+    this.invoicesForm
+      .get('receiver')
+      ?.valueChanges.pipe(
+        distinctUntilChanged((prev, curr) => prev.name === curr.name)
+      )
+      .subscribe((value) => {
+        const currReceiver =
+          this.invoicesForm.get('invoice_items')?.value.receiver;
+
+        if (this.prevReceiver === currReceiver) {
+          this.invoicesForm.get('invoice_items')?.patchValue({
+            receiver: value.name,
+          });
+          this.prevReceiver =
+            this.invoicesForm.get('invoice_items')?.value.receiver;
+        }
       });
+
+    this.settingsService.getPrefixes().subscribe((prefixes) => {
+      this.prefixes = prefixes
+        .filter((prefix) => prefix.id === undefined)
+        .map((prefix, index) => {
+          if (!this.editMode) {
+            this.invoiceService
+              .getLastInvoiceNumber(index)
+              .pipe(
+                tap((res) => {
+                  if (res) {
+                    const lastInvNum = res.invoiceNum;
+
+                    if (lastInvNum < prefix.nextNum) {
+                      prefix.nextNum = Number(prefix.nextNum);
+                    } else {
+                      prefix.nextNum = lastInvNum + 1;
+                    }
+
+                    if (this.selectedPrefixId === index) {
+                      this.invNum = prefix.nextNum;
+                    }
+                  }
+                }),
+                catchError((error) => {
+                  return EMPTY;
+                })
+              )
+              .subscribe();
+          }
+          return prefix;
+        });
+
+      if (!this.editMode) {
+        const defPrefDataId = prefixes.findIndex(
+          (prefix) => prefix.id !== undefined
+        );
+
+        const defPrefixId = prefixes[defPrefDataId].id;
+
+        this.invoicesForm.get('prefix')?.setValue(defPrefixId);
+      }
     });
 
     const id = Number(this.route.snapshot.paramMap.get('id'));
@@ -101,19 +154,14 @@ export class InvoiceComponent implements OnInit {
     }
 
     if (this.editMode) {
+      this.invoicesForm.get('prefix')?.disable();
       this.invoiceService.getInvoiceById(this.invoiceId).subscribe({
         next: (response: any) => {
           const invoice: IInvoice = response.invoice;
 
           this.invoice = invoice;
           this.invNum = invoice.number;
-          this.prefixes?.forEach((prefix, index, arr) => {
-            arr[index] = this.formatPrefix(prefix);
-          });
-
           this.invItems = invoice.items;
-
-          console.log(this.invItems);
 
           this.invoicesForm.patchValue({
             prefix: invoice.prefix,
@@ -140,6 +188,7 @@ export class InvoiceComponent implements OnInit {
               vatPercent: invoice.vat,
               wayOfPaying: invoice.payment_method,
               vatReason: invoice.novatreason,
+              receiver: invoice.receiver,
             },
           });
         },
@@ -154,14 +203,15 @@ export class InvoiceComponent implements OnInit {
       return;
     }
     const formData = this.invoicesForm.value;
+    console.log(formData.prefix);
     const dataInvoice: IInvoice = {
-      prefix: 1, //-----------------???
-      number: this.invNum, //-----------------???
+      prefix: this.selectedPrefixId,
+      number: this.invNum,
       contractor_id: 1,
       issue_date: formData.doc_type.issue_date,
       event_date: formData.doc_type.event_date,
-      receiver: formData.receiver.name,
-      payment_method: formData.invoice_items.wayOfPaying, //--------------???
+      receiver: formData.invoice_items.receiver,
+      payment_method: formData.invoice_items.wayOfPaying,
       vat: formData.invoice_items.vatPercent,
       novatreason: formData.invoice_items.vatReason,
       currency: formData.doc_type.currency.id,
@@ -229,13 +279,19 @@ export class InvoiceComponent implements OnInit {
     }
   }
 
-  formatPrefix(prefix: string): string {
-    const paddedNumber = this.invNum
+  formatInvNumber(numberToFormat?: number): string {
+    const number = '00000000';
+
+    if (!numberToFormat && numberToFormat !== 0) {
+      numberToFormat = this.invNum;
+    }
+
+    const paddedNumber = numberToFormat
       .toString()
-      .padStart(prefix.length - 7, '0');
-    return `${prefix.slice(
+      .padStart(number.length - 7, '0');
+    return `${number.slice(
       0,
-      prefix.length - paddedNumber.length
+      number.length - paddedNumber.length
     )}${paddedNumber}`;
   }
 
