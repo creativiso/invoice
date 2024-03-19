@@ -98,6 +98,7 @@ export class BaseFormItemsComponent
       vatPercent: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
       wayOfPaying: ['', Validators.required],
       vatReason: ['', [Validators.minLength(4), Validators.maxLength(40)]],
+      receiver: ['', [Validators.required]],
     });
 
     this.paymentMethodsService
@@ -199,6 +200,7 @@ export class BaseFormItemsComponent
     errors = this.addControlErrors(errors, 'vatPercent');
     errors = this.addControlErrors(errors, 'wayOfPaying');
     errors = this.addControlErrors(errors, 'vatReason');
+    errors = this.addControlErrors(errors, 'receiver');
 
     return errors;
   }

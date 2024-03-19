@@ -62,5 +62,5 @@ export class Settings extends Model<ISettings> {
   @Column({
     type: DataTypes.JSON,
   })
-  prefixes: string[];
+  prefixes: { id?: number, prefix?: string; nextNum?: number }[];
 }

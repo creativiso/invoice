@@ -39,11 +39,14 @@ export class SettingsService {
     if (setting.prefixes) {
       return setting.prefixes;
     } else {
-      console.log('prefix not found');
       const defaultPrefixes = [
-        '00 - 00000000000000',
-        '00 - 0000000000',
-        '00 - 00000000',
+        {
+          id: 0,
+        },
+        {
+          prefix: '00',
+          nextNum: 1,
+        }
       ];
 
       setting.prefixes = defaultPrefixes;

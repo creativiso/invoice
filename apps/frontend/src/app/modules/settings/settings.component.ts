@@ -1,7 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { FormGroup, FormBuilder, FormControl, FormArray } from '@angular/forms';
+import {
+  FormGroup,
+  FormBuilder,
+  FormControl,
+  FormArray,
+  Validators,
+} from '@angular/forms';
 import { SettingService } from '../../services/settings.service';
 import {
   IPaymentMethod,
@@ -12,7 +18,7 @@ import { PaymentMethodsService } from 'src/app/services/payment-methods.service'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackbarComponent } from 'src/app/shared/snackbar/snackbar.component';
 import { prefixValidator } from 'src/app/validators/prefix.validator';
-
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'crtvs-settings',
@@ -27,8 +33,15 @@ export class SettingsComponent implements OnInit {
 
   initialSuggestions: string[] = ['кг', 'г', 'л', 'мл'];
   suggestedTags: string[] = [];
+  selectedPrefix?: any;
 
   paymentMethodsList: IPaymentMethod[] = [];
+
+  prefixes!: { prefix: string; nextNum: number }[];
+  prefixesCols: string[] = ['prefix', 'next_num', 'select_radio'];
+  prefixesData = new MatTableDataSource<{ prefix: string; nextNum: number }>(
+    this.prefixes
+  );
 
   constructor(
     private fb: FormBuilder,
@@ -44,7 +57,9 @@ export class SettingsComponent implements OnInit {
       singlePriceNumber: [''],
       totalPriceNumber: [''],
       units: this.fb.array([]),
-      prefix: ['', [prefixValidator([])]],
+      prefix: ['', [prefixValidator([]), Validators.maxLength(2)]],
+      next_num: ['', [Validators.pattern('\\d{1,8}')]],
+      def_prefix: ['', [Validators.required]],
     });
   }
 
@@ -148,6 +163,16 @@ export class SettingsComponent implements OnInit {
     this.getMeasurementUnits();
 
     this.settingsService.getPrefixes().subscribe((prefixes) => {
+      this.prefixes = prefixes.filter((prefix) => prefix.id === undefined);
+      this.prefixesData.data = this.prefixes;
+
+      const defPrefixIndex = prefixes.findIndex(
+        (prefix) => prefix.id !== undefined
+      );
+      this.settingsForm.controls['def_prefix'].setValue(
+        prefixes[defPrefixIndex].id
+      );
+
       this.settingsForm.controls['prefix'].setValidators([
         prefixValidator(prefixes),
       ]);
@@ -194,36 +219,93 @@ export class SettingsComponent implements OnInit {
       },
     });
   }
-  
+
   addPrefix() {
     const prefixToAdd: string = this.settingsForm.value.prefix.trim();
+    const nextNum: string = this.settingsForm.value.next_num.trim();
+    const prefixWithNextNum = {
+      prefix: prefixToAdd,
+      nextNum: nextNum,
+    };
 
-    if (this.settingsForm.get('prefix')?.valid) {
-      this.settingsService.addPrefix(prefixToAdd).subscribe({
-        next: (response) => {
-          const successMessage = 'Префиксът е добавен успешно!';
-          this.openSnackBar(successMessage);
-        },
-        error: (error) => {
-          const errorMessage =
-            'Неуспешно добавяне на префикс. Моля опитайте отново!';
+    if (prefixToAdd) {
+      this.settingsService.getPrefixes().subscribe((prefixes) => {
+        prefixes = prefixes.map((prefix) => {
+          return prefix.prefix;
+        });
+        this.settingsForm.controls['prefix'].setValidators([
+          prefixValidator(prefixes),
+        ]);
 
-          this.openSnackBar(errorMessage);
-        },
+        this.settingsForm.controls['prefix'].updateValueAndValidity();
+
+        if (this.settingsForm.get('prefix')?.valid) {
+          this.settingsService.addPrefix(prefixWithNextNum).subscribe({
+            next: (response) => {
+              const successMessage = 'Префиксът е добавен успешно!';
+              this.openSnackBar(successMessage);
+
+              this.settingsService.getPrefixes().subscribe((prefixes) => {
+                this.prefixes = prefixes.filter(
+                  (prefix) => prefix.id === undefined
+                );
+                this.prefixesData.data = this.prefixes;
+              });
+
+              this.settingsForm.get('prefix')?.setValue('');
+              this.settingsForm.get('next_num')?.setValue('');
+            },
+            error: (error) => {
+              const errorMessage =
+                'Неуспешно добавяне на префикс. Моля опитайте отново!';
+
+              this.openSnackBar(errorMessage);
+            },
+          });
+        }
       });
     } else {
-      const errorMessage = 'Префиксът вече съществува';
-
+      const errorMessage = 'Празен префикс. Моля опитайте отново!';
       this.openSnackBar(errorMessage);
     }
   }
-  
+
+  formatNextNumber(prefix: string, nextNum: string): string {
+    const number = '00000000';
+    const paddedNumber = nextNum.toString().padStart(number.length - 7, '0');
+    return `${prefix}${number.slice(
+      0,
+      number.length - paddedNumber.length
+    )}${paddedNumber}`;
+  }
+
   openSnackBar(message: string) {
     this._snackBar.openFromComponent(SnackbarComponent, {
       duration: 3000,
       data: {
         message: message,
         icon: 'close',
+      },
+    });
+  }
+
+  defPrefixChanged() {
+    const defPrefixId = this.settingsForm.value.def_prefix;
+    console.log(defPrefixId);
+    const defPrefix = {
+      id: defPrefixId,
+    };
+
+    this.settingsService.addPrefix(defPrefix).subscribe({
+      next: (response) => {
+        const successMessage = 'Префиксът по подразбиране е променен успешно!';
+        this.openSnackBar(successMessage);
+      },
+      error: (error) => {
+        const errorMessage =
+          'Неуспешна промяна на префикс по подразбиране. Моля опитайте отново!';
+
+        this.openSnackBar(errorMessage);
       },
     });
   }

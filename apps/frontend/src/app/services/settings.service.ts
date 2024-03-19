@@ -25,19 +25,34 @@ export class SettingService {
       .pipe(map((setting: ISettings) => setting.units));
   }
 
-  getPrefixes(): Observable<string[]> {
-    return this.http.get<string[]>(`${this.apiUrl}/prefixes`);
+  getPrefixes(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/prefixes`);
   }
 
-  addPrefix(preifx: string): Observable<string[]> {
+  addPrefix(prefix: any): Observable<any[]> {
+    if (!prefix.prefix) {
+      throw new Error();
+    }
+
     return this.getPrefixes().pipe(
       catchError((error) => {
         throw error;
       }),
       switchMap((prefixes) => {
-        prefixes.push(preifx);
+        if (prefix.id !== undefined) {
+          const index = prefixes.findIndex((prefix) => prefix.id !== undefined);
 
-        return this.http.patch<string[]>(`${this.apiUrl}/prefixes`, {
+          if (index !== -1) {
+            prefixes[index].id = prefix.id;
+          }
+        } else if (!prefix.nextNum) {
+          prefix.nextNum = 0;
+          prefixes.push(prefix);
+        } else {
+          prefixes.push(prefix);
+        }
+
+        return this.http.patch<any[]>(`${this.apiUrl}/prefixes`, {
           prefixes: prefixes,
         });
       }),

@@ -50,7 +50,7 @@ export class InvoiceService {
     return this.http.get<IInvoice>(`${this.apiUrl}/${invoiceId}`);
   }
 
-  getLastInvoiceNumber(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/lastNumber`);
+  getLastInvoiceNumber(prefix: any): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/${prefix}/lastNumber`);
   }
 }

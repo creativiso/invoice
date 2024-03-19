@@ -163,7 +163,7 @@
     </div>
   </div>
   <div class="flex-table row">
-    <div class="flex-row vatReason" role="cell">
+    <div class="input-container-flex" role="cell">
       <mat-form-field>
         <mat-label>Основание за начисление на ДДС</mat-label>
         <input
@@ -171,6 +171,10 @@
           aria-label="Основание за начисление на ДДС"
           formControlName="vatReason"
         />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Получател</mat-label>
+        <input matInput aria-label="Получател" formControlName="receiver" />
       </mat-form-field>
     </div>
   </div>
