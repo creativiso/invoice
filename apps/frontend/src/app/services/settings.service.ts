@@ -30,7 +30,7 @@ export class SettingService {
   }
 
   addPrefix(prefix: any): Observable<any[]> {
-    if (!prefix.prefix) {
+    if (!prefix.prefix && !prefix.id) {
       throw new Error();
     }
 
